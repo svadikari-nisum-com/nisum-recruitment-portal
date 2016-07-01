@@ -9,8 +9,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nisum.employee.ref.domain.InterviewDetails;
@@ -19,6 +21,7 @@ import com.nisum.employee.ref.domain.ReportsVO;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ReportsServiceTest {
 
 	@InjectMocks

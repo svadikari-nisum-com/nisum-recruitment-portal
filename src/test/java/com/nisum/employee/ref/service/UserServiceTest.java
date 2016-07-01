@@ -119,7 +119,8 @@ public class UserServiceTest {
 		assertNotNull(expectedUserInfos);
 		assertEquals(expectedUserInfos.get(0).getClientName(), actualUserInfos.get(0).getClientName());
 	}
-
+	
+	@Test
 	public void retrieveUserByRoleTest() {
 		when(userInfoRepository.retrieveUserByRole(any(String.class))).thenReturn(actualUserInfos);
 
