@@ -29,7 +29,6 @@ public class DesignationController {
 	public ResponseEntity<?> retrieveDesignation() {
 		
 		List<Designation> designation = designationService.retrieveDesignations();
-		
         return (null == designation) ? new ResponseEntity<String>("No Designation found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <List<Designation>>(designation, HttpStatus.OK);
 	}
 	
