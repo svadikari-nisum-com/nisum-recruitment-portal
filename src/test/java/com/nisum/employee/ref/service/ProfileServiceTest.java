@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -124,14 +125,14 @@ public class ProfileServiceTest {
 		assertEquals(expectedProfile.getEmailId(), profile.getEmailId());
 	}
 
-	/*@Test
+	@Ignore
 	public void testSaveResume() throws IOException {
 		FileInputStream inputFile = new FileInputStream("D:/WorkDocuments/resume.txt");
 		MockMultipartFile file = new MockMultipartFile("file", "resume", "multipart/form-data", inputFile);
 
 		doNothing().when(profileRepository).saveResumeInBucket(file, any(String.class));
 		profileService.saveResume(file, "9999");
-	}*/
+	}
 
 	@Test
 	public void testGetResume() throws Exception {
