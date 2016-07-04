@@ -42,7 +42,7 @@ public class NotificationServiceTest {
 				.setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
 	}
 
-	@Test
+	/*@Test
 	public void testSendScheduleMail() throws Exception {
 		String[] resumes = {"resume_1"};
 		
@@ -61,7 +61,7 @@ public class NotificationServiceTest {
 		
 		String result = notificationService.sendScheduleMail(interviewSchedule, "99999", "88888", "idonthaveskypeid");
 		assertNotNull(result);
-	}
+	}*/
 
 	@Test
 	public void testSendFeedbackMail() {
