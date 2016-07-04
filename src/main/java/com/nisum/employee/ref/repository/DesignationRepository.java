@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -17,8 +18,8 @@ public class DesignationRepository {
 	@Autowired
 	private MongoOperations mongoOperations;
 	
-	public ArrayList<Designation> retrieveDesignations() {
-		  ArrayList<Designation> designation = (ArrayList<Designation>) mongoOperations.findAll(Designation.class);
+	public List<Designation> retrieveDesignations() {
+		List<Designation> designation = (List<Designation>) mongoOperations.findAll(Designation.class);
 		  return designation;
 	}
 	

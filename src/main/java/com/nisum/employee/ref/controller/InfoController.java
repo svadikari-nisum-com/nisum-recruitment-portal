@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,9 @@ public class InfoController {
 	@RequestMapping(value="/info",method = RequestMethod.GET)
 	public ResponseEntity<?> retrieveInfo() {
 		
-		ArrayList<InfoEntity> info = infoService.retrieveSkills();
+		List<InfoEntity> info = infoService.retrieveSkills();
 		
-        return (null == info) ? new ResponseEntity<String>("No infos found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <ArrayList<InfoEntity>>(info, HttpStatus.OK);
+        return (null == info) ? new ResponseEntity<String>("No infos found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <List<InfoEntity>>(info, HttpStatus.OK);
 	}
 	
 

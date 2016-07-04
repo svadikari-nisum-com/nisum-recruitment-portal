@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,9 @@ public class DesignationController {
 	@RequestMapping(value="/design",method = RequestMethod.GET)
 	public ResponseEntity<?> retrieveDesignation() {
 		
-		ArrayList<Designation> designation = designationService.retrieveDesignations();
+		List<Designation> designation = designationService.retrieveDesignations();
 		
-        return (null == designation) ? new ResponseEntity<String>("No Designation found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <ArrayList<Designation>>(designation, HttpStatus.OK);
+        return (null == designation) ? new ResponseEntity<String>("No Designation found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <List<Designation>>(designation, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_ADMIN"})

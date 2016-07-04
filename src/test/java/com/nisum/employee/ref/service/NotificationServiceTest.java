@@ -25,16 +25,16 @@ import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 public class NotificationServiceTest {
 	
 	@InjectMocks
-	NotificationService notificationService;
+	private NotificationService notificationService;
 	
 	@Mock
-	ProfileService profileService;
+	private ProfileService profileService;
 	
 	@Mock
-	UserService userService;
+	private UserService userService;
 	
 	@Mock
-	UserNotificationService userNotificationService;
+	private UserNotificationService userNotificationService;
 
 	@Before
 	public void setUp() throws Exception {
