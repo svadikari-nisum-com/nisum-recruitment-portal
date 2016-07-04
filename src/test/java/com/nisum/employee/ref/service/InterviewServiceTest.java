@@ -44,7 +44,7 @@ public class InterviewServiceTest {
 		interview = new InterviewDetails();
 		interview.setCandidateName("Durga Prasad");
 		interview.setCandidateEmail("dnarikalapa@nisum.com");
-		//interview.setCandidateSkills((ArrayList<String>) Arrays.asList("Java"));
+		interview.setCandidateSkills((ArrayList<String>) Arrays.asList("Java"));
 		
 		interviewDetails.add(interview);
 	}

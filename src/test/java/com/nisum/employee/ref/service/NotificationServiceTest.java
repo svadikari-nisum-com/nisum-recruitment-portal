@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -42,7 +43,7 @@ public class NotificationServiceTest {
 				.setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
 	}
 
-	/*@Test
+	@Ignore
 	public void testSendScheduleMail() throws Exception {
 		String[] resumes = {"resume_1"};
 		
@@ -61,7 +62,7 @@ public class NotificationServiceTest {
 		
 		String result = notificationService.sendScheduleMail(interviewSchedule, "99999", "88888", "idonthaveskypeid");
 		assertNotNull(result);
-	}*/
+	}
 
 	@Test
 	public void testSendFeedbackMail() {

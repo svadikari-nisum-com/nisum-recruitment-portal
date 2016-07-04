@@ -21,12 +21,6 @@ import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 
-/**
- * 
- * @author NISUM CONSULTING
- *
- */
-
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
