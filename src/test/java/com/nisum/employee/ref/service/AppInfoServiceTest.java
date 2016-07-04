@@ -44,7 +44,7 @@ public class AppInfoServiceTest {
 		List<String> values = new ArrayList<>();
 		values.add("value");
 		infoEntity.setValue(values);
-		
+
 		infoEntities.add(infoEntity);
 	}
 
@@ -61,8 +61,6 @@ public class AppInfoServiceTest {
 		doNothing().when(infoRepository).prepareInfo(infoEntity);
 		appInfoService.prepareInfo(getInfoEntity());
 	}
-
-	
 
 	@Test
 	public void testUpdateInfo() {
@@ -81,7 +79,7 @@ public class AppInfoServiceTest {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
 		appInfoService.updateInterviewRoundsInfo(getInfoEntity());
 	}
-	
+
 	private InfoEntity getInfoEntity() {
 		InfoEntity infoEntity = new InfoEntity();
 		infoEntity.setKey("java");
