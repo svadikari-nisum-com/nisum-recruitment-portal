@@ -1,11 +1,11 @@
 package com.nisum.employee.ref.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.nisum.employee.ref.domain.InfoEntity;
 
 public interface IAppInfoService {
-	ArrayList<InfoEntity> retrieveSkills();
+	List<InfoEntity> retrieveSkills();
 	void prepareInfo(InfoEntity info);
 	void updateInfo(InfoEntity info);
 	void updateDesigInfo(InfoEntity info);

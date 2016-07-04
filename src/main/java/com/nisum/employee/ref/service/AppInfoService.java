@@ -1,6 +1,6 @@
 package com.nisum.employee.ref.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class AppInfoService implements IAppInfoService{
 	 InfoRepository skillsRequired;
 	
 	@Override
-	public ArrayList<InfoEntity> retrieveSkills() {
+	public List<InfoEntity> retrieveSkills() {
 		return skillsRequired.retrieveSkills();
 	}
 

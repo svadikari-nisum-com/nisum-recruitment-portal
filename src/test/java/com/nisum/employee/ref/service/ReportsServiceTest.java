@@ -25,16 +25,16 @@ import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 public class ReportsServiceTest {
 
 	@InjectMocks
-	ReportsService reportsService;
+	private ReportsService reportsService;
 
 	@Mock
-	ProfileRepository profileRepository;
+	private ProfileRepository profileRepository;
 
 	@Mock
-	InterviewDetailsService interviewDetailsService;
-	
+	private InterviewDetailsService interviewDetailsService;
+
 	@Mock
-	ReportsVO reportsVO;
+	private ReportsVO reportsVO;
 
 	@Before
 	public void setUp() throws Exception {
@@ -45,25 +45,25 @@ public class ReportsServiceTest {
 	@Test
 	public void testGetDataByJobCode() {
 		List<Profile> profiles = new ArrayList<>();
-		
+
 		Profile profile = new Profile();
 		profile.setEmailId("dprasad@nisum.com");
-		
+
 		profiles.add(profile);
-		
+
 		when(profileRepository.retrieveProfileByJobCode(any(String.class))).thenReturn(profiles);
-		
+
 		List<InterviewDetails> interviewDetailsList = new ArrayList<>();
-		
+
 		InterviewDetails interviewDetails = new InterviewDetails();
 		interviewDetails.setCandidateEmail("dprasad@nisum.com");
-		
+
 		interviewDetailsList.add(interviewDetails);
-		
+
 		when(interviewDetailsService.getInterviewByJobCode(any(String.class))).thenReturn(interviewDetailsList);
-		
+
 		reportsVO = reportsService.getDataByJobCode("Java");
-		
+
 		assertNotNull(reportsVO);
 	}
 

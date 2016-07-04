@@ -17,7 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nisum.employee.ref.domain.Position;
@@ -37,15 +36,10 @@ public class PositionServiceTest {
 	@InjectMocks
 	private PositionService service = new PositionService();
 
-	private MockMvc mockMvc;
-	
 	@Before
 	public void init() {
-		mockMvc = MockMvcBuilders
-				.standaloneSetup(service)
-				.setHandlerExceptionResolvers(
-						ExceptionHandlerAdviceUtil.createExceptionResolver())
-				.build();
+		MockMvcBuilders.standaloneSetup(service)
+				.setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
 	}
 
 	@Test
@@ -55,9 +49,7 @@ public class PositionServiceTest {
 		pos.setJobcode("SSE");
 		pos.setDesignation("Sr. Software Engineer");
 		positions.add(pos);
-		Mockito.when(
-				positionRepository.retrievePositionByClient(any(String.class)))
-				.thenReturn(positions);
+		Mockito.when(positionRepository.retrievePositionByClient(any(String.class))).thenReturn(positions);
 
 		List<Position> listPosition = service.retrievePositionByClient("GAP");
 
