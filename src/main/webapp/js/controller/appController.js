@@ -20,6 +20,9 @@ angular.module('erApp')
 	}
 	
 	function errorMsg(message){
+		if(message != null && message.indexOf("404") > -1) {
+			message = " User with given argument is not found";
+		}
 		console.log("message--->"+message);
 	}
 	$scope.hasRole = function(role) {

@@ -43,6 +43,9 @@ public class NotificationServiceTest {
 				.setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
 	}
 
+	/**
+	 * Test case not yet implemented completely.
+	 */
 	@Ignore
 	public void testSendScheduleMail() throws Exception {
 		String[] resumes = {"resume_1"};

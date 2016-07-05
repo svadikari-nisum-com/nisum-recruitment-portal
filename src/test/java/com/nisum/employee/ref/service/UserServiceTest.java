@@ -41,7 +41,6 @@ public class UserServiceTest {
 				.setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
 
 		actualUserInfos = new ArrayList<>();
-
 		actualUserInfo = new UserInfo();
 		actualUserInfo.setName("Durga Prasad Narikalapa");
 		actualUserInfo.setEmailId("dprasad@nisum.com");
@@ -50,7 +49,6 @@ public class UserServiceTest {
 		List<String> actualRoles = new ArrayList<String>();
 		actualRoles.add("ROLE_USER");
 		actualUserInfo.setRoles(actualRoles);
-
 		actualUserInfos.add(actualUserInfo);
 	}
 
@@ -62,7 +60,6 @@ public class UserServiceTest {
 
 	@Test
 	public void retrieveUserTest() {
-
 		when(userInfoRepository.retrieveUser()).thenReturn(actualUserInfos);
 		expectedUserInfos = userService.retrieveUser();
 
@@ -73,7 +70,6 @@ public class UserServiceTest {
 	@Test
 	public void retrieveUserByIdTest() {
 		when(userInfoRepository.retrieveUserById(any(String.class))).thenReturn(actualUserInfos);
-
 		expectedUserInfos = userService.retrieveUserById("dprasad@nisum.com");
 
 		assertNotNull(expectedUserInfos);
@@ -83,8 +79,8 @@ public class UserServiceTest {
 	@Test
 	public void retrieveUserByNameTest() {
 		when(userInfoRepository.retrieveUserByName(any(String.class))).thenReturn(actualUserInfos);
-
 		expectedUserInfos = userService.retrieveUserByName("Durga Prasad Narikalapa");
+		
 		assertNotNull(expectedUserInfos);
 		assertEquals(expectedUserInfos.get(0).getName(), actualUserInfos.get(0).getName());
 	}
@@ -92,7 +88,6 @@ public class UserServiceTest {
 	@Test
 	public void createUserInfoTest() {
 		when(userInfoRepository.createUserInfo(any(String.class))).thenReturn(actualUserInfo);
-
 		expectedUserInfo = userService.createUserInfo("dprasad@nisum.com");
 		assertNotNull(expectedUserInfo);
 		assertEquals(expectedUserInfo.getEmailId(), actualUserInfo.getEmailId());
@@ -101,7 +96,6 @@ public class UserServiceTest {
 	@Test
 	public void updateUserTest() {
 		doNothing().when(userInfoRepository).updateUser(actualUserInfo);
-
 		userService.updateUser(actualUserInfo);
 	}
 

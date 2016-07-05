@@ -45,25 +45,20 @@ public class ReportsServiceTest {
 	@Test
 	public void testGetDataByJobCode() {
 		List<Profile> profiles = new ArrayList<>();
-
 		Profile profile = new Profile();
 		profile.setEmailId("dprasad@nisum.com");
-
 		profiles.add(profile);
 
 		when(profileRepository.retrieveProfileByJobCode(any(String.class))).thenReturn(profiles);
 
 		List<InterviewDetails> interviewDetailsList = new ArrayList<>();
-
 		InterviewDetails interviewDetails = new InterviewDetails();
 		interviewDetails.setCandidateEmail("dprasad@nisum.com");
-
 		interviewDetailsList.add(interviewDetails);
 
 		when(interviewDetailsService.getInterviewByJobCode(any(String.class))).thenReturn(interviewDetailsList);
 
 		reportsVO = reportsService.getDataByJobCode("Java");
-
 		assertNotNull(reportsVO);
 	}
 
