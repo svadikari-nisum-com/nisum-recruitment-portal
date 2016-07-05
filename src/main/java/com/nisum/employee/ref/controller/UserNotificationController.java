@@ -16,37 +16,38 @@ import com.nisum.employee.ref.service.UserNotificationService;
 
 @Controller
 public class UserNotificationController {
-	
+
 	@Autowired
 	UserNotificationService userNotificationService;
-	
-	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
+
+	@Secured({ "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/userNotification", method = RequestMethod.GET)
-	public ResponseEntity<?> retrieveNotification(@RequestParam(value = "userId", required = false) String userId) {
-		List<UserNotification> userInfo  = userNotificationService.getUserNotifications(userId);
-		return (null == userInfo) ? new ResponseEntity<String>( "Notifications not found", HttpStatus.NOT_FOUND)
+	public ResponseEntity<List<UserNotification>> retrieveNotification(@RequestParam(value = "userId", required = false) String userId) {
+		List<UserNotification> userInfo = userNotificationService.getUserNotifications(userId);
+		return (null == userInfo) ? new ResponseEntity<List<UserNotification>>(HttpStatus.NOT_FOUND)
 				: new ResponseEntity<List<UserNotification>>(userInfo, HttpStatus.OK);
 	}
-	
-	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
+
+	@Secured({ "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/userNotification", method = RequestMethod.POST)
-	public ResponseEntity<?> readNotification(@RequestParam(value = "userId", required = false) String userId, @RequestParam(value = "message", required = false) String message) {
+	public ResponseEntity<String> readNotification(@RequestParam(value = "userId", required = false) String userId,
+			@RequestParam(value = "message", required = false) String message) {
 		userNotificationService.readNotification(userId, message);
 		return new ResponseEntity<String>("Updated", HttpStatus.OK);
 	}
-	
-	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
+
+	@Secured({ "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/noNotification", method = RequestMethod.GET)
-	public ResponseEntity<?> retrieveNoNotification(@RequestParam(value = "userId", required = false) String userId) {
-		List<UserNotification> userInfo  = userNotificationService.getUserNoNotifications(userId);
-		return (null == userInfo) ? new ResponseEntity<String>( "Notifications not found", HttpStatus.NOT_FOUND)
+	public ResponseEntity<List<UserNotification>> retrieveNoNotification(@RequestParam(value = "userId", required = false) String userId) {
+		List<UserNotification> userInfo = userNotificationService.getUserNoNotifications(userId);
+		return (null == userInfo) ? new ResponseEntity<List<UserNotification>>(HttpStatus.NOT_FOUND)
 				: new ResponseEntity<List<UserNotification>>(userInfo, HttpStatus.OK);
 	}
-	
-	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
+
+	@Secured({ "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/getNotificationCount", method = RequestMethod.GET)
-	public ResponseEntity<?> retrieveNotificationCount(@RequestParam(value = "userId", required = false) String userId) {
-		long userInfo  = userNotificationService.getUserNotificationCount(userId);
+	public ResponseEntity<Long> retrieveNotificationCount(@RequestParam(value = "userId", required = false) String userId) {
+		long userInfo = userNotificationService.getUserNotificationCount(userId);
 		return new ResponseEntity<Long>(userInfo, HttpStatus.OK);
 	}
 

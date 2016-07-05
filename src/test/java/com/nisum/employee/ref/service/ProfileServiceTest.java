@@ -45,10 +45,8 @@ public class ProfileServiceTest {
 				.setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
 
 		profiles = new ArrayList<>();
-
 		Profile profile = new Profile();
 		profile.setEmailId("dprasad@nisum.com");
-
 		profiles.add(profile);
 	}
 
@@ -62,13 +60,11 @@ public class ProfileServiceTest {
 
 		when(profileRepository.retrieveAllProfiles()).thenReturn(profiles);
 		doNothing().when(profileRepository).prepareCandidate(profile);
-
 		profileService.prepareCandidate(profile);
 	}
 
 	@Test
 	public void testUpdateCandidate() {
-
 		Profile candidate = new Profile();
 		candidate.setEmailId("dprasad@nisum.com");
 
@@ -124,7 +120,10 @@ public class ProfileServiceTest {
 		assertNotNull(expectedProfile);
 		assertEquals(expectedProfile.getEmailId(), profile.getEmailId());
 	}
-
+	
+	/**
+	 * Test case not yet implemented completely.
+	 */
 	@Ignore
 	public void testSaveResume() throws IOException {
 		FileInputStream inputFile = new FileInputStream("D:/WorkDocuments/resume.txt");

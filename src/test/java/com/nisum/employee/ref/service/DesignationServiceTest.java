@@ -31,7 +31,6 @@ public class DesignationServiceTest {
 	private DesignationRepository designationRepository;
 
 	private List<Designation> designations;
-
 	private Designation designation;
 
 	@Before

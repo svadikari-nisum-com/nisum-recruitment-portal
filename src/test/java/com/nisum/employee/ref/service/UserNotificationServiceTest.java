@@ -40,11 +40,9 @@ public class UserNotificationServiceTest {
 				.setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
 
 		actualUserNotifications = new ArrayList<>();
-
 		userNotification = new UserNotification();
 		userNotification.setUserId("9999");
 		userNotification.setMessage("User Message");
-
 		actualUserNotifications.add(userNotification);
 	}
 
@@ -69,17 +67,14 @@ public class UserNotificationServiceTest {
 	@Test
 	public void testReadNotification() {
 		doNothing().when(userNotificationRepository).readNotifications(any(String.class), any(String.class));
-
 		userNotificationService.readNotification("9999", "User Message");
 	}
 
 	@Test
 	public void testCreateNotification() {
 		doNothing().when(userNotificationRepository).createNotifications(userNotification);
-
 		userNotification = new UserNotification();
 		userNotification.setUserId("1234");
-
 		userNotificationService.createNotification(userNotification);
 	}
 
@@ -87,7 +82,6 @@ public class UserNotificationServiceTest {
 	public void testGetUserNotificationCount() {
 		long count = 10;
 		when(userNotificationRepository.getUserNotificationCount(any(String.class))).thenReturn(count);
-
 		long noficationCount = userNotificationService.getUserNotificationCount("9999");
 		assertEquals(noficationCount, count);
 	}
