@@ -62,6 +62,16 @@ public class ProfileServiceTest {
 		doNothing().when(profileRepository).prepareCandidate(profile);
 		profileService.prepareCandidate(profile);
 	}
+	
+	@Test(expected=Exception.class)
+	public void prepareCandidateThrowsException() throws Exception {
+		Profile profile = new Profile();
+		profile.setEmailId("dprasad@nisum.com");
+
+		when(profileRepository.retrieveAllProfiles()).thenReturn(profiles);
+		doNothing().when(profileRepository).prepareCandidate(profile);
+		profileService.prepareCandidate(profile);
+	}
 
 	@Test
 	public void testUpdateCandidate() {
