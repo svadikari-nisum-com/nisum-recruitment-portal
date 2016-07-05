@@ -13,7 +13,7 @@ import com.nisum.employee.ref.repository.PositionRepository;
 public class PositionService implements IPositionService{
 
 	@Autowired
-	PositionRepository positionRepository;
+	private PositionRepository positionRepository;
 	@Override
 	public void preparePosition(Position position) {
 		positionRepository.preparePosition(position);
