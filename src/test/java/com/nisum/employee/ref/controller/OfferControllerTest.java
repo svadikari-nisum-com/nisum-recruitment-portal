@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nisum.employee.ref.domain.Offer;
-import com.nisum.employee.ref.repository.OfferRepository;
+import com.nisum.employee.ref.service.OfferService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
 
@@ -27,7 +28,7 @@ public class OfferControllerTest {
 	private MockMvc mockMvc;
 
 	@Mock
-	private OfferRepository offerRepository;
+	private OfferService offerService;
 
 	@InjectMocks
 	private OfferController offerController = new OfferController();
@@ -39,7 +40,7 @@ public class OfferControllerTest {
 	}
 	@Test
 	public void shouldSaveOfferDetails() throws Exception {
-	    doNothing().when(offerRepository).saveOffer(any(Offer.class));
+	    doNothing().when(offerService).saveOffer(any(Offer.class));
 	  	 mockMvc.perform(
 				post("/save-offer").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Offer()))).andExpect(status().isOk());
