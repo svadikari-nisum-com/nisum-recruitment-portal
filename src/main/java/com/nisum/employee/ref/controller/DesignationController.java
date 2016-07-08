@@ -1,6 +1,5 @@
 package com.nisum.employee.ref.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nisum.employee.ref.domain.Designation;
 import com.nisum.employee.ref.service.IDesignationService;
+import com.nisum.employee.ref.util.Constants;
 
 @Component
 @Controller
@@ -24,42 +24,38 @@ public class DesignationController {
 
 	@Autowired
 	private IDesignationService designationService;
-	
-	@RequestMapping(value="/design",method = RequestMethod.GET)
+
+	@RequestMapping(value = "/design", method = RequestMethod.GET)
 	public ResponseEntity<?> retrieveDesignation() {
-		
+
 		List<Designation> designation = designationService.retrieveDesignations();
-        return (null == designation) ? new ResponseEntity<String>("No Designation found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <List<Designation>>(designation, HttpStatus.OK);
+		return (null == designation)
+				? new ResponseEntity<String>(Constants.designationNotFound, HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<Designation>>(designation, HttpStatus.OK);
 	}
-	
-	@Secured({"ROLE_ADMIN"})
-	@RequestMapping(value="/design", method = RequestMethod.POST)
+
+	@Secured({ "ROLE_ADMIN" })
+	@RequestMapping(value = "/design", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<?> saveDesignation(@RequestBody Designation designation) throws Exception {
 		designationService.prepareDesignation(designation);
-		String jsonObj="{\"msg\":\"Created\"}";
-		return new ResponseEntity<String>(jsonObj,
-				HttpStatus.OK);
+		return new ResponseEntity<String>( "{\"msg\":\"Created\"}" , HttpStatus.OK);
 	}
-	
-	@Secured({"ROLE_ADMIN"})
-	@RequestMapping(value="/design", method = RequestMethod.PUT)
+
+	@Secured({ "ROLE_ADMIN" })
+	@RequestMapping(value = "/design", method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<?> updateDesignation(@RequestBody Designation designation) throws Exception {
 		designationService.updateDesignation(designation);
-		String jsonObj="{\"msg\":\"Updated\"}";
-		return new ResponseEntity<String>(jsonObj,
-				HttpStatus.OK);
+		return new ResponseEntity<String>( "{\"msg\":\"Updated\"}" , HttpStatus.OK);
 	}
-	
-	@Secured({"ROLE_ADMIN"})
-	@RequestMapping(value="/design/{designation}", method = RequestMethod.DELETE)
+
+	@Secured({ "ROLE_ADMIN" })
+	@RequestMapping(value = "/design/{designation}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<?> deleteDesignation(@PathVariable("designation") String designation) throws Exception {
-		designationService.deleteDesignation(designation);;
-		String jsonObj="{\"msg\":\"Deleted\"}";
-		return new ResponseEntity<String>(jsonObj,
-				HttpStatus.OK);
+		designationService.deleteDesignation(designation);
+		return new ResponseEntity<String>("{\"msg\":\"Deleted\"}", HttpStatus.OK);
 	}
-	
+
 }

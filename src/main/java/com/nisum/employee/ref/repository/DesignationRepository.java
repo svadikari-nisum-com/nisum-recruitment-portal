@@ -18,8 +18,7 @@ public class DesignationRepository {
 	private MongoOperations mongoOperations;
 	
 	public List<Designation> retrieveDesignations() {
-		List<Designation> designation = (List<Designation>) mongoOperations.findAll(Designation.class);
-		  return designation;
+		return (List<Designation>) mongoOperations.findAll(Designation.class);
 	}
 	
 	public void prepareDesignations(Designation designation) {
@@ -29,8 +28,10 @@ public class DesignationRepository {
 	public void updateDesignations(Designation designation) {
 			Query updateQuery = new Query();
 			updateQuery.addCriteria(Criteria.where("designation").is(designation.getDesignation()));
-			Designation designation1 = mongoOperations.findOne(updateQuery, Designation.class);
-			designation1.equals(designation) ;
+			
+			//Designation designation1 = mongoOperations.findOne(updateQuery, Designation.class);
+			//designation1.equals(designation) ;
+			
 			Update update = new Update();
 			update.set("skills", designation.getSkills());
 			update.set("minExpYear", designation.getMinExpYear());
@@ -41,8 +42,7 @@ public class DesignationRepository {
 	public void removeDesignations(String designation) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("_id").regex(designation));
-		Designation designationDetail = mongoOperations.findOne(query, Designation.class);
-		mongoOperations.remove(designationDetail);
+		mongoOperations.remove(mongoOperations.findOne(query, Designation.class));
 	}
 
 }
