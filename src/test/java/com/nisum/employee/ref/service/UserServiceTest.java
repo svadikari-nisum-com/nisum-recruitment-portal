@@ -14,12 +14,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.convert.TimeSlotConverter;
+import com.nisum.employee.ref.convert.UserInfoConverter;
+import com.nisum.employee.ref.domain.TimeSlots;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.UserInfoDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -29,11 +34,13 @@ public class UserServiceTest {
 
 	@Mock
 	private UserInfoRepository userInfoRepository = new UserInfoRepository();
-
+	
+	@Spy
+	private UserInfoConverter userInfoConverter = new UserInfoConverter();
+	
 	private List<UserInfo> actualUserInfos;
-	private List<UserInfo> expectedUserInfos;
 	private UserInfo actualUserInfo;
-	private UserInfo expectedUserInfo;
+	private List<UserInfoDTO> userInfoDTOs;
 
 	@Before
 	public void setUp() {
@@ -49,6 +56,13 @@ public class UserServiceTest {
 		List<String> actualRoles = new ArrayList<String>();
 		actualRoles.add("ROLE_USER");
 		actualUserInfo.setRoles(actualRoles);
+		List<TimeSlots> timeSlots = new ArrayList<TimeSlots>();
+		TimeSlots time = new TimeSlots();
+		time.setDay("Sunday");
+		time.setHour("12");
+		time.setTime("23");
+		timeSlots.add(time);
+		actualUserInfo.setTimeSlots(timeSlots);
 		actualUserInfos.add(actualUserInfo);
 	}
 
@@ -61,59 +75,64 @@ public class UserServiceTest {
 	@Test
 	public void retrieveUserTest() {
 		when(userInfoRepository.retrieveUser()).thenReturn(actualUserInfos);
-		expectedUserInfos = userService.retrieveUser();
+		userInfoDTOs = userService.retrieveUser();
 
-		assertNotNull(expectedUserInfos);
-		assertEquals(expectedUserInfos.get(0).getEmailId(), actualUserInfos.get(0).getEmailId());
+		assertNotNull(userInfoDTOs);
+		assertEquals(userInfoDTOs.get(0).getEmailId(), actualUserInfos.get(0).getEmailId());
 	}
 
 	@Test
 	public void retrieveUserByIdTest() {
 		when(userInfoRepository.retrieveUserById(any(String.class))).thenReturn(actualUserInfos);
-		expectedUserInfos = userService.retrieveUserById("dprasad@nisum.com");
+		userInfoDTOs = userService.retrieveUserById("dprasad@nisum.com");
 
-		assertNotNull(expectedUserInfos);
-		assertEquals(expectedUserInfos.get(0).getEmailId(), actualUserInfos.get(0).getEmailId());
+		assertNotNull(userInfoDTOs);
+		assertEquals("Sunday", userInfoDTOs.get(0).getTimeSlots().get(0).getDay());
+		assertEquals(userInfoDTOs.get(0).getEmailId(), actualUserInfos.get(0).getEmailId());
 	}
 
 	@Test
 	public void retrieveUserByNameTest() {
 		when(userInfoRepository.retrieveUserByName(any(String.class))).thenReturn(actualUserInfos);
-		expectedUserInfos = userService.retrieveUserByName("Durga Prasad Narikalapa");
+		userInfoDTOs = userService.retrieveUserByName("Durga Prasad Narikalapa");
 		
-		assertNotNull(expectedUserInfos);
-		assertEquals(expectedUserInfos.get(0).getName(), actualUserInfos.get(0).getName());
+		assertNotNull(userInfoDTOs);
+		assertEquals(userInfoDTOs.get(0).getName(), actualUserInfos.get(0).getName());
 	}
 
 	@Test
 	public void createUserInfoTest() {
 		when(userInfoRepository.createUserInfo(any(String.class))).thenReturn(actualUserInfo);
-		expectedUserInfo = userService.createUserInfo("dprasad@nisum.com");
-		assertNotNull(expectedUserInfo);
-		assertEquals(expectedUserInfo.getEmailId(), actualUserInfo.getEmailId());
+		UserInfoDTO userInfoDTO = userService.createUserInfo("dprasad@nisum.com");
+		assertNotNull(userInfoDTO);
+		assertEquals(userInfoDTO.getEmailId(), actualUserInfo.getEmailId());
 	}
 
 	@Test
 	public void updateUserTest() {
 		doNothing().when(userInfoRepository).updateUser(actualUserInfo);
-		userService.updateUser(actualUserInfo);
+		UserInfoDTO userInfoDTO = new UserInfoDTO();
+		userInfoDTO.setName("Durga Prasad Narikalapa");
+		userInfoDTO.setEmailId("dprasad@nisum.com");
+		userInfoDTO.setClientName("TestCient");
+		userService.updateUser(userInfoDTO);
 	}
 
 	@Test
 	public void retrieveUserByClientTest() {
 		when(userInfoRepository.retrieveUserByClient(any(String.class))).thenReturn(actualUserInfos);
 
-		expectedUserInfos = userService.retrieveUserByClient("TestCient");
-		assertNotNull(expectedUserInfos);
-		assertEquals(expectedUserInfos.get(0).getClientName(), actualUserInfos.get(0).getClientName());
+		userInfoDTOs = userService.retrieveUserByClient("TestCient");
+		assertNotNull(userInfoDTOs);
+		assertEquals(userInfoDTOs.get(0).getClientName(), actualUserInfos.get(0).getClientName());
 	}
 	
 	@Test
 	public void retrieveUserByRoleTest() {
 		when(userInfoRepository.retrieveUserByRole(any(String.class))).thenReturn(actualUserInfos);
 
-		expectedUserInfos = userService.retrieveUserByRole("1");
-		assertNotNull(expectedUserInfos);
-		assertEquals(expectedUserInfos.get(0).getRoles().get(0), actualUserInfos.get(0).getRoles().get(0));
+		userInfoDTOs = userService.retrieveUserByRole("1");
+		assertNotNull(userInfoDTOs);
+		assertEquals(userInfoDTOs.get(0).getRoles().get(0), actualUserInfos.get(0).getRoles().get(0));
 	}
 }

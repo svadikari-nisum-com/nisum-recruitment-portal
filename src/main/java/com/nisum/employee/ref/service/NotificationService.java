@@ -33,8 +33,8 @@ import org.springframework.stereotype.Service;
 
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
-import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.domain.UserNotification;
+import com.nisum.employee.ref.view.UserInfoDTO;
 @Service
 public class NotificationService implements INotificationService{
 
@@ -178,10 +178,10 @@ public class NotificationService implements INotificationService{
 	public void sendFeedbackMail(InterviewFeedback interviewFeedback)
 			throws MessagingException {
 
-		List<UserInfo> info = userService.retrieveUserByRole(ROLE_HR);
+		List<UserInfoDTO> info = userService.retrieveUserByRole(ROLE_HR);
 		List<String> HR_Emails = new ArrayList<String>();
 
-		for (UserInfo ui : info) {
+		for (UserInfoDTO ui : info) {
 			HR_Emails.add(ui.getEmailId());
 		}
 		 

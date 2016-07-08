@@ -18,9 +18,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nisum.employee.ref.domain.InterviewSchedule;
-import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.UserInfoDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NotificationServiceTest {
@@ -69,9 +69,9 @@ public class NotificationServiceTest {
 
 	@Test
 	public void testSendFeedbackMail() {
-		List<UserInfo> info = new ArrayList<>();
+		List<UserInfoDTO> info = new ArrayList<>();
 		
-		UserInfo userInfo = new UserInfo();
+		UserInfoDTO userInfo = new UserInfoDTO();
 		userInfo.setEmailId("dprasad@nisum.com");
 		info.add(userInfo);
 		

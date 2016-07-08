@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nisum.employee.ref.domain.ResponseVO;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.service.UserService;
+import com.nisum.employee.ref.view.UserInfoDTO;
 
 @Controller
 @RequestMapping("/user")
@@ -34,12 +35,12 @@ public class UserController {
 
 	@Secured({ "ROLE_USER", "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<UserInfo>> retrieveUsers(
+	public ResponseEntity<List<UserInfoDTO>> retrieveUsers(
 			@RequestParam(value = "emailId", required = false) String emailId,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "clientName", required = false) String clientName) {
 
-		List<UserInfo> userInfos = null;
+		List<UserInfoDTO> userInfos = null;
 		if (emailId != null) {
 			userInfos = userService.retrieveUserById(emailId);
 		} else if (name != null) {
@@ -49,21 +50,21 @@ public class UserController {
 		} else {
 			userInfos = userService.retrieveUser();
 		}
-		return (null == userInfos) ? new ResponseEntity<List<UserInfo>>(HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<UserInfo>>(userInfos, HttpStatus.OK);
+		return (null == userInfos) ? new ResponseEntity<List<UserInfoDTO>>(HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<UserInfoDTO>>(userInfos, HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_USER", "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<ResponseVO<UserInfo>> updateUser(@RequestBody UserInfo user) {
+	public ResponseEntity<ResponseVO<UserInfoDTO>> updateUser(@RequestBody UserInfoDTO user) {
 		userService.updateUser(user);
-		ResponseVO<UserInfo> response = new ResponseVO<UserInfo>();
+		ResponseVO<UserInfoDTO> response = new ResponseVO<UserInfoDTO>();
 		response.setDate(new Date());
 		response.setData(user);
 		response.setHttpStatus(200);
 		response.setMessage("User Updated succesfully.");
 
-		return new ResponseEntity<ResponseVO<UserInfo>>(response, HttpStatus.OK);
+		return new ResponseEntity<ResponseVO<UserInfoDTO>>(response, HttpStatus.OK);
 	}
 }

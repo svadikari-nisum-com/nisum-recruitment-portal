@@ -2,22 +2,22 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
-import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.view.UserInfoDTO;
 
 public interface IUserService {
 	void registerUserByEmailId(String emailId);
 
-	List<UserInfo> retrieveUser();
+	List<UserInfoDTO> retrieveUser();
 
-	List<UserInfo> retrieveUserById(String userId);
+	List<UserInfoDTO> retrieveUserById(String userId);
 
-	List<UserInfo> retrieveUserByName(String name);
+	List<UserInfoDTO> retrieveUserByName(String name);
 
-	UserInfo createUserInfo(String userName);
+	UserInfoDTO createUserInfo(String userName);
 
-	void updateUser(UserInfo user);
+	void updateUser(UserInfoDTO userdTO);
 
-	List<UserInfo> retrieveUserByClient(String clientName);
+	List<UserInfoDTO> retrieveUserByClient(String clientName);
 	
-	List<UserInfo> retrieveUserByRole(String role);
+	List<UserInfoDTO> retrieveUserByRole(String role);
 }
