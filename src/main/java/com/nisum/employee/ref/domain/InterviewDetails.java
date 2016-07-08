@@ -1,6 +1,5 @@
 package com.nisum.employee.ref.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -17,9 +16,9 @@ public class InterviewDetails  {
 	@Id
 	String interviewerId;
 	String candidateName;
-	ArrayList<String> positionId;
+	List<String> positionId;
 	String currentPositionId;
-	ArrayList<String> candidateSkills;
+	List<String> candidateSkills;
 	String candidateEmail;
 	String interviewerEmail;
 	String clientName;

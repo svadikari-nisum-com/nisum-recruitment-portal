@@ -28,7 +28,6 @@ public class OfferRepository {
 		mongoOperations.save(offer);
 	}
 	
-	
 	public void saveResumeInBucket(MultipartFile multipartFile, String candidateId){
 		DBObject metaData = new BasicDBObject();
 		metaData.put("candidateId", candidateId);

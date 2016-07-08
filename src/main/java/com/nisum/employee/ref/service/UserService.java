@@ -5,46 +5,50 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.convert.UserInfoConverter;
 import com.nisum.employee.ref.repository.UserInfoRepository;
+import com.nisum.employee.ref.view.UserInfoDTO;
 
 @Service
 public class UserService implements IUserService{
 
 	@Autowired
 	private UserInfoRepository userInfoRepository;
+	
+	@Autowired
+	private UserInfoConverter userInfoConverter;
 
 	@Override
 	public void registerUserByEmailId(String emailId) {
 		userInfoRepository.registerUserByEmailId(emailId);
 	}
 	@Override
-	public List<UserInfo> retrieveUser() {
-		return userInfoRepository.retrieveUser();
+	public List<UserInfoDTO> retrieveUser() {
+		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUser());
 	}
 	@Override
-	public List<UserInfo> retrieveUserById(String userId) {
-		return userInfoRepository.retrieveUserById(userId);
+	public List<UserInfoDTO> retrieveUserById(String userId) {
+		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserById(userId));
 	}
 	@Override
-	public List<UserInfo> retrieveUserByName(String name) {
-		return userInfoRepository.retrieveUserByName(name);
+	public List<UserInfoDTO> retrieveUserByName(String name) {
+		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByName(name));
 	}
 	@Override
-	public UserInfo createUserInfo(String userName) {
-		return userInfoRepository.createUserInfo(userName);
+	public UserInfoDTO createUserInfo(String userName) {
+		return userInfoConverter.convertToDTO(userInfoRepository.createUserInfo(userName));
 	}
 	@Override
-	public void updateUser(UserInfo user) {
-		userInfoRepository.updateUser(user);
+	public void updateUser(UserInfoDTO userDTO) {
+		userInfoRepository.updateUser(userInfoConverter.convertToEntity(userDTO));
 	}
 	@Override
-	public List<UserInfo> retrieveUserByClient(String clientName) {
-		return userInfoRepository.retrieveUserByClient(clientName);
+	public List<UserInfoDTO> retrieveUserByClient(String clientName) {
+		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByClient(clientName));
 	}
 	
 	@Override
-	public List<UserInfo> retrieveUserByRole(String role) {
-		return userInfoRepository.retrieveUserByRole(role);
+	public List<UserInfoDTO> retrieveUserByRole(String role) {
+		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByRole(role));
 	}
 }

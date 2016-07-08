@@ -1,6 +1,6 @@
 package com.nisum.employee.ref.repository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -14,8 +14,8 @@ public class InfoRepository {
 	@Autowired
 	private MongoOperations mongoOperations;
 	
-	public ArrayList<InfoEntity> retrieveSkills() {
-		  ArrayList<InfoEntity> skills = (ArrayList<InfoEntity>) mongoOperations.findAll(InfoEntity.class);
+	public List<InfoEntity> retrieveSkills() {
+		List<InfoEntity> skills = (List<InfoEntity>) mongoOperations.findAll(InfoEntity.class);
 		  return skills;
 	}
 	

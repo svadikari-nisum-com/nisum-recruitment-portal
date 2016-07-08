@@ -28,6 +28,9 @@ app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$window', '$log'
 			}
 		},
 		function(errorMsg) {
+			if(errorMsg != null && errorMsg.indexOf("404") > -1) {
+				errorMsg = " Notifications not found";
+			}
 			$log.error("Failed! ---> "+errorMsg);
 		}
 	);

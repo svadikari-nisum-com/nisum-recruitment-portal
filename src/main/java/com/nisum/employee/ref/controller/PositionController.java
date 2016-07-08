@@ -31,7 +31,7 @@ public class PositionController {
 	@Secured({"ROLE_HR","ROLE_ADMIN"})
 	@RequestMapping(value="/position", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> createPosition(@RequestBody Position position) {
+	public ResponseEntity<Position> createPosition(@RequestBody Position position) {
 		log.info("creating new position");
 		positionService.preparePosition(position);
 		return new ResponseEntity<Position>(position, HttpStatus.OK);
@@ -49,16 +49,14 @@ public class PositionController {
 	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/position", method = RequestMethod.GET)
 	public ResponseEntity<?> retrievePositionByClient(@RequestParam(value = "client", required = false) String client,
-			@RequestParam(value = "designation", required = false) String designation
-			) {
+			@RequestParam(value = "designation", required = false) String designation) {
 		List<Position> positionsDetails;
-		if(!StringUtils.isEmpty(designation)){
+		if(!StringUtils.isEmpty(designation)) {
 			positionsDetails = positionService.retrievePositionsbasedOnDesignation(designation);
-		}else{
+		} else {
 			positionsDetails = (!StringUtils.isEmpty(client)) ? positionService.retrievePositionByClient(client) : positionService.retrieveAllPositions();
 		}
-		
-		return (null == positionsDetails) ? new ResponseEntity<String>( "Positions not found", HttpStatus.NOT_FOUND)
+		return (null == positionsDetails) ? new ResponseEntity<String>("Positions not found", HttpStatus.NOT_FOUND)
 				: new ResponseEntity<List<Position>>(positionsDetails, HttpStatus.OK);
 	}
 	
@@ -66,7 +64,7 @@ public class PositionController {
 	@RequestMapping(value = "/searchPositionsBasedOnJobCode", method = RequestMethod.GET)
 	public ResponseEntity<?> retrievePositionsBasedOnJobCode(@RequestParam(value = "jobcode", required = true) String jobcode) {
 		Position positionsDetail = positionService.retrievePositionsbasedOnJobCode(jobcode);
-		return (null == positionsDetail) ? new ResponseEntity<String>( "Positions are not found", HttpStatus.NOT_FOUND)
+		return (null == positionsDetail) ? new ResponseEntity<String>("Positions are not found", HttpStatus.NOT_FOUND)
 				: new ResponseEntity<Position>(positionsDetail, HttpStatus.OK);
 	} 
 	
@@ -74,7 +72,7 @@ public class PositionController {
 	@RequestMapping(value = "/searchPositionBasedOnLocation", method = RequestMethod.GET)
 	public ResponseEntity<?> retrievesearchPositionbasedOnLocation(@RequestParam(value = "location", required = true) String location,@RequestParam(value = "expYear", required = false) String expYear,@RequestParam(value = "primarySkills", required = false) String primarySkills) {
 		List<Position> positionsDetail = positionService.retrievePositionbasedOnLocation(location);
-		return (null == positionsDetail) ? new ResponseEntity<String>( "Positions are not found", HttpStatus.NOT_FOUND)
+		return (null == positionsDetail) ? new ResponseEntity<String>("Positions are not found", HttpStatus.NOT_FOUND)
 				: new ResponseEntity<List<Position>>(positionsDetail, HttpStatus.OK);
 	} 
 	
@@ -82,7 +80,7 @@ public class PositionController {
 	@RequestMapping(value = "/getPositionsByAggregation", method = RequestMethod.GET)
 	public ResponseEntity<?> retrieveAllPositionsAggregate() {
 		List<PositionAggregate> positionsDetail = positionService.retrieveAllPositionsAggregate();
-		return (null == positionsDetail) ? new ResponseEntity<String>( "Positions are not found", HttpStatus.NOT_FOUND)
+		return (null == positionsDetail) ? new ResponseEntity<String>("Positions are not found", HttpStatus.NOT_FOUND)
 				: new ResponseEntity<List<PositionAggregate>>(positionsDetail, HttpStatus.OK);
 	} 
 }
