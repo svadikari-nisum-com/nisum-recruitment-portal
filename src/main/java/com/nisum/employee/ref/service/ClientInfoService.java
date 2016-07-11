@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import lombok.Getter;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nisum.employee.ref.domain.ClientInfo;
-import com.nisum.employee.ref.domain.Interviewer;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.repository.ClientInfoRepository;
 

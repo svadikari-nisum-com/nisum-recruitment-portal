@@ -1,10 +1,10 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -16,19 +16,25 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.convert.PositionConverter;
 import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.repository.PositionRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.PositionDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PositionServiceTest {
 
 	@Mock
 	private PositionRepository positionRepository;
+	
+	@Spy
+	private PositionConverter positionConverter = new PositionConverter();
 
 	@InjectMocks
 	private PositionService service = new PositionService();
@@ -66,7 +72,7 @@ public class PositionServiceTest {
 	public void shouldRetrievePositionByClient() throws Exception {
 		Mockito.when(positionRepository.retrievePositionByClient(any(String.class))).thenReturn(positions);
 
-		List<Position> listPosition = service.retrievePositionByClient("GAP");
+		List<PositionDTO> listPosition = service.retrievePositionByClient("GAP");
 
 		assertNotNull(listPosition);
 		assertEquals("SSE", listPosition.get(0).getJobcode());
@@ -75,7 +81,7 @@ public class PositionServiceTest {
 	@Test
 	public void shouldRetrieveAllPositions() {
 		when(positionRepository.retrieveAllPositions()).thenReturn(positions);
-		List<Position> listPosition = service.retrieveAllPositions();
+		List<PositionDTO> listPosition = service.retrieveAllPositions();
 		assertNotNull(listPosition);
 		assertEquals("Sr. Software Engineer", listPosition.get(0).getDesignation());
 	}
@@ -83,7 +89,7 @@ public class PositionServiceTest {
 	@Test
 	public void shouldRetrievePositionsBasedOnDesignation() {
 		when(positionRepository.retrievePositionsbasedOnDesignation(Mockito.anyString())).thenReturn(positions);
-		List<Position> listPosition = service.retrievePositionsbasedOnDesignation("SE");
+		List<PositionDTO> listPosition = service.retrievePositionsbasedOnDesignation("SE");
 
 		assertNotNull(listPosition);
 		assertEquals("Sr. Software Engineer", listPosition.get(0).getDesignation());
@@ -92,7 +98,7 @@ public class PositionServiceTest {
 	@Test
 	public void shouldRetrievePositionsbasedOnJobCode() {
 		when(positionRepository.retrievePositionsbasedOnJobCode(Mockito.anyString())).thenReturn(position);
-		Position actualPosition = service.retrievePositionsbasedOnJobCode("JSSE");
+		PositionDTO actualPosition = service.retrievePositionsbasedOnJobCode("JSSE");
 
 		assertNotNull(actualPosition);
 		assertEquals("SSE", actualPosition.getJobcode());
@@ -110,7 +116,7 @@ public class PositionServiceTest {
 	@Test
 	public void shouldRetrievePositionsBasedOnLocation() {
 		when(positionRepository.retrievePositionbasedOnLocation(Mockito.anyString())).thenReturn(positions);
-		List<Position> listPosition = service.retrievePositionbasedOnLocation("Hyd");
+		List<PositionDTO> listPosition = service.retrievePositionbasedOnLocation("Hyd");
 
 		assertNotNull(listPosition);
 		assertEquals("Hyderabad", listPosition.get(0).getLocation());

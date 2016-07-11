@@ -5,15 +5,23 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nisum.employee.ref.convert.PositionConverter;
 import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.repository.PositionRepository;
+import com.nisum.employee.ref.view.PositionDTO;
 
 @Service
 public class PositionService implements IPositionService{
 
 	@Autowired
 	private PositionRepository positionRepository;
+	
+
+	@Autowired
+	private PositionConverter positionConverter;
+	
+	
 	@Override
 	public void preparePosition(Position position) {
 		positionRepository.preparePosition(position);
@@ -23,28 +31,28 @@ public class PositionService implements IPositionService{
 		positionRepository.updatePosition(position);
 	}
 	@Override
-	public List<Position> retrievePositionByClient(String client) {
-		return positionRepository.retrievePositionByClient(client);
+	public List<PositionDTO> retrievePositionByClient(String client) {
+		return positionConverter.convertToDTOs((positionRepository.retrievePositionByClient(client)));
 	}
 	@Override
-	public List<Position> retrieveAllPositions() {
-		return positionRepository.retrieveAllPositions();
+	public List<PositionDTO> retrieveAllPositions() {
+		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositions()));
 	}
 	@Override
-	public List<Position> retrievePositionsbasedOnDesignation(String designation) {
-		return positionRepository.retrievePositionsbasedOnDesignation(designation);
+	public List<PositionDTO> retrievePositionsbasedOnDesignation(String designation) {
+		return positionConverter.convertToDTOs((positionRepository.retrievePositionsbasedOnDesignation(designation)));
 	}
 	@Override
-	public Position retrievePositionsbasedOnJobCode(String jobcode) {
-		return positionRepository.retrievePositionsbasedOnJobCode(jobcode);
+	public PositionDTO retrievePositionsbasedOnJobCode(String jobcode) {
+		return positionConverter.convertToDTO((positionRepository.retrievePositionsbasedOnJobCode(jobcode)));
 	}
 	@Override
 	public Position deletePositionBasedOnJC(String jobcode) {
 		return positionRepository.deletePositionBasedOnJC(jobcode);
 	}
 	@Override
-	public List<Position> retrievePositionbasedOnLocation(String location) {
-		return positionRepository.retrievePositionbasedOnLocation(location);
+	public List<PositionDTO> retrievePositionbasedOnLocation(String location) {
+		return positionConverter.convertToDTOs((positionRepository.retrievePositionbasedOnLocation(location)));
 	}
 	
 	@Override

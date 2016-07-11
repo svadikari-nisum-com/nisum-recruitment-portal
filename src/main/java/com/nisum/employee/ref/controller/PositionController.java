@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.service.PositionService;
+import com.nisum.employee.ref.view.PositionDTO;
 
 
 @Slf4j
@@ -48,39 +49,39 @@ public class PositionController {
 	
 	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/position", method = RequestMethod.GET)
-	public ResponseEntity<?> retrievePositionByClient(@RequestParam(value = "client", required = false) String client,
+	public ResponseEntity<List<PositionDTO>> retrievePositionByClient(@RequestParam(value = "client", required = false) String client,
 			@RequestParam(value = "designation", required = false) String designation) {
-		List<Position> positionsDetails;
+		List<PositionDTO> positionsDetails;
 		if(!StringUtils.isEmpty(designation)) {
 			positionsDetails = positionService.retrievePositionsbasedOnDesignation(designation);
 		} else {
 			positionsDetails = (!StringUtils.isEmpty(client)) ? positionService.retrievePositionByClient(client) : positionService.retrieveAllPositions();
 		}
-		return (null == positionsDetails) ? new ResponseEntity<String>("Positions not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<Position>>(positionsDetails, HttpStatus.OK);
+		return (null == positionsDetails) ? new ResponseEntity<List<PositionDTO>>(HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<PositionDTO>>(positionsDetails, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/searchPositionsBasedOnJobCode", method = RequestMethod.GET)
-	public ResponseEntity<?> retrievePositionsBasedOnJobCode(@RequestParam(value = "jobcode", required = true) String jobcode) {
-		Position positionsDetail = positionService.retrievePositionsbasedOnJobCode(jobcode);
-		return (null == positionsDetail) ? new ResponseEntity<String>("Positions are not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<Position>(positionsDetail, HttpStatus.OK);
+	public ResponseEntity<PositionDTO> retrievePositionsBasedOnJobCode(@RequestParam(value = "jobcode", required = true) String jobcode) {
+		PositionDTO positionsDetail = positionService.retrievePositionsbasedOnJobCode(jobcode);
+		return (null == positionsDetail) ? new ResponseEntity<PositionDTO>(HttpStatus.NOT_FOUND)
+				: new ResponseEntity<PositionDTO>(positionsDetail, HttpStatus.OK);
 	} 
 	
 	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/searchPositionBasedOnLocation", method = RequestMethod.GET)
-	public ResponseEntity<?> retrievesearchPositionbasedOnLocation(@RequestParam(value = "location", required = true) String location,@RequestParam(value = "expYear", required = false) String expYear,@RequestParam(value = "primarySkills", required = false) String primarySkills) {
-		List<Position> positionsDetail = positionService.retrievePositionbasedOnLocation(location);
-		return (null == positionsDetail) ? new ResponseEntity<String>("Positions are not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<Position>>(positionsDetail, HttpStatus.OK);
+	public ResponseEntity<List<PositionDTO>> retrievesearchPositionbasedOnLocation(@RequestParam(value = "location", required = true) String location,@RequestParam(value = "expYear", required = false) String expYear,@RequestParam(value = "primarySkills", required = false) String primarySkills) {
+		List<PositionDTO> positionsDetail = positionService.retrievePositionbasedOnLocation(location);
+		return (null == positionsDetail) ? new ResponseEntity<List<PositionDTO>>(HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<PositionDTO>>(positionsDetail, HttpStatus.OK);
 	} 
 	
 	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/getPositionsByAggregation", method = RequestMethod.GET)
-	public ResponseEntity<?> retrieveAllPositionsAggregate() {
+	public ResponseEntity<List<PositionAggregate>> retrieveAllPositionsAggregate() {
 		List<PositionAggregate> positionsDetail = positionService.retrieveAllPositionsAggregate();
-		return (null == positionsDetail) ? new ResponseEntity<String>("Positions are not found", HttpStatus.NOT_FOUND)
+		return (null == positionsDetail) ? new ResponseEntity<List<PositionAggregate>>(HttpStatus.NOT_FOUND)
 				: new ResponseEntity<List<PositionAggregate>>(positionsDetail, HttpStatus.OK);
 	} 
 }

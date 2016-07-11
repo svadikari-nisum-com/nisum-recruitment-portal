@@ -26,6 +26,7 @@ import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.service.PositionService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.PositionDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PositionControllerTest {
@@ -63,8 +64,8 @@ public class PositionControllerTest {
 	
 	@Test
 	public void testRetrievePositionByDesignation() throws Exception {
-		List<Position> positions = new ArrayList<>();
-		Position position = new Position();
+		List<PositionDTO> positions = new ArrayList<>();
+		PositionDTO position = new PositionDTO();
 		position.setJobcode("SE");
 		position.setDesignation("Software Engineer");
 		positions.add(position);
@@ -76,8 +77,8 @@ public class PositionControllerTest {
 	}
 	@Test
 	public void testRetrievePositionByClient() throws Exception {
-		List<Position> positions = new ArrayList<>();
-		Position position = new Position();
+		List<PositionDTO> positions = new ArrayList<>();
+		PositionDTO position = new PositionDTO();
 		position.setClient("GAP");
 		positions.add(position);
 		Mockito.when(
@@ -87,8 +88,8 @@ public class PositionControllerTest {
 	}
 	@Test
 	public void testRetrieveAllPositions() throws Exception {
-		List<Position> positions = new ArrayList<>();
-		Position position = new Position();
+		List<PositionDTO> positions = new ArrayList<>();
+		PositionDTO position = new PositionDTO();
 		position.setJobcode("SE");
 		position.setDesignation("Software Engineer");
 		positions.add(position);
@@ -99,7 +100,7 @@ public class PositionControllerTest {
 	}
 	@Test
 	public void testRetrievePositionsBasedOnJobCode() throws Exception {
-		Position positionsDetail = new Position();
+		PositionDTO positionsDetail = new PositionDTO();
 		Mockito.when(
 				(positionService).retrievePositionsbasedOnJobCode("SE"))
 				.thenReturn(positionsDetail);
@@ -107,8 +108,8 @@ public class PositionControllerTest {
 	}
 	@Test
 	public void testRetrievesearchPositionbasedOnLocation() throws Exception {
-		Position positionsDetail = new Position();
-		List<Position> positions = new ArrayList<>();
+		PositionDTO positionsDetail = new PositionDTO();
+		List<PositionDTO> positions = new ArrayList<>();
 		positionsDetail.setLocation("Banglore");
 		positions.add(positionsDetail);
 		Mockito.when(
