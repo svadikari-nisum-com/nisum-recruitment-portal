@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nisum.employee.ref.domain.ClientInfo;
 import com.nisum.employee.ref.domain.ResponseVO;
 import com.nisum.employee.ref.service.IClientInfoService;
 import com.nisum.employee.ref.util.Constants;
+import com.nisum.employee.ref.view.ClientInfoDTO;
 
 @Controller
 public class ClientInfoController {
@@ -26,7 +26,7 @@ public class ClientInfoController {
 
 	@RequestMapping(value = "/clientNames", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<?> getClients() {
+	public ResponseEntity<List<String>> getClients() {
 		List<String> clients = clientInfoService.getClientNames();
 		return new ResponseEntity<List<String>>(clients, HttpStatus.OK);
 	}
@@ -34,13 +34,13 @@ public class ClientInfoController {
 	@RequestMapping(value = "/clientInfo", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<?> getClientInfo(@RequestParam(value = "clientName", required = false) String clientName) {
-		List<ClientInfo> clients = null;
+		List<ClientInfoDTO> clients = null;
 		if (clientName != null && !clientName.isEmpty()) {
 			clients = clientInfoService.getClientDetailsByClient(clientName);
 		} else {
 			clients = clientInfoService.getClientDetails();
 		}
-		return !clients.isEmpty() ? new ResponseEntity<List<ClientInfo>>(clients, HttpStatus.OK)
+		return !clients.isEmpty() ? new ResponseEntity<List<ClientInfoDTO>>(clients, HttpStatus.OK)
 				: new ResponseEntity<String>(Constants.clientNotFound, HttpStatus.NOT_FOUND);
 	}
 
@@ -55,8 +55,8 @@ public class ClientInfoController {
 	@ResponseBody
 	public ResponseEntity<?> getClientById(@RequestParam(value = "clientId", required = true) String clientId) {
 		
-		List<ClientInfo> client = clientInfoService.getClientById(clientId);
-		return new ResponseEntity<List<ClientInfo>>(client, HttpStatus.OK);
+		List<ClientInfoDTO> client = clientInfoService.getClientById(clientId);
+		return new ResponseEntity<List<ClientInfoDTO>>(client, HttpStatus.OK);
 		
 	}
 
@@ -74,16 +74,16 @@ public class ClientInfoController {
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(value = "/clientInfo", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> createClient(@RequestBody ClientInfo clientInfo) {
-		clientInfoService.createClient(clientInfo);
-		return new ResponseEntity<ClientInfo>(clientInfo, HttpStatus.OK);
+	public ResponseEntity<?> createClient(@RequestBody ClientInfoDTO clientInfoDTO) {
+		clientInfoService.createClient(clientInfoDTO);
+		return new ResponseEntity<ClientInfoDTO>(clientInfoDTO, HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(value = "/clientInfo", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<String> updateClient(@RequestBody ClientInfo clientInfo) {
-		clientInfoService.updateClient(clientInfo);
+	public ResponseEntity<String> updateClient(@RequestBody ClientInfoDTO clientInfoDTO) {
+		clientInfoService.updateClient(clientInfoDTO);
 		return new ResponseEntity<String>("{\"msg\":\"Client Updated Successfully\"}", HttpStatus.ACCEPTED);
 	}
 }

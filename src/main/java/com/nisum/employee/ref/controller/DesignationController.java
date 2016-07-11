@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nisum.employee.ref.domain.Designation;
 import com.nisum.employee.ref.service.IDesignationService;
 import com.nisum.employee.ref.util.Constants;
+import com.nisum.employee.ref.view.DesignationDTO;
 
 @Component
 @Controller
@@ -28,16 +28,16 @@ public class DesignationController {
 	@RequestMapping(value = "/design", method = RequestMethod.GET)
 	public ResponseEntity<?> retrieveDesignation() {
 
-		List<Designation> designation = designationService.retrieveDesignations();
+		List<DesignationDTO> designation = designationService.retrieveDesignations();
 		return (null == designation)
 				? new ResponseEntity<String>(Constants.designationNotFound, HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<Designation>>(designation, HttpStatus.OK);
+				: new ResponseEntity<List<DesignationDTO>>(designation, HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(value = "/design", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> saveDesignation(@RequestBody Designation designation) throws Exception {
+	public ResponseEntity<?> saveDesignation(@RequestBody DesignationDTO designation) throws Exception {
 		designationService.prepareDesignation(designation);
 		return new ResponseEntity<String>( "{\"msg\":\"Created\"}" , HttpStatus.OK);
 	}
@@ -45,7 +45,7 @@ public class DesignationController {
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(value = "/design", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<?> updateDesignation(@RequestBody Designation designation) throws Exception {
+	public ResponseEntity<?> updateDesignation(@RequestBody DesignationDTO designation) throws Exception {
 		designationService.updateDesignation(designation);
 		return new ResponseEntity<String>( "{\"msg\":\"Updated\"}" , HttpStatus.OK);
 	}

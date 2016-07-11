@@ -5,28 +5,32 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nisum.employee.ref.domain.Designation;
-import com.nisum.employee.ref.repository.DesignationRepository;;
+import com.nisum.employee.ref.convert.DesignationConverter;
+import com.nisum.employee.ref.repository.DesignationRepository;
+import com.nisum.employee.ref.view.DesignationDTO;;
 
 @Service
 public class DesignationService implements IDesignationService{
 	
 	@Autowired
-	DesignationRepository designationRepository;
+	private DesignationRepository designationRepository;
+	
+	@Autowired
+	private DesignationConverter designationConverter;
 
 	@Override
-	public List<Designation> retrieveDesignations() {
-		return designationRepository.retrieveDesignations();
+	public List<DesignationDTO> retrieveDesignations() {
+		return designationConverter.convertToDTOs(designationRepository.retrieveDesignations());
 	}
 
 	@Override
-	public void prepareDesignation(Designation designation) {
-			designationRepository.prepareDesignations(designation);
+	public void prepareDesignation(DesignationDTO designation) {
+			designationRepository.prepareDesignations(designationConverter.convertToEntity(designation));
 	}
 
 	@Override
-	public void updateDesignation(Designation designation) {
-		designationRepository.updateDesignations(designation);
+	public void updateDesignation(DesignationDTO designation) {
+		designationRepository.updateDesignations(designationConverter.convertToEntity(designation));
 	}
 
 	@Override

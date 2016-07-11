@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nisum.employee.ref.domain.InfoEntity;
 import com.nisum.employee.ref.service.IAppInfoService;
+import com.nisum.employee.ref.view.InfoEntityDTO;
 
 @Component
 @Controller
@@ -26,16 +26,16 @@ public class InfoController {
 	@RequestMapping(value="/info",method = RequestMethod.GET)
 	public ResponseEntity<?> retrieveInfo() {
 		
-		List<InfoEntity> info = infoService.retrieveSkills();
+		List<InfoEntityDTO> info = infoService.retrieveSkills();
 		
-        return (null == info) ? new ResponseEntity<String>("No infos found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <List<InfoEntity>>(info, HttpStatus.OK);
+        return (null == info) ? new ResponseEntity<String>("No infos found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <List<InfoEntityDTO>>(info, HttpStatus.OK);
 	}
 	
 
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value="/info", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<?> updateInfo(@RequestBody InfoEntity info) throws Exception {
+	public ResponseEntity<?> updateInfo(@RequestBody InfoEntityDTO info) throws Exception {
 		infoService.updateInfo(info);
 		String jsonObj="{\"msg\":\"Updated\"}";
 		return new ResponseEntity<String>(jsonObj,
@@ -46,7 +46,7 @@ public class InfoController {
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value="/info", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<?> deleteInfo(@RequestBody InfoEntity info) throws Exception {
+	public ResponseEntity<?> deleteInfo(@RequestBody InfoEntityDTO info) throws Exception {
 		infoService.updateDesigInfo(info);
 		String jsonObj="{\"msg\":\"Updated\"}";
 		return new ResponseEntity<String>(jsonObj,

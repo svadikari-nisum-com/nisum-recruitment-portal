@@ -3,10 +3,10 @@ package com.nisum.employee.ref.controller;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -23,10 +23,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.domain.ClientInfo;
 import com.nisum.employee.ref.service.ClientInfoService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.ClientInfoDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientInfoControllerTest {
@@ -52,8 +52,8 @@ public class ClientInfoControllerTest {
    }
    @Test
    public void testGetClientDetailsByClient() throws Exception {
-	    ClientInfo clientInfo = new ClientInfo();
-		List<ClientInfo> clients = new ArrayList<>();
+	    ClientInfoDTO clientInfo = new ClientInfoDTO();
+		List<ClientInfoDTO> clients = new ArrayList<>();
 		clientInfo.setClientName("NISUM");
 		clients.add(clientInfo);
 		Mockito.when((clientInfoService).getClientDetailsByClient(any(String.class))).thenReturn(clients);
@@ -61,13 +61,13 @@ public class ClientInfoControllerTest {
    }
    @Test
    public void testGetClientDetails() throws Exception {
-	    ClientInfo clientInfo = new ClientInfo();
-		List<ClientInfo> clients = new ArrayList<>();
+	    ClientInfoDTO clientInfo = new ClientInfoDTO();
+		List<ClientInfoDTO> clients = new ArrayList<>();
 		clientInfo.setClientName("NISUM");
 		clients.add(clientInfo);
 		Mockito.when((clientInfoService).getClientDetails()).thenReturn(clients);
 		mockMvc.perform(get("/clientInfo").contentType(MediaType.APPLICATION_JSON).
-				content(MockTestUtil.convertToJsonFormat(new ClientInfo()))).andExpect(status().isOk());
+				content(MockTestUtil.convertToJsonFormat(new ClientInfoDTO()))).andExpect(status().isOk());
    }
    @Test
    public void testGetInterviewerNames() throws Exception {
@@ -80,8 +80,8 @@ public class ClientInfoControllerTest {
    }
    @Test
    public void testClientById() throws Exception {
-	    ClientInfo clientInfo = new ClientInfo();
-		List<ClientInfo> clients = new ArrayList<>();
+	    ClientInfoDTO clientInfo = new ClientInfoDTO();
+		List<ClientInfoDTO> clients = new ArrayList<>();
 		clientInfo.setClientId("11");
 		clients.add(clientInfo);
 		Mockito.when((clientInfoService).getClientById(any(String.class))).thenReturn(clients);
@@ -95,25 +95,25 @@ public class ClientInfoControllerTest {
    }
    @Test
    public void testCreateClient() throws Exception {
-	   ClientInfo clientInfo = new ClientInfo();
+	   ClientInfoDTO clientInfo = new ClientInfoDTO();
 	   clientInfo.setClientId("1");
 	   clientInfo.setClientName("Nisum");
 	   clientInfo.setLocations("Hyderabad");
 	   doNothing().when(clientInfoService).createClient(clientInfo);
 	   mockMvc.perform(
 				post("/clientInfo").contentType(MediaType.APPLICATION_JSON).
-				content(MockTestUtil.convertToJsonFormat(new ClientInfo()))).andExpect(status().isOk());
+				content(MockTestUtil.convertToJsonFormat(new ClientInfoDTO()))).andExpect(status().isOk());
    }
    @Test
    public void testUpdateClient() throws Exception {
-	   ClientInfo clientInfo = new ClientInfo();
+	   ClientInfoDTO clientInfo = new ClientInfoDTO();
 	   clientInfo.setClientId("1");
 	   clientInfo.setClientName("Nisum");
 	   clientInfo.setLocations("Hyderabad");
 	   doNothing().when(clientInfoService).updateClient(clientInfo);
 	   mockMvc.perform(
 				put("/clientInfo").contentType(MediaType.APPLICATION_JSON).
-				content(MockTestUtil.convertToJsonFormat(new ClientInfo()))).andExpect(status().isAccepted());
+				content(MockTestUtil.convertToJsonFormat(new ClientInfoDTO()))).andExpect(status().isAccepted());
    }
    
 }

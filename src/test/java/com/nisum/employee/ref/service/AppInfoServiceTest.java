@@ -13,12 +13,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.convert.InfoEntityConverter;
 import com.nisum.employee.ref.domain.InfoEntity;
 import com.nisum.employee.ref.repository.InfoRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.InfoEntityDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AppInfoServiceTest {
@@ -31,6 +34,9 @@ public class AppInfoServiceTest {
 
 	private List<InfoEntity> infoEntities;
 	private InfoEntity infoEntity;
+	
+	@Spy
+	private InfoEntityConverter infoEntityConverter;
 
 	@Before
 	public void setUp() throws Exception {
@@ -51,7 +57,7 @@ public class AppInfoServiceTest {
 	@Test
 	public void testRetrieveSkills() {
 		when(infoRepository.retrieveSkills()).thenReturn(infoEntities);
-		List<InfoEntity> infoEntityList = appInfoService.retrieveSkills();
+		List<InfoEntityDTO> infoEntityList = appInfoService.retrieveSkills();
 		assertNotNull(infoEntityList);
 		assertEquals(infoEntities.get(0).getKey(), infoEntityList.get(0).getKey());
 	}
@@ -59,25 +65,25 @@ public class AppInfoServiceTest {
 	@Test
 	public void testPrepareInfo() {
 		doNothing().when(infoRepository).prepareInfo(infoEntity);
-		appInfoService.prepareInfo(getInfoEntity());
+		appInfoService.prepareInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
 	public void testUpdateInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
-		appInfoService.updateInfo(getInfoEntity());
+		appInfoService.updateInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
 	public void testUpdateDesigInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
-		appInfoService.updateDesigInfo(getInfoEntity());
+		appInfoService.updateDesigInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
 	public void testUpdateInterviewRoundsInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
-		appInfoService.updateInterviewRoundsInfo(getInfoEntity());
+		appInfoService.updateInterviewRoundsInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	private InfoEntity getInfoEntity() {

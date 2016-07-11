@@ -14,12 +14,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.convert.DesignationConverter;
 import com.nisum.employee.ref.domain.Designation;
 import com.nisum.employee.ref.repository.DesignationRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.DesignationDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DesignationServiceTest {
@@ -32,6 +35,9 @@ public class DesignationServiceTest {
 
 	private List<Designation> designations;
 	private Designation designation;
+	
+	@Spy
+	private DesignationConverter designationConverter;
 
 	@Before
 	public void setUp() throws Exception {
@@ -45,7 +51,7 @@ public class DesignationServiceTest {
 	@Test
 	public void testRetrieveDesignations() {
 		when(designationRepository.retrieveDesignations()).thenReturn(designations);
-		List<Designation> retrieveDesignations = designationService.retrieveDesignations();
+		List<DesignationDTO> retrieveDesignations = designationService.retrieveDesignations();
 		assertNotNull(retrieveDesignations);
 		assertEquals(designations.get(0).getDesignation(), retrieveDesignations.get(0).getDesignation());
 	}
@@ -53,13 +59,13 @@ public class DesignationServiceTest {
 	@Test
 	public void testPrepareDesignation() {
 		doNothing().when(designationRepository).prepareDesignations(any(Designation.class));
-		designationService.prepareDesignation(getDesignation());
+		designationService.prepareDesignation(designationConverter.convertToDTO(getDesignation()));
 	}
 
 	@Test
 	public void testUpdateDesignation() {
 		doNothing().when(designationRepository).updateDesignations(any(Designation.class));
-		designationService.updateDesignation(getDesignation());
+		designationService.updateDesignation(designationConverter.convertToDTO(getDesignation()));
 	}
 
 	@Test
