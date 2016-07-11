@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -14,12 +15,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.convert.UserNotificationConverter;
 import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.repository.UserNotificationRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.UserNotificationDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserNotificationServiceTest {
@@ -27,11 +31,14 @@ public class UserNotificationServiceTest {
 	@InjectMocks
 	private UserNotificationService userNotificationService;
 
+	@Spy
+	private UserNotificationConverter userNotificationConverter = new UserNotificationConverter();
+	
 	@Mock
 	private UserNotificationRepository userNotificationRepository;
 
 	private List<UserNotification> actualUserNotifications;
-	private List<UserNotification> expectedUserNotifications;
+	private List<UserNotificationDTO> expectedUserNotifications;
 	private UserNotification userNotification;
 
 	@Before
