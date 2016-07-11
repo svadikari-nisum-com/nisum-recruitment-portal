@@ -4,7 +4,6 @@
 package com.nisum.employee.ref.convert;
 
 import java.lang.reflect.InvocationTargetException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +23,7 @@ import com.nisum.employee.ref.view.PositionDTO;
 @Slf4j
 @Component
 public class PositionConverter extends TwowayConverter<Position, PositionDTO> {
-	
-	@SuppressWarnings("finally")
+
 	@Override
 	public PositionDTO convertToDTO(Position Position) {
 		PositionDTO positionDTO = new PositionDTO();
@@ -33,12 +31,11 @@ public class PositionConverter extends TwowayConverter<Position, PositionDTO> {
 			BeanUtils.copyProperties(positionDTO, Position);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return positionDTO;
 		}
+		return positionDTO;
 	}
 
-	@SuppressWarnings("finally")
 	@Override
 	public Position convertToEntity(PositionDTO positionDTO) {
 		Position position = new Position();
@@ -46,9 +43,9 @@ public class PositionConverter extends TwowayConverter<Position, PositionDTO> {
 			BeanUtils.copyProperties(position, positionDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return position;
 		}
+		return position;
 	}
 
 	public List<PositionDTO> convertToDTOs(List<Position> positions) {
@@ -57,5 +54,5 @@ public class PositionConverter extends TwowayConverter<Position, PositionDTO> {
 				.forEach(position -> dtos.add(convertToDTO(position)));
 		return dtos;
 	}
-	
+
 }
