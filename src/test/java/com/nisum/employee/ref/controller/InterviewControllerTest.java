@@ -2,7 +2,6 @@ package com.nisum.employee.ref.controller;
 
 
 import static org.mockito.Mockito.doNothing;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -10,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 
@@ -30,6 +30,7 @@ import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.service.InterviewDetailsService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.InterviewDetailsDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InterviewControllerTest {
@@ -109,25 +110,25 @@ public class InterviewControllerTest {
     }
    @Test
   	public void testGetInterviewByJobCode() throws Exception {
-       InterviewDetails interviewDetails = new InterviewDetails();
+       InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
        interviewDetails.setCandidateName("swati");
        interviewDetails.setClientName("Nisum");
-       List<InterviewDetails> checkDetails  = new ArrayList<>();
+       List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
        checkDetails.add(interviewDetails);
        Mockito.when(
   				(interviewDetailsService).getInterviewByJobCode("1"))
   				.thenReturn(checkDetails);
        mockMvc.perform(
   			get("/getInterviewByParam").contentType(MediaType.APPLICATION_JSON).
-  			content(MockTestUtil.convertToJsonFormat(new InterviewDetails()))).andExpect(status().isOk());
+  			content(MockTestUtil.convertToJsonFormat(new InterviewDetailsDTO()))).andExpect(status().isOk());
 
       }
    @Test
  	public void testGetInterviewByCandidateId() throws Exception {
-      InterviewDetails interviewDetails = new InterviewDetails();
+	   InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
       interviewDetails.setCandidateName("swati");
       interviewDetails.setClientName("Nisum");
-      List<InterviewDetails> checkDetails  = new ArrayList<>();
+      List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
       checkDetails.add(interviewDetails);
       Mockito.when(
  				(interviewDetailsService).getInterviewByCandidateId("1"))
@@ -139,10 +140,10 @@ public class InterviewControllerTest {
      }
    @Test
 	public void testGetInterviewByClient() throws Exception {
-     InterviewDetails interviewDetails = new InterviewDetails();
+	   InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
      interviewDetails.setCandidateName("swati");
      interviewDetails.setClientName("Nisum");
-     List<InterviewDetails> checkDetails  = new ArrayList<>();
+     List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
      checkDetails.add(interviewDetails);
      Mockito.when(
 				(interviewDetailsService).getInterviewByClient("NISUM"))
@@ -154,10 +155,10 @@ public class InterviewControllerTest {
     }
    @Test
   	public void testGetInterviewByProgress() throws Exception {
-       InterviewDetails interviewDetails = new InterviewDetails();
+	   InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
        interviewDetails.setCandidateName("swati");
        interviewDetails.setClientName("Nisum");
-       List<InterviewDetails> checkDetails  = new ArrayList<>();
+       List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
        checkDetails.add(interviewDetails);
        Mockito.when(
   				(interviewDetailsService).getInterviewByClient("Passed"))
@@ -169,10 +170,10 @@ public class InterviewControllerTest {
       }
    @Test
  	public void testGetInterviewBySkill() throws Exception {
-      InterviewDetails interviewDetails = new InterviewDetails();
+	   InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
       interviewDetails.setCandidateName("swati");
       interviewDetails.setClientName("Nisum");
-      List<InterviewDetails> checkDetails  = new ArrayList<>();
+      List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
       checkDetails.add(interviewDetails);
       Mockito.when(
  				(interviewDetailsService).getInterviewByClient("JAVA"))
@@ -184,10 +185,10 @@ public class InterviewControllerTest {
      }
    @Test
 	public void testGetInterviewByDesignation() throws Exception {
-     InterviewDetails interviewDetails = new InterviewDetails();
+	   InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
      interviewDetails.setCandidateName("swati");
      interviewDetails.setClientName("Nisum");
-     List<InterviewDetails> checkDetails  = new ArrayList<>();
+     List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
      checkDetails.add(interviewDetails);
      Mockito.when(
 				(interviewDetailsService).getInterviewByClient("SSE"))
@@ -199,10 +200,10 @@ public class InterviewControllerTest {
     }
     @Test
 	public void testGetInterviewByinterviewId() throws Exception {
-     InterviewDetails interviewDetails = new InterviewDetails();
+     InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
      interviewDetails.setCandidateName("swati");
      interviewDetails.setClientName("Nisum");
-     List<InterviewDetails> checkDetails  = new ArrayList<>();
+     List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
      checkDetails.add(interviewDetails);
      Mockito.when(
 				(interviewDetailsService).getInterviewByClient("123"))
@@ -214,10 +215,10 @@ public class InterviewControllerTest {
     }
     @Test
 	public void testGetAll() throws Exception {
-     InterviewDetails interviewDetails = new InterviewDetails();
+     InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
      interviewDetails.setCandidateName("swati");
      interviewDetails.setClientName("Nisum");
-     List<InterviewDetails> checkDetails  = new ArrayList<>();
+     List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
      checkDetails.add(interviewDetails);
      Mockito.when(
 				(interviewDetailsService).getAll())
@@ -229,17 +230,14 @@ public class InterviewControllerTest {
     }
     @Test
 	public void testGetInterviewByInterviewerAndJobCode() throws Exception {
-     InterviewDetails interviewDetails = new InterviewDetails();
+    InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
      interviewDetails.setCandidateName("swati");
      interviewDetails.setClientName("Nisum");
-     List<InterviewDetails> checkDetails  = new ArrayList<>();
+     List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
      checkDetails.add(interviewDetails);
      Mockito.when(
 				(interviewDetailsService).getInterviewByInterviewerAndJobCode("skaranam@gmail.com","1"))
 				.thenReturn(checkDetails);
-     /*mockMvc.perform(
-			get("/getInterviewByInterviewer").contentType(MediaType.APPLICATION_JSON).
-			content(MockTestUtil.convertToJsonFormat(new InterviewDetails()))).andExpect(status().isOk());*/
 		mockMvc.perform
 		       (get("/getInterviewByInterviewer").param("interviewerEmail", "skaranam@gmail.com")
 		    		   .param("jobCode","1")).andExpect(status().isOk());
@@ -247,10 +245,10 @@ public class InterviewControllerTest {
     }
     @Test
    	public void testGetInterviewByInterviewer() throws Exception {
-        InterviewDetails interviewDetails = new InterviewDetails();
+    	InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
         interviewDetails.setCandidateName("swati");
         interviewDetails.setClientName("Nisum");
-        List<InterviewDetails> checkDetails  = new ArrayList<>();
+        List<InterviewDetailsDTO> checkDetails  = new ArrayList<>();
         checkDetails.add(interviewDetails);
         Mockito.when(
    				(interviewDetailsService).getInterviewByInterviewer("skaranam@gmail.com"))

@@ -20,6 +20,7 @@ import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.service.InterviewDetailsService;
+import com.nisum.employee.ref.view.InterviewDetailsDTO;
 
 @Controller
 public class InterviewController {
@@ -68,16 +69,16 @@ public class InterviewController {
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/getInterview", method = RequestMethod.GET)
-	public ResponseEntity<?> getInterview(@RequestParam(value = "interviewerId", required = true) String interviewerId) {
-		List<InterviewDetails> checkDetails = interviewDetailsService.getInterview(interviewerId);
-		return (null == checkDetails) ? new ResponseEntity<String>( "Positions are not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<InterviewDetails>>(checkDetails, HttpStatus.OK);
+	public ResponseEntity<List<InterviewDetailsDTO>> getInterview(@RequestParam(value = "interviewerId", required = true) String interviewerId) {
+		List<InterviewDetailsDTO> checkDetails = interviewDetailsService.getInterview(interviewerId);
+		return (null == checkDetails) ? new ResponseEntity<List<InterviewDetailsDTO>>(HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<InterviewDetailsDTO>>(checkDetails, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_HR","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/getInterviewByParam", method = RequestMethod.GET)
-	public ResponseEntity<?> getInterview(@RequestParam(value = "jobCode", required = false) String jobCode,@RequestParam(value = "candiateId", required = false) String candiateId, @RequestParam(value = "client", required = false) String client, @RequestParam(value = "progress", required = false) String progress, @RequestParam(value = "skill", required = false) String skill, @RequestParam(value = "designation", required = false) String designation, @RequestParam(value = "interviewId", required = false) String interviewId) {
-		List<InterviewDetails> checkDetails = null;
+	public ResponseEntity<List<InterviewDetailsDTO>> getInterview(@RequestParam(value = "jobCode", required = false) String jobCode,@RequestParam(value = "candiateId", required = false) String candiateId, @RequestParam(value = "client", required = false) String client, @RequestParam(value = "progress", required = false) String progress, @RequestParam(value = "skill", required = false) String skill, @RequestParam(value = "designation", required = false) String designation, @RequestParam(value = "interviewId", required = false) String interviewId) {
+		List<InterviewDetailsDTO> checkDetails = null;
 		if(!StringUtils.isEmpty(jobCode)){
 			checkDetails = interviewDetailsService.getInterviewByJobCode(jobCode);
 		}else if (!StringUtils.isEmpty(candiateId)) {
@@ -95,22 +96,22 @@ public class InterviewController {
 		}else {
 			checkDetails = interviewDetailsService.getAll();
 		}
-		return (null == checkDetails) ? new ResponseEntity<String>( "Positions are not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<InterviewDetails>>(checkDetails, HttpStatus.OK);
+		return (null == checkDetails) ? new ResponseEntity<List<InterviewDetailsDTO>>(HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<InterviewDetailsDTO>>(checkDetails, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_ADMIN", "ROLE_HR","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/getInterviewByInterviewer", method = RequestMethod.GET)
-	public ResponseEntity<?> getInterviewByInterviewer(@RequestParam(value = "interviewerEmail", required = false) String interviewerEmail,@RequestParam(value = "jobCode", required = false) String jobCode) {
-		List<InterviewDetails> checkDetails = null;
+	public ResponseEntity<List<InterviewDetailsDTO>> getInterviewByInterviewer(@RequestParam(value = "interviewerEmail", required = false) String interviewerEmail,@RequestParam(value = "jobCode", required = false) String jobCode) {
+		List<InterviewDetailsDTO> checkDetails = null;
 		if(!(StringUtils.isEmpty(interviewerEmail) || StringUtils.isEmpty(jobCode))){
 			checkDetails = interviewDetailsService.getInterviewByInterviewerAndJobCode(interviewerEmail,jobCode);
 		}
 		else if(!StringUtils.isEmpty(interviewerEmail)){
 			checkDetails = interviewDetailsService.getInterviewByInterviewer(interviewerEmail);
 		}
-		return (null == checkDetails) ? new ResponseEntity<String>( "Positions are not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<InterviewDetails>>(checkDetails, HttpStatus.OK);
+		return (null == checkDetails) ? new ResponseEntity<List<InterviewDetailsDTO> >(HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<InterviewDetailsDTO>>(checkDetails, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_ADMIN", "ROLE_HR","ROLE_INTERVIEWER"})

@@ -6,8 +6,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UserNotificationDTO {
-	String pk;
-	String userId;
-	String message;
-	String read;
+	private String pk;
+	private String userId;
+	private String message;
+	private String read;
 }

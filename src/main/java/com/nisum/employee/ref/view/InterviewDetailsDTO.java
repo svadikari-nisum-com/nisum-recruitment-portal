@@ -1,19 +1,15 @@
-package com.nisum.employee.ref.domain;
+package com.nisum.employee.ref.view;
 
 import java.util.List;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+
 @Setter
-@Document(collection = "InterviewDetails")
-public class InterviewDetails  {
+@Getter
+public class InterviewDetailsDTO {
 	
-	@Id
 	private String interviewerId;
 	private String candidateName;
 	private List<String> positionId;
@@ -25,6 +21,5 @@ public class InterviewDetails  {
 	private String progress;
 	private String designation;
 	private String hrAssigned;
-	private List <Round> rounds;
-
+	private List <RoundDTO> rounds;
 }

@@ -1,7 +1,6 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -22,13 +21,16 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.convert.InterviewDetailsConverter;
 import com.nisum.employee.ref.convert.ProfileConverter;
+import com.nisum.employee.ref.convert.UserNotificationConverter;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.domain.Round;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.InterviewDetailsDTO;
 import com.nisum.employee.ref.view.ProfileDTO;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -39,6 +41,9 @@ public class InterviewDetailsServiceTest {
 
 	@Mock
 	private InterviewDetailsRepository interviewDetailsRepository;
+	
+	@Spy
+	private InterviewDetailsConverter interviewDetailsConverter = new InterviewDetailsConverter();
 
 	@Mock
 	private INotificationService notificationService;
@@ -178,7 +183,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterview() {
 		when(interviewDetailsRepository.getInterview(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService.getInterview(interviewDetails.getCandidateEmail());
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService.getInterview(interviewDetails.getCandidateEmail());
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("can_name", actuaInterviewDetails.get(0).getCandidateName());
 	}
@@ -186,7 +191,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterviewByInterviewer() {
 		when(interviewDetailsRepository.getInterviewByInterviewer(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService
 				.getInterviewByInterviewer(interviewDetails.getInterviewerEmail());
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("inter_email@nisum.com", actuaInterviewDetails.get(0).getInterviewerEmail());
@@ -196,7 +201,7 @@ public class InterviewDetailsServiceTest {
 	public void testGetInterviewByInterviewerAndJobCode() {
 		when(interviewDetailsRepository.getInterviewByInterviewerAndJobCode(anyString(), anyString()))
 				.thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService
 				.getInterviewByInterviewerAndJobCode("inter_email@nisum.com", "SE_01");
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("SE1", actuaInterviewDetails.get(0).getDesignation());
@@ -205,7 +210,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetAll() {
 		when(interviewDetailsRepository.getAll()).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService.getAll();
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService.getAll();
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("can_name", actuaInterviewDetails.get(0).getCandidateName());
 	}
@@ -213,7 +218,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterviewByJobCode() {
 		when(interviewDetailsRepository.getInterviewByJobCode(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService.getInterviewByJobCode("Java_SE1");
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService.getInterviewByJobCode("Java_SE1");
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("can_email@gmail.com", actuaInterviewDetails.get(0).getCandidateEmail());
 	}
@@ -221,7 +226,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterviewByCandidateId() {
 		when(interviewDetailsRepository.getInterviewByCandidateId(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService
 				.getInterviewByCandidateId(interviewDetails.getCandidateEmail());
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("can_email@gmail.com", actuaInterviewDetails.get(0).getCandidateEmail());
@@ -230,7 +235,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterviewByClient() {
 		when(interviewDetailsRepository.getInterviewByClient(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService
 				.getInterviewByClient(interviewDetails.getClientName());
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("can_email@gmail.com", actuaInterviewDetails.get(0).getCandidateEmail());
@@ -239,7 +244,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterviewByProgress() {
 		when(interviewDetailsRepository.getInterviewByProgress(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService
 				.getInterviewByProgress(interviewDetails.getProgress());
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("can_email@gmail.com", actuaInterviewDetails.get(0).getCandidateEmail());
@@ -248,7 +253,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterviewBySkill() {
 		when(interviewDetailsRepository.getInterviewBySkill(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService
 				.getInterviewBySkill(interviewDetails.getCandidateEmail());
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("can_email@gmail.com", actuaInterviewDetails.get(0).getCandidateEmail());
@@ -263,7 +268,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterviewByDesignation() {
 		when(interviewDetailsRepository.getInterviewByDesignation(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService
 				.getInterviewByDesignation(interviewDetails.getDesignation());
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("SE1", actuaInterviewDetails.get(0).getDesignation());
@@ -272,7 +277,7 @@ public class InterviewDetailsServiceTest {
 	@Test
 	public void testGetInterviewByinterviewId() {
 		when(interviewDetailsRepository.getInterviewByinterviewId(anyString())).thenReturn(interviewDetailList);
-		List<InterviewDetails> actuaInterviewDetails = interviewDetailsService
+		List<InterviewDetailsDTO> actuaInterviewDetails = interviewDetailsService
 				.getInterviewByinterviewId(interviewDetails.getInterviewerId());
 		assertNotNull(actuaInterviewDetails);
 		assertEquals("java_037", actuaInterviewDetails.get(0).getInterviewerId());
