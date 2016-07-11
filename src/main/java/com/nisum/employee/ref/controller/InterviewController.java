@@ -119,8 +119,7 @@ public class InterviewController {
 	public ResponseEntity<?> updateIntewrviewDetails(@RequestBody InterviewDetails interviewDetails) {
 		interviewDetailsService.updateInterviewDetails(interviewDetails);
 		String successmessage = "{\"msg\":\"Profile successfully Updated\"}";
-		return (null == successmessage) ? new ResponseEntity<String>( "Positions are not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<String>(successmessage, HttpStatus.OK);
+		return new ResponseEntity<String>(successmessage, HttpStatus.OK);
 	}
 
 }

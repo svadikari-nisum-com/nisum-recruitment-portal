@@ -15,7 +15,7 @@ import com.nisum.employee.ref.view.UserNotificationDTO;
 @Slf4j
 @Component
 public class UserNotificationConverter extends TwowayConverter<UserNotification, UserNotificationDTO>{
-	@SuppressWarnings("finally")
+	
 	@Override
 	public UserNotificationDTO convertToDTO(UserNotification userNotification) {
 		UserNotificationDTO userNotificationDTO = new UserNotificationDTO();
@@ -23,12 +23,11 @@ public class UserNotificationConverter extends TwowayConverter<UserNotification,
 			BeanUtils.copyProperties(userNotificationDTO, userNotification);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return userNotificationDTO;
 		}
+		return userNotificationDTO;
 	}
 
-	@SuppressWarnings("finally")
 	@Override
 	public UserNotification convertToEntity(UserNotificationDTO userNotificationDTO) {
 		UserNotification userNotification = new UserNotification();
@@ -36,9 +35,9 @@ public class UserNotificationConverter extends TwowayConverter<UserNotification,
 			BeanUtils.copyProperties(userNotification, userNotificationDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return userNotification;
 		}
+		return userNotification;
 	}
 
 	public List<UserNotificationDTO> convertToDTOs(List<UserNotification> userNotifications) {
