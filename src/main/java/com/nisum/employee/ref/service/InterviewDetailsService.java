@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -11,9 +12,9 @@ import org.springframework.stereotype.Service;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
-import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.Round;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
+import com.nisum.employee.ref.view.ProfileDTO;
 
 @Service
 public class InterviewDetailsService implements IInterviewDetailsService {
@@ -48,7 +49,7 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 				.getInterviewDetailsById(interviewSchedule.getCandidateId());
 		interviewDetails = enrichInterviewDetails(interviewDetails2, interviewSchedule);
 		interviewDetailsRepository.scheduleInterview(interviewDetails);
-		List<Profile> pro = profileService.retrieveCandidateDetails(interviewSchedule.getCandidateId());
+		List<ProfileDTO> pro = profileService.retrieveCandidateDetails(interviewSchedule.getCandidateId());
 		String mobileNo = pro.get(0).getMobileNo();
 		String altMobileNo = pro.get(0).getAltmobileNo();
 		String skypeId = pro.get(0).getSkypeId();
@@ -62,7 +63,7 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 				.getInterviewDetailsById(interviewSchedule.getCandidateId());
 		interviewDetails = enrichInterviewDetailsUpdate(interviewDetails2, interviewSchedule);
 		interviewDetailsRepository.scheduleInterview(interviewDetails);
-		List<Profile> pro = profileService.retrieveCandidateDetails(interviewSchedule.getCandidateId());
+		List<ProfileDTO> pro = profileService.retrieveCandidateDetails(interviewSchedule.getCandidateId());
 		String mobileNo = pro.get(0).getMobileNo();
 		String altMobileNo = pro.get(0).getAltmobileNo();
 		String skypeId = pro.get(0).getSkypeId();

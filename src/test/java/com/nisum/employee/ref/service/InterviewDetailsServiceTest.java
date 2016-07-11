@@ -18,16 +18,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.convert.ProfileConverter;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
-import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.Round;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.ProfileDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InterviewDetailsServiceTest {
@@ -40,6 +42,10 @@ public class InterviewDetailsServiceTest {
 
 	@Mock
 	private INotificationService notificationService;
+	
+	@Spy
+	private ProfileConverter profileConverter = new ProfileConverter();
+
 
 	@Mock
 	private ProfileService profileService;
@@ -48,7 +54,7 @@ public class InterviewDetailsServiceTest {
 	private InterviewSchedule interviewSchedule;
 	private InterviewDetails interviewDetails;
 
-	private List<Profile> profiles;
+	private List<ProfileDTO> profiles;
 	private List<InterviewDetails> interviewDetailList;
 
 	@Before
@@ -89,7 +95,7 @@ public class InterviewDetailsServiceTest {
 		interviewDetails.setRounds(rounds);
 
 		profiles = new ArrayList<>();
-		Profile profile = new Profile();
+		ProfileDTO profile = new ProfileDTO();
 		profile.setCandidateName("can_name");
 		profile.setAddress("Hyderabad");
 		profile.setEmailId("can_email@gmail.com");

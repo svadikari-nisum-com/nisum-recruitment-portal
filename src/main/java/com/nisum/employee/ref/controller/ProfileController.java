@@ -1,8 +1,10 @@
 package com.nisum.employee.ref.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.service.IProfileService;
+import com.nisum.employee.ref.view.ProfileDTO;
+
 import gherkin.deps.net.iharder.Base64.InputStream;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,8 +37,8 @@ public class ProfileController {
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public ResponseEntity<?> retrieveProfile(@RequestParam(value = "emailId", required = false) String emailId,@RequestParam(value = "jobcodeProfile", required = false) String jobcodeProfile,@RequestParam(value = "profilecreatedBy", required = false) String profilecreatedBy) {
-		List<Profile> positionsDetails = null;
+	public ResponseEntity<List<ProfileDTO>> retrieveProfile(@RequestParam(value = "emailId", required = false) String emailId,@RequestParam(value = "jobcodeProfile", required = false) String jobcodeProfile,@RequestParam(value = "profilecreatedBy", required = false) String profilecreatedBy) {
+		List<ProfileDTO> positionsDetails = null;
 		if (emailId != null && !emailId.isEmpty()) {
 			positionsDetails = profileService.retrieveCandidateDetails(emailId);
 		} else if (jobcodeProfile != null && !jobcodeProfile.isEmpty()) {
@@ -43,8 +48,8 @@ public class ProfileController {
 		}else {
 			positionsDetails = profileService.retrieveAllProfiles();
 		}
-		return (null == positionsDetails) ? new ResponseEntity<String>("Positions are not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<Profile>>(positionsDetails, HttpStatus.OK);
+		return (null == positionsDetails) ? new ResponseEntity<List<ProfileDTO>>(HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<ProfileDTO>>(positionsDetails, HttpStatus.OK);
 	}
 
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})

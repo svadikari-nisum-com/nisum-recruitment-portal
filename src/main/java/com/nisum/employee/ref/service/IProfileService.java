@@ -4,10 +4,12 @@ import java.util.List;
 
 
 
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.domain.Profile;
+import com.nisum.employee.ref.view.ProfileDTO;
 
 public interface IProfileService {
 	String prepareCandidate(Profile candidate) throws Exception;
@@ -15,13 +17,13 @@ public interface IProfileService {
 	void updateCandidate(Profile candidate);
 	void updateCandidateStatus(String email,String status);
 
-	List<Profile> retrieveCandidateDetails(String emailId);
+	List<ProfileDTO> retrieveCandidateDetails(String emailId);
 
-	List<Profile> retrieveProfileByJobCode(String jobcodeProfile);
+	List<ProfileDTO> retrieveProfileByJobCode(String jobcodeProfile);
 
-	List<Profile> retrieveProfileByProfileCreatedBy(String profilecreatedBy);
+	List<ProfileDTO> retrieveProfileByProfileCreatedBy(String profilecreatedBy);
 
-	List<Profile> retrieveAllProfiles();
+	List<ProfileDTO> retrieveAllProfiles();
 
 	Profile deleteProfileBasedOnEmailId(String emailId);
 

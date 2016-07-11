@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -19,20 +20,26 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.mongodb.gridfs.GridFSDBFile;
+import com.nisum.employee.ref.convert.ProfileConverter;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.ProfileDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProfileServiceTest {
 
 	@InjectMocks
 	private ProfileService profileService;
+	
+	@Spy
+	private ProfileConverter profileConverter = new ProfileConverter();
 
 	@Mock
 	private ProfileRepository profileRepository;
@@ -91,7 +98,7 @@ public class ProfileServiceTest {
 	@Test
 	public void testRetrieveCandidateDetails() {
 		when(profileRepository.retrieveCandidateDetails(any(String.class))).thenReturn(profiles);
-		List<Profile> expectedProfiles = profileService.retrieveCandidateDetails("dprasad@nisum.com");
+		List<ProfileDTO> expectedProfiles = profileService.retrieveCandidateDetails("dprasad@nisum.com");
 		assertNotNull(expectedProfiles);
 		assertEquals(expectedProfiles.get(0).getEmailId(), profiles.get(0).getEmailId());
 	}
@@ -99,7 +106,7 @@ public class ProfileServiceTest {
 	@Test
 	public void testRetrieveProfileByJobCode() {
 		when(profileRepository.retrieveProfileByJobCode(any(String.class))).thenReturn(profiles);
-		List<Profile> expectedProfiles = profileService.retrieveProfileByJobCode("56565");
+		List<ProfileDTO> expectedProfiles = profileService.retrieveProfileByJobCode("56565");
 		assertNotNull(expectedProfiles);
 		assertEquals(expectedProfiles.get(0).getEmailId(), profiles.get(0).getEmailId());
 	}
@@ -107,7 +114,7 @@ public class ProfileServiceTest {
 	@Test
 	public void testRetrieveProfileByProfileCreatedBy() {
 		when(profileRepository.retrieveProfileByProfileCreatedBy(any(String.class))).thenReturn(profiles);
-		List<Profile> expectedProfiles = profileService.retrieveProfileByProfileCreatedBy("Durga");
+		List<ProfileDTO> expectedProfiles = profileService.retrieveProfileByProfileCreatedBy("Durga");
 		assertNotNull(expectedProfiles);
 		assertEquals(expectedProfiles.get(0).getEmailId(), profiles.get(0).getEmailId());
 	}
@@ -115,7 +122,7 @@ public class ProfileServiceTest {
 	@Test
 	public void testRetrieveAllProfiles() {
 		when(profileRepository.retrieveAllProfiles()).thenReturn(profiles);
-		List<Profile> expectedProfiles = profileService.retrieveAllProfiles();
+		List<ProfileDTO> expectedProfiles = profileService.retrieveAllProfiles();
 		assertNotNull(expectedProfiles);
 		assertEquals(expectedProfiles.get(0).getEmailId(), profiles.get(0).getEmailId());
 	}

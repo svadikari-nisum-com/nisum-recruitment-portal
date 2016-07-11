@@ -1,7 +1,6 @@
 package com.nisum.employee.ref.controller;
 
 import static org.mockito.Matchers.any;
-
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -26,6 +25,7 @@ import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.service.IProfileService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.ProfileDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProfileControllerTest {
@@ -43,8 +43,8 @@ public class ProfileControllerTest {
    }
    @Test
    public void testRetrieveCandidateDetailsByMail() throws Exception {
-	   Profile profile = new Profile();
-	   List<Profile> positionsDetails  = new ArrayList<>();
+	   ProfileDTO profile = new ProfileDTO();
+	   List<ProfileDTO> positionsDetails  = new ArrayList<>();
 	   profile.setEmailId("karanam@nisum.com");
 		positionsDetails.add(profile);
 		Mockito.when(
@@ -54,8 +54,8 @@ public class ProfileControllerTest {
    }
    @Test
    public void testRetrieveCandidateDetailsByJobCodeProfile() throws Exception {
-	   Profile profile = new Profile();
-	   List<Profile> positionsDetails  = new ArrayList<>();
+	   ProfileDTO profile = new ProfileDTO();
+	   List<ProfileDTO> positionsDetails  = new ArrayList<>();
 	   ArrayList<String> jobcodeProfile = new ArrayList<>();
 	   jobcodeProfile.add("1");
 	   profile.setJobcodeProfile(jobcodeProfile);
@@ -69,8 +69,8 @@ public class ProfileControllerTest {
    }
    @Test
    public void testRetrieveCandidateDetailsProfileCreatedBy() throws Exception {
-	   Profile profile = new Profile();
-	   List<Profile> positionsDetails  = new ArrayList<>();
+	   ProfileDTO profile = new ProfileDTO();
+	   List<ProfileDTO> positionsDetails  = new ArrayList<>();
 	   profile.setProfilecreatedBy("skaranam@gmail.com");
 		positionsDetails.add(profile);
 		Mockito.when(
@@ -82,8 +82,8 @@ public class ProfileControllerTest {
    }
    @Test
    public void testRetrieveAllProfiles() throws Exception {
-	   Profile profile = new Profile();
-	   List<Profile> positionsDetails  = new ArrayList<>();
+	   ProfileDTO profile = new ProfileDTO();
+	   List<ProfileDTO> positionsDetails  = new ArrayList<>();
 	   profile.setProfilecreatedBy("skaranam@gmail.com");
 		positionsDetails.add(profile);
 		Mockito.when(
