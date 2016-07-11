@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoDTO> {
 
-	@SuppressWarnings("finally")
 	@Override
 	public ClientInfoDTO convertToDTO(ClientInfo clientInfo) {
 		ClientInfoDTO clientInfoDTO = null;
@@ -25,12 +24,11 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 			BeanUtils.copyProperties(clientInfoDTO, clientInfo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return clientInfoDTO;
 		}
+		return clientInfoDTO;
 	}
 
-	@SuppressWarnings("finally")
 	@Override
 	public ClientInfo convertToEntity(ClientInfoDTO clientInfoDTO) {
 		ClientInfo clientInfo = null;
@@ -39,9 +37,9 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 			BeanUtils.copyProperties(clientInfo, clientInfoDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return clientInfo;
-		}
+		} 
+		return clientInfo;
 	}
 
 	public List<ClientInfoDTO> convertToDTOs(List<ClientInfo> clientInfos) {

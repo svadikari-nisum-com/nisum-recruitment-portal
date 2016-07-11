@@ -25,9 +25,9 @@ public class InfoEntityConverter extends TwowayConverter<InfoEntity, InfoEntityD
 			infoEntityDTO.setValue(infoEntity.getValue());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return infoEntityDTO;
-		}
+		} 
+		return infoEntityDTO;
 	}
 
 	@SuppressWarnings("finally")
@@ -39,9 +39,9 @@ public class InfoEntityConverter extends TwowayConverter<InfoEntity, InfoEntityD
 			infoEntity.setValue(infoEntityDTO.getValue());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return infoEntity;
 		}
+		return infoEntity;
 	}
 
 	public List<InfoEntityDTO> convertToDTOs(List<InfoEntity> infoEntities) {

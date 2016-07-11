@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class DesignationConverter extends TwowayConverter<Designation, DesignationDTO> {
 
-	@SuppressWarnings("finally")
 	@Override
 	public DesignationDTO convertToDTO(Designation designation) {
 		DesignationDTO designationDTO = new DesignationDTO();
@@ -25,12 +24,11 @@ public class DesignationConverter extends TwowayConverter<Designation, Designati
 			designationDTO.setSkills(designation.getSkills());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		}finally {
 			return designationDTO;
 		}
+		return designationDTO;
 	}
 
-	@SuppressWarnings("finally")
 	@Override
 	public Designation convertToEntity(DesignationDTO designationDTO) {
 		Designation designation = new Designation();
@@ -39,9 +37,9 @@ public class DesignationConverter extends TwowayConverter<Designation, Designati
 			designation.setSkills(designationDTO.getSkills());
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return designation;
-		}
+		} 
+		return designation;
 	}
 
 	public List<DesignationDTO> convertToDTOs(List<Designation> designations) {
