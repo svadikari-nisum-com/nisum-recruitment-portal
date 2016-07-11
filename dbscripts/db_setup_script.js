@@ -1,5 +1,5 @@
 conn = new Mongo("localhost:27017");
-db = conn.getDB("osirpdb");
+db = conn.getDB("nisumrpdb");
 
 db.dropDatabase();
 
@@ -57,7 +57,7 @@ db.UserInfo.insert({"_id":"sgaikwad@nisum.com",'name':"Swapnil Gaikwad","mobileN
 db.UserInfo.insert({"_id":"asahai@nisum.com",'name':"Abhijeet Sahai","mobileNumber":"+919923838883","dob":"",location:"SF",skypeId:"asahai",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
 db.UserInfo.insert({"_id":"pdokhale@nisum.com",'name':"Pooja Dokhale","mobileNumber":"+919923838883","dob":"",location:"SF",skypeId:"pooja",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
 db.UserInfo.insert({"_id":"rgund@nisum.com",'name':"Ruturaj Gund","mobileNumber":"+919923838883","dob":"",location:"SF",skypeId:"rgund",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-
+db.UserInfo.insert({"_id":"svadikari@nisum.com",'name':"Shyam Vadikari","mobileNumber":"+919999999999","dob":"",location:"SF",skypeId:"abcde",roles:["ROLE_ADMIN", "ROLE_MANAGER","ROLE_HR","ROLE_INTERVIEWER"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"1"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
 //User data
 db.UserInfo.insert({"_id":"mkasam@nisum.com",'name':"Mallikarjun Kasam","mobileNumber":"","dob":"",location:"SF",skypeId:"mkasam",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
 db.UserInfo.insert({"_id":"gdevi@nisum.com",'name':"Gayathri Devi","mobileNumber":"","dob":"",location:"SF",skypeId:"",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
@@ -92,7 +92,7 @@ db.Designation.insert([{"_id":"Developer","maxExpYear":"3","minExpYear":"0","ski
                      ]);
 print("Data Inserted Into Info Collection!");
 print("");
-print("Following Collections Are In The osirpdb: ");
+print("Following Collections Are In The nisumrpdb: ");
 db.mycollection.findOne()
 db.getCollectionNames().forEach(function(collection) {
   print(collection);
