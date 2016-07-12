@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.nisum.employee.ref.convert;
+package com.nisum.employee.ref.converter;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
