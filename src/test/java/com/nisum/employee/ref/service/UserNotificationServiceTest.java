@@ -1,7 +1,6 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -19,7 +18,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.convert.UserNotificationConverter;
+import com.nisum.employee.ref.converter.UserNotificationConverter;
 import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.repository.UserNotificationRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;

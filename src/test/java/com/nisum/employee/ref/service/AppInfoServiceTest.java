@@ -17,7 +17,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.convert.InfoEntityConverter;
+import com.nisum.employee.ref.converter.InfoEntityConverter;
 import com.nisum.employee.ref.domain.InfoEntity;
 import com.nisum.employee.ref.repository.InfoRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
