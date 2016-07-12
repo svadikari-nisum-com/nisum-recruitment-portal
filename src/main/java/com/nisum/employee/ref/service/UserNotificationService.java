@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nisum.employee.ref.convert.UserNotificationConverter;
+import com.nisum.employee.ref.converter.UserNotificationConverter;
 import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.repository.UserNotificationRepository;
 import com.nisum.employee.ref.view.UserNotificationDTO;

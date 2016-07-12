@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nisum.employee.ref.convert.DesignationConverter;
+import com.nisum.employee.ref.converter.DesignationConverter;
 import com.nisum.employee.ref.repository.DesignationRepository;
 import com.nisum.employee.ref.view.DesignationDTO;;
 
