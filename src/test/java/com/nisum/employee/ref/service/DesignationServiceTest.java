@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -18,7 +19,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.convert.DesignationConverter;
+import com.nisum.employee.ref.converter.DesignationConverter;
 import com.nisum.employee.ref.domain.Designation;
 import com.nisum.employee.ref.repository.DesignationRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
