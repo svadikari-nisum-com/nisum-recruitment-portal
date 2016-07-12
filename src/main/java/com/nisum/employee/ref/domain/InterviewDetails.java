@@ -14,17 +14,17 @@ import lombok.Setter;
 public class InterviewDetails  {
 	
 	@Id
-	private String interviewerId;
-	private String candidateName;
-	private List<String> positionId;
-	private String currentPositionId;
-	private List<String> candidateSkills;
-	private String candidateEmail;
-	private String interviewerEmail;
-	private String clientName;
-	private String progress;
-	private String designation;
-	private String hrAssigned;
-	private List <Round> rounds;
+	String interviewerId;
+	String candidateName;
+	List<String> positionId;
+	String currentPositionId;
+	List<String> candidateSkills;
+	String candidateEmail;
+	String interviewerEmail;
+	String clientName;
+	String progress;
+	String designation;
+	String hrAssigned;
+	List <Round> rounds;
 
 }

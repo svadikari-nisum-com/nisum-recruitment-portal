@@ -3,11 +3,12 @@ package com.nisum.employee.ref.service;
 import java.util.List;
 
 import com.nisum.employee.ref.domain.InfoEntity;
+import com.nisum.employee.ref.view.InfoEntityDTO;
 
 public interface IAppInfoService {
-	List<InfoEntity> retrieveSkills();
-	void prepareInfo(InfoEntity info);
-	void updateInfo(InfoEntity info);
-	void updateDesigInfo(InfoEntity info);
-	void updateInterviewRoundsInfo(InfoEntity info);
+	List<InfoEntityDTO> retrieveSkills();
+	void prepareInfo(InfoEntityDTO info);
+	void updateInfo(InfoEntityDTO info);
+	void updateDesigInfo(InfoEntityDTO info);
+	void updateInterviewRoundsInfo(InfoEntityDTO info);
 }

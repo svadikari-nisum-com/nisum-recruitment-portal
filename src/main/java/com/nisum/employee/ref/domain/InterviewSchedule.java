@@ -1,6 +1,6 @@
 package com.nisum.employee.ref.domain;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +20,6 @@ public class InterviewSchedule extends AuditEntity{
 	String additionalNotes;
 	String candidateId;
 	String candidateName;
-	List<String> candidateSkills;
+	ArrayList<String> candidateSkills;
 	
 }

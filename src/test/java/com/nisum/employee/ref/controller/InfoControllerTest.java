@@ -28,6 +28,7 @@ import com.nisum.employee.ref.domain.InfoEntity;
 import com.nisum.employee.ref.service.IAppInfoService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.InfoEntityDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InfoControllerTest {
@@ -48,7 +49,7 @@ public class InfoControllerTest {
    public void testRetrieveInfo() throws Exception {
 	    InfoEntity infoEntity = new InfoEntity();
 	    infoEntity.setKey("1");
-	    ArrayList<InfoEntity> infoList = new ArrayList<>();
+	    ArrayList<InfoEntityDTO> infoList = new ArrayList<>();
 		Mockito.when((infoService).retrieveSkills()).thenReturn(infoList);
 			mockMvc.perform(
 					get("/info").contentType(MediaType.APPLICATION_JSON).
@@ -56,7 +57,7 @@ public class InfoControllerTest {
    }
    @Test
    public void testUpdateInfo() throws Exception {
-	    InfoEntity infoEntity = new InfoEntity();
+	   InfoEntityDTO infoEntity = new InfoEntityDTO();
 	    infoEntity.setKey("1");
 		  doNothing().when(infoService).updateInfo(infoEntity);
 			mockMvc.perform(
@@ -65,7 +66,7 @@ public class InfoControllerTest {
    }
    @Test
    public void testDeleteInfo() throws Exception {
-	    InfoEntity infoEntity = new InfoEntity();
+	   InfoEntityDTO infoEntity = new InfoEntityDTO();
 	    infoEntity.setKey("1");
 		  doNothing().when(infoService).updateDesigInfo(infoEntity);
 			mockMvc.perform(

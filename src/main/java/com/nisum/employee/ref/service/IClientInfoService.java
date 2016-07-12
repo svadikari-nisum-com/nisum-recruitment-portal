@@ -2,25 +2,25 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
-import com.nisum.employee.ref.domain.ClientInfo;
-import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.view.ClientInfoDTO;
+import com.nisum.employee.ref.view.UserInfoDTO;
 
 public interface IClientInfoService {
-	List<ClientInfo> getClientDetails();
+	List<ClientInfoDTO> getClientDetails();
 
 	List<String> getClientNames();
 
-	List<ClientInfo> getClientDetailsByClient(String clientName);
+	List<ClientInfoDTO> getClientDetailsByClient(String clientName);
 
 	List<String> getInterviewerNames();
 
-	List<ClientInfo> getClientById(String clientId);
+	List<ClientInfoDTO> getClientById(String clientId);
 
-	List<UserInfo> fetchAllUsers();
+	List<UserInfoDTO> fetchAllUsers();
 
 	void deleteClient(String client);
 
-	void createClient(ClientInfo clientInfo);
+	void createClient(ClientInfoDTO clientInfoDTO);
 
-	void updateClient(ClientInfo clientInfo);
+	void updateClient(ClientInfoDTO clientInfoDTO);
 }

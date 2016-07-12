@@ -26,6 +26,7 @@ import com.nisum.employee.ref.domain.Designation;
 import com.nisum.employee.ref.service.IDesignationService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.DesignationDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DesignationControllerTest {
@@ -43,8 +44,8 @@ public class DesignationControllerTest {
    }
    @Test
    public void shouldRetrieveDesignation() throws Exception {
-	   ArrayList<Designation> designationList = new ArrayList<>();
-	   Designation designation = new Designation();
+	   ArrayList<DesignationDTO> designationList = new ArrayList<>();
+	   DesignationDTO designation = new DesignationDTO();
 	   designation.setDesignation("SE");
 	   designation.setMaxExpYear("2");
 	   designation.setMinExpYear("1");
@@ -58,7 +59,7 @@ public class DesignationControllerTest {
    }
    @Test
 	public void shouldSaveDesignation() throws Exception {
-	    Designation designation = new Designation();
+	   DesignationDTO designation = new DesignationDTO();
 	    designation.setDesignation("SE");
 	    designation.setMaxExpYear("2");
 	    designation.setMinExpYear("1");
@@ -70,7 +71,7 @@ public class DesignationControllerTest {
 	}
    @Test
   	public void shouldUpdateDesignation() throws Exception {
-  	    Designation designation = new Designation();
+	   DesignationDTO designation = new DesignationDTO();
   	    designation.setDesignation("SE");
   	    designation.setMaxExpYear("2");
   	    designation.setMinExpYear("1");

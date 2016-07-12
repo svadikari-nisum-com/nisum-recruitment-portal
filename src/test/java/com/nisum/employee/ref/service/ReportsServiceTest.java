@@ -12,26 +12,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.convert.ProfileConverter;
+import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.ReportsVO;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
-import com.nisum.employee.ref.view.InterviewDetailsDTO;
-import com.nisum.employee.ref.view.ReportsDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReportsServiceTest {
 
 	@InjectMocks
 	private ReportsService reportsService;
-	
-	@Spy
-	private ProfileConverter profileConverter = new ProfileConverter();
 
 	@Mock
 	private ProfileRepository profileRepository;
@@ -41,10 +35,6 @@ public class ReportsServiceTest {
 
 	@Mock
 	private ReportsVO reportsVO;
-	
-	@Mock
-	private ReportsDTO reportsDTO;
-
 
 	@Before
 	public void setUp() throws Exception {
@@ -61,14 +51,14 @@ public class ReportsServiceTest {
 
 		when(profileRepository.retrieveProfileByJobCode(any(String.class))).thenReturn(profiles);
 
-		List<InterviewDetailsDTO> interviewDetailsList = new ArrayList<>();
-		InterviewDetailsDTO interviewDetails = new InterviewDetailsDTO();
+		List<InterviewDetails> interviewDetailsList = new ArrayList<>();
+		InterviewDetails interviewDetails = new InterviewDetails();
 		interviewDetails.setCandidateEmail("dprasad@nisum.com");
 		interviewDetailsList.add(interviewDetails);
 
 		when(interviewDetailsService.getInterviewByJobCode(any(String.class))).thenReturn(interviewDetailsList);
 
-		reportsDTO = reportsService.getDataByJobCode("Java");
+		reportsVO = reportsService.getDataByJobCode("Java");
 		assertNotNull(reportsVO);
 	}
 

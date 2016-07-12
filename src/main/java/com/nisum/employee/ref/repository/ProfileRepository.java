@@ -22,6 +22,9 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.nisum.employee.ref.domain.Profile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class ProfileRepository {
 	@Autowired
@@ -142,11 +145,15 @@ public class ProfileRepository {
 		} else if (resume.get(0).getFilename().contains(".docx")) {
 			temp = File.createTempFile(resume.get(0).getFilename(), ".docx");
 		} else {
-			System.out.println("Invalid File Type!");
+			log.info("Invalid File Type!");
 		}
-		String tempPath = temp.getAbsolutePath();
-		resume.get(0).writeTo(tempPath);
-		return new String[] { tempPath, resume.get(0).getFilename() };
+		
+		if (temp != null) {
+			String tempPath = temp.getAbsolutePath();
+			resume.get(0).writeTo(tempPath);
+			return new String[] { tempPath, resume.get(0).getFilename() };
+		} 
+		return new String[] {};
 	}
 	
 	/*public List<GridFSDBFile> getData(String emailId) throws Exception {

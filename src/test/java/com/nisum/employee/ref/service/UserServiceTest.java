@@ -18,7 +18,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.convert.UserInfoConverter;
+import com.nisum.employee.ref.converter.UserInfoConverter;
 import com.nisum.employee.ref.domain.TimeSlots;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.repository.UserInfoRepository;

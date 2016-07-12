@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -8,13 +9,11 @@ import javax.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nisum.employee.ref.convert.InterviewDetailsConverter;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.domain.Round;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
-import com.nisum.employee.ref.view.InterviewDetailsDTO;
 import com.nisum.employee.ref.view.ProfileDTO;
 
 @Service
@@ -25,9 +24,6 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 
 	@Autowired
 	private INotificationService notificationService;
-	
-	@Autowired
-	private InterviewDetailsConverter interviewDetailsConverter;
 
 	@Autowired
 	private ProfileService profileService;
@@ -98,47 +94,47 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterview(String interviewerId) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterview(interviewerId));
+	public List<InterviewDetails> getInterview(String interviewerId) {
+		return interviewDetailsRepository.getInterview(interviewerId);
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterviewByInterviewer(String interviewerEmail) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewByInterviewer(interviewerEmail));
+	public List<InterviewDetails> getInterviewByInterviewer(String interviewerEmail) {
+		return interviewDetailsRepository.getInterviewByInterviewer(interviewerEmail);
 	}
 
-	public List<InterviewDetailsDTO> getInterviewByInterviewerAndJobCode(String interviewerEmail, String jobCode) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewByInterviewerAndJobCode(interviewerEmail, jobCode));
-	}
-
-	@Override
-	public List<InterviewDetailsDTO> getAll() {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getAll());
+	public List<InterviewDetails> getInterviewByInterviewerAndJobCode(String interviewerEmail, String jobCode) {
+		return interviewDetailsRepository.getInterviewByInterviewerAndJobCode(interviewerEmail, jobCode);
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterviewByJobCode(String jobCode) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewByJobCode(jobCode));
+	public List<InterviewDetails> getAll() {
+		return interviewDetailsRepository.getAll();
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterviewByCandidateId(String candidateId) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewByCandidateId(candidateId));
+	public List<InterviewDetails> getInterviewByJobCode(String jobCode) {
+		return interviewDetailsRepository.getInterviewByJobCode(jobCode);
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterviewByClient(String client) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewByClient(client));
+	public List<InterviewDetails> getInterviewByCandidateId(String candidateId) {
+		return interviewDetailsRepository.getInterviewByCandidateId(candidateId);
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterviewByProgress(String progress) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewByProgress(progress));
+	public List<InterviewDetails> getInterviewByClient(String client) {
+		return interviewDetailsRepository.getInterviewByClient(client);
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterviewBySkill(String skill) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewBySkill(skill));
+	public List<InterviewDetails> getInterviewByProgress(String progress) {
+		return interviewDetailsRepository.getInterviewByProgress(progress);
+	}
+
+	@Override
+	public List<InterviewDetails> getInterviewBySkill(String skill) {
+		return interviewDetailsRepository.getInterviewBySkill(skill);
 	}
 
 	@Override
@@ -147,13 +143,13 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterviewByDesignation(String designation) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewByDesignation(designation));
+	public List<InterviewDetails> getInterviewByDesignation(String designation) {
+		return interviewDetailsRepository.getInterviewByDesignation(designation);
 	}
 
 	@Override
-	public List<InterviewDetailsDTO> getInterviewByinterviewId(String interviewId) {
-		return interviewDetailsConverter.convertToDTOs(interviewDetailsRepository.getInterviewByinterviewId(interviewId));
+	public List<InterviewDetails> getInterviewByinterviewId(String interviewId) {
+		return interviewDetailsRepository.getInterviewByinterviewId(interviewId);
 	}
 
 	@Override

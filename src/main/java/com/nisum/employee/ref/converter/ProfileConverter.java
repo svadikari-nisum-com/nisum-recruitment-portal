@@ -1,4 +1,4 @@
-package com.nisum.employee.ref.convert;
+package com.nisum.employee.ref.converter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ import com.nisum.employee.ref.view.ProfileDTO;
 @Component
 public class ProfileConverter extends TwowayConverter<Profile, ProfileDTO> {
 
-	@SuppressWarnings("finally")
 	@Override
 	public ProfileDTO convertToDTO(Profile profile) {
 		ProfileDTO profileDTO = new ProfileDTO();
@@ -25,12 +24,11 @@ public class ProfileConverter extends TwowayConverter<Profile, ProfileDTO> {
 			BeanUtils.copyProperties(profileDTO, profile);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return profileDTO;
 		}
+		return profileDTO;
 	}
 
-	@SuppressWarnings("finally")
 	@Override
 	public Profile convertToEntity(ProfileDTO profileDTO) {
 		Profile profile = new Profile();
@@ -38,9 +36,9 @@ public class ProfileConverter extends TwowayConverter<Profile, ProfileDTO> {
 			BeanUtils.copyProperties(profile, profileDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return profile;
 		}
+		return profile;
 	}
 
 	public List<ProfileDTO> convertToDTOs(List<Profile> profiles) {

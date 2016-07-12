@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TimeSlots {
-	private String day;
-	private String time;
-	private String hour;
+	String day;
+	String time;
+	String hour;
 }

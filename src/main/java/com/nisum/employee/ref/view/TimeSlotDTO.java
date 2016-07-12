@@ -5,8 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TimeSlotDTO {
-	String day;
-	String time;
-	String hour;
+public class TimeSlotDTO extends BaseDTO{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3531000502214451780L;
+	
+	private String day;
+	private String time;
+	private String hour;
 }

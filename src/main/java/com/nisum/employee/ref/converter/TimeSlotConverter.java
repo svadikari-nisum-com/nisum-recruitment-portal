@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.nisum.employee.ref.convert;
+package com.nisum.employee.ref.converter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ import com.nisum.employee.ref.view.TimeSlotDTO;
 @Component
 public class TimeSlotConverter extends TwowayConverter<TimeSlots, TimeSlotDTO> {
 
-	@SuppressWarnings("finally")
 	@Override
 	public TimeSlotDTO convertToDTO(TimeSlots userInfo) {
 		TimeSlotDTO userInfoDTO = new TimeSlotDTO();
@@ -32,12 +31,11 @@ public class TimeSlotConverter extends TwowayConverter<TimeSlots, TimeSlotDTO> {
 			BeanUtils.copyProperties(userInfoDTO, userInfo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return userInfoDTO;
 		}
+		return userInfoDTO;
 	}
 
-	@SuppressWarnings("finally")
 	@Override
 	public TimeSlots convertToEntity(TimeSlotDTO userInfoDTO) {
 		TimeSlots userInfo = new TimeSlots();
@@ -45,14 +43,15 @@ public class TimeSlotConverter extends TwowayConverter<TimeSlots, TimeSlotDTO> {
 			BeanUtils.copyProperties(userInfo, userInfoDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
-		} finally {
 			return userInfo;
 		}
+		return userInfo;
 	}
 
 	public List<TimeSlotDTO> convertToDTOs(List<TimeSlots> userInfos) {
 		List<TimeSlotDTO> dtos = new ArrayList<>();
-		userInfos.stream().forEach(userInfo -> dtos.add(convertToDTO(userInfo)));
+		userInfos.stream()
+				.forEach(userInfo -> dtos.add(convertToDTO(userInfo)));
 		return dtos;
 	}
 }

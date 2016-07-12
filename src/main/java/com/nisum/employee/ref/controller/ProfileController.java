@@ -25,7 +25,6 @@ import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.service.IProfileService;
 import com.nisum.employee.ref.view.ProfileDTO;
 
-import gherkin.deps.net.iharder.Base64.InputStream;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -86,21 +85,17 @@ public class ProfileController {
 		return new ResponseEntity<String>("Status Updated Successfully", HttpStatus.OK);
 	}
 	
-	@SuppressWarnings("null")
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	
 	@RequestMapping(value = "/fileDownload", method = RequestMethod.GET)
 	public ResponseEntity<HttpServletResponse> downloadOndemandOrder(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
 		List<GridFSDBFile> files = profileService.getFileData(candidateId);
-		InputStream is = null ;
 		GridFSDBFile file = files.get(0);
-		if(file!=null){
-    	response.setContentType(file.getContentType().toString());
-		response.setContentLength((new Long(file.getLength()).intValue()));
-        IOUtils.copyLarge(file.getInputStream(), response.getOutputStream());
-    	is.close();
-		}else{
+		if (file != null) {
+			response.setContentType(file.getContentType().toString());
+			response.setContentLength((new Long(file.getLength()).intValue()));
+			IOUtils.copyLarge(file.getInputStream(), response.getOutputStream());
+		} else {
 			log.info("file does not exist");
 		}
 		return new ResponseEntity<HttpServletResponse>(response, HttpStatus.OK);
