@@ -10,6 +10,7 @@ angular.module('erApp')
 	$scope.title = appConstants.APP_TITLE;
 	$scope.header = appConstants.APP_HEARER;
 	$scope.copy_right = appConstants.APP_COPY_RIGHT;
+	$scope.date = new Date();
 	
 	userService.getUserById(sessionStorage.userId).then(setUser).catch(errorMsg);
 	infoService.getInfo();

@@ -3,7 +3,7 @@ app.constant('appConstants',{
 			   APP_HEARER:"Recruitment Portal",
 			   APP_DESCRIPTION:"Nisum Recruitment Portal",
 			   APP_COMPANY:"Nisum Technologies",
-			   APP_COPY_RIGHT:"2015 Nisum Technologies.",
+			   APP_COPY_RIGHT:"Nisum Technologies.",
 			   APP_VERSION: "1.0",
 			   ITEMS_PER_PAGE:7,
 			   
