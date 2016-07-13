@@ -129,7 +129,8 @@ app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q'
 
 	  $scope.dateOptions = {
 	    formatYear: 'yy',
-	    startingDay: 1
+	    startingDay: 1,
+	    showWeeks: false
 	  };
 
 	$scope.disabled = function(date, mode) {

@@ -171,4 +171,11 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		 */
 		}
 	});
+	
+	document.querySelector('#numberOfPositions').addEventListener('input', function(){
+	    var num = this.value.match(/^\d+$/);
+	    if (num === null) {
+	        this.value = "";
+	    }
+	}, false)
 }]);
