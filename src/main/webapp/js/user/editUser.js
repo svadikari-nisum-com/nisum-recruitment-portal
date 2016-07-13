@@ -22,6 +22,7 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 	$scope.successHide = true;
 	
 	$scope.update = function(){
+		$scope.user.emailId=sessionStorage.userId;
 		data = userService.updateUser($scope.user).then(function(msg){
 			$scope.sendNotification(msg,'/viewUser');
 		}).catch(function(msg){

@@ -81,7 +81,12 @@ function userService($http,$rootScope,appConstants,$q) {
 		user.emailId = sessionStorage.userId;
 
 		user.roles = [];
+		
+		//User is not existed. That means new user is logged into the application.
+		//If the user is new user then we need to set default Role as "ROLE_USER"
 
+		data = [{"roles":["ROLE_USER"]}];
+	
 		user.roles[0] = "ROLE_USER";
 
 		user.name = "Profile";

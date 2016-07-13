@@ -1,6 +1,5 @@
 package com.nisum.employee.ref.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +31,6 @@ public class UserService implements IUserService{
 	public List<UserInfoDTO> retrieveUserById(String userId) {
 		
 		List<UserInfo> userInfos = userInfoRepository.retrieveUserById(userId);
-		
-		
-		if(userInfos.size() <= 0)
-		{
-			//User is not existed. That means new user is logged into the application.
-			//If the user is new user then we need to set default Role as "ROLE_USER"
-			UserInfo userInfo = new UserInfo();
-			userInfo.setRoles(Arrays.asList("ROLE_USER"));
-			userInfos.add(userInfo);
-		}
-		
 		return userInfoConverter.convertToDTOs(userInfos);
 	}
 	@Override
