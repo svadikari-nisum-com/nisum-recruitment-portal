@@ -124,6 +124,6 @@ app.run(function($rootScope) {
 		if ((str1 === null || str1 === undefined) && (str2 === null || str2 === undefined)) return true;
 		if ((str1 === null || str1 === undefined) && (str2 != null || str2 != undefined)) return false;
 		if ((str2 === null || str2 === undefined) && (str1 != null || str1 != undefined)) return false;
-		return (str1.toLocaleLowerCase.trim === str2.toLocaleLowerCase.trim);
+		return (str1.toLocaleLowerCase().trim() === str2.toLocaleLowerCase().trim());
 	}
 });

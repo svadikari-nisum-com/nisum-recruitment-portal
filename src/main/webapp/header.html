@@ -73,7 +73,7 @@ border-bottom: 4px solid #CD5C5C;}
 <!-- 				<i class="glyphicon glyphicon-list-alt"></i> -->
 				<span>&nbsp;&nbsp;Reports</span></a></li>
 			<li ng-class="{active: getActiveTab() == 'Admin'}"><a data-toggle="tab" href="#admin/users" data-target="#admin" ng-click="setActiveTab('Admin')"
-				ng-show="hasRole('ROLE_ADMIN')" ng-click="alHide()">
+				ng-show="hasRole('ROLE_ADMIN,ROLE_HR')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-user"></i> -->
 					<span>&nbsp;&nbsp;Admin</span></a></li>
 			<li class="dropdown pull-right"><a href=""
