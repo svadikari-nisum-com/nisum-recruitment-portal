@@ -1,6 +1,6 @@
 var app = angular.module('erApp');
 
-app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$window', '$log', '$q', function ($scope, $rootScope, $http, $window, $log, $q) {
+app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$window', '$log', '$q', 'navService', function ($scope, $rootScope, $http, $window, $log, $q, navService) {
 	
 	$scope.info = $rootScope.info;
 	$scope.notificationData = {};
@@ -46,6 +46,14 @@ app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$window', '$log'
 		if($scope.notificationReadData.length > 0){
 			$scope.hideRead = false;
 		}
+	}
+	
+	$scope.setActiveTab = function(value) {
+		navService.setActiveTab(value);
+	}
+	
+	$scope.getActiveTab = function() {
+		return navService.getActiveTab();
 	}
 	
 }]);

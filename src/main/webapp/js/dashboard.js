@@ -1,4 +1,4 @@
-app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeout','$q', '$rootScope', '$log', 'jobCodeService1', 'dashboardService','infoService', function($scope, $http, $upload, $filter, $timeout, $q, $rootScope,$log, jobCodeService1, dashboardService,infoService) {
+app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeout','$q', '$rootScope', '$log', 'jobCodeService1', 'dashboardService','infoService', 'navService', function($scope, $http, $upload, $filter, $timeout, $q, $rootScope,$log, jobCodeService1, dashboardService,infoService, navService) {
 	
 	$scope.positionData = {};
 	$scope.info = $rootScope.info;
@@ -35,5 +35,13 @@ app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeo
 		jobCodeService1.setinterviewRound(obj2);
 		location.href='#showInterview';
 	};
+	
+	$scope.setActiveTab = function(value) {
+		navService.setActiveTab(value);
+	}
+	
+	$scope.getActiveTab = function() {
+		return navService.getActiveTab();
+	}
 	
 }]);

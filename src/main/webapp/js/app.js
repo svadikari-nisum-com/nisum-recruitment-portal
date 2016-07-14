@@ -106,4 +106,17 @@ app.directive('uiSelectRequired', function() {
 	  };
 });
 
+app.factory('navService', function() {
+	var nav = {};
+	nav.setActiveTab = function(value) {
+		sessionStorage.setItem('active-navtab', value);
+	}
+
+	nav.getActiveTab = function() {
+		return sessionStorage.getItem('active-navtab') == undefined ? "Dashboard" : sessionStorage.getItem('active-navtab');
+	}
+	return nav;
+
+});
+
 
