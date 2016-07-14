@@ -48,4 +48,12 @@ app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$window', '$log'
 		}
 	}
 	
+	$scope.setActiveTab = function(value) {
+		sessionStorage.setItem('active-navtab', value);
+	}
+	
+	$scope.getActiveTab = function() {
+		return sessionStorage.getItem('active-navtab') == undefined ? "Dashboard" : sessionStorage.getItem('active-navtab');
+	}
+	
 }]);
