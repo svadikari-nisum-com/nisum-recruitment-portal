@@ -1,14 +1,5 @@
 var app = angular.module('erApp');
 
-app.run(function($rootScope) {
-	$rootScope.areEquals = function(str1, str2) {
-		if ((str1 === null || str1 === undefined) && (str2 === null || str2 === undefined)) return true;
-		if ((str1 === null || str1 === undefined) && (str2 != null || str2 != undefined)) return false;
-		if ((str2 === null || str2 === undefined) && (str1 != null || str1 != undefined)) return false;
-		return (str1.toLocaleLowerCase.trim === str2.toLocaleLowerCase.trim);
-	}
-});
-
 app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$window', '$log', '$q', 'navService', function ($scope, $rootScope, $http, $window, $log, $q, navService) {
 	
 	$scope.info = $rootScope.info;
