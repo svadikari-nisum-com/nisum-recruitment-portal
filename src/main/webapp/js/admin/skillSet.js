@@ -50,7 +50,7 @@ app.controller('skillSet',['$scope', '$http','$q', '$window', '$timeout','$filte
 	$scope.checkSkillSet = function(){
 		var flag=true;
 		angular.forEach($scope.skills, function(sk){
-			if($scope.newSkill==sk){
+			if($scope.areEquals($scope.newSkill, sk)) {
 				  $scope.message="Skill Already Exists";
 				  $scope.cls=appConstants.ERROR_CLASS;
 				  $timeout( function(){ $scope.alHide(); }, 5000);
