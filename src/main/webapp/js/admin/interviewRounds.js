@@ -53,7 +53,7 @@ $scope.save = function(){
 $scope.checkRounds = function(){
 	var flag=true;
 	angular.forEach( $scope.interviewRounds, function(ir){
-		if($scope.newInterviewRound==ir){
+		if($scope.areEquals($scope.newInterviewRound, ir)){
 			  $scope.message="Interview Round Already Exists";
 			  $scope.cls=appConstants.ERROR_CLASS;
 			  $timeout( function(){ $scope.alHide(); }, 5000);

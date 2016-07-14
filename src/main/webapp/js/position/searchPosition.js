@@ -56,7 +56,7 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
 		  };
 
 		  $scope.nextPage = function() {
-		    if ($scope.currentPage < $scope.pageCount()) {
+		    if ($scope.currentPage > $scope.pageCount()) {
 		      $scope.currentPage++;
 		    }
 		  };
