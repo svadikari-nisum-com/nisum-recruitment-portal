@@ -24,7 +24,7 @@
 				</div>
 				<div class="col-md-3" style="display: inline;">
 
-					<a href="#" editable-text="user.name">{{ user.name || "Click
+					<a href="#" editable-text="user.name" onbeforesave="validateProfile();validateText($data)"  e-required >{{ user.name || "Click
 						Here To Edit" }}</a>
 
 				</div>
@@ -53,8 +53,8 @@
 						Mobile<b style="color: red;">*</b>: </label>
 				</div>
 				<div class="col-md-3">
-					<a href="#" maxlength="15" editable-text="user.mobileNumber" 
-					onbeforesave="validatePhNo($data)" e-required>{{
+					<a href="#" maxlength="15" editable-text="user.mobileNumber"
+					onbeforesave="validateProfile();validatePhNo($data)" e-required ng-required>{{
 						user.mobileNumber || "click Here To Edit" }}</a>
 
 				</div>
@@ -87,12 +87,12 @@
 						ng-model="user.dob" is-open="isOpen"
 						ng-click="isOpen = true" max-date="maxDate"
 						datepicker-options="dateOptions"
-						placeholder="Select Date of Birth" ng-required="true"
+						placeholder="Select Date of Birth" ng-required="true" readonly="true"
 						close-text="Close" class="input-md" /><span
 						class="input-group-btn"> </span>
 					<div>
 						<button class="glyphicon glyphicon-ok btn btn-primary"
-							ng-hide="hideCal" ng-click="closeCal()"
+							ng-hide="hideCal" ng-click="validateProfile();closeCal()"
 							style="width: 40px; height: 28px;"></button>
 					</div>
 				</div>
@@ -200,7 +200,7 @@
 		</div>
 		</accordion-group> <br>
 		<center>
-			<button class="btn btn-primary" ng-click="update()" type="submit">
+			<button class="btn btn-primary"  ng-disabled = "isDisableUserSave"  ng-click="update()" type="submit">
 				<span class="glyphicon glyphicon-ok-circle"></span> Save
 			</button>
 			<button class="btn btn-primary btn-large" ui-sref="main">

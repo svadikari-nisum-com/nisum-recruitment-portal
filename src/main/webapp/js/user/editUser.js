@@ -7,6 +7,7 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 	$scope.calendar = false;
 	$scope.hideCal = true;
 	$scope.hideDetails = true;
+	$scope.isDisableUserSave = true;
 	$scope.days = [
 	   			"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
 	   	];
@@ -29,6 +30,7 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 			$scope.message=msg;
 			$scope.cls=appConstants.ERROR_CLASS;
 		});
+		$scope.isDisableUserSave = true;
 		console.log("----> "+ data);
 	}
 		
@@ -88,4 +90,30 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 			return "Enter valid SkypeId..";
 	};
 
+	$scope.validateText = function(data) {
+		if (angular.isUndefined(data) || data === null || data.length == 0  ) {
+			
+			return "Please enter valid data";
+		} else
+			return true;
+	};
+
+	$scope.validateField = function(data) {
+		if (angular.isUndefined(data) || data === null || data.length == 0  ) {
+			
+			return false;
+		} else
+			return true;
+	};
+	
+	$scope.validateProfile = function() {
+		
+		if (!angular.isUndefined($scope.user) && $scope.validateField($scope.user.name) && $scope.validateField($scope.user.dob) && $scope.validateField($scope.user.mobileNumber) ) {
+			
+			$scope.isDisableUserSave = false;
+		} else
+			$scope.isDisableUserSave = true;
+	};
+	
+	
 }]);
