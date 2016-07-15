@@ -9,4 +9,5 @@ public class ClientInfoDTO {
 	String clientId;
 	String clientName;
 	String locations;
+	InterviewerDTO interviewerDTO;
 }
