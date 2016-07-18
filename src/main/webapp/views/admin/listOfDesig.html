@@ -3,9 +3,22 @@
 	<h5 style="margin-top: 2px;">{{message}}</h5>
 </div>
 <form name="" onvalidate>
-	<datagrid column-header='col' attributes='att' obj='designation1'
+	<!-- <datagrid column-header='col' attributes='att' obj='designation1'
 		editfun='editDesign(val)' addlink='admin/designation/create'
-		search-enable='true' array-attributes='att1'></datagrid>
+		search-enable='true' array-attributes='att1'></datagrid> -->
+		
+		<div id="designation_grid" ui-grid="gridOptions" class="ui-grid-conf des-width" ui-grid-pagination>
+			<div class="no-rows" ng-if="!gridOptions.totalItems">
+				<div class="msg">
+					<span>No Designations Exists</span>
+				</div>
+			</div>
+			
+			 <div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
+		        <pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
+		        	ng-model="gridOptions.paginationCurrentPage"></pagination>
+		      </div>
+		</div>
 </form>
 
 

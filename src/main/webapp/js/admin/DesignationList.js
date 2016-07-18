@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }])
-app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1','sharedDataService',
-                                      function($scope,$rootScope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1,sharedDataService ) {
+app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1','sharedDataService','$state',
+                                      function($scope,$rootScope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1,sharedDataService, $state ) {
 	
 	$scope.designation1 = {};
 	$scope.hideSkills = true;
@@ -11,6 +11,7 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	$scope.hideError = true;
 	$scope.pskills=$rootScope.info.skills;
 	$scope.expYear=$rootScope.info.expYears;
+	$scope.numRows = 10;
 	
 	$scope.cls = sharedDataService.getClass();
 	$scope.message = sharedDataService.getmessage();
@@ -25,6 +26,10 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	$scope.init = function() {
 		designationService.getDesignation().then(function(data){
 			$scope.designation1=data;
+			$scope.gridOptions.data = data;
+			$scope.gridOptions.totalItems = data.length;
+			$scope.gridOptions.paginationPageSize = $scope.numRows;
+			$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
 			$timeout( function(){ $scope.message = ""; $scope.cls = ''; sharedDataService.setmessage("");sharedDataService.getClass("");}, 5000);
 			console.log("-----------"+angular.toJson($scope.design));
 		}).catch(function(msg){
@@ -85,4 +90,21 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	         $anchorScroll();
 	       }
 	};
+	
+	$scope.gridOptions = {
+	    enableSorting: true,
+	    enableColumnMenus: false,
+		enablePaginationControls: false,
+		paginationCurrentPage: 1,
+	    columnDefs: [
+	      { field: 'designation', displayName:"Designations", cellClass: 'ui-grid-align', 
+	    	  cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editDesign(row.entity); $event.stopPropagation();" ui-sref="admin.designation.edit">{{row.entity.designation}} </a>'},
+	      { field: 'skills', displayName:"Skills", cellClass: 'ui-grid-align', cellFilter: 'stringArrayFilter'},
+	      { field: 'minExpYear', displayName:"Min Exp", cellClass: 'ui-grid-align'},
+	      { field: 'maxExpYear', displayName:"Max Exp", cellClass: 'ui-grid-align'}
+	    ],
+	    onRegisterApi: function( gridApi ) {
+	      $scope.grid1Api = gridApi;
+	    }
+	  };
 }]);

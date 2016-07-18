@@ -1,4 +1,4 @@
-var app = angular.module('erApp', ['ngTagsInput','ngGrid','ngRoute','angularFileUpload','blockUI', 'ui.utils.masks', 'ui.router','xeditable','ui.bootstrap', 'ui.bootstrap.datetimepicker', 'ui.select','ngSanitize','ngNotify','components']);
+var app = angular.module('erApp', ['ngTagsInput','ngGrid','ngRoute','angularFileUpload','blockUI', 'ui.utils.masks', 'ui.router', 'ui.grid','ui.grid.pagination', 'xeditable','ui.bootstrap', 'ui.bootstrap.datetimepicker', 'ui.select','ngSanitize','ngNotify','components']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     
@@ -126,4 +126,11 @@ app.run(function($rootScope) {
 		if ((str2 === null || str2 === undefined) && (str1 != null || str1 != undefined)) return false;
 		return (str1.toLocaleLowerCase().trim() === str2.toLocaleLowerCase().trim());
 	}
+});
+
+
+app.filter('stringArrayFilter', function() {
+  return function(myArray) {
+    return myArray.join(', ');
+  };
 });

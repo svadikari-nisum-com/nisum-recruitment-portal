@@ -2,7 +2,20 @@
 	style="width: 650px; height: 50px; margin-top: 10px; margin-left: -10%">
 	<h5 style="margin-top: 2px;">{{message}}</h5>
 </div>
-<datagrid column-header='col' attributes='att' obj='clients'
+<!-- <datagrid column-header='col' attributes='att' obj='clients'
 	editfun='editClient(val)' addlink='admin/client/createClient'
-	search-enable='true'></datagrid>
+	search-enable='true'></datagrid> -->
+	
+<div id="manageclient_grid" ui-grid="gridOptions" class="ui-grid-conf" ui-grid-pagination>
+	<div class="no-rows" ng-if="!gridOptions.totalItems">
+		<div class="msg">
+			<span>No Clinets Exists</span>
+		</div>
+	</div>
+	
+	 <div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
+        <pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
+        	ng-model="gridOptions.paginationCurrentPage"></pagination>
+      </div>
+</div>
 

@@ -17,9 +17,15 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 	$scope.client.locations="";
 	clientService.getClientInfo()
 	 .then(setClients);
+	
+	$scope.numRows = 10;
 
 	function setClients(data){
 			$scope.clients = data;
+			$scope.gridOptions.data = data;
+			$scope.gridOptions.totalItems = data.length;
+			$scope.gridOptions.paginationPageSize = $scope.numRows;
+			$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
 			$timeout( function(){ $scope.message = ""; $scope.cls = ''; sharedDataService.setmessage("");sharedDataService.getClass("");}, 3000);
 		}
 	
@@ -73,5 +79,19 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 			isFirstOpen: true,			    
 			open1:true
 	};
+	
+	$scope.gridOptions = {
+	    enableSorting: true,
+	    enableColumnMenus: false,
+		enablePaginationControls: false,
+		paginationCurrentPage: 1,
+	    columnDefs: [
+	      { field: 'clientName', displayName:"Clients", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editUser(row.entity); $event.stopPropagation();" ui-sref="admin.client.editClient">{{row.entity.clientName}} </a>'},
+	      { field: 'locations', displayName:"Location", cellClass: 'ui-grid-align'}
+	    ],
+	    onRegisterApi: function( gridApi ) {
+	      $scope.grid1Api = gridApi;
+	    }
+	  };
 	
 }]);

@@ -2,6 +2,8 @@ app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$stat
                             	function($scope, $http, $filter, $timeout, $q, $state, sharedDataService,appConstants,$log,$rootScope,$location,userService) {
 	
 	$scope.info = $rootScope.info;
+	$scope.numRows = 10;
+	
 	$scope.showMsg = false;
 	
 	$scope.message = sharedDataService.getmessage();
@@ -11,6 +13,11 @@ app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$stat
 	
 	function setUserData(data){
 		$scope.myData = data;
+		$scope.gridOptions.data = data;
+		$scope.gridOptions.totalItems = data.length;
+		$scope.gridOptions.paginationPageSize = $scope.numRows;
+		$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
+		
 		$timeout( function(){ $scope.message = ""; $scope.cls = ''; sharedDataService.setmessage("");sharedDataService.getClass("");}, 5000);
 	}
 	
@@ -30,4 +37,21 @@ app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$stat
 	    $scope.message = "";
 	    $scope.cls = '';
 	}
+	
+	$scope.gridOptions = {
+	    enableSorting: true,
+	    enableColumnMenus: false,
+		enablePaginationControls: false,
+		paginationCurrentPage: 1,
+	    columnDefs: [
+	      { field: 'name', cellClass: 'ui-grid-align'},
+	      { field: 'emailId', cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editUser(row.entity); $event.stopPropagation();" ui-sref="admin.users.edit">{{row.entity.emailId}} </a>' },
+	      { field: 'roles', cellClass: 'ui-grid-align', cellFilter: 'stringArrayFilter' },
+	      { field: 'clientName', cellClass: 'ui-grid-align'},
+	      { field: 'edit', enableSorting: false , cellTemplate: '<a ng-click="grid.appScope.editUser(row.entity)" ui-sref="admin.users.edit" class="glyphicon glyphicon-edit"></a>'}
+	    ],
+	    onRegisterApi: function( gridApi ) {
+	      $scope.grid1Api = gridApi;
+	    }
+	  };
 }]);
