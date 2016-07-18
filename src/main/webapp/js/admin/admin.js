@@ -9,11 +9,11 @@ app.controller("adminCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$sta
     	$state.go("admin.users.list");
 
     $scope.tabs = [
-                   { heading: "Users", route:"admin.users.list"},
-                   { heading: "Client", route:"admin.client.list"},
-                   { heading: "Designation", route:"admin.designation.list"},
-                   { heading: "Skill-Set", route:"admin.skillSet"},
-                   { heading: "Interview Rounds", route:"admin.interviewRound.list"}
+                   { heading: "Users", route:"admin.users.list", roles: "ROLE_ADMIN"},
+                   { heading: "Client", route:"admin.client.list", roles: "ROLE_ADMIN"},
+                   { heading: "Designation", route:"admin.designation.list", roles: "ROLE_ADMIN"},
+                   { heading: "Skill-Set", route:"admin.skillSet", roles: "ROLE_ADMIN, ROLE_HR, ROLE_RECRUITER"},
+                   { heading: "Interview Rounds", route:"admin.interviewRound.list", roles: "ROLE_ADMIN, ROLE_HR, ROLE_RECRUITER"}
                ];
  
 	$scope.filterOptions = {

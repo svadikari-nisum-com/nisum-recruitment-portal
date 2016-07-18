@@ -98,16 +98,16 @@
 			<td ng-hide="hasRole('ROLE_INTERVIEWER,ROLE_ADMIN')"><i
 				ng-repeat="jobcode in item.positionId">{{jobcode}}{{$last ? ''
 					: ', '}}</i></td>
-			<td ng-hide="!(hasRole('ROLE_INTERVIEWER,ROLE_ADMIN'))">{{item.currentPositionId}}</td>
+			<td><span ng-hide="!(hasRole('ROLE_INTERVIEWER,ROLE_ADMIN'))">{{item.currentPositionId}}</span></td>
 			<td><a href="" id="" class="interview-schedule"
-				ng-click="schedule(item.positionId,item.candidateEmail,item.currentPositionId)">
+				ng-click="schedule(item.positionId,item.candidateEmail,item.currentPositionId)" ng-disabled="!hasRole('ROLE_HR', 'ROLE_RECRUITER','ROLE_MANAGER')">
 					<span class="glyphicon glyphicon-plus"
 					style="position: relative; top: 1px;" />
 			</a></td>
 			<td>
 				<button style="background-color: #F8F8F8; border: 0px;" href=""
 					id="" class="interview-feedback"
-					ng-disabled="disableFeedback(item.rounds)"
+					ng-disabled="disableFeedback(item.rounds) && hasRole('ROLE_ADMIN', 'ROLE_USER')"
 					ng-click="feedback(item.currentPositionId,item.candidateEmail)">
 					<span class="glyphicon glyphicon-envelope"
 						style="position: relative; top: 1px;"></span>

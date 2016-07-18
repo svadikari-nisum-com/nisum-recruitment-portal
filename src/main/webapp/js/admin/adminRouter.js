@@ -30,19 +30,19 @@ app.config(['$stateProvider', '$urlRouterProvider','$routeProvider', function($s
 	.state('admin', {url:'/admin', views: {'': {templateUrl: 'views/admin/admin.html', controller: 'adminCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_ADMIN", "ROLE_HR"]);
             }
     	}})
     .state('admin.users', {url:'/users',abstract:true, views: {'': {templateUrl: 'views/admin/users.html', controller: 'userCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_ADMIN", "ROLE_HR"]);
             }
     	}})
     .state('admin.users.list', {url:'', views: {'': {templateUrl: 'views/admin/userList.html', controller: 'userCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_ADMIN", "ROLE_HR"]);
             }
     	}})
     .state('admin.users.edit', {url:'/edit', views: {'': {templateUrl: 'views/admin/editUserInfo.html ', controller: 'editUserInfoCtrl'}},
@@ -83,28 +83,28 @@ app.config(['$stateProvider', '$urlRouterProvider','$routeProvider', function($s
     .state('admin.skillSet', {url:'/skillSet', views: {'': {templateUrl: 'views/admin/editSkillSet.html', controller: 'skillSet'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_ADMIN", "ROLE_HR"]);
             }
     	}})
     	
     	.state('admin.interviewRound', {url:'/interviewRounds',abstract:true, views: {'': {templateUrl: 'views/admin/interviewRounds.html', controller: 'interviewRoundController'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_ADMIN", "ROLE_HR"]);
             }
     	}})
     	
     	.state('admin.interviewRound.list', {url:'', views: {'': {templateUrl: 'views/admin/listRounds.html', controller: 'interviewRoundController'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_ADMIN", "ROLE_HR"]);
             }
     	}})
     	
     	.state('admin.interviewRound.edit', {url:'/edit', views: {'': {templateUrl: 'views/admin/editInterviewRounds.html', controller: 'interviewRoundController'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_ADMIN", "ROLE_HR"]);
             }
     	}})
     	

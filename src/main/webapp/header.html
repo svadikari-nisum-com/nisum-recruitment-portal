@@ -48,11 +48,11 @@ border-bottom: 4px solid #CD5C5C;}
 	<div class=" navbar-collaspe collaspe navbar-responsive-collaspe" ng-controller="headerCtrl">
 		<ul class="nav nav-tabs nav-header">
 			<li ng-class="{active: getActiveTab() == 'Dashboard'}"><a data-toggle="tab" href="#main" ng-click="setActiveTab('Dashboard')"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_USER,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')">
+				>
 <!-- 				<i class="glyphicon glyphicon-home"></i> -->
 				<span id="Dashboard">&nbsp;&nbsp;Dashboard</span></a></li>
 			<li ng-class="{active: getActiveTab() == 'Recruitment'}"><a data-toggle="tab" href="#recruitment/searchProfile" data-target="#recruitment" ng-click="setActiveTab('Recruitment')"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')" ng-click="alHide()">
+				ng-show="!hasRole('ROLE_USER')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-phone-alt"></i> -->
 				<span>&nbsp;&nbsp;Recruitment</span></a></li>		
 			<!-- <li><a data-toggle="tab" href="#searchPosition"
@@ -65,11 +65,11 @@ border-bottom: 4px solid #CD5C5C;}
 				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')" ng-click="alHide()"><i
 					class="glyphicon glyphicon-phone-alt"></i><span>&nbsp;&nbsp;Interview</span></a></li> -->
 			<li ng-class="{active: getActiveTab() == 'Offer'}"><a data-toggle="tab" href="#offer" ng-click="setActiveTab('Offer')"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')">
+				ng-show="hasRole('ROLE_MANAGER,ROLE_HR,ROLE_RECRUITER')">
 <!-- 				<i class="glyphicon glyphicon-gift"></i> -->
 				<span>&nbsp;&nbsp;Offer</span></a></li>
 			<li ng-class="{active: getActiveTab() == 'Reports'}"><a data-toggle="tab" href="#report" ng-click="setActiveTab('Reports')"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')" ng-click="alHide()">
+				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_RECRUITER')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-list-alt"></i> -->
 				<span>&nbsp;&nbsp;Reports</span></a></li>
 			<li ng-class="{active: getActiveTab() == 'Admin'}"><a data-toggle="tab" href="#admin/users" data-target="#admin" ng-click="setActiveTab('Admin')"
