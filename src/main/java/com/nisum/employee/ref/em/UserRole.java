@@ -9,7 +9,7 @@ package com.nisum.employee.ref.em;
  */
 public enum UserRole {
 
-	ROLE_ADMIN("Administrator"), ROLE_HR("Human Resource"), ROLE_MANAGER(
+	ROLE_ADMIN("Administrator"), ROLE_HR("HR Manager"), ROLE_RECRUITER("HR Recruiter"), ROLE_MANAGER(
 			"Manager"), ROLE_USER("Employee"), ROLE_INTERVIEWER("Interviewer"), ROLE_INVALID(
 			"Invalid");
 
