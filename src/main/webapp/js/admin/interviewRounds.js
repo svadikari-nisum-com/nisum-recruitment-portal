@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }])
-app.controller('interviewRoundController',['$scope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll',
-                                           function($scope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll) {
+app.controller('interviewRoundController',['$scope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll', 'convertArray2Json',
+                                           function($scope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll, convertArray2Json) {
 	
 	$scope.status = {
 		    isFirstOpen: true,
@@ -16,16 +16,24 @@ app.controller('interviewRoundController',['$scope', '$http','$q', '$window', '$
 	$scope.newInterviewRound="";
 	$scope.message="";
 	$scope.hideError = true;
+	$scope.numRows = 10;
+	
+	infoService.getInfoById('interviewRounds').then(getInterviewRounds).catch(getUserError);
 
-	infoService.getInfoById('interviewRounds')
-			   .then(function(data){
-				   	$log.info("interviewRounds---------"+angular.toJson(data))
-				   $scope.interviewRounds2 = data;
-				   $scope.interviewRounds=$scope.interviewRounds2.value;
-			   }).catch(
-				  function(msg){
-						$log.error(msg);
-			   });
+	function getInterviewRounds(data){
+		$log.info("interviewRounds---------"+angular.toJson(data))
+		$scope.interviewRounds2 = data;
+		$scope.interviewRounds=$scope.interviewRounds2.value;
+		
+		$scope.gridOptions.data = convertArray2Json.convertArrayOfStringsToGridFriendlyJSON("rounds", $scope.interviewRounds);
+		$scope.gridOptions.totalItems = $scope.interviewRounds.length;
+		$scope.gridOptions.paginationPageSize = $scope.numRows;
+		$scope.gridOptions.minRowsToShow = $scope.interviewRounds.length < $scope.numRows ? $scope.interviewRounds.length : $scope.numRows;
+	};
+	
+	function getUserError(msg){
+		$log.error(msg);
+	}
 	
 $scope.save = function(){
 	if($scope.newInterviewRound == "" || $scope.newInterviewRound == null ||$scope.newInterviewRound == undefined){
@@ -37,6 +45,7 @@ $scope.save = function(){
 		infoService.updateInformation($scope.interviewRounds2)
     	.then(function(msg) {
     		  sendSharedMessage(msg,appConstants.SUCCESS_CLASS);
+    		  infoService.getInfoById('interviewRounds').then(getInterviewRounds).catch(getUserError);
 			  $timeout( function(){ $scope.alHide(); }, 5000);
 			  $scope.newInterviewRound="";
 		  }).
@@ -71,8 +80,9 @@ $scope.deleteInterviewRound = function(index,interviewRound){
 		infoService.removeInformation($scope.interviewRounds2)
     	.then(function(msg) {
     		 sendSharedMessage(msg,appConstants.SUCCESS_CLASS);
-			  $timeout( function(){ $scope.alHide(); }, 5000);
-			  $log.info("------------>"+msg);
+    		 infoService.getInfoById('interviewRounds').then(getInterviewRounds).catch(getUserError);
+    		 $timeout( function(){ $scope.alHide(); }, 5000);
+    		 $log.info("------------>"+msg);
 		  }).
 		  catch(function(msg) {
 			  sendSharedMessage(msg,appConstants.ERROR_CLASS);
@@ -111,5 +121,20 @@ $scope.deleteInterviewRound = function(index,interviewRound){
 	$scope.cancel = function(){
         $scope.dis = false;
         $scope.dis2 = true;
-}
+	}
+	
+	$scope.gridOptions = {
+        enableSorting: true,
+        enableColumnMenus: false,
+        enablePaginationControls: false,
+        paginationCurrentPage: 1,
+        columnDefs: [
+            { field: 'index', cellTemplate: '<span>{{row.entity.index + 1}}</span>', enableSorting: false},
+            { field: 'rounds', cellClass: 'ui-grid-align'},
+            { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteInterviewRound(row.entity.index,skill)"></a>' }
+        ],
+        onRegisterApi: function(gridApi) {
+            $scope.grid1Api = gridApi;
+        }
+    };
 }]);

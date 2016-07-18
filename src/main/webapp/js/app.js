@@ -134,3 +134,18 @@ app.filter('stringArrayFilter', function() {
     return myArray.join(', ');
   };
 });
+
+app.factory('convertArray2Json', function() {
+	var obj = {};
+	obj.convertArrayOfStringsToGridFriendlyJSON = function(colName, arr) {
+		var out = [];
+    	arr.forEach(function(entry, index){
+    		var obj = {};
+    		obj['index'] = index;
+    		obj[colName] = entry;
+    		out.push(obj);
+    	});
+    	return out;
+	}
+	return obj;
+});

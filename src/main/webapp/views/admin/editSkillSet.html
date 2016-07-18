@@ -39,21 +39,22 @@
 				ng-click="deleteSkill($index,skill)"></a></td>
 		</tr>
 	</table> -->
-	
-	<div id="editskill_grid" ui-grid="gridOptions" class="ui-grid-conf des-width" ui-grid-pagination>
-		<div class="no-rows" ng-if="!gridOptions.totalItems">
-			<div class="msg">
-				<span>No Skills Exists</span>
+	<div class="col-md-10 ml5p">
+		<div id="editskill_grid" ui-grid="gridOptions" class="ui-grid-conf des-width" ui-grid-pagination>
+			<div class="no-rows" ng-if="!gridOptions.totalItems">
+				<div class="msg">
+					<span>No Skills Exists</span>
+				</div>
 			</div>
+			<div>
+				<span class="grid-tot-rec">Total Records : {{gridOptions.totalItems}}</span>
+			 	<div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
+		        	<pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
+		        		ng-model="gridOptions.paginationCurrentPage"></pagination>
+		      	</div>
+			</div>
+			
 		</div>
-		<div>
-			<span class="grid-tot-rec">Total Records : {{gridOptions.totalItems}}</span>
-		 	<div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
-	        	<pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
-	        		ng-model="gridOptions.paginationCurrentPage"></pagination>
-	      	</div>
-		</div>
-		
 	</div>
 	
 <br>

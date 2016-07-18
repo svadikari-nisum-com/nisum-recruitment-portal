@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50; // always scroll by 50 extra pixels
 }])
-app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$filter', 'appConstants', 'infoService', '$location', '$anchorScroll', 'infoService', 'appConstants',
-    function($scope, $http, $q, $window, $timeout, $filter, appConstants, infoService, $location, $anchorScroll, infoService, appConstants) {
+app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$filter', 'appConstants', 'infoService', '$location', '$anchorScroll', 'infoService', 'appConstants', 'convertArray2Json',
+    function($scope, $http, $q, $window, $timeout, $filter, appConstants, infoService, $location, $anchorScroll, infoService, appConstants, convertArray2Json) {
 	
 	$scope.numRows = 10;
 	
@@ -25,7 +25,7 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
             $scope.skills1 = skills;
             $scope.skills = skills.value;
             
-            $scope.gridOptions.data = convertArrayOfStringsToGridFriendlyJSON("skills", skills.value);
+            $scope.gridOptions.data = convertArray2Json.convertArrayOfStringsToGridFriendlyJSON("skills", skills.value);
     		$scope.gridOptions.totalItems = skills.length;
     		$scope.gridOptions.paginationPageSize = $scope.numRows;
     		$scope.gridOptions.minRowsToShow = skills.length < $scope.numRows ? skills.length : $scope.numRows;
@@ -35,17 +35,6 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
         function getUserError(msg){
     		$log.error("Failed!! ---> "+msg);
     	}
-        
-        function convertArrayOfStringsToGridFriendlyJSON(colName, arr) {
-        	var out = [];
-        	arr.forEach(function(entry, index){
-        		var obj = {};
-        		obj['index'] = index;
-        		obj[colName] = entry;
-        		out.push(obj);
-        	});
-        	return out;
-        };
         
         $scope.save = function() {
             if ($scope.newSkill == "" || $scope.newSkill == null || $scope.newSkill == undefined) {
@@ -196,9 +185,9 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
             enablePaginationControls: false,
             paginationCurrentPage: 1,
             columnDefs: [
-                { field: 'index', cellClass: 'ui-grid-align', cellTemplate: '<span>{{row.entity.index + 1}}</span>', enableSorting: false},
-                { field: 'skills', cellClass: 'ui-grid-align', },
-                { field: 'edit', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteSkill(row.entity.index,skill)"></a>' }
+                { field: 'index', cellTemplate: '<span>{{row.entity.index + 1}}</span>', enableSorting: false},
+                { field: 'skills', cellClass: 'ui-grid-align'},
+                { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteSkill(row.entity.index,skill)"></a>' }
             ],
             onRegisterApi: function(gridApi) {
                 $scope.grid1Api = gridApi;
