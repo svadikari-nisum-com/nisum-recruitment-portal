@@ -98,7 +98,7 @@
 			<td ng-hide="hasRole('ROLE_INTERVIEWER,ROLE_ADMIN')"><i
 				ng-repeat="jobcode in item.positionId">{{jobcode}}{{$last ? ''
 					: ', '}}</i></td>
-			<td><span ng-hide="!(hasRole('ROLE_INTERVIEWER,ROLE_ADMIN'))">{{item.currentPositionId}}</span></td>
+			<td ng-hide="!(hasRole('ROLE_INTERVIEWER,ROLE_ADMIN'))">{{item.currentPositionId}}</td>
 			<td><a href="" id="" class="interview-schedule"
 				ng-click="schedule(item.positionId,item.candidateEmail,item.currentPositionId)" ng-disabled="!hasRole('ROLE_HR', 'ROLE_RECRUITER','ROLE_MANAGER')">
 					<span class="glyphicon glyphicon-plus"
