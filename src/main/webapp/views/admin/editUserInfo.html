@@ -118,7 +118,10 @@
 							userToEdit.clientName || "Select Client" }} </a>
 					</div>
 				</div>
-
+				<div ng-class="adminCls1" ng-show="message1" align="center"
+						style="width: 650px; position: relative; left: -60; height: 50">
+					<h5 style="margin-top: 2px;">{{message1}}</h5>
+				</div>
 				<div class="panel panel-default"
 					ng-init="isCollapsed = !isCollapsed" style="width: 70%">
 					<div class="panel-heading" style="height: 36px; color: white;"
@@ -147,20 +150,18 @@
 										<tr ng-repeat="slot in userToEdit.timeSlots">
 											<td><div>
 													<select ng-model='slot.day'
-														ng-options='day for day in days'>
-														<option value="">Select Day</option>
+														ng-options='day for day in days' >
 													</select>
 												</div></td>
 											<td><div>
 													<timepicker ng-model="slot.time" ng-change="changed()"
 														hour-step="1" minute-step="10" show-meridian="true"
-														arrowkeys="false"></timepicker>
+														arrowkeys="false" readonly-input="true" ></timepicker> 
 												</div></td>
 											<td>
 												<div>
-													<selectng-model='slot.hour'
+													<select ng-model='slot.hour'
 														ng-options='hour for hour in hours'>
-														<option value="">Select Hour</option>
 													</select>
 												</div>
 											</td>

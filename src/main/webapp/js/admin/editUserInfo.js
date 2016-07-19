@@ -22,7 +22,7 @@ app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q'
 	$scope.message = sharedDataService.getmessage();
 	$scope.adminCls = sharedDataService.getClass();
 	$scope.days = [
-	   			"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+	   			"Sunday","Monday","Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 	   	];
 	   	$scope.hours = [
 	   	   			"1", "1.5", "2", "2.5", "3"
@@ -41,8 +41,9 @@ app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q'
 	}
 	
 	$scope.update = function(){
+		$scope.alHide();
 		var validate=$scope.validateSave($scope.userToEdit);
-		if(validate){
+		if(validate && $scope.validateSlotTimings()){
 		userService.updateUser($scope.userToEdit)
 			.then(function(msg){
 				 $scope.sendSharedMessage(msg,'/admin/users');
@@ -54,14 +55,25 @@ app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q'
 			})
 		}
 		else{
-			$scope.message = "Please fill Mandatory fields";
-			$scope.adminCls = appConstants.ERROR_CLASS;
-			$timeout( function(){ $scope.alHide(); }, 5000);
+			
+			if(validate)
+			{
+				$scope.message1 = "Time slots are conflicting. Please change the user time slots.";
+				$scope.adminCls1 = appConstants.ERROR_CLASS;
+				
+			}else
+			{
+				$scope.message = "Please fill Mandatory fields";
+				$scope.adminCls = appConstants.ERROR_CLASS;
+				//$timeout( function(){ $scope.alHide(); }, 10000);
+			}
+			
 		}
 	}
 	
 	$scope.alHide =  function(){
 	    $scope.message = "";
+	    $scope.message1 = "";
 	    $scope.cls = '';
 	}
 	$scope.validateSave = function(userToEdit){
@@ -75,6 +87,47 @@ app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q'
 			}	
 		}
 		return false;
+	}
+	
+	$scope.validateSlotTimings = function(){
+		
+		for(var initTSIndex = 0; initTSIndex < $scope.userToEdit.timeSlots.length; initTSIndex++) 
+		{
+			for (var innerTSIndex = initTSIndex + 1; innerTSIndex < $scope.userToEdit.timeSlots.length; innerTSIndex++) 
+			{
+				
+				if( $scope.userToEdit.timeSlots[initTSIndex].day == $scope.userToEdit.timeSlots[innerTSIndex].day)
+				{
+					var initTSDate = new Date($scope.userToEdit.timeSlots[initTSIndex].time);
+					var toCompareDate = new Date($scope.userToEdit.timeSlots[innerTSIndex].time);
+					
+					if(toCompareDate.getHours() == initTSDate.getHours() )
+					{
+						return false;
+					}else if ( (initTSDate.getHours() + parseInt($scope.userToEdit.timeSlots[initTSIndex].hour)) == toCompareDate.getHours() 
+								&& initTSDate.getMinutes() >  toCompareDate.getMinutes() )
+					{
+						return false;
+					}
+					else if ( (toCompareDate.getHours() + parseInt($scope.userToEdit.timeSlots[innerTSIndex].hour)) == initTSDate.getHours() 
+							&& toCompareDate.getMinutes() >  initTSDate.getMinutes() )
+					{
+						return false;
+					}else if ( 	initTSDate.getHours() <  toCompareDate.getHours() && 
+								(initTSDate.getHours() + parseInt($scope.userToEdit.timeSlots[initTSIndex].hour)) > toCompareDate.getHours() )
+					{
+						return false;
+					}
+					else if ( toCompareDate.getHours() <  initTSDate.getHours() && 
+							(toCompareDate.getHours() + parseInt($scope.userToEdit.timeSlots[innerTSIndex].hour)) > initTSDate.getHours())
+					{
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+		
 	}
 	
 	$scope.validateDate =  function(){
@@ -141,10 +194,19 @@ app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q'
 		if(angular.isUndefined($scope.userToEdit.timeSlots) || $scope.userToEdit.timeSlots === null){
 			$scope.userToEdit.timeSlots = [];
 		}
+		var currentDateTime = new Date();
+		var setMin = currentDateTime.getMinutes() + (10 - (currentDateTime.getMinutes() % 10));
+		if(setMin >= 60)
+		{
+			currentDateTime.setMinutes("50");
+		}else
+		{
+			currentDateTime.setMinutes(setMin);
+		}
 		$scope.userToEdit.timeSlots.push({
-			day : "",
-			time : "",
-			hour: ""
+			day : $scope.days[currentDateTime.getDay()],
+			time : currentDateTime,
+			hour: "1"
 		});
 	}
 	
