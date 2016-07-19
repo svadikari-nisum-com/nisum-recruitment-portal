@@ -32,7 +32,7 @@ public class InfoController {
 	}
 	
 
-	@Secured({"ROLE_ADMIN"})
+	@Secured({"ROLE_ADMIN","ROLE_HR"})
 	@RequestMapping(value="/info", method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<?> updateInfo(@RequestBody InfoEntityDTO info) throws Exception {
@@ -43,7 +43,7 @@ public class InfoController {
 	}
 	
 	
-	@Secured({"ROLE_ADMIN"})
+	@Secured({"ROLE_ADMIN","ROLE_HR"})
 	@RequestMapping(value="/info", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<?> deleteInfo(@RequestBody InfoEntityDTO info) throws Exception {
