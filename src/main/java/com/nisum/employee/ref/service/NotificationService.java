@@ -45,7 +45,7 @@ public class NotificationService implements INotificationService{
 	private static final String YOUR_INTERVIEW_FOR = " - Your Interview For ";
 	private static final String YOU_NEED_TO_TAKE_INTERVIEW_OF = " - You Need To Take Interview Of ";
 	private static final String SKYPE_ID = "skypeId";
-	private static final String OSI_TECHNOLOGIES = "OSI Recruitment Portal";
+	private static final String APP_NAME = "Nisum Recruitment Portal";
 	
 	private static final String LOCATION = "location";
 	private static final String ALTMOBILE_NO = "altmobileNo";
@@ -147,7 +147,7 @@ public class NotificationService implements INotificationService{
 		Message msgInterviewer = new MimeMessage(session);
 		msgInterviewer.setFrom(new InternetAddress(from));
 		msgInterviewer.setRecipients(Message.RecipientType.TO,InternetAddress.parse(toInterviewer));
-		msgInterviewer.setSubject(OSI_TECHNOLOGIES + YOU_NEED_TO_TAKE_INTERVIEW_OF+interviewSchedule.getCandidateName());
+		msgInterviewer.setSubject(APP_NAME + YOU_NEED_TO_TAKE_INTERVIEW_OF+interviewSchedule.getCandidateName());
 		BodyPart messageBodyPart = new MimeBodyPart();
 		messageBodyPart.setContent(writer2.toString(), TEXT_HTML);
 		Multipart multipart = new MimeMultipart();
@@ -164,7 +164,7 @@ public class NotificationService implements INotificationService{
 		// --- Set Candidate Content ---
 		Message message = getMessage();
 		message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
-		message.setSubject(OSI_TECHNOLOGIES + YOUR_INTERVIEW_FOR+interviewSchedule.getRoundName()+" Is Sheduled.");
+		message.setSubject(APP_NAME + YOUR_INTERVIEW_FOR+interviewSchedule.getRoundName()+" Is Sheduled.");
 		message.setContent(writer.toString(), TEXT_HTML);
 
 		// --- Send Mails ---
