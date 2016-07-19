@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }])
-app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1','sharedDataService','$state',
-                                      function($scope,$rootScope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1,sharedDataService, $state ) {
+app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1','sharedDataService','$state', 'uiGridConstants',
+                                      function($scope,$rootScope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1,sharedDataService, $state, uiGridConstants ) {
 	
 	$scope.designation1 = {};
 	$scope.hideSkills = true;
@@ -96,6 +96,8 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	    enableColumnMenus: false,
 		enablePaginationControls: false,
 		paginationCurrentPage: 1,
+		enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 	    columnDefs: [
 	      { field: 'designation', displayName:"Designations", cellClass: 'ui-grid-align', 
 	    	  cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editDesign(row.entity); $event.stopPropagation();" ui-sref="admin.designation.edit">{{row.entity.designation}} </a>'},

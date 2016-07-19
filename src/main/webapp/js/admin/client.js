@@ -1,5 +1,5 @@
-app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$timeout', '$log','$location', '$state', 'jobCodeService1','appConstants','sharedDataService','clientService', 
-                             function($scope,$rootScope, $http, $q, $window, $timeout, $log, $location, $state, jobCodeService1,appConstants,sharedDataService,clientService) {
+app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$timeout', '$log','$location', '$state', 'jobCodeService1','appConstants','sharedDataService','clientService', 'uiGridConstants',
+                             function($scope,$rootScope, $http, $q, $window, $timeout, $log, $location, $state, jobCodeService1,appConstants,sharedDataService,clientService, uiGridConstants) {
 	
 	$scope.client = {};
 	$scope.clients = {};
@@ -84,6 +84,8 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 	    enableSorting: true,
 	    enableColumnMenus: false,
 		enablePaginationControls: false,
+		enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 		paginationCurrentPage: 1,
 	    columnDefs: [
 	      { field: 'clientName', displayName:"Clients", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editUser(row.entity); $event.stopPropagation();" ui-sref="admin.client.editClient">{{row.entity.clientName}} </a>'},

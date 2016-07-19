@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }])
-app.controller('interviewRoundController',['$scope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll', 'convertArray2Json',
-                                           function($scope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll, convertArray2Json) {
+app.controller('interviewRoundController',['$scope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll', 'convertArray2Json', 'uiGridConstants',
+                                           function($scope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll, convertArray2Json, uiGridConstants) {
 	
 	$scope.status = {
 		    isFirstOpen: true,
@@ -128,6 +128,8 @@ $scope.deleteInterviewRound = function(index,interviewRound){
         enableColumnMenus: false,
         enablePaginationControls: false,
         paginationCurrentPage: 1,
+        enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
         columnDefs: [
             { field: 'index', cellTemplate: '<span>{{row.entity.index + 1}}</span>', enableSorting: false},
             { field: 'rounds', cellClass: 'ui-grid-align'},

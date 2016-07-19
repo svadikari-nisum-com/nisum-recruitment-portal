@@ -1,5 +1,5 @@
-app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$state', 'sharedDataService','appConstants', '$log', '$rootScope','$location','userService', 
-                            	function($scope, $http, $filter, $timeout, $q, $state, sharedDataService,appConstants,$log,$rootScope,$location,userService) {
+app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$state', 'sharedDataService','appConstants', '$log', '$rootScope','$location','userService', 'uiGridConstants',
+                            	function($scope, $http, $filter, $timeout, $q, $state, sharedDataService,appConstants,$log,$rootScope,$location,userService, uiGridConstants) {
 	
 	$scope.info = $rootScope.info;
 	$scope.numRows = 10;
@@ -42,6 +42,8 @@ app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$stat
 	    enableSorting: true,
 	    enableColumnMenus: false,
 		enablePaginationControls: false,
+		enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 		paginationCurrentPage: 1,
 	    columnDefs: [
 	      { field: 'name', cellClass: 'ui-grid-align'},

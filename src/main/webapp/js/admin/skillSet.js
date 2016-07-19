@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50; // always scroll by 50 extra pixels
 }])
-app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$filter', 'appConstants', 'infoService', '$location', '$anchorScroll', 'infoService', 'appConstants', 'convertArray2Json',
-    function($scope, $http, $q, $window, $timeout, $filter, appConstants, infoService, $location, $anchorScroll, infoService, appConstants, convertArray2Json) {
+app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$filter', 'appConstants', 'infoService', '$location', '$anchorScroll', 'infoService', 'appConstants', 'convertArray2Json', 'uiGridConstants',
+    function($scope, $http, $q, $window, $timeout, $filter, appConstants, infoService, $location, $anchorScroll, infoService, appConstants, convertArray2Json, uiGridConstants) {
 	
 	$scope.numRows = 10;
 	
@@ -184,6 +184,8 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
             enableColumnMenus: false,
             enablePaginationControls: false,
             paginationCurrentPage: 1,
+            enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+            enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
             columnDefs: [
                 { field: 'index', cellTemplate: '<span>{{row.entity.index + 1}}</span>', enableSorting: false},
                 { field: 'skills', cellClass: 'ui-grid-align'},
