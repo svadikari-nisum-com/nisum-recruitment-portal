@@ -39,7 +39,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     .state('recruitment.createPosition', {url:'/createPosition', views: {'': {templateUrl: 'views/recruitment/createPosition.html', controller: 'createPositionCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_ADMIN","ROLE_HR"]);
+    			return authorizationService.permissionCheck(["ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER"]);
             }
     	}
     })
