@@ -7,7 +7,7 @@ import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.view.PositionDTO;
 
 public interface IPositionService {
-	public void preparePosition(Position position);
+	public void preparePosition(PositionDTO position);
 
 	public void updatePosition(Position position);
 

@@ -41,6 +41,7 @@ public class PositionServiceTest {
 	private List<Position> positions;
 
 	private Position position;
+	private PositionDTO positionDTO;
 
 	@Before
 	public void init() {
@@ -58,7 +59,7 @@ public class PositionServiceTest {
 	@Test
 	public void shouldSavePosition() {
 		doNothing().when(positionRepository).preparePosition(position);
-		service.preparePosition(position);
+		service.preparePosition(positionConverter.convertToDTO(position));
 	}
 	
 	@Test

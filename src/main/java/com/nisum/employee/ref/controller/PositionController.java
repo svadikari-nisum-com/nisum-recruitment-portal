@@ -32,10 +32,10 @@ public class PositionController {
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN"})
 	@RequestMapping(value="/position", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Position> createPosition(@RequestBody Position position) {
+	public ResponseEntity<PositionDTO> createPosition(@RequestBody PositionDTO position) {
 		log.info("creating new position");
 		positionService.preparePosition(position);
-		return new ResponseEntity<Position>(position, HttpStatus.OK);
+		return new ResponseEntity<PositionDTO>(position, HttpStatus.OK);
 	}
 
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER"})

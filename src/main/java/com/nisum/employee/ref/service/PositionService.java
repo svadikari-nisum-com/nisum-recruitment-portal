@@ -23,8 +23,8 @@ public class PositionService implements IPositionService{
 	
 	
 	@Override
-	public void preparePosition(Position position) {
-		positionRepository.preparePosition(position);
+	public void preparePosition(PositionDTO position) {
+		positionRepository.preparePosition(positionConverter.convertToEntity(position));
 	}
 	@Override
 	public void updatePosition(Position position) {

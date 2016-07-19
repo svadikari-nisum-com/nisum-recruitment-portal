@@ -47,7 +47,7 @@ public class PositionControllerTest {
 
 	@Test
 	public void shouldCreatePosition() throws Exception {
-		doNothing().when(positionService).preparePosition(any(Position.class));
+		doNothing().when(positionService).preparePosition(any(PositionDTO.class));
 		mockMvc.perform(
 				post("/position").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
