@@ -34,7 +34,7 @@ public class ProfileController {
 	@Autowired
 	private IProfileService profileService;
 	
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ResponseEntity<List<ProfileDTO>> retrieveProfile(@RequestParam(value = "emailId", required = false) String emailId,@RequestParam(value = "jobcodeProfile", required = false) String jobcodeProfile,@RequestParam(value = "profilecreatedBy", required = false) String profilecreatedBy) {
 		List<ProfileDTO> positionsDetails = null;
@@ -51,7 +51,7 @@ public class ProfileController {
 				: new ResponseEntity<List<ProfileDTO>>(positionsDetails, HttpStatus.OK);
 	}
 
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<?> registerUser(@RequestBody Profile candidate) throws Exception{
@@ -59,7 +59,7 @@ public class ProfileController {
 			return new ResponseEntity<Profile>(candidate, HttpStatus.OK);
 	}
 
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/profile", method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<?> updateUser(@RequestBody Profile candidate) {
@@ -69,7 +69,7 @@ public class ProfileController {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
 	public ResponseEntity<String> uploadResume(HttpServletRequest request, Model model, @RequestParam(value = "file") MultipartFile multipartFile, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
 		profileService.saveResume(multipartFile, candidateId);
@@ -77,7 +77,7 @@ public class ProfileController {
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-//	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
+//	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/status", method = RequestMethod.POST)
 	public ResponseEntity<String> updateProfileStatus(@RequestParam(value = "emailId", required = true) String emailId,
 			@RequestParam(value = "status", required = true) String status) throws Exception {
@@ -86,7 +86,7 @@ public class ProfileController {
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/fileDownload", method = RequestMethod.GET)
 	public ResponseEntity<HttpServletResponse> downloadOndemandOrder(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
 		List<GridFSDBFile> files = profileService.getFileData(candidateId);

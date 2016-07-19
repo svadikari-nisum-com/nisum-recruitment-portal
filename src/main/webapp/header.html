@@ -72,8 +72,8 @@ border-bottom: 4px solid #CD5C5C;}
 				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_RECRUITER')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-list-alt"></i> -->
 				<span>&nbsp;&nbsp;Reports</span></a></li>
-			<li ng-class="{active: getActiveTab() == 'Admin'}"><a data-toggle="tab" href="#admin/users" data-target="#admin" ng-click="setActiveTab('Admin')"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_HR')" ng-click="alHide()">
+			<li ng-class="{active: getActiveTab() == 'Admin'}"><a data-toggle="tab" ng-href="{{hasRole('ROLE_ADMIN')? '#admin/users' : '#admin/skillSet'}}" data-target="#admin" ng-click="setActiveTab('Admin')"
+				ng-show="hasRole('ROLE_ADMIN,ROLE_HR,ROLE_HR,ROLE_RECRUITER')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-user"></i> -->
 					<span>&nbsp;&nbsp;Admin</span></a></li>
 			<li class="dropdown pull-right"><a href=""

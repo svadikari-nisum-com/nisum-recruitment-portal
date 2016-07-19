@@ -21,7 +21,7 @@ public class UserNotificationController {
 	@Autowired
 	UserNotificationService userNotificationService;
 
-	@Secured({ "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/userNotification", method = RequestMethod.GET)
 	public ResponseEntity<List<UserNotificationDTO>> retrieveNotification(@RequestParam(value = "userId", required = false) String userId) {
 		List<UserNotificationDTO> userInfo = userNotificationService.getUserNotifications(userId);
@@ -29,7 +29,7 @@ public class UserNotificationController {
 				: new ResponseEntity<List<UserNotificationDTO>>(userInfo, HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/userNotification", method = RequestMethod.POST)
 	public ResponseEntity<String> readNotification(@RequestParam(value = "userId", required = false) String userId,
 			@RequestParam(value = "message", required = false) String message) {
@@ -37,7 +37,7 @@ public class UserNotificationController {
 		return new ResponseEntity<String>("Updated", HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/noNotification", method = RequestMethod.GET)
 	public ResponseEntity<List<UserNotificationDTO>> retrieveNoNotification(@RequestParam(value = "userId", required = false) String userId) {
 		List<UserNotificationDTO> userInfo = userNotificationService.getUserNoNotifications(userId);
@@ -45,7 +45,7 @@ public class UserNotificationController {
 				: new ResponseEntity<List<UserNotificationDTO>>(userInfo, HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/getNotificationCount", method = RequestMethod.GET)
 	public ResponseEntity<Long> retrieveNotificationCount(@RequestParam(value = "userId", required = false) String userId) {
 		long userInfo = userNotificationService.getUserNotificationCount(userId);

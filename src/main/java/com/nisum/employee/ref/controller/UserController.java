@@ -33,7 +33,7 @@ public class UserController {
 		return new ResponseEntity<String>("User registered Successfully", HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_USER", "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<UserInfoDTO>> retrieveUsers(
 			@RequestParam(value = "emailId", required = false) String emailId,
@@ -54,7 +54,7 @@ public class UserController {
 				: new ResponseEntity<List<UserInfoDTO>>(userInfos, HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_HR", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_USER", "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<ResponseVO<UserInfoDTO>> updateUser(@RequestBody UserInfoDTO user) {
