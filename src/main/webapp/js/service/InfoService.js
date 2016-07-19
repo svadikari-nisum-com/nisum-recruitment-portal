@@ -66,7 +66,7 @@ function deleteInformation(info){
 	return $http.put('resources/info',info)
 			.then(function(response){
 				deleteInfoFromCache();
-				return response.config.data.key +" has been successfully removed";
+				return response.config.data.key + " has been successfully removed";
 			})
 			.catch(
 				function(response) { 
@@ -78,7 +78,7 @@ function updateInformation(info){
 	return $http.put('resources/info',info)
 			.then(function(response){
 				deleteInfoFromCache();
-				return info.key+" successfully updated";
+				return info.key +" successfully updated";
 			})
 			.catch(
 					function(response) { return "error while deleting "+ response.config.data.key +" information"}

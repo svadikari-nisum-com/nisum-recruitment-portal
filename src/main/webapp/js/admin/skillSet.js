@@ -75,11 +75,11 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
         }
 
         $scope.deleteSkill = function(index, skill) {
-            var deleteUser = $window.confirm('Are you absolutely sure you want to delete?');
+            var deleteUser = $window.confirm('Are you sure you want to delete?');
             if (deleteUser) {
                 $scope.skills1.value.splice(index, 1);
 
-                infoService.updateInformation($scope.skills1).then(function(msg) {
+                infoService.removeInformation($scope.skills1).then(function(msg) {
                     sendSharedMessage(msg, appConstants.SUCCESS_CLASS);
                     infoService.getInfoById('skills').then(getSkills).catch(getUserError);
                     $timeout(function() { $scope.alHide(); }, 5000);
