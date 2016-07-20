@@ -4,44 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
-import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.exception.AuthorizationException;
+import com.nisum.employee.ref.service.UserService;
+import com.nisum.employee.ref.view.UserInfoDTO;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Component("RoleAuthorization")
 public class RoleAuthorization implements IAuthorization {
 
 	@Autowired
-	private MongoTemplate mongoTemplate;
+	private UserService userService;
 
 	@Override
 	public List<GrantedAuthority> authorize(String userId) {
-		
-		log.debug("-------------------------------------------");
-		String[] parts = userId.split("@");
-		log.info("-------------------------------------------");
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
-		
-		MongoOperations mongoOperations = (MongoOperations) mongoTemplate;
-		Query query = new Query();
-		query.addCriteria(Criteria.where("_id").regex(parts[0]));
-		UserInfo user = mongoOperations.findOne(query, UserInfo.class);
-		if (user != null) {
-			List<String> userRoles = user.getRoles();
+		List<UserInfoDTO> users = userService.retrieveUserById(userId);
+		if (!CollectionUtils.isEmpty(users)) {
+			List<String> userRoles = users.get(0).getRoles();
 			for (String userRole : userRoles) {
-				grantedAuthorities.add(new GrantedAuthorityImpl(userRole.toUpperCase()));
+				grantedAuthorities.add(new GrantedAuthorityImpl(userRole
+						.toUpperCase()));
 			}
-		}else{
+		} else {
 			grantedAuthorities.add(new GrantedAuthorityImpl("ROLE_USER"));
 		}
 
