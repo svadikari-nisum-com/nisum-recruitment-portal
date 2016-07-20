@@ -54,7 +54,7 @@
 						<a href="" ng-click="openCal()" ng-hide="calendar">{{
 							userToEdit.dob || "click here to edit..." | date:'dd/MM/yyyy'}}</a><input
 							ng-hide="hideCal" type="text" datepicker-popup="dd-MMMM-yyyy"
-							ng-model="userToEdit.dob" is-open="isOpen"
+							ng-model="userToEdit.dob" is-open="isOpen" min-date="minDate"
 							ng-click="isOpen = true" max-date="maxDate" readonly="true"
 							datepicker-options="dateOptions"
 							placeholder="Select Date of Birth" ng-required="true"

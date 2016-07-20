@@ -38,6 +38,7 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 		$scope.calendar = true;
 		$scope.hideCal = false;
 		$scope.maxDate = new Date();
+		$scope.minDate = new Date().setFullYear(new Date().getFullYear() - 100);
 	}
 	
 	$scope.closeCal = function(){
