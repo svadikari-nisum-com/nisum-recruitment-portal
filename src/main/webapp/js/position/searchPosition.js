@@ -1,15 +1,22 @@
-app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeService1','$filter', '$log','positionService','appConstants',
-                                     function($scope, $http, $q, $window,jobCodeService1,$filter, $log,positionService,appConstants) {
+app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeService1','$filter', '$log','positionService','appConstants', 'uiGridConstants',
+                                     function($scope, $http, $q, $window,jobCodeService1,$filter, $log,positionService,appConstants, uiGridConstants) {
 
 	$scope.approveBtnDisable = true;
 	$scope.errorHide = true;
 	$scope.data = {};
 	$scope.message = "";
+	$scope.numRows = 10;
 	
 	$scope.title = "Search";
 	
 	positionService.getPosition().then(function(data){
-		 $scope.position=data;
+		$scope.position=data;
+		
+		$scope.gridOptions.data = data;
+		$scope.gridOptions.totalItems = data.length;
+		$scope.gridOptions.paginationPageSize = $scope.numRows;
+		$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
+
 		 console.log(angular.toJson($scope.position));
 	}).catch(function(msg){
    	  $log.error("Failed To Load Data! ---> "+msg);
@@ -101,6 +108,25 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
 		$scope.message = error.message;
 	  }
 	
+	$scope.gridOptions = {
+	    enableSorting: true,
+	    enableColumnMenus: false,
+		enablePaginationControls: false,
+		enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
+		paginationCurrentPage: 1,
+	    columnDefs: [
+	      { field: 'jobcode', displayName:"Job code", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editPosition(row.entity.jobcode); $event.stopPropagation();">{{row.entity.jobcode}} </a>'},
+	      { field: 'designation', displayName:"Designation", cellClass: 'ui-grid-align'},
+	      { field: 'minExpYear', displayName:"Min-Exp", width: 100, cellClass: 'ui-grid-align'},
+	      { field: 'maxExpYear', displayName:"Max-Exp", width: 100, cellClass: 'ui-grid-align'},
+	      { field: 'location', displayName:"Location", cellClass: 'ui-grid-align'},
+	      { field: 'client', displayName:"Client", cellClass: 'ui-grid-align'}
+	    ],
+	    onRegisterApi: function( gridApi ) {
+	      $scope.grid1Api = gridApi;
+	    }
+	  };
 	
 	
 }]);

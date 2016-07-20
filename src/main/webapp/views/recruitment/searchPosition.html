@@ -7,7 +7,7 @@
 		style="width: 850px; position: relative; top: -35px; height: 50">
 		<h5 style="margin-top: 2px;">{{message}}</h5>
 	</div>
-	<div class="searchposition-container" style="">
+	<div class="searchposition-container" style="border: none;">
 		<br>
 		<form action="#" name="createPosition" class="searchPosition" onvalidate>
 			<form id="integerForm" role="form" class="form-horizontal">
@@ -30,8 +30,26 @@
 						</a>
 				</div>
 				</div>
-				<br> <br> <br>
-					<table ng-hide="tableHide" id="interview"
+				<br>
+					
+					<div id="serachPos_grid" ui-grid="gridOptions" class="ui-grid-conf searchprof-grid" ui-grid-pagination>
+						<div class="no-rows" ng-if="!gridOptions.data.length">
+							<div class="msg">
+								<span>No Profiles Exists</span>
+							</div>
+						</div>
+						
+						<div>
+							<span class="grid-tot-rec">Total Records : {{gridOptions.totalItems}}</span>
+							<div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
+								<pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
+						        	ng-model="gridOptions.paginationCurrentPage"></pagination>
+							</div>
+						</div>
+					</div>
+				
+				
+					<!-- <table ng-hide="tableHide" id="interview"
 						class="table table-striped"
 						style="margin-left: 0px; width: 94%; top: -18px;">
 						<thead>
@@ -42,7 +60,7 @@
 								<th>Max-Exp</th>
 								<th>Location</th>
 								<th>Client</th>
-								<!-- <th>Share</th> -->
+								<th>Share</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -55,11 +73,11 @@
 								<td class="mdl-data-table__cell--non-numeric">{{data.maxExpYear}}</td>
 								<td class="mdl-data-table__cell--non-numeric">{{data.location}}</td>
 								<td class="mdl-data-table__cell--non-numeric">{{data.client}}</td>
-								<!-- <td class="mdl-data-table__cell--non-numeric"><left>
+								<td class="mdl-data-table__cell--non-numeric"><left>
 								</left>&nbsp;&nbsp;&nbsp;
 								<right><a href="" style="cursor:pointer;" ng-click="shareContent(data.jobcode)">
 									<img src="https://simplesharebuttons.com/images/somacro/linkedin.png" width="20" height="20" title="Share on Linked In" /></a></right>
-								</td> -->
+								</td>
 							
 							</tr>
 							<tr class="animate-repeat" ng-if="results.length == 0">
@@ -85,7 +103,7 @@
 										href ng-click="nextPage()">Next</a></li>
 								</ul>
 						</div>
-					</div><br><br>
+					</div> --><br><br>
 			</form>
 		</form>
 	</div>
