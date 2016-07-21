@@ -31,7 +31,6 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 			$scope.gridOptions.paginationPageSize = $scope.numRows;
 			$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
 			$timeout( function(){ $scope.message = ""; $scope.cls = ''; sharedDataService.setmessage("");sharedDataService.getClass("");}, 5000);
-			console.log("-----------"+angular.toJson($scope.design));
 		}).catch(function(msg){
 			$scope.message=msg;
 			 $scope.cls=appConstants.ERROR_CLASS;
@@ -47,7 +46,6 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	};
 
 	$scope.save = function(){
-		console.log(angular.toJson($scope.designation));
 		  designationService.addDesignation($scope.designation).then(function(msg){
 			  $scope.sendSharedMessage(msg,'/admin/designation');
 		  }).catch(function(msg){ 
@@ -83,7 +81,6 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	}
 	$scope.gotoAnchor = function() {
 	       var newHash = 'top';
-	       console.log("hash...." + $location.hash());
 	       if ($location.hash() !== newHash) {
 	         $location.hash('top');
 	       } else {
