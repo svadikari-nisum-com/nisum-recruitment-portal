@@ -1,5 +1,5 @@
-app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q','$state', 'sharedDataService','appConstants', '$log', '$rootScope','$location','clientService','userService', 
-                               	function($scope, $http, $filter, $timeout, $q, $state, sharedDataService,appConstants,$log,$rootScope,$location,clientService,userService) {
+app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q','$state', 'sharedDataService','appConstants', '$log', '$rootScope','$location','clientService','userService','$mdDialog', 
+                               	function($scope, $http, $filter, $timeout, $q, $state, sharedDataService,appConstants,$log,$rootScope,$location,clientService,userService,$mdDialog) {
 	
 	$scope.info = $rootScope.info;
 	$scope.showMsg = false;
@@ -41,7 +41,7 @@ app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q'
 	}
 	
 	$scope.update = function(){
-		$scope.alHide();
+		
 		var validate=$scope.validateSave($scope.userToEdit);
 		if(validate && $scope.validateSlotTimings()){
 		userService.updateUser($scope.userToEdit)
@@ -58,14 +58,13 @@ app.controller("editUserInfoCtrl",['$scope', '$http', '$filter', '$timeout','$q'
 			
 			if(validate)
 			{
-				$scope.message1 = "Time slots are conflicting. Please change the user time slots.";
-				$scope.adminCls1 = appConstants.ERROR_CLASS;
+				sharedDataService.showAlertPopUp("Time slots are conflicting. Please change",$mdDialog);
+				
 				
 			}else
 			{
-				$scope.message = "Please fill Mandatory fields";
-				$scope.adminCls = appConstants.ERROR_CLASS;
-				//$timeout( function(){ $scope.alHide(); }, 10000);
+				sharedDataService.showAlertPopUp("Please fill Mandatory fields",$mdDialog);
+				
 			}
 			
 		}

@@ -20,7 +20,18 @@ app.service('sharedDataService', function() {
 	        },
 	        getClass: function() {
 	        	return cls;
-	     }
+	     },
+	        showAlertPopUp: function(message,$mdDialog)
+	        {
+	        	var confirm = $mdDialog.confirm()
+	  	      .title('Warning')
+	  	      .content(message)
+	  	      .ariaLabel('Warning')
+	  	      .ok('Got It!')
+	  	    return $mdDialog.show(confirm);
+	        	
+	        }
+	        
 	    };	
 	});
 
