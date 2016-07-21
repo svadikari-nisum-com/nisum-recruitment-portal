@@ -1,5 +1,4 @@
-	app.controller('interviewManagementCtrl',['$scope', '$http','$q', '$window','jobCodeService1', '$log', '$rootScope', 'uiGridConstants', 
-	                                          function($scope, $http, $q, $window,jobCodeService1, $log, $rootScope, uiGridConstants) {
+	app.controller('interviewManagementCtrl',['$scope', '$http','$q', '$window','jobCodeService1', '$log', '$rootScope', function($scope, $http, $q, $window,jobCodeService1, $log, $rootScope) {
 		$scope.interview = {};
 		$scope.positionDisable = true;
 		$scope.searchDisable = true;
@@ -22,7 +21,6 @@
 		$scope.noDataMessage = "No Interviews Scheduled";
 		$scope.info = $rootScope.info;
 		$scope.advancedHide = true;
-		$scope.numRows = 10;
 		
 		var User_URL = 'resources/user?emailId='+$scope.useremailId;
 		var position_URL = 'resources/position';
@@ -31,12 +29,6 @@
 		
 		$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
 			$scope.interviewDetails = data;
-			
-			$scope.gridOptions.data = data;
-			$scope.gridOptions.totalItems = data.length;
-			$scope.gridOptions.paginationPageSize = $scope.numRows;
-			$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
-			
 		}).error(function(data, status, headers, config) {
 			$log.error(data);
 		})
@@ -206,30 +198,5 @@
 			}else{
 				$scope.advancedHide = true;
 			}
-		}
-		
-		$scope.gridOptions = {
-		    enableSorting: true,
-		    enableColumnMenus: false,
-			enablePaginationControls: false,
-			enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
-	        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
-			paginationCurrentPage: 1,
-		    columnDefs: [
-		      { field: 'candidateName', displayName:"Name", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editPosition(row.entity.jobcode); $event.stopPropagation();">{{row.entity.jobcode}} </a>'},
-		      { field: 'candidateEmail', displayName:"Email ID", cellClass: 'ui-grid-align'},
-		      { field: 'candidateSkills', displayName:"Skills", width: 100, cellClass: 'ui-grid-align', cellFilter: 'stringArrayFilter'},
-		      { field: 'positionId', displayName:"Job Code", width: 100, cellClass: 'ui-grid-align', cellFilter: 'stringArrayFilter', cellTemplate: '<div ng-hide="grid.appScope.hasPermission()"></div>'},
-		      { field: 'location', displayName:"Schedule", cellClass: 'ui-grid-align'},
-		      { field: 'client', displayName:"Feedback", cellClass: 'ui-grid-align'},
-		      { field: 'client', displayName:"Status", cellClass: 'ui-grid-align'}
-		    ],
-		    onRegisterApi: function( gridApi ) {
-		      $scope.grid1Api = gridApi;
-		    }
-		  };
-		
-		$scope.hasPermission = function() {
-			//console.log("Have Fun")
 		}
 	}]);

@@ -116,20 +116,4 @@
 			<td style="font-weight: bold">{{item.progress}}</td>
 		</tr>
 	</table>
-	
-	<div id="interview_grid" ui-grid="gridOptions" class="ui-grid-conf searchprof-grid" ui-grid-pagination>
-		<div class="no-rows" ng-if="!gridOptions.data.length">
-			<div class="msg">
-				<span>No Profiles Exists</span>
-			</div>
-		</div>
-		
-		<div>
-			<span class="grid-tot-rec">Total Records : {{gridOptions.totalItems}}</span>
-			<div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
-				<pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
-		        	ng-model="gridOptions.paginationCurrentPage"></pagination>
-			</div>
-		</div>
-	</div>
 </div>
