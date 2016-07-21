@@ -54,7 +54,6 @@ app.controller('editDesignationCtrl',['$scope','$rootScope', '$http','$q', '$win
 	}
 	$scope.gotoAnchor = function() {
 	       var newHash = 'top';
-	       console.log("hash...." + $location.hash());
 	       if ($location.hash() !== newHash) {
 	         $location.hash('top');
 	       } else {

@@ -113,7 +113,6 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
 
         $scope.gotoAnchor = function() {
             var newHash = 'top';
-            console.log("hash...." + $location.hash());
             if ($location.hash() !== newHash) {
                 $location.hash('top');
             } else {

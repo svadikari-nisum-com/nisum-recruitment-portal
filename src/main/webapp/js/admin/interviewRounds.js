@@ -87,7 +87,6 @@ $scope.deleteInterviewRound = function(index,interviewRound){
 		  catch(function(msg) {
 			  sendSharedMessage(msg,appConstants.ERROR_CLASS);
 			  $timeout( function(){ $scope.alHide(); }, 5000);
-			  console.log(msg);
 		  });
 		$scope.dis = false;
 		$scope.dis2 = true;
@@ -111,7 +110,6 @@ $scope.deleteInterviewRound = function(index,interviewRound){
 	}
 	$scope.gotoAnchor = function() {
 	       var newHash = 'top';
-	       console.log("hash...." + $location.hash());
 	       if ($location.hash() !== newHash) {
 	         $location.hash('top');
 	       } else {
