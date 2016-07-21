@@ -36,7 +36,7 @@ public enum OfferState {
 			List<OfferState> states = new ArrayList<>();
 			states.add(APPROVED);
 			states.add(REJECTED);
-			states.add(CLOSED);
+			states.add(HOLD);
 			return states;
 		}
 	},
@@ -49,6 +49,21 @@ public enum OfferState {
 		@Override
 		public List<OfferState> next() {
 			List<OfferState> states = new ArrayList<>();
+			states.add(RELEASED);
+			states.add(HOLD);
+			return states;
+		}
+	},
+	HOLD {
+		@Override
+		public OfferState prev() {
+			return INITIATED;
+		}
+
+		@Override
+		public List<OfferState> next() {
+			List<OfferState> states = new ArrayList<>();
+			states.add(APPROVED);
 			states.add(RELEASED);
 			states.add(CLOSED);
 			return states;
@@ -78,6 +93,7 @@ public enum OfferState {
 		public List<OfferState> next() {
 			List<OfferState> states = new ArrayList<>();
 			states.add(JOINED);
+			states.add(CLOSED);
 			return states;
 		}
 	},
@@ -103,7 +119,9 @@ public enum OfferState {
 
 		@Override
 		public List<OfferState> next() {
-			return new ArrayList<OfferState>();
+			List<OfferState> states = new ArrayList<>();
+			states.add(CLOSED);
+			return states;
 		}
 	},
 	CLOSED {
