@@ -72,6 +72,7 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 		jobCodeService1.setclientId(data.clientId);
 		jobCodeService1.setclientName(data.clientName);
 		//location.href='#admin/client/editClient';
+		
 		$state.go('admin.client.editClient');
 	}
 	
