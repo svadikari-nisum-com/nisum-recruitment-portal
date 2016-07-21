@@ -88,7 +88,7 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
         enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 		paginationCurrentPage: 1,
 	    columnDefs: [
-	      { field: 'clientName', displayName:"Clients", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editUser(row.entity); $event.stopPropagation();" ui-sref="admin.client.editClient">{{row.entity.clientName}} </a>'},
+	      { field: 'clientName', displayName:"Clients", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editClient(row.entity); $event.stopPropagation();" ui-sref="admin.client.editClient">{{row.entity.clientName}} </a>'},
 	      { field: 'locations', displayName:"Location", cellClass: 'ui-grid-align'}
 	    ],
 	    onRegisterApi: function( gridApi ) {
