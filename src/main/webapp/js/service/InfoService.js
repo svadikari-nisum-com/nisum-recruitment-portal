@@ -19,7 +19,6 @@ function getInformationFromCache(){
 	
 	var infoFromCache = dataCache.get('info');
 	if (infoFromCache) {
-	    console.log('returning application info from cache');
 	    deferred.resolve(infoFromCache);
 	} else {
 		 var getInfor = getInformation();
@@ -33,8 +32,6 @@ function getInformationFromCache(){
 }
 
 function getInformation(){
-	console.log('gathering new info data from backend');
-
 	return $http.get('resources/info')
 		.then(getInfoData)
 		.catch(sendGetInfoError);

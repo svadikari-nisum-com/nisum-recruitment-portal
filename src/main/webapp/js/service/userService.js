@@ -12,7 +12,6 @@ function userService($http,$rootScope,appConstants,$q) {
 	};
 	
 	function getCurrentUserDetails(){
-		console.log('getCurrentUserDetails sessionStorage.userId--->'+angular.toJson(sessionStorage.userId));
 		return getUserDetailsById(sessionStorage.userId);
 	}
 	
@@ -48,7 +47,6 @@ function userService($http,$rootScope,appConstants,$q) {
 	function addUserDetails(user){
 		return $http.post('resources/user',user)
 			        .then(function(response){
-			        	console.log("User successfully add"+angular.toJson(response.config.data));
 			        	return "User successfully add";
 			        })
 			        .catch(function(response){ console.log("Error while adding User"); return "Error while adding User";});

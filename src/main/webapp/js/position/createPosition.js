@@ -70,7 +70,6 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		angular.forEach($scope.designations,function(deg){
 			$scope.maxExpYear.push(deg.maxExpYear);
 		})
-		console.log(angular.toJson($scope.designation1));
 	}).catch(function(msg){
 		$scope.message=msg;
 		 $scope.cls=appConstants.ERROR_CLASS;

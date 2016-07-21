@@ -17,7 +17,6 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
 		$scope.gridOptions.paginationPageSize = $scope.numRows;
 		$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
 
-		 console.log(angular.toJson($scope.position));
 	}).catch(function(msg){
    	  $log.error("Failed To Load Data! ---> "+msg);
    	  $scope.errorHide = false;

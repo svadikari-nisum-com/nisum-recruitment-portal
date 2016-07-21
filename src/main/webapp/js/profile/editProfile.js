@@ -314,7 +314,6 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	};
 	$scope.gotoAnchor = function() {
 	       var newHash = 'top';
-	       console.log("hash...." + $location.hash());
 	       if ($location.hash() !== newHash) {
 	         $location.hash('top');
 	       } else {

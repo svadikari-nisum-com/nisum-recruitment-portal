@@ -56,7 +56,6 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 
 	$scope.saveOffer = function() {
 		$scope.uploadFileIntoDB($scope.offerLetterFile);
-		console.log(angular.toJson($scope.candidate));
 		$http.post(RELEASE_OFFER, $scope.candidate).success(function(data, status) {
 			$log.info("saved offer...");
 			$scope.sendNotification("Offer Saved Successfully",'/offer');

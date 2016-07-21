@@ -44,7 +44,6 @@ app.controller('searchUserCtrl',['$scope', '$http','$q', '$window','userService'
 	
 	$scope.editUser = function(row) {
 		$scope.loading = true;
-		window.console && console.log(row.entity);
 		$window.location.href = 'editUser.html#?target='+row.entity.userId;
 	};
 	

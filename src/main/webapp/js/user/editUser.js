@@ -31,7 +31,6 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 			$scope.cls=appConstants.ERROR_CLASS;
 		});
 		$scope.isDisableUserSave = true;
-		console.log("----> "+ data);
 	}
 		
 	$scope.openCal = function(){
