@@ -42,7 +42,7 @@
 			$http.get(User_URL).success(function(data, status, headers, config) {
 				$scope.userclient = data[0].clientName
 				$scope.userRoles = data[0].roles;
-					if(_.contains($scope.userRoles, "ROLE_HR") || _.contains($scope.userRoles, "ROLE_ADMIN")){
+					if(_.contains($scope.userRoles, "ROLE_HR") || _.contains($scope.userRoles, "ROLE_RECRUITER") || _.contains($scope.userRoles, "ROLE_ADMIN")){
 						$scope.clienthidden = false;
 						$scope.positionhidden = false;
 						$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
