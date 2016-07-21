@@ -28,4 +28,5 @@ public class Offer extends AuditEntity {
 	private ArrayList<String> jobcodeProfile;
 	private String location;
 	private String offerLetterName;
+	private String status;
 }

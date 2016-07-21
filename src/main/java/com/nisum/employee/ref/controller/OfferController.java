@@ -1,7 +1,8 @@
 package com.nisum.employee.ref.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nisum.employee.ref.common.OfferState;
 import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.service.OfferService;
 
@@ -24,19 +26,43 @@ public class OfferController {
 
 	@Autowired
 	private OfferService offerService;
-	
+
 	@ResponseBody
-	@RequestMapping(value="/save-offer", method=RequestMethod.POST)
+	@RequestMapping(value = "/save-offer", method = RequestMethod.POST)
 	public ResponseEntity<Offer> saveOfferDetails(@RequestBody Offer offer) {
 		offerService.saveOffer(offer);
 		return new ResponseEntity<Offer>(offer, HttpStatus.OK);
 	}
-	
+
 	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({ "ROLE_ADMIN", "ROLE_USER", "ROLE_HR", "ROLE_RECRUITER",
+			"ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/upload-offer-letter", method = RequestMethod.POST)
-	public ResponseEntity<String> uploadOfferLetter	(HttpServletRequest request,@RequestParam(value = "file") MultipartFile multipartFile, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
+	public ResponseEntity<String> uploadOfferLetter(
+			HttpServletRequest request,
+			@RequestParam(value = "file") MultipartFile multipartFile,
+			@RequestParam(value = "candidateId", required = true) String candidateId)
+			throws Exception {
 		offerService.saveResumeInBucket(multipartFile, candidateId);
-		return new ResponseEntity<String>("Resume Uploaded Successfully", HttpStatus.OK);
+		return new ResponseEntity<String>("Resume Uploaded Successfully",
+				HttpStatus.OK);
+	}
+
+	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@RequestMapping(value = "/offers", method = RequestMethod.GET)
+	public ResponseEntity<List<Offer>> getOffers() throws Exception {
+		return new ResponseEntity<List<Offer>>(offerService.getOffers(),
+				HttpStatus.OK);
+	}
+
+	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@RequestMapping(value = "/offer/nextStatuses", method = RequestMethod.GET)
+	public ResponseEntity<List<OfferState>> getNextStatuses(
+			@RequestParam(value = "currentStatus", required = false) String currentStatus)
+			throws Exception {
+		List<OfferState> offerStatuses = offerService
+				.getNextStatuses(currentStatus);
+		return new ResponseEntity<List<OfferState>>(offerStatuses,
+				HttpStatus.OK);
 	}
 }
