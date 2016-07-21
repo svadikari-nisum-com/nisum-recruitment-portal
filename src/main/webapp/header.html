@@ -51,7 +51,7 @@ border-bottom: 4px solid #CD5C5C;}
 				>
 <!-- 				<i class="glyphicon glyphicon-home"></i> -->
 				<span id="Dashboard">&nbsp;&nbsp;Dashboard</span></a></li>
-			<li ng-class="{active: getActiveTab() == 'Recruitment'}"><a data-toggle="tab" href="#recruitment/searchProfile" data-target="#recruitment" ng-click="setActiveTab('Recruitment')"
+			<li ng-class="{active: getActiveTab() == 'Recruitment'}"><a data-toggle="tab" ng-href="{{hasRole('ROLE_INTERVIEWER')? '#recruitment/interviewManagement' : '#recruitment/searchProfile'}}" data-target="#recruitment" ng-click="setActiveTab('Recruitment')"
 				ng-show="!hasRole('ROLE_USER')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-phone-alt"></i> -->
 				<span>&nbsp;&nbsp;Recruitment</span></a></li>		
