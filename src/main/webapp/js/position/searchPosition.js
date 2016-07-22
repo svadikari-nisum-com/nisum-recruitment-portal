@@ -123,9 +123,34 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
 	      { field: 'client', displayName:"Client", cellClass: 'ui-grid-align'}
 	    ],
 	    onRegisterApi: function( gridApi ) {
-	      $scope.grid1Api = gridApi;
+	    	$scope.gridApi = gridApi;
+ 	        $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
 	    }
 	  };
+	
+	$scope.searchFilter = function() {
+		$scope.gridApi.grid.refresh();
+	};
+
+	$scope.singleFilter = function(renderableRows) {
+		var searchValue = "";
+		if($scope.filterValue){
+			searchValue = $scope.filterValue.toUpperCase()
+		}
+	    var matcher = new RegExp(searchValue);
+	    renderableRows.forEach(function(row) {
+	        var match = false;
+	        ['jobcode'].forEach(function(field) {
+	            if (row.entity[field] && row.entity[field].toUpperCase().match(matcher)) {
+	                match = true;
+	            }
+	        });
+	        if (!match) {
+	            row.visible = false;
+	        }
+	    });
+	    return renderableRows;
+	};
 	
 	
 }]);
