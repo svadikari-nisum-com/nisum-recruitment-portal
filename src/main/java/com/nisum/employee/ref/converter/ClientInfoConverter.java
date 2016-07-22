@@ -39,11 +39,11 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 			}
 
 			if (CollectionUtils.isNotEmpty(clientInfo.getInterviewers().getHrRound())) {
-				interviewerDTO.setTechnicalRound2(getRoundInfo(clientInfo.getInterviewers().getHrRound()));
+				interviewerDTO.setHrRound(getRoundInfo(clientInfo.getInterviewers().getHrRound()));
 			}
 
 			if (CollectionUtils.isNotEmpty(clientInfo.getInterviewers().getManagerRound())) {
-				interviewerDTO.setTechnicalRound2(getRoundInfo(clientInfo.getInterviewers().getManagerRound()));
+				interviewerDTO.setManagerRound(getRoundInfo(clientInfo.getInterviewers().getManagerRound()));
 			}
 
 			clientInfoDTO.setInterviewerDTO(interviewerDTO);
