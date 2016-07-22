@@ -47,7 +47,7 @@ public class ClientInfoService implements IClientInfoService {
 		List<String> interviewerNames = new ArrayList<String>();
 		List<ClientInfo> clients = (List<ClientInfo>) clientInfoRepository.getClientDetails();
 		for (ClientInfo clientInfo : clients) {
-			interviewerNames.add(clientInfo.getInterviewers().getTechnicalRound1().get(0).getName());
+			interviewerNames.add(clientInfo.getInterviewer().getTechnicalRound1().get(0).getName());
 		}
 		return interviewerNames;
 	}
