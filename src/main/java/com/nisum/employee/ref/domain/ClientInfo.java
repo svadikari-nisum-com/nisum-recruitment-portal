@@ -16,5 +16,5 @@ public class ClientInfo {
 	String clientId;
 	String clientName;
 	String locations;
-	Interviewer interviewers;
+	Interviewer interviewer;
 }

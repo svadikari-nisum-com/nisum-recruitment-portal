@@ -9,6 +9,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
 
 import com.nisum.employee.ref.domain.ClientInfo;
+import com.nisum.employee.ref.domain.Interviewer;
 import com.nisum.employee.ref.domain.RoundUser;
 import com.nisum.employee.ref.view.ClientInfoDTO;
 import com.nisum.employee.ref.view.InterviewerDTO;
@@ -30,24 +31,26 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 
 			interviewerDTO = new InterviewerDTO();
 
-			if (CollectionUtils.isNotEmpty(clientInfo.getInterviewers().getTechnicalRound1())) {
-				interviewerDTO.setTechnicalRound1(getRoundInfo(clientInfo.getInterviewers().getTechnicalRound1()));
+			if(clientInfo.getInterviewer() != null)
+			{
+				if (clientInfo.getInterviewer().getTechnicalRound1() != null && CollectionUtils.isNotEmpty(clientInfo.getInterviewer().getTechnicalRound1())) {
+					interviewerDTO.setTechnicalRound1(getRoundInfo(clientInfo.getInterviewer().getTechnicalRound1()));
+				}
+	
+				if (clientInfo.getInterviewer().getTechnicalRound2() != null && CollectionUtils.isNotEmpty(clientInfo.getInterviewer().getTechnicalRound2())) {
+					interviewerDTO.setTechnicalRound2(getRoundInfo(clientInfo.getInterviewer().getTechnicalRound2()));
+				}
+				if (clientInfo.getInterviewer().getManagerRound() != null && CollectionUtils.isNotEmpty(clientInfo.getInterviewer().getManagerRound())) {
+					interviewerDTO.setManagerRound(getRoundInfo(clientInfo.getInterviewer().getManagerRound()));
+				}
+				if (clientInfo.getInterviewer().getHrRound() != null && CollectionUtils.isNotEmpty(clientInfo.getInterviewer().getHrRound())) {
+					interviewerDTO.setHrRound(getRoundInfo(clientInfo.getInterviewer().getHrRound()));
+				}
+	
+				
 			}
-
-			if (CollectionUtils.isNotEmpty(clientInfo.getInterviewers().getTechnicalRound2())) {
-				interviewerDTO.setTechnicalRound2(getRoundInfo(clientInfo.getInterviewers().getTechnicalRound2()));
-			}
-
-			if (CollectionUtils.isNotEmpty(clientInfo.getInterviewers().getHrRound())) {
-				interviewerDTO.setHrRound(getRoundInfo(clientInfo.getInterviewers().getHrRound()));
-			}
-
-			if (CollectionUtils.isNotEmpty(clientInfo.getInterviewers().getManagerRound())) {
-				interviewerDTO.setManagerRound(getRoundInfo(clientInfo.getInterviewers().getManagerRound()));
-			}
-
-			clientInfoDTO.setInterviewerDTO(interviewerDTO);
-		} catch (IllegalAccessException | InvocationTargetException e) {
+			clientInfoDTO.setInterviewers(interviewerDTO);
+		} catch ( Exception  e) {
 			log.error(e.getMessage());
 			return clientInfoDTO;
 		}
@@ -57,10 +60,38 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 	@Override
 	public ClientInfo convertToEntity(ClientInfoDTO clientInfoDTO) {
 		ClientInfo clientInfo = null;
+		Interviewer interviewer = null;
 		try {
 			clientInfo = new ClientInfo();
 			BeanUtils.copyProperties(clientInfo, clientInfoDTO);
-		} catch (IllegalAccessException | InvocationTargetException e) {
+			
+			interviewer = new Interviewer();
+
+			if(clientInfoDTO.getInterviewers() != null)
+			{
+				if (clientInfoDTO.getInterviewers().getTechnicalRound1() != null && CollectionUtils.isNotEmpty(clientInfoDTO.getInterviewers().getTechnicalRound1())) {
+
+					interviewer.setTechnicalRound1(getRoundInfoEntity(clientInfoDTO.getInterviewers().getTechnicalRound1()));
+				}
+	
+				if (clientInfoDTO.getInterviewers().getTechnicalRound2() != null && CollectionUtils.isNotEmpty(clientInfoDTO.getInterviewers().getTechnicalRound2())) {
+					
+					interviewer.setTechnicalRound2(getRoundInfoEntity(clientInfoDTO.getInterviewers().getTechnicalRound2()));
+				}
+	
+				if (clientInfoDTO.getInterviewers().getManagerRound() != null && CollectionUtils.isNotEmpty(clientInfoDTO.getInterviewers().getManagerRound())) {
+					interviewer.setManagerRound(getRoundInfoEntity(clientInfoDTO.getInterviewers().getManagerRound()));
+				}
+				if (clientInfoDTO.getInterviewers().getHrRound() != null && CollectionUtils.isNotEmpty(clientInfoDTO.getInterviewers().getHrRound())) {
+					interviewer.setHrRound(getRoundInfoEntity(clientInfoDTO.getInterviewers().getHrRound()));
+				}
+	
+				
+			}
+			clientInfo.setInterviewer(interviewer);
+			
+			
+		} catch (Exception e) {
 			log.error(e.getMessage());
 			return clientInfo;
 		}
@@ -81,6 +112,21 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 				BeanUtils.copyProperties(roundUserDTO, roundUser);
 				roundUserDTO.setSkillSet(roundUser.getSkillSet());
 				roundUsers.add(roundUserDTO);
+			} catch (Exception e) {
+				log.error(e.getMessage());
+			}
+		});
+		return roundUsers;
+	}
+	
+	private List<RoundUser> getRoundInfoEntity(List<RoundUserDTO> roundUserList) {
+		List<RoundUser> roundUsers = new ArrayList<>();
+		roundUserList.stream().forEach(roundUserDTO -> {
+			RoundUser roundUser = new RoundUser();
+			try {
+				BeanUtils.copyProperties(roundUser, roundUserDTO);
+				roundUserDTO.setSkillSet(roundUserDTO.getSkillSet());
+				roundUsers.add(roundUser);
 			} catch (Exception e) {
 				log.error(e.getMessage());
 			}

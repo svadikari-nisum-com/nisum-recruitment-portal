@@ -156,6 +156,11 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	
 	$scope.saveRoundOneUser = function(index){
 		if($scope.t1user.emailId != null && $scope.t1user.emailId != ""){
+			
+			if(angular.isUndefined($scope.client.interviewers.technicalRound1) || $scope.client.interviewers.technicalRound1 == null )
+			{
+				$scope.client.interviewers.technicalRound1 = [];
+			}
 			$scope.client.interviewers.technicalRound1.push({'name':$scope.t1user.name,"emailId":$scope.t1user.emailId});
 			$scope.dropdownUsers.splice(index,1);
 			$scope.t1user.name = "";
@@ -165,6 +170,12 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	
 	$scope.saveRoundTwoUser = function(index){
 		if($scope.t2user.emailId != null && $scope.t2user.emailId != ""){
+			
+			if(angular.isUndefined($scope.client.interviewers.technicalRound2) || $scope.client.interviewers.technicalRound2 == null )
+			{
+				$scope.client.interviewers.technicalRound2 = [];
+			}
+			
 			$scope.client.interviewers.technicalRound2.push({'name':$scope.t2user.name,"emailId":$scope.t2user.emailId});
 			$scope.dropdownUsers2.splice(index,1);
 			$scope.t2user.name = "";
@@ -174,6 +185,10 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	
 	$scope.saveManagerRoundUser = function(index){
 		if($scope.t3user.emailId != null && $scope.t3user.emailId != ""){
+			if(angular.isUndefined($scope.client.interviewers.managerRound) || $scope.client.interviewers.managerRound == null )
+			{
+				$scope.client.interviewers.managerRound = [];
+			}
 			$scope.client.interviewers.managerRound.push({'name':$scope.t3user.name,"emailId":$scope.t3user.emailId});
 			$scope.dropdownUsers3.splice(index,1);
 			$scope.t3user.name = "";
@@ -182,6 +197,11 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	}
 	$scope.saveHrRoundUser = function(index){
 		if($scope.t4user.emailId != null && $scope.t4user.emailId != ""){
+			
+			if(angular.isUndefined($scope.client.interviewers.hrRound) || $scope.client.interviewers.hrRound == null )
+			{
+				$scope.client.interviewers.hrRound = [];
+			}			
 			$scope.client.interviewers.hrRound.push({'name':$scope.t4user.name,"emailId":$scope.t4user.emailId});
 			$scope.dropdownUsers4.splice(index,1);
 			$scope.t4user.name = "";

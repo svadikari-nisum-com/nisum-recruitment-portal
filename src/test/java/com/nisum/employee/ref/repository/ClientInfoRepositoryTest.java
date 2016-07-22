@@ -151,7 +151,7 @@ public class ClientInfoRepositoryTest {
 		Interviewer interviewer = new Interviewer();
 		interviewer.setTechnicalRound1(Arrays.asList(roundUser));
 		
-		cInfo.setInterviewers(interviewer);
+		cInfo.setInterviewer(interviewer);
 		
 		return cInfo;
 	}

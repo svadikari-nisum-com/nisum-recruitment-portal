@@ -64,7 +64,7 @@ public class ClientInfoServiceTest {
 		interviewer.setManagerRound(getTechRound());
 		interviewer.setHrRound(getTechRound());
 
-		clientInfo.setInterviewers(interviewer);
+		clientInfo.setInterviewer(interviewer);
 		clientInfo.setLocations("Hyderabad");
 
 		clientInfos.add(clientInfo);
