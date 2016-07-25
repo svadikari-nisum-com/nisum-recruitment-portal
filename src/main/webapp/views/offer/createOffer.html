@@ -13,7 +13,7 @@
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
 							<input type="text" name="name" class="form-control"
-								ng-disabled="false" ng-model="profile.candidateName"
+								ng-disabled="true" ng-model="profile.candidateName"
 								style="width: 220px;">
 						</div>
 						<label class="lbl col-md-2"><i
@@ -21,7 +21,7 @@
 							JobCode <b style="color: red;">*</b></label>
 						<div class="col-md-3">
 							<input type="text" name="jobcode" class="form-control"
-								ng-disabled="false" ng-model="candidate.jobcodeProfile"
+								ng-disabled="true" ng-model="candidate.jobcodeProfile"
 								style="width: 220px;">
 						</div>
 					</div>
@@ -32,15 +32,15 @@
 						<div class="col-md-3">
 							<input class="form-control" type="email" name="emailId"
 								ng-model="candidate.emailId" class="form-control"
-								ng-disabled="false" placeholder="Enter Email Id" required>
+								ng-disabled="true" placeholder="Enter Email Id" required>
 						</div>
 						<label class="lbl col-md-2"><i
 							class="glyphicon glyphicon-phone"></i>&nbsp;&nbsp;Mobile<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
 							<input class="form-control" type="text" name="mobileNo"
-								ng-model="candidate.mobileNo" class="form-control"
-								ng-disabled="false" placeholder="Enter Mobile No" required>
+								ng-model="profile.mobileNo" class="form-control"
+								ng-disabled="true" placeholder="Enter Mobile No" required>
 						</div>
 					</div>
 					<div class="form-group">
@@ -50,7 +50,7 @@
 						<div class="col-md-3">
 							<input class="form-control" type="text" name="client"
 								ng-model="candidate.client" class="form-control"
-								ng-disabled="false" placeholder="Select Client" required>
+								ng-disabled="true" placeholder="Select Client" required>
 						</div>
 						<label class="lbl col-md-2"><i
 							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Report Manager <b
@@ -141,7 +141,7 @@
 								ng-show="fileError" style="color: red;">File Extensions
 								Accepted: [doc, docx, pdf]</small>
 						</div>
-						<label class="lbl col-md-2 col-md-offset-1"><i
+						<label class="lbl col-md-2"><i
 							class="glyphicon "></i>&nbsp;&nbsp;
 							Status<span style="color: red;">*</span></label>
 						<div class="col-md-3">
@@ -164,8 +164,7 @@
 			</div>
 		</div>
 		<div align="center">
-			<button type="submit" class="btn btn-primary" ng-click="saveOffer()"
-				ng-disabled="form.$invalid || invalidFile">
+			<button type="submit" class="btn btn-primary" ng-click="saveOffer()">
 				<span class="glyphicon glyphicon-ok-circle"></span> Save
 			</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;

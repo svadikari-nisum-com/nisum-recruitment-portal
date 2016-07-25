@@ -74,12 +74,6 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 		  }).error(function(data) {
 			$log.error("error saving offer..." + data);
 		});
-		/*$http.put(UPDATE_OFFER, $scope.candidate).success(function(data, status) {
-			$log.info("updated offer...");
-			//$scope.sendNotification("Offer Updated Successfully",'/offer');
-		  }).error(function(data) {
-			$log.error("error updating offer..." + data);
-		});*/
 	};
 	
 	  

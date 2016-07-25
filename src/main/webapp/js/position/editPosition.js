@@ -78,7 +78,6 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		
 	    $scope.updatePositionDetails = function() {
 	    	
-	    alert($scope.position.salary);
 		/*var position1={};
 		var skills =[];
 		if ($scope.position !== undefined) {

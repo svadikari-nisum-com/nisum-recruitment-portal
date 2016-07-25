@@ -1,53 +1,15 @@
 <div>
-	<h2 class="heading-name">Offer Page</h2>
-	<br>
+<h2 class="heading-name">Offer Page</h2><br>
 	<div ng-class="cls" ng-show="message" align="center"
-		style="width: 850px; position: relative; top: -35px; height: 50">
-		<h5 style="margin-top: 2px;">{{message}}</h5>
+		style="width: 850px; position: relative; top: -35px; height:50">
+			<h5 style=" margin-top: 2px;">{{message}}</h5>
 	</div>
 
-	<div class="searchposition-container" style="">
+ <div class="searchposition-container" style="">
 		<br>
-		<form action="#" name="offerPage" id="integerForm" role="form"
-			class="form-horizontal">
+		<form action="#" name="offerPage" id="integerForm" role="form" class="form-horizontal">
 			<div>
-				<div class="row">
-					<div class="col-md-1"></div>
-					<div class="col-md-4">
-						<div class="input-group">
-							<input class="form-control ng-pristine ng-valid ng-touched" ng-model="filterValue" ng-change="searchFilter()" placeholder="Enter Search String"
-								type="search" style="width: 80%; border: 1px solid rgb(194, 191, 191);" aria-invalid="false">
-								<span class="input-group-addon" style="position: relative; left: -19%;"><span
-								class="glyphicon glyphicon-search"></span></span>
-						</div>
-					</div>
-					<div class="col-md-1">
-						<a id="rsBtn1" href="#offer/createOffer"
-							class="btn btn-info active"> <span
-							class="glyphicon glyphicon-plus"></span></a>
-					</div>
-				</div>
-
-				<!-- <datagrid column-header='col' attributes='att' obj='myData'
-					editfun='selectCandidate(val)' addlink='offer/createOffer'
-					search-enable='true' array-attributes='att1'></datagrid> -->
-					
-				
-				<div id="canlist_grid" ui-grid="gridOptions" class="ui-grid-conf" ui-grid-pagination>
-					<div class="no-rows" ng-if="!gridOptions.data.length">
-						<div class="msg">
-							<span>No Offers Exists</span>
-						</div>
-					</div>
-					
-					<div>
-						<span class="grid-tot-rec">Total Records : {{gridOptions.totalItems}}</span>
-						<div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
-							<pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
-					        	ng-model="gridOptions.paginationCurrentPage"></pagination>
-						</div>
-					</div>
-				</div>
+				<datagrid column-header='col' attributes='att' obj='myData' editfun='selectCandidate(val)' addlink='offer/createOffer' search-enable='true' array-attributes='att1'></datagrid>
 			</div>
 		</form>
 	</div>
