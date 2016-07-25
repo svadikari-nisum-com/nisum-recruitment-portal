@@ -7,6 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +29,14 @@ public class OfferRepository {
 	private MongoDbFactory dbFactory;
 
 	public void saveOffer(Offer offer) {
-		mongoOperations.save(offer);
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").regex(offer.getEmailId()));
+		Offer offerOld = mongoOperations.findOne(query, Offer.class);
+		if (offerOld == null) {
+			mongoOperations.save(offer);
+		} else {
+			updateOffer(offer);
+		}
 	}
 
 	public void saveResumeInBucket(MultipartFile multipartFile,
@@ -49,5 +59,27 @@ public class OfferRepository {
 
 	public List<Offer> getOffers() {
 		return mongoOperations.findAll(Offer.class);
+	}
+
+	public void updateOffer(Offer offer) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("emailId").is(offer.getEmailId()));
+		query.fields().include("emailId");
+		Update update = new Update();
+		update.set("candidateName", offer.getCandidateName());
+		update.set("client", offer.getClient());
+		update.set("project", offer.getProject());
+		update.set("hrManager", offer.getHrManager());
+		update.set("reportingManager", offer.getReportingManager());
+		update.set("imigrationStatus", offer.getImigrationStatus());
+		update.set("relocationAllowance", offer.getRelocationAllowance());
+		update.set("singInBonus", offer.getSingInBonus());
+		update.set("comments", offer.getComments());
+		update.set("joiningDate", offer.getJoiningDate());
+		update.set("location", offer.getLocation());
+		update.set("offerLetterName", offer.getOfferLetterName());
+		update.set("status", offer.getStatus());
+		update.set("jobcodeProfile", offer.getJobcodeProfile());
+		mongoOperations.updateFirst(query, update, Offer.class);
 	}
 }

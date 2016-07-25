@@ -30,5 +30,6 @@ public class OfferDTO extends BaseDTO {
 	private String location;
 	private String offerLetterName;
 	private String status;
+	private String mobileNo;
 
 }

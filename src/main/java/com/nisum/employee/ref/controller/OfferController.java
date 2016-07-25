@@ -51,14 +51,13 @@ public class OfferController {
 				HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_RECRUITER" })
 	@RequestMapping(value = "/offers", method = RequestMethod.GET)
 	public ResponseEntity<List<OfferDTO>> getOffers() throws Exception {
 		return new ResponseEntity<List<OfferDTO>>(offerService.getOffers(),
 				HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "/offer/nextStatuses", method = RequestMethod.GET)
 	public ResponseEntity<List<OfferState>> getNextStatuses(
 			@RequestParam(value = "currentStatus", required = false) String currentStatus)

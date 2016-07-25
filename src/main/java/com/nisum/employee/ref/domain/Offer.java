@@ -30,4 +30,5 @@ public class Offer extends AuditEntity {
 	private String location;
 	private String offerLetterName;
 	private String status;
+	private String mobileNo;
 }
