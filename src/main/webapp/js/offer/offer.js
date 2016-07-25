@@ -5,7 +5,7 @@ app.controller('offerManagementCtrl',['$scope', '$http','$q', '$window','$state'
 	
 	$scope.att=["candidateName","emailId","client","status"];
 	
-	$http.get('resources/profile').success(function(data, status, headers, config) {
+	$http.get('resources/offers').success(function(data, status, headers, config) {
 		$scope.myData = data;
 	}).error(function(data, status, headers, config) {
 		$log.error("Failed To Get Profiles! ---> "+data);

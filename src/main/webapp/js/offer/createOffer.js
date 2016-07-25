@@ -31,6 +31,10 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	                  "TN"];
 	$scope.allowances = ["$100","$150","$200"];
 	$scope.bonus = ["$200","$400","$600"];
+	if($scope.candidate.jobcodeProfile=="")
+		 $scope.candidate.status = "Not Initialized";
+	 else
+		 $scope.candidate.status = "Initialized";
 	var offerLetterFile = null;
 	$scope.invalidFile = true;
 	
@@ -45,6 +49,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	
 	var GET_POSTION_DETAILS='resources/searchPositionsBasedOnJobCode?jobcode='+$scope.profile.jobcodeProfile;
 	var RELEASE_OFFER='resources/save-offer';
+	//var UDATE_OFFER='resources/update-offer';
 	
 	$http.get(GET_POSTION_DETAILS).success(function(data2, status, headers, config) {
 		$scope.candidate.client = data2.client;
@@ -53,8 +58,15 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	}).error(function(data, status, headers, config) {
 		$log.error(data);
 	});
+	
+		offerService.getNextStatuses($scope.candidate.status).then(function(data){
+			$scope.offerData = data;
+		}).catch(function(msg){
+			$log.error(msg);
+		});
 
 	$scope.saveOffer = function() {
+		
 		$scope.uploadFileIntoDB($scope.offerLetterFile);
 		$http.post(RELEASE_OFFER, $scope.candidate).success(function(data, status) {
 			$log.info("saved offer...");
@@ -62,7 +74,12 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 		  }).error(function(data) {
 			$log.error("error saving offer..." + data);
 		});
-
+		/*$http.put(UPDATE_OFFER, $scope.candidate).success(function(data, status) {
+			$log.info("updated offer...");
+			//$scope.sendNotification("Offer Updated Successfully",'/offer');
+		  }).error(function(data) {
+			$log.error("error updating offer..." + data);
+		});*/
 	};
 	
 	  

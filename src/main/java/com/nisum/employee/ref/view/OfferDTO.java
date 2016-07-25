@@ -1,20 +1,20 @@
-package com.nisum.employee.ref.domain;
+package com.nisum.employee.ref.view;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+@Getter
+@Setter
+public class OfferDTO extends BaseDTO {
 
-@EqualsAndHashCode(callSuper = false)
-@Data()
-@Document(collection = "offer")
-public class Offer extends AuditEntity {
-
-	@Id
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String emailId;
 	private String candidateName;
 	private String client;
@@ -30,4 +30,5 @@ public class Offer extends AuditEntity {
 	private String location;
 	private String offerLetterName;
 	private String status;
+
 }

@@ -1,10 +1,10 @@
 package com.nisum.employee.ref.controller;
 
 import static org.mockito.Matchers.any;
-
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 
 
@@ -22,6 +22,7 @@ import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.service.OfferService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.OfferDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OfferControllerTest {
@@ -40,7 +41,7 @@ public class OfferControllerTest {
 	}
 	@Test
 	public void shouldSaveOfferDetails() throws Exception {
-	    doNothing().when(offerService).saveOffer(any(Offer.class));
+	    doNothing().when(offerService).saveOffer(any(OfferDTO.class));
 	  	 mockMvc.perform(
 				post("/save-offer").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Offer()))).andExpect(status().isOk());

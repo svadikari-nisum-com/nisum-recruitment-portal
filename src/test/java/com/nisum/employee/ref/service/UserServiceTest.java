@@ -55,6 +55,7 @@ public class UserServiceTest {
 		List<String> actualRoles = new ArrayList<String>();
 		actualRoles.add("ROLE_USER");
 		actualUserInfo.setRoles(actualRoles);
+		
 		List<TimeSlots> timeSlots = new ArrayList<TimeSlots>();
 		TimeSlots time = new TimeSlots();
 		time.setDay("Sunday");

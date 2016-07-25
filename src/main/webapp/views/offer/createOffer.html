@@ -1,4 +1,4 @@
-<h3 class="heading-name">Create Offer</h3>
+<h3 class="heading-name">Update Offer</h3>
 <div class="container">
 	<form name="form" class="form-horizontal" onvalidate>
 		<div class="panel panel-default">
@@ -13,7 +13,7 @@
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
 							<input type="text" name="name" class="form-control"
-								ng-disabled="true" ng-model="profile.candidateName"
+								ng-disabled="false" ng-model="profile.candidateName"
 								style="width: 220px;">
 						</div>
 						<label class="lbl col-md-2"><i
@@ -21,7 +21,7 @@
 							JobCode <b style="color: red;">*</b></label>
 						<div class="col-md-3">
 							<input type="text" name="jobcode" class="form-control"
-								ng-disabled="true" ng-model="candidate.jobcodeProfile"
+								ng-disabled="false" ng-model="candidate.jobcodeProfile"
 								style="width: 220px;">
 						</div>
 					</div>
@@ -32,15 +32,15 @@
 						<div class="col-md-3">
 							<input class="form-control" type="email" name="emailId"
 								ng-model="candidate.emailId" class="form-control"
-								ng-disabled="true" placeholder="Enter Email Id" required>
+								ng-disabled="false" placeholder="Enter Email Id" required>
 						</div>
 						<label class="lbl col-md-2"><i
 							class="glyphicon glyphicon-phone"></i>&nbsp;&nbsp;Mobile<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
 							<input class="form-control" type="text" name="mobileNo"
-								ng-model="profile.mobileNo" class="form-control"
-								ng-disabled="true" placeholder="Enter Mobile No" required>
+								ng-model="candidate.mobileNo" class="form-control"
+								ng-disabled="false" placeholder="Enter Mobile No" required>
 						</div>
 					</div>
 					<div class="form-group">
@@ -50,7 +50,7 @@
 						<div class="col-md-3">
 							<input class="form-control" type="text" name="client"
 								ng-model="candidate.client" class="form-control"
-								ng-disabled="true" placeholder="Select Client" required>
+								ng-disabled="false" placeholder="Select Client" required>
 						</div>
 						<label class="lbl col-md-2"><i
 							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Report Manager <b
@@ -80,7 +80,7 @@
 						<div class="col-md-3">
 							<input class="form-control input-sm" type="text" name="hrManager"
 								ng-model="candidate.hrManager" class="form-control"
-								ng-disabled="true" placeholder="Select HR Manager" required>
+								ng-disabled="false" placeholder="Select HR Manager" required>
 						</div>
 					</div>
 					<div class="form-group">
@@ -101,7 +101,7 @@
 						<div class="col-md-3">
 							<input type="text" class="form-control" ng-click="open($event)"
 								datepicker-popup="{{format}}" ng-model="candidate.joiningDate"
-								is-open="opened" min-date="minDate" max-date="'2016-06-22'"
+								is-open="opened" min-date="minDate" max-date="maxDate"
 								datepicker-options="dateOptions"
 								placeholder="Select Joining Date"
 								date-disabled="disabled(date, mode)" ng-required="true"
@@ -140,6 +140,15 @@
 								ng-file-select="upload($files)" valid-file required /> <small
 								ng-show="fileError" style="color: red;">File Extensions
 								Accepted: [doc, docx, pdf]</small>
+						</div>
+						<label class="lbl col-md-2 col-md-offset-1"><i
+							class="glyphicon "></i>&nbsp;&nbsp;
+							Status<span style="color: red;">*</span></label>
+						<div class="col-md-3">
+							<select name="staus" ng-model="candidate.status"
+								ng-options="o for o in offerData" class="form-control input-sm">
+								<option value='' disabled="disabled"> Staus </option>
+							</select>
 						</div>
 					</div>
 					<div class="form-group">

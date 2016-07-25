@@ -2,24 +2,29 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nisum.employee.ref.common.OfferState;
-import com.nisum.employee.ref.domain.Offer;
+import com.nisum.employee.ref.converter.OfferConverter;
 import com.nisum.employee.ref.repository.OfferRepository;
+import com.nisum.employee.ref.view.OfferDTO;
 
 @Service
 public class OfferService implements IOfferService { 
 	
 	@Autowired
 	private OfferRepository offerRepository;
+	
+	@Autowired
+	private OfferConverter offerConverter;
     
 	@Override
-	public void saveOffer(Offer offer) {
-		 offerRepository.saveOffer(offer);
+	public void saveOffer(OfferDTO offer) {
+		 offerRepository.saveOffer(offerConverter.convertToEntity(offer));
 	}
     
 	@Override
@@ -35,8 +40,8 @@ public class OfferService implements IOfferService {
 		return OfferState.getState(currentStatus).next();
 	}
 
-	public List<Offer> getOffers() {
-		return offerRepository.getOffers();
+	public List<OfferDTO> getOffers() {
+		return offerConverter.convertToDTOs(offerRepository.getOffers());
 	}
 
 }
