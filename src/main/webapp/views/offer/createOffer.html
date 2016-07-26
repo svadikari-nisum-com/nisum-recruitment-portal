@@ -1,4 +1,4 @@
-<h3 class="heading-name">Update Offer</h3>
+<h3 class="heading-name">Create Offer</h3>
 <div class="container">
 	<form name="form" class="form-horizontal" onvalidate>
 		<div class="panel panel-default">
@@ -56,10 +56,10 @@
 							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Report Manager <b
 							style="color: red;">*</b></label>
 						<div class="col-md-3">
-							<select name="reportManager"
+							<select name="reportManager" 
 								ng-model="candidate.reportingManager"
 								ng-options="o.name as o.name for o in managers | orderBy:'toString()'"
-								class="form-control input-sm">
+								class="form-control input-sm" >
 								<option value='' disabled="disabled">Select Reporting
 									Manager</option>
 							</select>

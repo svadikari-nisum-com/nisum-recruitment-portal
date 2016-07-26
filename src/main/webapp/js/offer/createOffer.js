@@ -49,7 +49,6 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	
 	var GET_POSTION_DETAILS='resources/searchPositionsBasedOnJobCode?jobcode='+$scope.profile.jobcodeProfile;
 	var RELEASE_OFFER='resources/save-offer';
-	//var UDATE_OFFER='resources/update-offer';
 	
 	$http.get(GET_POSTION_DETAILS).success(function(data2, status, headers, config) {
 		$scope.candidate.client = data2.client;

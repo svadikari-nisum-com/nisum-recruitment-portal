@@ -11,8 +11,8 @@ app.controller('offerManagementCtrl',['$scope', '$http','$q', '$window','$state'
 		$log.error("Failed To Get Profiles! ---> "+data);
 	});
 	
-	$scope.selectCandidate = function(profile) {
-		offerService.setData(profile);
+	$scope.selectCandidate = function(offer) {
+		offerService.setData(offer);
 		$state.go("offer.createOffer");
 	}
 
