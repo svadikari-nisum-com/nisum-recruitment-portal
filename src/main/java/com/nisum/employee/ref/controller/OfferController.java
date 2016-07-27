@@ -2,9 +2,6 @@ package com.nisum.employee.ref.controller;
 
 import java.util.List;
 
-
-
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +70,12 @@ public class OfferController {
 				.getNextStatuses(currentStatus);
 		return new ResponseEntity<List<OfferState>>(offerStatuses,
 				HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/errors", method = RequestMethod.GET)
+	public ResponseEntity<List<OfferState>> getErrors(
+			@RequestParam(value = "currentStatus", required = false) String currentStatus)
+			throws Exception {
+		throw new Exception();
 	}
 }

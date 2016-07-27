@@ -1,4 +1,5 @@
 package com.nisum.employee.ref.service;
+
 import java.io.File;
 import java.io.StringWriter;
 import java.text.ParseException;
@@ -35,8 +36,9 @@ import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.view.UserInfoDTO;
+
 @Service
-public class NotificationService implements INotificationService{
+public class NotificationService implements INotificationService {
 
 	private static final String DD_MMM_YYYY_HH_MM = "dd-MMM-yyyy HH:mm";
 	private static final String YYYY_MM_DD_T_HH_MM_SS_SSS_Z = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
@@ -46,13 +48,13 @@ public class NotificationService implements INotificationService{
 	private static final String YOU_NEED_TO_TAKE_INTERVIEW_OF = " - You Need To Take Interview Of ";
 	private static final String SKYPE_ID = "skypeId";
 	private static final String APP_NAME = "Nisum Recruitment Portal";
-	
+
 	private static final String LOCATION = "location";
 	private static final String ALTMOBILE_NO = "altmobileNo";
 	private static final String MOBILE_NO = "mobileNo";
 	private static final String INTERVIEW_DATE_TIME = "interviewDateTime";
 	private static final String TYPE_OF_INTERVIEW = "typeOfInterview";
-	
+
 	private static final String ROUND_NAME = "roundName";
 	private static final String INAME = "iname";
 	private static final String CNAME = "cname";
@@ -63,7 +65,7 @@ public class NotificationService implements INotificationService{
 	private static final String RATING_LIST = "ratingList";
 	private static final String IMPROVEMENTS = "improvements";
 	private static final String STRENGTHS = "strengths";
-	
+
 	private static final String ROLE_HR = "ROLE_HR";
 	private static final String TRUE = "true";
 	private static final String PORT_587 = "587";
@@ -71,7 +73,7 @@ public class NotificationService implements INotificationService{
 	private static final String MAIL_SMTP_HOST = "mail.smtp.host";
 	private static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 	private static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
-	
+
 	@Value("${mail.fromAddress}")
 	private String from;
 	@Value("${mail.username}")
@@ -80,7 +82,7 @@ public class NotificationService implements INotificationService{
 	private String password;
 	@Value("${mail.host}")
 	private String host;
-	 
+
 	@Value("${SRC_CANDIDATE_VM}")
 	private String SRC_CANDIDATE_VM;
 	@Value("${SRC_INTERVIEWER_VM}")
@@ -88,87 +90,110 @@ public class NotificationService implements INotificationService{
 	@Value("${SRC_FEEDBACK_HR_VM}")
 	private String SRC_FEEDBACK_HR_VM;
 
+	@Value("${error.mail.to}")
+	private String errors_notifications_to;
+	
+	
 	@Autowired
 	IProfileService profileService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	UserNotificationService userNotificationService;
-	
-	
+
 	@Override
-	public String sendScheduleMail(InterviewSchedule interviewSchedule, String mobileNo, String altMobileNo, String skypeId) throws Exception{
-		
-		try{
-			//Update UserNotification
+	public String sendScheduleMail(InterviewSchedule interviewSchedule,
+			String mobileNo, String altMobileNo, String skypeId)
+			throws Exception {
+
+		try {
+			// Update UserNotification
 			UserNotification userNotification = new UserNotification();
-			userNotification.setUserId(interviewSchedule.getEmailIdInterviewer());
-			userNotification.setMessage("Take interview of "+interviewSchedule.getCandidateName() + " for "+ interviewSchedule.getRoundName());
+			userNotification.setUserId(interviewSchedule
+					.getEmailIdInterviewer());
+			userNotification.setMessage("Take interview of "
+					+ interviewSchedule.getCandidateName() + " for "
+					+ interviewSchedule.getRoundName());
 			userNotification.setRead("No");
 			userNotificationService.createNotification(userNotification);
-		} catch(Exception e){
+		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 		String to = interviewSchedule.getCandidateId();
 		String toInterviewer = interviewSchedule.getEmailIdInterviewer();
-		
+
 		Session session = getSession();
 
-		VelocityContext context = getVelocityContext(interviewSchedule.getCandidateName(), interviewSchedule.getJobcode(), interviewSchedule.getInterviewerName(), interviewSchedule.getRoundName());
+		VelocityContext context = getVelocityContext(
+				interviewSchedule.getCandidateName(),
+				interviewSchedule.getJobcode(),
+				interviewSchedule.getInterviewerName(),
+				interviewSchedule.getRoundName());
 		context.put(TYPE_OF_INTERVIEW, interviewSchedule.getTypeOfInterview());
-		context.put(INTERVIEW_DATE_TIME, getDateTime(interviewSchedule.getInterviewDateTime()));
+		context.put(INTERVIEW_DATE_TIME,
+				getDateTime(interviewSchedule.getInterviewDateTime()));
 		context.put(MOBILE_NO, mobileNo);
 		context.put(ALTMOBILE_NO, altMobileNo);
 		context.put(LOCATION, interviewSchedule.getInterviewLocation());
-		
+
 		Template candidateTemplate = getVelocityTemplate(SRC_CANDIDATE_VM);
 
 		StringWriter writer = new StringWriter();
 		candidateTemplate.merge(context, writer);
-		        
-		VelocityContext context2 =  getVelocityContext(interviewSchedule.getCandidateName(), interviewSchedule.getJobcode(), interviewSchedule.getInterviewerName(), interviewSchedule.getRoundName());
+
+		VelocityContext context2 = getVelocityContext(
+				interviewSchedule.getCandidateName(),
+				interviewSchedule.getJobcode(),
+				interviewSchedule.getInterviewerName(),
+				interviewSchedule.getRoundName());
 		context2.put(MOBILE_NO, mobileNo);
 		context2.put(ALTMOBILE_NO, altMobileNo);
 		context2.put(TYPE_OF_INTERVIEW, interviewSchedule.getTypeOfInterview());
-		context2.put(INTERVIEW_DATE_TIME, getDateTime(interviewSchedule.getInterviewDateTime()));
+		context2.put(INTERVIEW_DATE_TIME,
+				getDateTime(interviewSchedule.getInterviewDateTime()));
 		context2.put(SKYPE_ID, skypeId);
 
 		Template interviewerTemplate = getVelocityTemplate(SRC_INTERVIEWER_VM);
 
 		StringWriter writer2 = new StringWriter();
 		interviewerTemplate.merge(context2, writer2);
-		        
+
 		// ----------- End Interviewer Config -----------
 
 		// --- Set Interviewer Email Content ---
 		Message msgInterviewer = new MimeMessage(session);
 		msgInterviewer.setFrom(new InternetAddress(from));
-		msgInterviewer.setRecipients(Message.RecipientType.TO,InternetAddress.parse(toInterviewer));
-		msgInterviewer.setSubject(APP_NAME + YOU_NEED_TO_TAKE_INTERVIEW_OF+interviewSchedule.getCandidateName());
+		msgInterviewer.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(toInterviewer));
+		msgInterviewer.setSubject(APP_NAME + YOU_NEED_TO_TAKE_INTERVIEW_OF
+				+ interviewSchedule.getCandidateName());
 		BodyPart messageBodyPart = new MimeBodyPart();
 		messageBodyPart.setContent(writer2.toString(), TEXT_HTML);
 		Multipart multipart = new MimeMultipart();
 		multipart.addBodyPart(messageBodyPart);
 		messageBodyPart = new MimeBodyPart();
-		String[] resume = profileService.getResume(interviewSchedule.getCandidateId());
+		String[] resume = profileService.getResume(interviewSchedule
+				.getCandidateId());
 		DataSource source = new FileDataSource(resume[0]);
 		messageBodyPart.setDataHandler(new DataHandler(source));
-		messageBodyPart.setFileName(interviewSchedule.getCandidateName() + "_" + resume[1]);
+		messageBodyPart.setFileName(interviewSchedule.getCandidateName() + "_"
+				+ resume[1]);
 		multipart.addBodyPart(messageBodyPart);
 		msgInterviewer.setContent(multipart);
-	         
-	         
+
 		// --- Set Candidate Content ---
 		Message message = getMessage();
-		message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
-		message.setSubject(APP_NAME + YOUR_INTERVIEW_FOR+interviewSchedule.getRoundName()+" Is Sheduled.");
+		message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(to));
+		message.setSubject(APP_NAME + YOUR_INTERVIEW_FOR
+				+ interviewSchedule.getRoundName() + " Is Sheduled.");
 		message.setContent(writer.toString(), TEXT_HTML);
 
 		// --- Send Mails ---
-		Transport.send(msgInterviewer);		
+		Transport.send(msgInterviewer);
 		Transport.send(message);
 
 		return "Mails Sent Successfully!";
@@ -184,7 +209,7 @@ public class NotificationService implements INotificationService{
 		for (UserInfoDTO ui : info) {
 			HR_Emails.add(ui.getEmailId());
 		}
-		 
+
 		VelocityContext context = getVelocityContext(
 				interviewFeedback.getCandidateName(),
 				interviewFeedback.getJobcode(),
@@ -214,8 +239,10 @@ public class NotificationService implements INotificationService{
 
 	private Template getVelocityTemplate(String templetName) {
 		Properties prop = new Properties();
-		String absolutePath=new File(Thread.currentThread().getContextClassLoader().getResource("").getFile()).getParentFile().getParentFile().getPath();
-		prop.put(FILE_RESOURCE_LOADER_PATH, absolutePath+WEB_INF_CLASSES_VM);
+		String absolutePath = new File(Thread.currentThread()
+				.getContextClassLoader().getResource("").getFile())
+				.getParentFile().getParentFile().getPath();
+		prop.put(FILE_RESOURCE_LOADER_PATH, absolutePath + WEB_INF_CLASSES_VM);
 		Velocity.init(prop);
 		return Velocity.getTemplate(templetName);
 	}
@@ -252,17 +279,33 @@ public class NotificationService implements INotificationService{
 				});
 		return session;
 	}
-	private String getDateTime(String dateTime){
-			SimpleDateFormat formatter, FORMATTER;
-			formatter = new SimpleDateFormat(YYYY_MM_DD_T_HH_MM_SS_SSS_Z);
-			FORMATTER = new SimpleDateFormat(DD_MMM_YYYY_HH_MM);
-			Date convertedDate = null;
-			try {
-				convertedDate = formatter.parse(dateTime.substring(0, 24));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			return FORMATTER.format(convertedDate);
+
+	private String getDateTime(String dateTime) {
+		SimpleDateFormat formatter, FORMATTER;
+		formatter = new SimpleDateFormat(YYYY_MM_DD_T_HH_MM_SS_SSS_Z);
+		FORMATTER = new SimpleDateFormat(DD_MMM_YYYY_HH_MM);
+		Date convertedDate = null;
+		try {
+			convertedDate = formatter.parse(dateTime.substring(0, 24));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return FORMATTER.format(convertedDate);
+	}
+
+	public void sendExcetionLog(Exception e){
+		try {
+		StringWriter writer = new StringWriter();
+		writer.append(e.getMessage());
+		Message message = getMessage();
+		
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(errors_notifications_to));
+		message.setSubject("There is an error in "+ APP_NAME +" application");
+		message.setContent(writer.toString(), TEXT_HTML);
+		Transport.send(message);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 }
-
