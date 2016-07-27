@@ -14,6 +14,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 		$scope.candidate.mobileNo = $scope.profile.mobileNo;
 	}
 	$scope.candidate.jobcodeProfile = angular.copy($scope.profile.jobcodeProfile);
+	$scope.candidate.candidateName = $scope.profile.candidateName;
 	$scope.candidate.project = "";
 	$scope.candidate.reportingManager = "";
 	$scope.candidate.imigrationStatus = "";
