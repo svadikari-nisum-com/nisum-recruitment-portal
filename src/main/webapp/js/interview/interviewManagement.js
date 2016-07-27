@@ -1,4 +1,4 @@
-	app.controller('interviewManagementCtrl',['$scope', '$http','$q', '$window','jobCodeService1', '$log', '$rootScope', function($scope, $http, $q, $window,jobCodeService1, $log, $rootScope) {
+	app.controller('interviewManagementCtrl',['$scope', '$http','$q', '$window','$state','jobCodeService1','offerService', '$log', '$rootScope', function($scope, $http, $q, $window,$state,jobCodeService1,offerService, $log, $rootScope) {
 		$scope.interview = {};
 		$scope.positionDisable = true;
 		$scope.searchDisable = true;
@@ -198,5 +198,16 @@
 			}else{
 				$scope.advancedHide = true;
 			}
+		}
+		$scope.selectCandidate = function(item,index) {
+			
+			 $http.get('resources/profile?emailId='+item.candidateEmail).success(function(data, status, headers, config) {
+					
+				console.log("RRRRRRRRRRRRRRRRRR");
+				offerService.setData(data[0]);
+				$state.go("recruitment.createOffer");
+			  })
+			
+			
 		}
 	}]);

@@ -9,6 +9,10 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	// console.log(angular.toJson($scope.profile));
 	$scope.candidate = {};
 	$scope.candidate.emailId = $scope.profile.emailId;
+	if($scope.profile.mobileNo && $scope.profile.mobileNo != null)
+	{
+		$scope.candidate.mobileNo = $scope.profile.mobileNo;
+	}
 	$scope.candidate.jobcodeProfile = angular.copy($scope.profile.jobcodeProfile);
 	$scope.candidate.project = "";
 	$scope.candidate.reportingManager = "";
@@ -150,7 +154,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	$scope.format = $scope.formats[0];
 	
 	$scope.cancel = function() {
-	    $state.go('offer.list');
+	    $state.go('recruitment.interviewManagement');
 	};
 	
 }]);

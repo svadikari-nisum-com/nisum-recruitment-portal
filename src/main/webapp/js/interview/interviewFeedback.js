@@ -11,13 +11,14 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.message = "";
 	$scope.round = {};
 	$scope.disableFields = false;
-	$scope.disableStatus = true;
+	$scope.disableStatus = false;
 	$scope.disableSkills = false;
 	$scope.submitShow = true;
 	$scope.info = {};
 	$scope.roundList = [];
 	$scope.disableSchedule = true;
 	$scope.hideSubmit = false;
+	$scope.interviewFeedback.status="";
 	var i = 0;
 	
 	
@@ -111,7 +112,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			if(_.contains($scope.roundList,roundName)){
 		angular.forEach($scope.interview.rounds, function(round){
 			if(round.interviewSchedule.roundName == "Hr Round"){
-				$scope.disableStatus = false;
 				$scope.disableSkills = true;
 			}
 		if(round.interviewSchedule.roundName == roundName)	{

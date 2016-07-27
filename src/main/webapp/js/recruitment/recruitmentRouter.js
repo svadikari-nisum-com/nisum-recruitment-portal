@@ -57,6 +57,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     		}
     	}
     })
+    .state('recruitment.createOffer', {url:'/createOffer', views: {'': {templateUrl: 'views/offer/createOffer.html', controller: 'createOfferCtrl'}},
+    	resolve : {
+    		permission: function(authorizationService,$route) {
+    			return authorizationService.permissionCheck(["ROLE_HR","ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN"]);
+            }
+    	}
+    })
     .state('recruitment.interviewFeedback', {url:'/interviewFeedback', views: {'': {templateUrl: 'views/recruitment/interviewFeedback.html', controller: 'interviewFeedbackCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
