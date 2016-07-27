@@ -60,7 +60,17 @@ public class OfferRepository {
 	public List<Offer> getOffers() {
 		return mongoOperations.findAll(Offer.class);
 	}
+	
+	public Offer getOffer(String emailId) {
+		
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").regex(emailId));
+		return mongoOperations.findOne(query, Offer.class);
+		
+		
+	}
 
+	
 	public void updateOffer(Offer offer) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("emailId").is(offer.getEmailId()));

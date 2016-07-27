@@ -58,6 +58,13 @@ public class OfferController {
 				HttpStatus.OK);
 	}
 
+	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_RECRUITER" })
+	@RequestMapping(value = "/offer", method = RequestMethod.GET)
+	public ResponseEntity<OfferDTO> getOffer(@RequestParam(value = "emailId", required = true) String emailId) throws Exception {
+		return new ResponseEntity<OfferDTO>(offerService.getOffer(emailId),
+				HttpStatus.OK);
+	}
+	
 	@RequestMapping(value = "/offer/nextStatuses", method = RequestMethod.GET)
 	public ResponseEntity<List<OfferState>> getNextStatuses(
 			@RequestParam(value = "currentStatus", required = false) String currentStatus)

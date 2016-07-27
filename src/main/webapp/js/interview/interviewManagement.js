@@ -203,7 +203,6 @@
 			
 			 $http.get('resources/profile?emailId='+item.candidateEmail).success(function(data, status, headers, config) {
 					
-				console.log("RRRRRRRRRRRRRRRRRR");
 				offerService.setData(data[0]);
 				$state.go("recruitment.createOffer");
 			  })

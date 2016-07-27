@@ -43,5 +43,9 @@ public class OfferService implements IOfferService {
 	public List<OfferDTO> getOffers() {
 		return offerConverter.convertToDTOs(offerRepository.getOffers());
 	}
+	
+	public OfferDTO getOffer(String emailId) {
+		return offerConverter.convertToDTO(offerRepository.getOffer(emailId));
+	}
 
 }

@@ -6,7 +6,8 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	}
 
 	$scope.profile = offerService.getData();
-	// console.log(angular.toJson($scope.profile));
+	// console.log(angular.toJson($scope.profile));	
+	$scope.pageName = "Create Offer";
 	$scope.candidate = {};
 	$scope.candidate.emailId = $scope.profile.emailId;
 	if($scope.profile.mobileNo && $scope.profile.mobileNo != null)
@@ -157,5 +158,25 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	$scope.cancel = function() {
 	    $state.go('recruitment.interviewManagement');
 	};
+	
+	var init = function () {
+		
+		$http.get("resources/offer?emailId="+offerService.getData().emailId).success(function(data, status)
+		{
+			if(data && data != null)
+			{
+				$scope.candidate = data;
+				$scope.pageName = "Update Offer";
+			}	
+		}).catch(function(status){
+			
+			$log.error(status);
+		});
+		
+		
+	};
+	
+	init();
+	
 	
 }]);
