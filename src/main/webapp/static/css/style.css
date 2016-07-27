@@ -2915,3 +2915,7 @@ table.fc-border-separate {
 .searchprof-grid {
   width: 95%;
 }
+
+#crskills input {
+	width: auto !important;
+}
