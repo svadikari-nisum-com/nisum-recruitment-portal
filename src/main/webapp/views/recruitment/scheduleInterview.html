@@ -142,19 +142,33 @@
         
         <br>
 		<div class="row">
-        	<div align="left">
+        	<div align="left" ng-if="sel.selectedtypeOfInterview == 'Skype'">
 					<div class="col-md-1"></div>
 					<div class="col-md-2">			
 						<label class="lbl" for="skypeId"><i class="glyphicon glyphicon-envelope"></i>&nbsp;&nbsp;Skype ID<b style="color:red;">*</b>:</label>
 					</div>
 					<div class="col-md-3" ng-hide="hasRole('ROLE_INTERVIEWER')">
 						<input type="text" ng-change="" ng-model="interviewschedule.skypeId" name="altmobileNo" id="skypeId"
-								ngPattern="" class="form-control" placeholder="Enter Skype ID." ng-disabled = "true" required/>	
+								ngPattern="" class="form-control" placeholder="Enter Skype ID." required/>	
 					</div>
 					<div class="col-md-3 lblColor" style="display: inline;" ng-hide="!(hasRole('ROLE_INTERVIEWER'))">
 						{{interviewschedule.skypeId}}
 					</div>
-			</div>   
+			</div>  
+			
+			<div align="left" ng-if="sel.selectedtypeOfInterview != 'Skype'">
+					<div class="col-md-1"></div>
+					<div class="col-md-2">			
+						<label class="lbl" for="skypeId"><i class="glyphicon glyphicon-envelope"></i>&nbsp;&nbsp;Skype ID:</label>
+					</div>
+					<div class="col-md-3" ng-hide="hasRole('ROLE_INTERVIEWER')">
+						<input type="text" ng-change="" ng-model="interviewschedule.skypeId" name="altmobileNo" id="skypeId"
+								ngPattern="" class="form-control" placeholder="Enter Skype ID."/>	
+					</div>
+					<div class="col-md-3 lblColor" style="display: inline;" ng-hide="!(hasRole('ROLE_INTERVIEWER'))">
+						{{interviewschedule.skypeId}}
+					</div>
+			</div>
 				
 			<div class="control-group">
 				<div class="col-md-2" align="left">
