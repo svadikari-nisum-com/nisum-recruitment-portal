@@ -8,6 +8,7 @@ app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$window', '$log'
 	$scope.count = 0;
 	$scope.hideUnread = false;
 	$scope.hideRead = false;
+	$scope.profile_picture = sessionStorage.profile_picture;
 	
 	var yes_notification_Url = $http.get('resources/userNotification?userId='+sessionStorage.userId);
 	var no_notification_Url = $http.get('resources/noNotification?userId='+sessionStorage.userId);

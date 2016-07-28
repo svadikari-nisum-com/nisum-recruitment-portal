@@ -7,6 +7,7 @@
           $('#j_username').val(primaryEmail);
           $('#j_password').val('referral');
           sessionStorage.userId = primaryEmail;
+          sessionStorage.profile_picture = data['picture'];
           document.getElementById('login-form').submit();
         });
         
