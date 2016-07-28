@@ -134,11 +134,11 @@
 
 						<div class="row" align="left" style="padding-bottom: 1%;">
 							<div align="center" class="control-group"">
-								<label class="lbl">Not Available : <input
+								<label class="lbl" ng-hide="{{!hideTimeSlot}}" >Not Available : <input
 									type="checkbox" ng-model="userToEdit.isNotAvailable">
 								</label><br />
-								<fieldset ng-disabled="userToEdit.isNotAvailable">
-									<table id="timeSLots" ng-disabled="userToEdit.isNotAvailable">
+								<fieldset ng-disabled="hideTimeSlot">
+									<table id="timeSLots" ng-disabled="hideTimeSlot">
 										<tr>
 											<th>Day</th>
 											<th>Time</th>

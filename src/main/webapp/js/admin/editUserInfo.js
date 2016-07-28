@@ -8,6 +8,7 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 	$scope.hideCal = true;
 	$scope.hideDetails = true;
 	$scope.hideRoles = true;
+	$scope.hideTimeSlot = false;
 	
 	$scope.col=["Name","Email Id","Roles","Client"];
 	
@@ -19,6 +20,12 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 	}
 	
 	$scope.userToEdit = sharedDataService.getData();
+	
+	if($scope.userToEdit.emailId == sessionStorage.userId )
+	{
+		$scope.hideTimeSlot = true;
+	}
+	
 	$scope.message = sharedDataService.getmessage();
 	$scope.adminCls = sharedDataService.getClass();
 	$scope.days = [
