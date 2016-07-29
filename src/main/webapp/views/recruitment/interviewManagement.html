@@ -122,11 +122,11 @@
 				</button>
 			</td>
 			<td style="font-weight: bold">
-				<span ng-if="item.rounds[item.rounds.length-1].roundName == 'Hr Round' && item.rounds[item.rounds.length-1].interviewFeedback.status == 'Selected' "> 
+				<span ng-if="item.rounds[item.rounds.length-1].roundName == 'Hr Round' && item.rounds[item.rounds.length-1].interviewFeedback.status == 'Selected' && hasRole('ROLE_HR,ROLE_ADMIN')"> 
 					<a style="padding-left: 5px;cursor: pointer" ng-click="selectCandidate(item,$index);" >{{item.progress}} 
 						<md-tooltip md-direction="right"> Create / Update Offer</md-tooltip></a>
-					</span>
-					<span ng-if="item.rounds[item.rounds.length-1].roundName != 'Hr Round' || item.rounds[item.rounds.length-1].interviewFeedback.status != 'Selected' "> 
+				</span>
+				<span ng-if="hasRole('ROLE_INTERVIEWER') || item.rounds[item.rounds.length-1].roundName != 'Hr Round' || item.rounds[item.rounds.length-1].interviewFeedback.status != 'Selected' "> 
 					{{item.progress}}
 					</span>
 			</td>
