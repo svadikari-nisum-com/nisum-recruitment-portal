@@ -92,13 +92,7 @@
 		</tr>
 		<tr ng-repeat="item in interviewDetails">
 			<td>
-					<span ng-if="item.rounds[item.rounds.length-1].roundName == 'Hr Round' && item.rounds[item.rounds.length-1].interviewFeedback.status == 'Selected' "> 
-					<a style="padding-left: 5px;cursor: pointer" ng-click="selectCandidate(item,$index);" >{{item.candidateName}} 
-						<md-tooltip md-direction="right"> Create / Update Offer</md-tooltip></a>
-					</span>
-					<span ng-if="item.rounds[item.rounds.length-1].roundName != 'Hr Round' || item.rounds[item.rounds.length-1].interviewFeedback.status != 'Selected' "> 
 					{{item.candidateName}}
-					</span>
 			
 			</td>
 			<td >{{item.candidateEmail}}</td>
@@ -127,7 +121,15 @@
 						style="position: relative; top: 1px;"></span>
 				</button>
 			</td>
-			<td style="font-weight: bold">{{item.progress}}</td>
+			<td style="font-weight: bold">
+				<span ng-if="item.rounds[item.rounds.length-1].roundName == 'Hr Round' && item.rounds[item.rounds.length-1].interviewFeedback.status == 'Selected' "> 
+					<a style="padding-left: 5px;cursor: pointer" ng-click="selectCandidate(item,$index);" >{{item.progress}} 
+						<md-tooltip md-direction="right"> Create / Update Offer</md-tooltip></a>
+					</span>
+					<span ng-if="item.rounds[item.rounds.length-1].roundName != 'Hr Round' || item.rounds[item.rounds.length-1].interviewFeedback.status != 'Selected' "> 
+					{{item.progress}}
+					</span>
+			</td>
 		</tr>
 	</table>
 </div>
