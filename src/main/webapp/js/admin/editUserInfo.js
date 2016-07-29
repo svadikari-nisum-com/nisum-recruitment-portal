@@ -97,6 +97,8 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 	
 	$scope.validateSlotTimings = function(){
 		
+		if( $scope.userToEdit.timeSlots &&  $scope.userToEdit.timeSlots != null)
+		{
 		for(var initTSIndex = 0; initTSIndex < $scope.userToEdit.timeSlots.length; initTSIndex++) 
 		{
 			for (var innerTSIndex = initTSIndex + 1; innerTSIndex < $scope.userToEdit.timeSlots.length; innerTSIndex++) 
@@ -131,6 +133,7 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 					}
 				}
 			}
+		}
 		}
 		return true;
 		
