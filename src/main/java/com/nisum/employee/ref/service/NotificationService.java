@@ -1,6 +1,6 @@
 package com.nisum.employee.ref.service;
 
-import java.io.File;
+import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +28,8 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -42,8 +44,6 @@ public class NotificationService implements INotificationService {
 
 	private static final String DD_MMM_YYYY_HH_MM = "dd-MMM-yyyy HH:mm";
 	private static final String YYYY_MM_DD_T_HH_MM_SS_SSS_Z = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-	private static final String FILE_RESOURCE_LOADER_PATH = "file.resource.loader.path";
-	private static final String WEB_INF_CLASSES_VM = "/WEB-INF/classes/vm";
 	private static final String YOUR_INTERVIEW_FOR = " - Your Interview For ";
 	private static final String YOU_NEED_TO_TAKE_INTERVIEW_OF = " - You Need To Take Interview Of ";
 	private static final String SKYPE_ID = "skypeId";
@@ -90,10 +90,12 @@ public class NotificationService implements INotificationService {
 	@Value("${SRC_FEEDBACK_HR_VM}")
 	private String SRC_FEEDBACK_HR_VM;
 
+	@Value("${APP_ERROR_MESSAGE_VM}")
+	private String APP_ERROR_MESSAGE_VM;
+
 	@Value("${error.mail.to}")
 	private String errors_notifications_to;
-	
-	
+
 	@Autowired
 	IProfileService profileService;
 
@@ -239,12 +241,11 @@ public class NotificationService implements INotificationService {
 
 	private Template getVelocityTemplate(String templetName) {
 		Properties prop = new Properties();
-		String absolutePath = new File(Thread.currentThread()
-				.getContextClassLoader().getResource("").getFile())
-				.getParentFile().getParentFile().getPath();
-		prop.put(FILE_RESOURCE_LOADER_PATH, absolutePath + WEB_INF_CLASSES_VM);
+		prop.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		prop.setProperty("classpath.resource.loader.class",
+				ClasspathResourceLoader.class.getName());
 		Velocity.init(prop);
-		return Velocity.getTemplate(templetName);
+		return Velocity.getTemplate("templates/" + templetName);
 	}
 
 	private VelocityContext getVelocityContext(String cname, String jobcode,
@@ -293,19 +294,26 @@ public class NotificationService implements INotificationService {
 		return FORMATTER.format(convertedDate);
 	}
 
-	public void sendExcetionLog(Exception e){
+	public void sendExcetionLog(Exception exp) {
 		try {
-		StringWriter writer = new StringWriter();
-		writer.append(e.getMessage());
-		Message message = getMessage();
-		
+			VelocityContext context = new VelocityContext();
+
+			StringWriter sw = new StringWriter();
+			exp.printStackTrace(new PrintWriter(sw));
+			context.put("exceptionLog", sw.toString());
+			context.put("appName", APP_NAME);
+			Template candidateTemplate = getVelocityTemplate(APP_ERROR_MESSAGE_VM);
+			StringWriter writer = new StringWriter();
+			candidateTemplate.merge(context, writer);
+			Message message = getMessage();
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(errors_notifications_to));
-		message.setSubject("There is an error in "+ APP_NAME +" application");
-		message.setContent(writer.toString(), TEXT_HTML);
-		Transport.send(message);
-		} catch (Exception e1) {
-			e1.printStackTrace();
+			message.setSubject("There is an error in " + APP_NAME
+					+ " application");
+			message.setContent(writer.toString(), TEXT_HTML);
+			Transport.send(message);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 }
