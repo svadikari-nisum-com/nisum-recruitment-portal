@@ -1,5 +1,6 @@
 package com.nisum.employee.ref.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,6 +77,8 @@ public class OfferController {
 	public ResponseEntity<List<OfferState>> getErrors(
 			@RequestParam(value = "currentStatus", required = false) String currentStatus)
 			throws Exception {
-		throw new Exception();
+		int rel = 20/0;
+		return new ResponseEntity<List<OfferState>>(new ArrayList<OfferState>(),
+				HttpStatus.BAD_REQUEST);
 	}
 }

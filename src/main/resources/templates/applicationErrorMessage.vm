@@ -1,0 +1,13 @@
+<html>
+		<body style="font-family:calibri; font-size:15px; background-color:#F9FCF7;">
+				<p> Hello Team!!</p>
+				<p>There is an exception/error noticed in <b>$appName </b>. Please go through below log and fix it ASAP.</p>
+				<div>
+					$exceptionLog
+				</div>
+				<p>
+				Thanks,<br>
+				Application administration Group.
+				</p>
+		</body>
+</html>
