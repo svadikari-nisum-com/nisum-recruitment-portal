@@ -149,3 +149,26 @@ app.factory('convertArray2Json', function() {
 	}
 	return obj;
 });
+
+app.run(function($rootScope,$document) {
+		  var d = new Date();
+		  var n = d.getTime();  
+
+		    $rootScope.idleEndTime = n+(30*60*1000); //set end time to 30 min
+		    $document.find('body').on('mousemove keydown DOMMouseScroll mousewheel mousedown touchstart', checkAndResetIdle); //monitor events
+
+		    function checkAndResetIdle() {
+		      var d = new Date();
+		      var n = d.getTime(); 
+
+		        if (n>$rootScope.idleEndTime) {
+		            $document.find('body').off('mousemove keydown DOMMouseScroll mousewheel mousedown touchstart'); //un-monitor events
+		            //$location.search('IntendedURL',$location.absUrl()).path('/login'); //terminate by sending to login page
+		            document.location.href = 'logout.html';
+		            alert('Session ended due to inactivity please login again');
+		        }
+		        else  {
+		            $rootScope.idleEndTime = n+(30*60*1000); 
+		        }
+		    }
+		});3
