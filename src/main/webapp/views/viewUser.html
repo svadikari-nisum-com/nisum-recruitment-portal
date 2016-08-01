@@ -7,7 +7,8 @@
 	</div>
 	<!-- ----------------------------------alert Message--------------------------------------------------------- -->
 	<div align="center">
-		<accordion close-others=false> <accordion-group
+		<accordion close-others=false> 
+		<accordion-group
 			is-open="status.isFirstOpen"> <accordion-heading>
 		<font style="color: white;"> User Information<i
 			class="pull-right glyphicon"
@@ -146,7 +147,60 @@
 				</div>
 			</div>
 		</div>
-		</accordion-group>  <br>
+		</accordion-group> 
+		<accordion-group ng-hide="!hideDetails" is-open="status.open"
+			class="accordionBg"> <accordion-heading>
+		<font style="color: white">Available Time-Slots</font> <i
+			class="pull-right glyphicon accordionHeader"
+			ng-class="{'glyphicon-minus': status.open, 'glyphicon-plus': !status.open}"></i>
+		</accordion-heading>
+		<div class="row" align="left" style="padding-bottom: 10px;">
+			<div align="center" class="control-group"">
+				<label class="lbl">Not Available : <input type="checkbox"
+					ng-model="user.isNotAvailable">
+				</label><br />
+				<fieldset ng-disabled="user.isNotAvailable">
+					<table id="timeSLots" ng-disabled="user.isNotAvailable">
+						<tr>
+							<th>Day</th>
+							<th>Time</th>
+							<th>Hour</th>
+							<th><button class="btn btn-primary" ng-click="addSlot()">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button></th>
+						</tr>
+						<tr ng-repeat="slot in user.timeSlots">
+							<td><div>
+									<select style="line-height: 20px;" ng-model='slot.day'
+										ng-options='day for day in days'>
+										<option value="">Select Day</option>
+									</select>
+								</div></td>
+							<td><div>
+									<timepicker ng-model="slot.time" ng-change="changed()"
+										hour-step="1" minute-step="10" show-meridian="true"
+										arrowkeys="false"></timepicker>
+								</div></td>
+							<td>
+								<div>
+									<select style="line-height: 20px;" ng-model='slot.hour'
+										ng-options='hour for hour in hours'>
+										<option value="">Select Hour</option>
+									</select>
+								</div>
+							</td>
+							<td>
+								<button class="btn btn-primary" ng-click="removeSlot($index)">
+									<span class="glyphicon glyphicon-remove"></span>
+								</button>
+							</td>
+						</tr>
+					</table>
+				</fieldset>
+			</div>
+		</div>
+		</accordion-group> <br>
+		
 		<center>
 			<button class="btn btn-primary"  ng-disabled = "isDisableUserSave"  ng-click="update()" type="submit">
 				<span class="glyphicon glyphicon-ok-circle"></span> Save

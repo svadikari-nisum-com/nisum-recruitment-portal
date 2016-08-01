@@ -3,6 +3,7 @@ package com.nisum.employee.ref.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +27,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.converter.ProfileConverter;
+import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Profile;
+import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.view.ProfileDTO;
@@ -42,18 +45,30 @@ public class ProfileServiceTest {
 
 	@Mock
 	private ProfileRepository profileRepository;
+	
+	@Mock
+	private InterviewDetailsRepository interviewDetailsRepository;
 
 	private List<Profile> profiles;
+	private InterviewDetails interviewDetails;
 
 	@Before
 	public void setUp() throws Exception {
-		MockMvcBuilders.standaloneSetup(profileRepository)
+		MockMvcBuilders.standaloneSetup(profileRepository,interviewDetailsRepository)
 				.setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
 
 		profiles = new ArrayList<>();
 		Profile profile = new Profile();
 		profile.setEmailId("dprasad@nisum.com");
 		profiles.add(profile);
+		
+		interviewDetails = new InterviewDetails();
+		interviewDetails.setCandidateEmail("can_email@gmail.com");
+		interviewDetails.setCandidateName("can_name");
+		interviewDetails.setClientName("WF");
+		interviewDetails.setDesignation("SE1");
+		interviewDetails.setInterviewerId("java_037");
+		interviewDetails.setInterviewerEmail("inter_email@nisum.com");
 	}
 
 	@Rule
@@ -121,6 +136,7 @@ public class ProfileServiceTest {
 	@Test
 	public void testRetrieveAllProfiles() {
 		when(profileRepository.retrieveAllProfiles()).thenReturn(profiles);
+		when(interviewDetailsRepository.getInterviewDetailsById(anyString())).thenReturn(interviewDetails);
 		List<ProfileDTO> expectedProfiles = profileService.retrieveAllProfiles();
 		assertNotNull(expectedProfiles);
 		assertEquals(expectedProfiles.get(0).getEmailId(), profiles.get(0).getEmailId());

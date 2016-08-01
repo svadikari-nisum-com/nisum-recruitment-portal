@@ -37,5 +37,5 @@ public class ProfileDTO {
 	Boolean interviewSet;
 	String skypeId;
 	String status;
-
+	String interviewProgress;
 }
