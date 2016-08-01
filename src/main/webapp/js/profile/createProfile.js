@@ -36,7 +36,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 	userService.getUsers().then(function(data) {
 			$scope.userData = data;
 			angular.forEach($scope.userData, function(userr){
-				if(_.contains(userr.roles, "ROLE_HR")){
+				if(_.contains(userr.roles, "ROLE_RECRUITER")){
 					$scope.recruitmentData.push(userr.name);
 				}
 			});

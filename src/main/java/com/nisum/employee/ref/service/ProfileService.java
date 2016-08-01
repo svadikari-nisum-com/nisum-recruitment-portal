@@ -6,13 +6,17 @@ import java.util.List;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.converter.ProfileConverter;
+import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Profile;
+import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.view.ProfileDTO;
 
@@ -24,6 +28,9 @@ public class ProfileService implements IProfileService{
 	
 	@Autowired
 	ProfileConverter profileConverter;
+	
+	@Autowired
+	private InterviewDetailsRepository interviewDetailsRepository;
 
 	@Override
 	public String prepareCandidate(Profile candidate) throws Exception {
@@ -58,7 +65,15 @@ public class ProfileService implements IProfileService{
 	}
 	@Override
 	public List<ProfileDTO> retrieveAllProfiles() {
-		return profileConverter.convertToDTOs((profileRepository.retrieveAllProfiles()));
+		//return profileConverter.convertToDTOs((profileRepository.retrieveAllProfiles()));
+		List<ProfileDTO> profileDetails = profileConverter.convertToDTOs((profileRepository.retrieveAllProfiles()));
+		 for (ProfileDTO profileDTO : profileDetails) {
+			 String emailId = profileDTO.getEmailId();
+			 InterviewDetails interviewDetails = interviewDetailsRepository.getInterviewDetailsById(emailId);
+			 String interviewProgress = interviewDetails.getProgress();
+			 profileDTO.setInterviewProgress(interviewProgress);
+		 }
+		return profileDetails;
 	}
 	@Override
 	public Profile deleteProfileBasedOnEmailId(String emailId) {

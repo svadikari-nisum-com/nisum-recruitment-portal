@@ -4,9 +4,9 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
 	$scope.errorHide = true;
 	$scope.numRows = 10;
 	
-	$scope.col=["Name","Email Id","Designation","Experience","Current Employer","Assigned Job Code"];
+	$scope.col=["Name","Email Id","Designation","Experience","Recrutier","Interview Status"];
 	
-	$scope.att=["candidateName","emailId","designation","expYear","currentEmployer","jobcodeProfile"];
+	$scope.att=["candidateName","emailId","designation","expYear","hrAssigned","interviewProgress"];
 	$scope.att1=["jobcodeProfile"];
 	for (i = 0; i< $rootScope.user.roles.length;i++){
     	if($rootScope.user.roles[i] == 'ROLE_USER'){
@@ -47,8 +47,8 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
 		      { field: 'emailId', displayName:"Email Id", cellClass: 'ui-grid-align'},
 		      { field: 'designation', displayName:"Designation", width: 150, cellClass: 'ui-grid-align'},
 		      { field: 'expYear', displayName:"Experience", width: 100, cellClass: 'ui-grid-align'},
-		      { field: 'currentEmployer', displayName:"Current Employer", width: 200, cellClass: 'ui-grid-align'},
-		      { field: 'jobcodeProfile', displayName:"Assigned Job Code", cellFilter: 'stringArrayFilter', cellClass: 'ui-grid-align'}
+		      { field: 'hrAssigned', displayName:"Recrutier", width: 200, cellClass: 'ui-grid-align'},
+		      { field: 'interviewProgress', displayName:"Interview Status", cellClass: 'ui-grid-align'}
 		    ],
 		    onRegisterApi: function( gridApi ) {
 		    	$scope.gridApi = gridApi;

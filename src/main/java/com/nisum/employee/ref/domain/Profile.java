@@ -39,4 +39,5 @@ public class Profile{
 	Boolean interviewSet;
 	String skypeId;
 	String status;
+	String interviewProgress;
 }
