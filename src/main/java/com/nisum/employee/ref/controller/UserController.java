@@ -38,7 +38,8 @@ public class UserController {
 	public ResponseEntity<List<UserInfoDTO>> retrieveUsers(
 			@RequestParam(value = "emailId", required = false) String emailId,
 			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "clientName", required = false) String clientName) {
+			@RequestParam(value = "clientName", required = false) String clientName,
+			@RequestParam(value = "clientRole", required = false) String clientRole) {
 
 		List<UserInfoDTO> userInfos = null;
 		if (emailId != null) {
@@ -47,7 +48,12 @@ public class UserController {
 			userInfos = userService.retrieveUserByName(name);
 		} else if (clientName != null) {
 			userInfos = userService.retrieveUserByClient(clientName);
-		} else {
+		} else if ( clientRole != null )
+		{
+			userInfos = userService.retrieveUserByRole(clientRole);
+			
+		} else
+		{
 			userInfos = userService.retrieveUser();
 		}
 		return (null == userInfos) ? new ResponseEntity<List<UserInfoDTO>>(HttpStatus.NOT_FOUND)

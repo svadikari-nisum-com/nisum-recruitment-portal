@@ -29,9 +29,10 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 			$timeout( function(){ $scope.message = ""; $scope.cls = ''; sharedDataService.setmessage("");sharedDataService.getClass("");}, 3000);
 		}
 	
-	$scope.submit = function(){
-		if($scope.checkClients()){
+	$scope.submit = function(){		
+		if($scope.checkClients()){		
 			$scope.client.clientId = $scope.client.clientName.toUpperCase().replace(/\s/g, '');
+	
 			clientService.createClient($scope.client)
 						 .then(function(msg) { 
 							 $scope.sendSharedMessage(msg,'/admin/client');
@@ -59,13 +60,18 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 	}
 	
 	$scope.checkClients = function(){
+		 $scope.checkCls=true;
 		angular.forEach($scope.clients, function(cl){
-			if($scope.client.clientName == cl.clientName){
+			
+			if($scope.client.clientName.toUpperCase() == cl.clientName.toUpperCase()){			
 				 $scope.message="Client Already Exists";
 				 $scope.cls=appConstants.ERROR_CLASS;
 				 $scope.checkCl = false;
-		}});
-		return true;
+				 $scope.checkCls= false;
+			}
+		
+			});
+		return  $scope.checkCls;
 	}
 	
 	$scope.editClient = function(data){

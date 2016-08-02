@@ -67,8 +67,8 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	    $scope.cls = '';
 	}
 	$scope.validate =  function(){
-		$scope.alHide();
-	    if($scope.designation.maxExpYear<$scope.designation.minExpYear){
+		$scope.alHide();		
+	    if(parseInt($scope.designation.maxExpYear)<parseInt($scope.designation.minExpYear)){
 	    	$scope.message="maxExpYear should be gretter than minExpYear";
 		    $scope.cls=appConstants.ERROR_CLASS;
 		    $scope.designation.maxExpYear="";

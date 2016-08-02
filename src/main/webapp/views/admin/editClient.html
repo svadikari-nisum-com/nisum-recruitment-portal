@@ -66,9 +66,9 @@
 							</label>
 						</div>
 						<div class="col-md-3">
-							<select ng-model="t1user.name"
+							<select ng-model="t1user.idx"
 								ng-change="setRoundOneUserEmailId()"
-								ng-options="o as o for o in dropdownUsers | orderBy:'toString()'">
+								ng-options="dropdownUsers.indexOf(o) as o for o in dropdownUsers ">
 								<option value="" disabled="disabled">Select Name</option>
 							</select>
 						</div>
@@ -136,9 +136,9 @@
 							</label>
 						</div>
 						<div class="col-md-3">
-							<select ng-model="t2user.name"
-								ng-change="setRoundTwoUserEmailId()"
-								ng-options="o as o for o in dropdownUsers2 | orderBy:'toString()'">
+							<select ng-model="t2user.idx"
+								ng-options="dropdownUsers2.indexOf(o) as o for o in dropdownUsers2 "
+								ng-change="setRoundTwoUserEmailId()">
 								<option value="" disabled="disabled">Select Name</option>
 							</select>
 						</div>
@@ -155,7 +155,7 @@
 						</div>
 						<div class="col-md-1">
 							<span class="glyphicon glyphicon-ok" style="cursor: pointer;"
-								ng-click="saveRoundTwoUser($index)"></span>
+								ng-click="saveRoundTwoUser(idx)"></span>
 						</div>
 					</div>
 				</div>
@@ -207,9 +207,9 @@
 							</label>
 						</div>
 						<div class="col-md-3">
-							<select ng-model="t3user.name"
+							<select ng-model="t3user.idx"
 								ng-change="setManagerRoundEmailId()"
-								ng-options="o as o for o in dropdownUsers3 | orderBy:'toString()'">
+								ng-options="dropdownUsers3.indexOf(o) as o for o in dropdownUsers3 ">
 								<option value="" disabled="disabled">Select Name</option>
 							</select>
 						</div>
@@ -226,7 +226,7 @@
 						</div>
 						<div class="col-md-1">
 							<span class="glyphicon glyphicon-ok" style="cursor: pointer;"
-								ng-click="saveManagerRoundUser($index);"></span>
+								ng-click="saveManagerRoundUser();"></span>
 						</div>
 					</div>
 				</div>
@@ -272,8 +272,8 @@
 						</label>
 					</div>
 					<div class="col-md-3">
-						<select ng-model="t4user.name" ng-change="setHrRoundEmailId()"
-							ng-options="o as o for o in dropdownUsers4 | orderBy:'toString()'">
+						<select ng-model="t4user.idx" ng-change="setHrRoundEmailId()"
+							ng-options="dropdownUsers4.indexOf(o) as o for o in dropdownUsers4 ">
 							<option value="" disabled="disabled">Select Name</option>
 						</select>
 					</div>
@@ -288,7 +288,7 @@
 					</div>
 					<div class="col-md-1">
 						<span class="glyphicon glyphicon-ok" style="cursor: pointer;"
-							ng-click="saveHrRoundUser($index);"></span>
+							ng-click="saveHrRoundUser();"></span>
 					</div>
 				</div>
 			</div>
