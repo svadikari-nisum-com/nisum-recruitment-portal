@@ -73,7 +73,8 @@ public class OfferController {
 				HttpStatus.OK);
 	}
 	
-	//TODO: This a sample code snippet for error implementation once its integrated, get rid of this code.
+	// TODO: This a sample code snippet for error implementation once its
+	// integrated, get rid of this code.
 	@RequestMapping(value = "/errors", method = RequestMethod.GET)
 	public ResponseEntity<List<OfferState>> getErrors(
 			@RequestParam(value = "currentStatus", required = false) String currentStatus)

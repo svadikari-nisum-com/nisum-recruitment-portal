@@ -37,6 +37,8 @@ import org.springframework.stereotype.Service;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.domain.UserNotification;
+import com.nisum.employee.ref.exception.ServiceException;
+import com.nisum.employee.ref.util.EnDecryptUtil;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
 @Service
@@ -83,6 +85,9 @@ public class NotificationService implements INotificationService {
 	@Value("${mail.host}")
 	private String host;
 
+	@Autowired
+	private EnDecryptUtil enDecryptUtil;
+	
 	@Value("${SRC_CANDIDATE_VM}")
 	private String SRC_CANDIDATE_VM;
 	@Value("${SRC_INTERVIEWER_VM}")
@@ -226,7 +231,12 @@ public class NotificationService implements INotificationService {
 		StringWriter writer = new StringWriter();
 		candidateTemplate.merge(context, writer);
 
-		Message message = getMessage();
+		Message message = null;
+		try {
+			message = getMessage();
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 		message.setSubject(FEEDBACK_SUBMITTED_FOR
 				+ interviewFeedback.getRoundName() + OF
 				+ interviewFeedback.getCandidateName());
@@ -258,24 +268,25 @@ public class NotificationService implements INotificationService {
 		return context;
 	}
 
-	private Message getMessage() throws AddressException, MessagingException {
+	private Message getMessage() throws AddressException, MessagingException, ServiceException {
 		Session session = getSession();
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(from));
 		return message;
 	}
 
-	private Session getSession() {
+	private Session getSession() throws ServiceException {
 		Properties props = new Properties();
 		props.put(MAIL_SMTP_AUTH, TRUE);
 		props.put(MAIL_SMTP_STARTTLS_ENABLE, TRUE);
 		props.put(MAIL_SMTP_HOST, host);
 		props.put(MAIL_SMTP_PORT, PORT_587);
-
+		
+		String pwd = enDecryptUtil.decrypt(password);
 		Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(username, password);
+						return new PasswordAuthentication(username, pwd);
 					}
 				});
 		return session;
