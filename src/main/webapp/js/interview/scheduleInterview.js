@@ -94,16 +94,19 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 			        		  angular.forEach($scope.hrNames,function(hrName) {
 			        			  $scope.interviewerNames.push(hrName.name);
 			        		  });
-			        	  }
-							angular.forEach($scope.usersInfo,function(userInfo) {
-								if(!_.isUndefined(_.findWhere(roundUser, {emailId: userInfo.emailId})) && !userInfo.isNotAvailable){
-									var commSkills = _.intersection($scope.profile.primarySkills,userInfo.skills);
-									if (commSkills.length > 0) {
-										$scope.interviewerNames.push(userInfo.name);
+			        	  }else
+			        	  {
+			        			angular.forEach($scope.usersInfo,function(userInfo) {
+									if(!_.isUndefined(_.findWhere(roundUser, {emailId: userInfo.emailId})) && !userInfo.isNotAvailable){
+										var commSkills = _.intersection($scope.profile.primarySkills,userInfo.skills);
+										if (commSkills.length > 0) {
+											$scope.interviewerNames.push(userInfo.name);
+										}
 									}
-								}
-								
-							});
+									
+								});
+			        	  }
+						
 			          }	
 			
 				var rounds =[];	

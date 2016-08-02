@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -76,8 +77,16 @@ public class UserInfoRepository{
 	}
 	
 	public List<UserInfo> retrieveUserByRole(String role) {
+		
 		Query query = new Query();
-		query.addCriteria(Criteria.where("roles").is(role));
+		if(role.equals("IMR"))
+		{
+			query.addCriteria(Criteria.where("roles").in(Arrays.asList("ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_HR")));
+			
+		}else
+		{
+			query.addCriteria(Criteria.where("roles").is(role));
+		}
 		return mongoOperations.find(query, UserInfo.class);
 	}
 }

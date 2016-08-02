@@ -1,5 +1,5 @@
-app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window', '$timeout', '$log','$location', 'jobCodeService1','clientService','sharedDataService', 
-                                 	function($scope, $http,$rootScope, $q, $window, $timeout, $log,$location, jobCodeService1, clientService,sharedDataService) {
+app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window', '$timeout', '$filter', '$log','$location', 'jobCodeService1','clientService','sharedDataService', 
+                                 	function($scope, $http,$rootScope, $q, $window, $timeout, $filter, $log,$location, jobCodeService1, clientService,sharedDataService) {
 	
 	$scope.clientId = jobCodeService1.getclientId();
 	$scope.clientName = jobCodeService1.getclientName();
@@ -23,7 +23,7 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	$scope.savedUsers = [];
 	$scope.savedUsers2 = [];
 	$scope.savedUsers3 = [];
-	$scope.savedUsers3 = [];
+	$scope.savedUsers4 = [];
 	$scope.hideAddBtn = false;
 	$scope.hideAddBtn3 = false;
 	$scope.hideAddBtn4 = false;
@@ -33,7 +33,7 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	$scope.plocation=$rootScope.info.locations;
 	
 	var getClient = $http.get( 'resources/getClientById?clientId='+$scope.clientId);
-	var getUsers_URL = $http.get('resources/user?clientName='+$scope.clientName);
+	var getUsers_URL = $http.get('resources/user?clientRole=IMR');
 	
 	
 	
@@ -66,10 +66,10 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 			angular.forEach($scope.client.interviewers.hrRound, function(savedUsers4){
 				$scope.savedUsers4.push(savedUsers4.name);
 			})
-			$scope.dropdownUsers = _.difference($scope.clUsersInterviewer, $scope.savedUsers);
-			$scope.dropdownUsers2 = _.difference($scope.clUsersInterviewer, $scope.savedUsers2);
-			$scope.dropdownUsers3 = _.difference($scope.clUsersManager, $scope.savedUsers3);
-			$scope.dropdownUsers4 = _.difference($scope.clUsersHr, $scope.savedUsers4);
+			$scope.dropdownUsers = $filter('orderBy')(_.difference($scope.clUsersInterviewer, $scope.savedUsers));
+			$scope.dropdownUsers2 = $filter('orderBy')(_.difference($scope.clUsersInterviewer, $scope.savedUsers2));
+			$scope.dropdownUsers3 = $filter('orderBy')(_.difference($scope.clUsersManager, $scope.savedUsers3));
+			$scope.dropdownUsers4 = $filter('orderBy')(_.difference($scope.clUsersHr, $scope.savedUsers4));
 		},
 		function(errorMsg) {
 			$log.error("Failed! ---> "+errorMsg);
@@ -118,20 +118,24 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	
 	$scope.deleteRoundOneUser = function(index){
 		$scope.dropdownUsers.push($scope.client.interviewers.technicalRound1[index].name);
+		$scope.dropdownUsers = $filter('orderBy')($scope.dropdownUsers);
 		$scope.client.interviewers.technicalRound1.splice(index,1);
 	}
 	
 	$scope.deleteRoundTwoUser = function(index){
 		$scope.dropdownUsers2.push($scope.client.interviewers.technicalRound2[index].name);
+		$scope.dropdownUsers2 = $filter('orderBy')($scope.dropdownUsers2);
 		$scope.client.interviewers.technicalRound2.splice(index,1);
 	}
 	
 	$scope.deleteManagerRound = function(index){
 		$scope.dropdownUsers3.push($scope.client.interviewers.managerRound[index].name);
+		$scope.dropdownUsers3 = $filter('orderBy')($scope.dropdownUsers3);
 		$scope.client.interviewers.managerRound.splice(index,1);
 	}
 	$scope.deleteHrRound = function(index){
 		$scope.dropdownUsers4.push($scope.client.interviewers.hrRound[index].name);
+		$scope.dropdownUsers4 = $filter('orderBy')($scope.dropdownUsers4);
 		$scope.client.interviewers.hrRound.splice(index,1);
 	}
 	
@@ -162,13 +166,14 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 				$scope.client.interviewers.technicalRound1 = [];
 			}
 			$scope.client.interviewers.technicalRound1.push({'name':$scope.t1user.name,"emailId":$scope.t1user.emailId});
-			$scope.dropdownUsers.splice(index,1);
+			$scope.dropdownUsers.splice($scope.t1user.idx,1);
 			$scope.t1user.name = "";
 			$scope.t1user.emailId = "";
+			$scope.t1user.idx = "";
 		}
 	}
 	
-	$scope.saveRoundTwoUser = function(index){
+	$scope.saveRoundTwoUser = function(){
 		if($scope.t2user.emailId != null && $scope.t2user.emailId != ""){
 			
 			if(angular.isUndefined($scope.client.interviewers.technicalRound2) || $scope.client.interviewers.technicalRound2 == null )
@@ -177,9 +182,10 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 			}
 			
 			$scope.client.interviewers.technicalRound2.push({'name':$scope.t2user.name,"emailId":$scope.t2user.emailId});
-			$scope.dropdownUsers2.splice(index,1);
+			$scope.dropdownUsers2.splice($scope.t2user.idx,1);
 			$scope.t2user.name = "";
 			$scope.t2user.emailId = "";
+			$scope.t2user.idx = "";
 		}
 	}
 	
@@ -190,9 +196,10 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 				$scope.client.interviewers.managerRound = [];
 			}
 			$scope.client.interviewers.managerRound.push({'name':$scope.t3user.name,"emailId":$scope.t3user.emailId});
-			$scope.dropdownUsers3.splice(index,1);
+			$scope.dropdownUsers3.splice($scope.t3user.idx,1);
 			$scope.t3user.name = "";
 			$scope.t3user.emailId = "";
+			$scope.t3user.idx = "";
 		}
 	}
 	$scope.saveHrRoundUser = function(index){
@@ -203,13 +210,15 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 				$scope.client.interviewers.hrRound = [];
 			}			
 			$scope.client.interviewers.hrRound.push({'name':$scope.t4user.name,"emailId":$scope.t4user.emailId});
-			$scope.dropdownUsers4.splice(index,1);
+			$scope.dropdownUsers4.splice($scope.t4user.idx,1);
 			$scope.t4user.name = "";
 			$scope.t4user.emailId = "";
+			$scope.t4user.idx = "";
 		}
 	}
 	
-	$scope.setRoundOneUserEmailId = function(index){
+	$scope.setRoundOneUserEmailId = function(){
+		$scope.t1user.name = $scope.dropdownUsers[$scope.t1user.idx];
 		angular.forEach($scope.clientUsers, function(usr){
 			if($scope.t1user.name == usr.name){
 				$scope.t1user.emailId = usr.emailId;
@@ -219,6 +228,7 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	}
 	
 	$scope.setRoundTwoUserEmailId = function(){
+		$scope.t2user.name = $scope.dropdownUsers2[$scope.t2user.idx];
 		angular.forEach($scope.clientUsers, function(usr){
 			if($scope.t2user.name == usr.name){
 				$scope.t2user.emailId = usr.emailId;
@@ -228,6 +238,7 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	}
 	
 	$scope.setManagerRoundEmailId = function(){
+		$scope.t3user.name = $scope.dropdownUsers3[$scope.t3user.idx];
 		angular.forEach($scope.clientUsers, function(usr){
 			if($scope.t3user.name == usr.name){
 				$scope.t3user.emailId = usr.emailId;
@@ -236,6 +247,7 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 		})
 	}
 	$scope.setHrRoundEmailId = function(){
+		$scope.t4user.name = $scope.dropdownUsers4[$scope.t4user.idx];
 		angular.forEach($scope.clientUsers, function(usr){
 			if($scope.t4user.name == usr.name){
 				$scope.t4user.emailId = usr.emailId;
