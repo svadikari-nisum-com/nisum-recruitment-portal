@@ -115,7 +115,7 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
         enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 		paginationCurrentPage: 1,
 	    columnDefs: [
-	      { field: 'jobcode', displayName:"Job code", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editPosition(row.entity.jobcode); $event.stopPropagation();">{{row.entity.jobcode}} </a>'},
+	      { field: 'jobcode', displayName:"Job code", cellClass: 'ui-grid-align', cellTemplate: '<div class="text-wrap"><a style="padding-left: 5px;" ng-click="grid.appScope.editPosition(row.entity.jobcode); $event.stopPropagation();">{{row.entity.jobcode}} </a></div>'},
 	      { field: 'designation', displayName:"Designation", cellClass: 'ui-grid-align'},
 	      { field: 'minExpYear', displayName:"Min-Exp", width: 100, cellClass: 'ui-grid-align'},
 	      { field: 'maxExpYear', displayName:"Max-Exp", width: 100, cellClass: 'ui-grid-align'},

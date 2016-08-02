@@ -2919,3 +2919,10 @@ table.fc-border-separate {
 #crskills input {
 	width: auto !important;
 }
+
+.text-wrap {
+	text-overflow: ellipsis;
+	width: 187px;
+	white-space: nowrap;
+	overflow: hidden;
+}
