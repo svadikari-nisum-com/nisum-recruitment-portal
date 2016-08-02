@@ -86,7 +86,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 					}
 		    	$scope.candidate.profilecreatedBy = sessionStorage.userId;
 		    	$scope.candidate.plocation = $scope.selection.pLocation;
-		    	$scope.candidate.mobileNo = $scope.countryCode+$scope.candidate.mobileNo;
+		    	$scope.candidate.mobileNo =$scope.candidate.mobileNo;
 		    	$scope.candidate.primarySkills=$scope.sk.primarySkills;
 		    	$scope.candidate.profileTimeStamp = timeStamp;
 		    	$scope.candidate.interviewSet = false;
