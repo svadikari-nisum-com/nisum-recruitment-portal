@@ -78,7 +78,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 						 $scope.candidate.status = "Initialized";
 				}
 				if($scope.candidate.altmobileNo !== undefined){
-					$scope.candidate.altmobileNo = $scope.countryCode+$scope.candidate.altmobileNo;
+					$scope.candidate.altmobileNo = $scope.candidate.altmobileNo;
 				}
 				else
 					{
