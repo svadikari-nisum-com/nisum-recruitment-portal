@@ -66,6 +66,7 @@ app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeo
 		jobCodeService1.setjobCode(obj);
 		jobCodeService1.setinterviewRound(obj2);
 		location.href='#recruitment/showInterview';
+		
 	};
 	
 	$scope.setActiveTab = function(value) {
