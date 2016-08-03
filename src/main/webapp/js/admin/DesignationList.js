@@ -18,7 +18,7 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	
 	$scope.newDesig="";
 	
-	$scope.col=["Designations","Skills","Min Exp","Max Exp"];
+	$scope.col=["Designations","Skills","Min Exp","Max Exp","Delete"];
 	
 	$scope.att=["designation","skills","minExpYear","maxExpYear"];
 	$scope.att1=["skills"];
@@ -100,13 +100,34 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	    	  cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editDesign(row.entity); $event.stopPropagation();" ui-sref="admin.designation.edit">{{row.entity.designation}} </a>'},
 	      { field: 'skills', displayName:"Skills", cellClass: 'ui-grid-align', cellFilter: 'stringArrayFilter'},
 	      { field: 'minExpYear', displayName:"Min Exp", cellClass: 'ui-grid-align'},
-	      { field: 'maxExpYear', displayName:"Max Exp", cellClass: 'ui-grid-align'}
+	      { field: 'maxExpYear', displayName:"Max Exp", cellClass: 'ui-grid-align'},
+	      { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteDesignation(row.entity.designation)"></a>' }
 	    ],
 	    onRegisterApi: function( gridApi ) {
 	      $scope.gridApi = gridApi;
 	      $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
 	    }
 	  };
+		$scope.deleteDesignation = function(designation) {
+        var deleteUser = $window.confirm('Are you sure you want to delete?');
+        if (deleteUser) {
+        	$scope.designation1.splice($scope.designation1.indexOf(designation), 1);
+        	
+        	designationService.removeDesignation(designation).then(function(msg){
+	        	$scope.message=designation+ " " + msg;
+	        	$scope.cls = appConstants.SUCCESS_CLASS;
+	        	$timeout(function() { $scope.alHide();},3000);
+    		}).catch(function(deleteMessage){
+    			sendSharedMessage(msg, appConstants.ERROR_CLASS);
+                $timeout(function() { $scope.alHide(); }, 5000);
+    		});   
+        	
+            $scope.dis = false;
+            $scope.dis2 = true;
+        }
+    }
+	
+	
 	
 	$scope.searchFilter = function() {
 		$scope.gridApi.grid.refresh();

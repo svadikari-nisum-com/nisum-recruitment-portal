@@ -37,6 +37,9 @@ function designationService($http,$filter,$rootScope,$log,$q,$cacheFactory,appCo
 	function createDesignationSuccess(response){
 		return  response.config.data.designation +" Designation Created successfully";
 	}
+	function deleteDesignationSuccess(response){
+		return  "Designation Deleted successfully";
+	}
 	function sendErrorupdate(response){
 		 return $q.reject('Error in Updating Designation');
 	}
