@@ -33,7 +33,7 @@ app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeo
 	$scope.showInterview = function(obj, obj2) {
 		jobCodeService1.setjobCode(obj);
 		jobCodeService1.setinterviewRound(obj2);
-		location.href='#showInterview';
+		location.href='#recruitment/showInterview';
 	};
 	
 	$scope.setActiveTab = function(value) {
