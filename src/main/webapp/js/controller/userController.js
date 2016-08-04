@@ -27,7 +27,7 @@ app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$stat
 	
 	
 	$scope.editUser = function(user) {
-		sharedDataService.setmessage('');
+		sharedDataService.setmessage(''); 
 		sharedDataService.setData(user);
 		$scope.userToEdit = user;
 		$log.info(angular.toJson($scope.userToEdit));
