@@ -101,20 +101,20 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	      { field: 'skills', displayName:"Skills", cellClass: 'ui-grid-align', cellFilter: 'stringArrayFilter'},
 	      { field: 'minExpYear', displayName:"Min Exp", cellClass: 'ui-grid-align'},
 	      { field: 'maxExpYear', displayName:"Max Exp", cellClass: 'ui-grid-align'},
-	      { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteDesignation(row.entity.designation)"></a>' }
+	      { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteDesignation(row.entity)"></a>' }
 	    ],
 	    onRegisterApi: function( gridApi ) {
 	      $scope.gridApi = gridApi;
 	      $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
 	    }
 	  };
-		$scope.deleteDesignation = function(designation) {
+		$scope.deleteDesignation = function(rowEntity) {
         var deleteUser = $window.confirm('Are you sure you want to delete?');
         if (deleteUser) {
-        	$scope.designation1.splice($scope.designation1.indexOf(designation), 1);
+        	$scope.designation1.splice($scope.designation1.indexOf(rowEntity), 1);
         	
-        	designationService.removeDesignation(designation).then(function(msg){
-	        	$scope.message=designation+ " " + msg;
+        	designationService.removeDesignation(rowEntity.designation).then(function(msg){
+	        	$scope.message=rowEntity.designation+ " " + msg;
 	        	$scope.cls = appConstants.SUCCESS_CLASS;
 	        	$timeout(function() { $scope.alHide();},3000);
     		}).catch(function(deleteMessage){
