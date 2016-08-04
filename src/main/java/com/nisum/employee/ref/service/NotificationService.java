@@ -359,45 +359,13 @@ public class NotificationService implements INotificationService {
 		Message message = getMessage();
 		message.setSubject(INTERVIEWERS_NOTAVAILABLE_SUBJECT);
 		message.setContent(writer.toString(), TEXT_HTML);
-		/*List<UserInfo> recruiters = userInfoRepository
+		List<UserInfo> recruiters = userInfoRepository
 				.retrieveUserByRole("ROLE_RECRUITER");
 		StringBuilder sbAddresses = new StringBuilder();
 		recruiters.forEach(recruiter -> sbAddresses.append(
-				recruiter.getEmailId()).append(","));*/
+				recruiter.getEmailId()).append(","));
 		message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("svadikari@nisum.com", true));
-		Transport.send(message);
-	}
-
-	public void sendInterviewersNotAvailableStatusNotification()
-			throws MessagingException, ServiceException {
-		List<UserInfo> interviewers = userInfoRepository
-				.retrieveUserByRole("ROLE_INTERVIEWER");
-		List<Map<String, String>> interviewersNotAvailable = new ArrayList<>();
-		interviewers
-				.stream()
-				.filter(interviewer -> Boolean.TRUE.equals(interviewer
-						.getIsNotAvailable())).forEach(interviewer -> {
-					Map<String, String> interviewersMap = new HashMap<>();
-					interviewersMap.put("name", interviewer.getName());
-					interviewersMap.put("email", interviewer.getEmailId());
-					interviewersNotAvailable.add(interviewersMap);
-				});
-		VelocityContext context = new VelocityContext();
-		context.put("interviewersNotAvailable", interviewersNotAvailable);
-		Template candidateTemplate = getVelocityTemplate(INTERVIEWERS_NOTAVAILABLE_TEMPLATE);
-		StringWriter writer = new StringWriter();
-		candidateTemplate.merge(context, writer);
-		Message message = getMessage();
-		message.setSubject(INTERVIEWERS_NOTAVAILABLE_SUBJECT);
-		message.setContent(writer.toString(), TEXT_HTML);
-		/*List<UserInfo> recruiters = userInfoRepository
-				.retrieveUserByRole("ROLE_RECRUITER");
-		StringBuilder sbAddresses = new StringBuilder();
-		recruiters.forEach(recruiter -> sbAddresses.append(
-				recruiter.getEmailId()).append(","));*/
-		message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("svadikari@nisum.com", true));
+				InternetAddress.parse(sbAddresses.toString(), true));
 		Transport.send(message);
 	}
 }
