@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -36,10 +38,11 @@ import org.springframework.stereotype.Service;
 
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
+import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.exception.ServiceException;
+import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.EnDecryptUtil;
-import com.nisum.employee.ref.view.UserInfoDTO;
 
 @Service
 public class NotificationService implements INotificationService {
@@ -76,6 +79,8 @@ public class NotificationService implements INotificationService {
 	private static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 	private static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
 
+	private static final String INTERVIEWERS_NOTAVAILABLE_SUBJECT = "Interviewers not available";
+
 	@Value("${mail.fromAddress}")
 	private String from;
 	@Value("${mail.username}")
@@ -87,7 +92,7 @@ public class NotificationService implements INotificationService {
 
 	@Autowired
 	private EnDecryptUtil enDecryptUtil;
-	
+
 	@Value("${SRC_CANDIDATE_VM}")
 	private String SRC_CANDIDATE_VM;
 	@Value("${SRC_INTERVIEWER_VM}")
@@ -98,6 +103,9 @@ public class NotificationService implements INotificationService {
 	@Value("${APP_ERROR_MESSAGE_VM}")
 	private String APP_ERROR_MESSAGE_VM;
 
+	@Value("${INTERVIEWERS_NOTAVAILABLE_TEMPLATE}")
+	private String INTERVIEWERS_NOTAVAILABLE_TEMPLATE;
+
 	@Value("${error.mail.to}")
 	private String errors_notifications_to;
 
@@ -105,7 +113,7 @@ public class NotificationService implements INotificationService {
 	IProfileService profileService;
 
 	@Autowired
-	UserService userService;
+	private UserInfoRepository userInfoRepository;
 
 	@Autowired
 	UserNotificationService userNotificationService;
@@ -210,10 +218,10 @@ public class NotificationService implements INotificationService {
 	public void sendFeedbackMail(InterviewFeedback interviewFeedback)
 			throws MessagingException {
 
-		List<UserInfoDTO> info = userService.retrieveUserByRole(ROLE_HR);
+		List<UserInfo> info = userInfoRepository.retrieveUserByRole(ROLE_HR);
 		List<String> HR_Emails = new ArrayList<String>();
 
-		for (UserInfoDTO ui : info) {
+		for (UserInfo ui : info) {
 			HR_Emails.add(ui.getEmailId());
 		}
 
@@ -268,7 +276,8 @@ public class NotificationService implements INotificationService {
 		return context;
 	}
 
-	private Message getMessage() throws AddressException, MessagingException, ServiceException {
+	private Message getMessage() throws AddressException, MessagingException,
+			ServiceException {
 		Session session = getSession();
 		Message message = new MimeMessage(session);
 		message.setFrom(new InternetAddress(from));
@@ -281,7 +290,7 @@ public class NotificationService implements INotificationService {
 		props.put(MAIL_SMTP_STARTTLS_ENABLE, TRUE);
 		props.put(MAIL_SMTP_HOST, host);
 		props.put(MAIL_SMTP_PORT, PORT_587);
-		
+
 		String pwd = enDecryptUtil.decrypt(password);
 		Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
@@ -326,5 +335,37 @@ public class NotificationService implements INotificationService {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public void sendInterviewersNotAvailableStatusNotification()
+			throws MessagingException, ServiceException {
+		List<UserInfo> interviewers = userInfoRepository
+				.retrieveUserByRole("ROLE_INTERVIEWER");
+		List<Map<String, String>> interviewersNotAvailable = new ArrayList<>();
+		interviewers
+				.stream()
+				.filter(interviewer -> Boolean.TRUE.equals(interviewer
+						.getIsNotAvailable())).forEach(interviewer -> {
+					Map<String, String> interviewersMap = new HashMap<>();
+					interviewersMap.put("name", interviewer.getName());
+					interviewersMap.put("email", interviewer.getEmailId());
+					interviewersNotAvailable.add(interviewersMap);
+				});
+		VelocityContext context = new VelocityContext();
+		context.put("interviewersNotAvailable", interviewersNotAvailable);
+		Template candidateTemplate = getVelocityTemplate(INTERVIEWERS_NOTAVAILABLE_TEMPLATE);
+		StringWriter writer = new StringWriter();
+		candidateTemplate.merge(context, writer);
+		Message message = getMessage();
+		message.setSubject(INTERVIEWERS_NOTAVAILABLE_SUBJECT);
+		message.setContent(writer.toString(), TEXT_HTML);
+		List<UserInfo> recruiters = userInfoRepository
+				.retrieveUserByRole("ROLE_RECRUITER");
+		StringBuilder sbAddresses = new StringBuilder();
+		recruiters.forEach(recruiter -> sbAddresses.append(
+				recruiter.getEmailId()).append(","));
+		message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(sbAddresses.toString(), true));
+		Transport.send(message);
 	}
 }
