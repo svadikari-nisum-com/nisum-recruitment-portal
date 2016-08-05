@@ -8,11 +8,17 @@ import java.util.List;
 
 
 
+
+
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSDBFile;
+import com.nisum.employee.ref.common.ErrorCodes;
 import com.nisum.employee.ref.converter.ProfileConverter;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Profile;
@@ -31,16 +37,21 @@ public class ProfileService implements IProfileService{
 	
 	@Autowired
 	private InterviewDetailsRepository interviewDetailsRepository;
+	
+	@Autowired
+	private MessageSourceAccessor messageSourceAccessor;
+
 
 	@Override
-	public String prepareCandidate(Profile candidate) throws Exception {
-		List<Profile> profiles = profileRepository.retrieveAllProfiles();
-		for(Profile pro : profiles){
-			if(pro.getEmailId().equals(candidate.getEmailId())){
-				throw new Exception("Failed To Create Profile As Candidate Already Exists!");
+	public String createCandidate(ProfileDTO candidate) throws Exception {
+		List<ProfileDTO> profilesList = profileConverter.convertToDTOs((profileRepository.retrieveAllProfiles()));
+		for(ProfileDTO profiles : profilesList){
+			if(profiles.getEmailId().equals(candidate.getEmailId())){
+				profiles.addError(ErrorCodes.NRP0003, messageSourceAccessor.getMessage(ErrorCodes.NRP0003));
+				  return profiles.getErrors().get(0).getCode();
 			}
 		}
-		profileRepository.prepareCandidate(candidate);
+		profileRepository.createCandidate(profileConverter.convertToEntity(candidate));
 		return "Profile Successfully Created!";
 	}
 

@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -20,6 +21,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockMultipartFile;
@@ -78,20 +80,19 @@ public class ProfileServiceTest {
 	public void testPrepareCandidate() throws Exception {
 		Profile profile = new Profile();
 		profile.setEmailId("dprasad@gmail.com");
-
 		when(profileRepository.retrieveAllProfiles()).thenReturn(profiles);
-		doNothing().when(profileRepository).prepareCandidate(profile);
-		profileService.prepareCandidate(profile);
+		doNothing().when(profileRepository).createCandidate(Mockito.any(Profile.class));
+		profileService.createCandidate(profileConverter.convertToDTO(profile));
 	}
 	
 	@Test(expected=Exception.class)
 	public void prepareCandidateThrowsException() throws Exception {
-		Profile profile = new Profile();
+		ProfileDTO profile = new ProfileDTO();
 		profile.setEmailId("dprasad@nisum.com");
 
 		when(profileRepository.retrieveAllProfiles()).thenReturn(profiles);
-		doNothing().when(profileRepository).prepareCandidate(profile);
-		profileService.prepareCandidate(profile);
+		doNothing().when(profileRepository).createCandidate(profileConverter.convertToEntity(profile));
+		profileService.createCandidate(profile);
 	}
 
 	@Test

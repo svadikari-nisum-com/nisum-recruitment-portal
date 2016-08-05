@@ -12,7 +12,7 @@ import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.view.ProfileDTO;
 
 public interface IProfileService {
-	String prepareCandidate(Profile candidate) throws Exception;
+	String createCandidate(ProfileDTO candidate) throws Exception;
 
 	void updateCandidate(Profile candidate);
 	void updateCandidateStatus(String email,String status);

@@ -10,7 +10,11 @@ import lombok.Setter;
 @Setter
 @Getter
 
-public class ProfileDTO {
+public class ProfileDTO extends BaseDTO {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String candidateName ;
 	String emailId;
 	String qualification;

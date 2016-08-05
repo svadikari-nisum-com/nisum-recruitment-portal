@@ -50,8 +50,9 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 		return response.data;
 	}
 	
-	function sendCreateErrorprofileMsg(msg){
-		return $q.reject("Failed To Create Profile As Candidate Already Exists!");
+	function sendCreateErrorprofileMsg(response){
+		var showContent = response.data.errors[0].desc;
+		return $q.reject(showContent);
 	}
 	
 	function sendErrorprofileMsg(msg){

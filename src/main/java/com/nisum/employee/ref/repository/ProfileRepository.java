@@ -33,7 +33,7 @@ public class ProfileRepository {
 	@Autowired
 	private MongoDbFactory dbFactory;
 
-	public void prepareCandidate(Profile candidate) {
+	public void createCandidate(Profile candidate) {
 		mongoOperations.save(candidate);
 	}
 

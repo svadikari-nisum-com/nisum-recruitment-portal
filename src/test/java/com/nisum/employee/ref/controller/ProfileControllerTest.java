@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.controller;
 
 import static org.mockito.Matchers.any;
+
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -95,15 +96,12 @@ public class ProfileControllerTest {
    }
    @Test
    public void testRegisterUser() throws Exception {
-	  String candidate = "swati";
-	  Profile profile = new Profile();
+	  String candidate = "Success";
+	  ProfileDTO profile = new ProfileDTO();
 	  profile.setCandidateName("swathi");
-		Mockito.when(
-				(profileService).prepareCandidate(profile))
-				.thenReturn(candidate);
-		 mockMvc.perform(
-					post("/profile").contentType(MediaType.APPLICATION_JSON).
-					content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
+	  Mockito.when((profileService).createCandidate(any(ProfileDTO.class))).thenReturn(candidate);
+	  mockMvc.perform(post("/profile").contentType(MediaType.APPLICATION_JSON).content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
+
    }
    @Test
    public void testUpdateUser() throws Exception {

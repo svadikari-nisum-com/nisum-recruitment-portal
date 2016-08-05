@@ -93,7 +93,7 @@ public class ProfileRepositoryTest {
 	@Test
 	public final void testPrepareCandidate() {
 		Mockito.doNothing().when(mongoOperations).save(Profile.class);
-		profileRepository.prepareCandidate(getProfile());
+		profileRepository.createCandidate(getProfile());
 	}
 
 	@Test
