@@ -12,21 +12,23 @@
 							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Select Candidate<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<input type="text" name="name" class="form-control"
+							<!-- <input type="text" name="name" class="form-control"
 								ng-disabled="true" ng-model="candidate.candidateName"
-								style="width: 220px;">
+								style="width: 220px;"> -->
+							<label style="color:blue">{{candidate.candidateName}}</label>	
 						</div>
 						<label class="lbl col-md-2"><i
 							class="glyphicon glyphicon-barcode"></i>&nbsp;&nbsp;Select
 							JobCode <b style="color: red;">*</b></label>
 						<div class="col-md-3">
-							<input type="text" name="jobcode" class="form-control"
+							<!-- <input type="text" name="jobcode" class="form-control"
 								ng-disabled="true" ng-model="candidate.jobcodeProfile"
-								style="width: 220px;">
+								style="width: 220px;"> -->
+							<label style="color:blue">{{candidate.jobcodeProfile}}</label>	
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="lbl col-md-2 col-md-offset-1"><i
+						<!-- <label class="lbl col-md-2 col-md-offset-1"><i
 							class="glyphicon glyphicon-envelope"></i>&nbsp;&nbsp;Email Id<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
@@ -41,9 +43,32 @@
 							<input class="form-control" type="text" name="mobileNo"
 								ng-model="profile.mobileNo" class="form-control"
 								ng-disabled="true" placeholder="Enter Mobile No" required>
+						</div> -->
+						<label class="lbl col-md-2" style="margin-left:100px"><i
+							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Report Manager <b
+							style="color: red;">*</b></label>
+						<div class="col-md-3">
+						    <input class="form-control input-sm" type="text" name="reportManager"
+								ng-model="candidate.reportingManager" class="form-control"
+								ng-disabled="false" placeholder="Select Reporting Manager" required>
+							<!-- <select name="reportManager" 
+								ng-model="candidate.reportingManager"
+								ng-options="o.name as o.name for o in managers | orderBy:'toString()'"
+								class="form-control input-sm" >
+								<option value='' disabled="disabled">Select Reporting
+									Manager</option>
+							</select> -->
+						</div>
+						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:0px"><i
+							class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Project<span
+							style="color: red;">*</span></label>
+						<div class="col-md-3">
+							<input class="form-control input-sm" type="text" name="project"
+								ng-model="candidate.project" class="form-control"
+								placeholder="Enter Project Name" required>
 						</div>
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<label class="lbl col-md-2 col-md-offset-1"><i
 							class="glyphicon glyphicon-tags"></i>&nbsp;&nbsp;Client<span
 							style="color: red;">*</span></label>
@@ -52,29 +77,11 @@
 								ng-model="candidate.client" class="form-control"
 								ng-disabled="true" placeholder="Select Client" required>
 						</div>
-						<label class="lbl col-md-2"><i
-							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Report Manager <b
-							style="color: red;">*</b></label>
-						<div class="col-md-3">
-							<select name="reportManager" 
-								ng-model="candidate.reportingManager"
-								ng-options="o.name as o.name for o in managers | orderBy:'toString()'"
-								class="form-control input-sm" >
-								<option value='' disabled="disabled">Select Reporting
-									Manager</option>
-							</select>
-						</div>
-					</div>
+						
+					</div> -->
 					<div class="form-group">
-						<label class="lbl col-md-2 col-md-offset-1"><i
-							class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Project<span
-							style="color: red;">*</span></label>
-						<div class="col-md-3">
-							<input class="form-control input-sm" type="text" name="project"
-								ng-model="candidate.project" class="form-control"
-								placeholder="Enter Project Name" required>
-						</div>
-						<label class="lbl col-md-2"><i
+						
+						<label class="lbl col-md-2" style="margin-left:100px"><i
 							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;HR Manager<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
@@ -82,9 +89,7 @@
 								ng-model="candidate.hrManager" class="form-control"
 								ng-disabled="false" placeholder="Select HR Manager" required>
 						</div>
-					</div>
-					<div class="form-group">
-						<label class="lbl col-md-2 col-md-offset-1"><i
+						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:0px"><i
 							class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Immigration
 							Status<span style="color: red;">*</span></label>
 						<div class="col-md-3">
@@ -95,7 +100,10 @@
 									Status</option>
 							</select>
 						</div>
-						<label class="lbl col-md-2"><i
+					</div>
+					<div class="form-group">
+						
+						<label class="lbl col-md-2" style="margin-left:100px"><i
 							class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Joining Date<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
@@ -107,41 +115,68 @@
 								date-disabled="disabled(date, mode)" ng-required="true"
 								close-text="Close" />
 						</div>
+						
+						<label class="lbl col-md-2" style="margin-left:0px"><i
+							class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Designation <b
+							class="mandatory-field" style="color: red;">*</b></label>
+							
+						<div class="col-md-3">
+							 <select name="designation"
+								ng-model="candidate.designation"
+								ng-options="o.designation as o.designation for o in designations | orderBy:'toString()'"
+								class="form-control input-sm" >
+								<option value='' disabled="disabled">Select Designation</option>
+							</select>
+							
+							
+							
+						</div>
+						
+						
 					</div>
 					<div class="form-group">
-						<label class="lbl col-md-2 col-md-offset-1"><i
+						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:100px"><i
+							class="glyphicon glyphicon-euro"></i>&nbsp;&nbsp;CTC
+							<span style="color: red;">*</span></label>
+						<div class="col-md-3">
+							<input class="form-control input-sm" type="number" name="ctc" min="0"
+								ng-model="candidate.ctc" class="form-control" 
+								ng-disabled="false" placeholder="Select CTC" required>
+						</div>
+						
+						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:0px"><i
 							class="glyphicon glyphicon-euro"></i>&nbsp;&nbsp;Relocation
 							Allowance<span style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<select name="relAlowance"
+							<!-- <select name="relAlowance"
 								ng-model="candidate.relocationAllowance"
 								ng-options="o for o in allowances" class="form-control input-sm">
 								<option value='' disabled="disabled">Select Relocation
 									Allowance</option>
-							</select>
+							</select> -->
+							<input class="form-control input-sm" type="number" name="relAlowance" min="0"
+								ng-model="candidate.relocationAllowance" class="form-control"
+								ng-disabled="false" placeholder="Select Relocation Allowance" required>
+							
 						</div>
-						<label class="lbl col-md-2"><i
+						
+					</div>
+					<div class="form-group">
+						<label class="lbl col-md-2" style="margin-left:100px"><i
 							class="glyphicon glyphicon-euro"></i>&nbsp;&nbsp;Sign-on Bonus<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<select name="bonus" ng-model="candidate.singInBonus"
+							<!-- <select name="bonus" ng-model="candidate.singInBonus"
 								ng-options="o for o in bonus" class="form-control input-sm">
 								<option value='' disabled="disabled">Select Sign-on
 									Bonus</option>
-							</select>
+							</select> -->
+							<input class="form-control input-sm" type="number" name="bonus" min="0"
+								ng-model="candidate.singInBonus" class="form-control"
+								ng-disabled="false" placeholder="Select Sign-on Bonus" required>
+							
 						</div>
-					</div>
-					<div class="form-group">
-						<label class="lbl col-md-2 col-md-offset-1"><i
-							class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Select Offer
-							Letter<span style="color: red;">*</span></label>
-						<div class="col-md-3">
-							<input id="uploadFile" type="file" class="custom-file-input"
-								ng-file-select="upload($files)" valid-file required /> <small
-								ng-show="fileError" style="color: red;">File Extensions
-								Accepted: [doc, docx, pdf]</small>
-						</div>
-						<label class="lbl col-md-2"><i
+						<label class="lbl col-md-2" style="margin-left:0px"><i
 							class="glyphicon "></i>&nbsp;&nbsp;
 							Status<span style="color: red;">*</span></label>
 						<div class="col-md-3">
@@ -151,13 +186,43 @@
 							</select>
 						</div>
 					</div>
+					
+					<!-- <div class="form-group">
+					<label class="lbl col-md-2 col-md-offset-1" style="margin-left:0px"><i
+							class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Select Offer
+							Letter<span style="color: red;">*</span></label>
+						<div class="col-md-3">
+							<input id="uploadFile" type="file" class="custom-file-input"
+								ng-file-select="upload($files)" valid-file required /> <small
+								ng-show="fileError" style="color: red;">File Extensions
+								Accepted: [doc, docx, pdf]</small>
+						</div>
+					
+					</div> -->
 					<div class="form-group">
-						<label class="lbl col-md-2 col-md-offset-1"><i
+						
+						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:100px"><i
+							class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Select Offer
+							Letter<span style="color: red;">*</span></label>
+						<div class="col-md-3">
+							<input id="uploadFile" type="file" class="custom-file-input"
+								ng-file-select="upload($files)" valid-file required /> <small
+								ng-show="fileError" style="color: red;">File Extensions
+								Accepted: [doc, docx, pdf]</small>
+						</div>
+						
+						
+					</div>
+					
+					
+					
+					<div class="form-group">
+						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:100px"><i
 							class="glyphicon glyphicon-comment"></i>&nbsp;&nbsp;Comment</label>
 						<div class="col-md-8">
 							<textarea cols="500" rows="10" name="comment"
 								ng-model="candidate.comments" placeholder="Place for Comment..."
-								style="width: 94%; height: 70px; padding: 2px 12px;"></textarea>
+								style="width: 64%; height: 70px; padding: 2px 12px;"></textarea>
 						</div>
 					</div>
 				</div>
