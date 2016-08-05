@@ -94,7 +94,8 @@
 								style="width: 40px; height: 28px;"></button>
 						</div>
 					</div>
-					<label class="lbl col-md-2"> <i
+					<!-- skills are not required in user edit -->
+					<!-- <label class="lbl col-md-2"> <i
 						class="glyphicon glyphicon-book"></i>&nbsp;&nbsp;Skills<b
 						class="mandatory-field">*</b> :
 					</label>
@@ -107,16 +108,17 @@
 						<ui-select-choices
 							repeat="skill in info.skills | orderBy:'toString()' | filter:$select.search">
 						{{skill}} </ui-select-choices> </ui-select>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="lbl col-md-2 col-md-offset-1"><i
+					</div> -->
+					<div class="form-group">
+					<label class="lbl col-md-2"><i
 						class="glyphicon glyphicon-education"></i>&nbsp;&nbsp;Client :</label>
 					<div class="col-md-3">
 						<a href="#" editable-select="userToEdit.clientName"
 							e-ng-options="o as o for o in clientList"> {{
 							userToEdit.clientName || "Select Client" }} </a>
 					</div>
+				</div>
+				
 				</div>
 				
 			<div class="panel panel-default" ng-hide="hideCreate" style="width: 90%;">
