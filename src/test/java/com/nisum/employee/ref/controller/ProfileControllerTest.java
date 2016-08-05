@@ -96,10 +96,9 @@ public class ProfileControllerTest {
    }
    @Test
    public void testRegisterUser() throws Exception {
-	  String candidate = "Success";
 	  ProfileDTO profile = new ProfileDTO();
 	  profile.setCandidateName("swathi");
-	  Mockito.when((profileService).createCandidate(any(ProfileDTO.class))).thenReturn(candidate);
+	  doNothing().when(profileService).createCandidate(profile);
 	  mockMvc.perform(post("/profile").contentType(MediaType.APPLICATION_JSON).content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
 
    }

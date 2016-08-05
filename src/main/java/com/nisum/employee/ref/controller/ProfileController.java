@@ -2,12 +2,12 @@ package com.nisum.employee.ref.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSDBFile;
-import com.nisum.employee.ref.common.ErrorCodes;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.service.IProfileService;
 import com.nisum.employee.ref.view.ProfileDTO;
@@ -35,9 +34,6 @@ public class ProfileController {
 
 	@Autowired
 	private IProfileService profileService;
-	
-	@Autowired
-	private MessageSourceAccessor messageSourceAccessor;
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -60,13 +56,8 @@ public class ProfileController {
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<ProfileDTO> registerUser(@RequestBody ProfileDTO candidate) throws Exception{
-			String error = profileService.createCandidate(candidate);
-		    if (error.contains((ErrorCodes.NRP0003))) {
-		    	candidate.addError(ErrorCodes.NRP0003, messageSourceAccessor.getMessage(ErrorCodes.NRP0003));
-				return new ResponseEntity<ProfileDTO>(candidate, HttpStatus.BAD_REQUEST);
-			} else {
-				return new ResponseEntity<ProfileDTO>(candidate, HttpStatus.OK);
-			}
+			 profileService.createCandidate(candidate);
+			 return new ResponseEntity<ProfileDTO>(candidate,(candidate.hasErrors() ? HttpStatus.BAD_REQUEST : HttpStatus.OK));
 	}
 
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})

@@ -43,16 +43,17 @@ public class ProfileService implements IProfileService{
 
 
 	@Override
-	public String createCandidate(ProfileDTO candidate) throws Exception {
-		List<ProfileDTO> profilesList = profileConverter.convertToDTOs((profileRepository.retrieveAllProfiles()));
-		for(ProfileDTO profiles : profilesList){
-			if(profiles.getEmailId().equals(candidate.getEmailId())){
-				profiles.addError(ErrorCodes.NRP0003, messageSourceAccessor.getMessage(ErrorCodes.NRP0003));
-				  return profiles.getErrors().get(0).getCode();
+	public void createCandidate(ProfileDTO candidate) throws Exception {
+		List<Profile> profiles = (profileRepository.retrieveCandidateDetails(candidate.getEmailId()));
+		for(Profile profile : profiles){
+			if(profile.getEmailId().equals(candidate.getEmailId())){
+				candidate.addError(ErrorCodes.NRP0003, messageSourceAccessor.getMessage(ErrorCodes.NRP0003));
+				  return;
 			}
 		}
-		profileRepository.createCandidate(profileConverter.convertToEntity(candidate));
-		return "Profile Successfully Created!";
+		if(!candidate.hasErrors()) {
+			profileRepository.createCandidate(profileConverter.convertToEntity(candidate));
+		}
 	}
 
 	@Override
