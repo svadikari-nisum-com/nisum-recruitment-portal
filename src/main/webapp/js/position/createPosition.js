@@ -12,13 +12,14 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
    
 	$scope.position.primarySkills = {};
 	$scope.position.interviewRounds = {};
-	$scope.position.interviewRounds = ['Technical Round 1','Technical Round 2','Hr Round','Manager Round'];
+	$scope.position.interviewRounds = ['Technical Round 1','Technical Round 2','Manager Round', 'Hr Round'];
 	$scope.position.designation = "";
 	$scope.position.minExpYear = "";
 	$scope.position.maxExpYear = "";
 	$scope.position.location = "";
 	$scope.position.client = "";
 	$scope.position.hiringManager = "";
+	$scope.position.functionalGroup = "";
 	$scope.position.priority = "";
 	$scope.position.jobType = "";
 	$scope.position.salary = "";
@@ -43,9 +44,10 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 	$scope.managers = [];
 	$scope.minExpYear=[];
 	$scope.maxExpYear=[];
+	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
 	
 	$scope.pskills=$rootScope.info.skills;
-	$scope.interview=$rootScope.info.interviewRounds;
+	$scope.interview=$scope.info.interviewRounds;
 	  $scope.getData = function() {
 		  
 		  $scope.deg  =_.find($scope.designations,function(obj){
@@ -82,8 +84,21 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 					$scope.client.push(cl.clientName);
 				})
 			  });
-	$scope.getInterviewers = function(ClientName){
-		$scope.names = [];
+	$scope.getManagers = function(){
+		
+		
+		$scope.managers = [];
+		userService.getUserByRole("ROLE_MANAGER").then(function (data){
+			
+			angular.forEach(data,function(user){
+				
+				$scope.managers.push(user.name);
+			})
+			
+		});
+		
+		
+		/*$scope.names = [];
 		$scope.object = [];
 		$scope.filterNames = [];
 		clientService.getClientByName(ClientName)
@@ -109,7 +124,7 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 				$scope.managers.push(user.name);
 			})
 			
-		  });
+		  });*/
 
 		
 	}

@@ -239,6 +239,18 @@
 					|| "--" }}</a>
 			</div>
 		</div>
+		<div class="control-group">
+			<div class="col-md-2">
+				<label class="lbl" ><i
+					class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Functional Area:</label>
+			</div>
+			<div class="col-md-3">
+				<a href="#" editable-select="position.functionalGroup"
+					e-ng-options="o as o for o in functionalGroups" e-required> {{
+					position.functionalGroup}} </a>
+
+			</div>
+		</div>
 	</div>
 	</accordion-group> </accordion>
 </div>

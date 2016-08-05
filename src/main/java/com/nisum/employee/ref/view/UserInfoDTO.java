@@ -25,6 +25,7 @@ public class UserInfoDTO extends BaseDTO{
 	private String mobileNumber;
 	private String skypeId;
 	private List<String> categories;
+	private List<InterviewRoundsAllocationDTO> interviewRoundsAllocation;
 	private List<TimeSlotDTO> timeSlots;
 	private Boolean isNotAvailable = false;
 }

@@ -9,17 +9,27 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 	$scope.hideDetails = true;
 	$scope.hideRoles = true;
 	$scope.hideTimeSlot = false;
+	$scope.closeP = true;
+	$scope.hideAddOne = false;
+	$scope.hideCreate = true;
+	$scope.disableOk = true;
+	$scope.interviewRoundsAllocation = {};
+	$scope.hideDevisionAllocation = false;
+	
 	
 	$scope.col=["Name","Email Id","Roles","Client"];
 	
 	$scope.att=["name","emailId","roles","clientName"];
 	$scope.att1=["roles"];
 	
+	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
+	
 	if(sharedDataService.getData() == undefined) {
 		location.href="#admin/users";
 	}
 	
 	$scope.userToEdit = sharedDataService.getData();
+	
 	
 	if($scope.userToEdit.emailId == sessionStorage.userId )
 	{
@@ -136,9 +146,7 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 		}
 		}
 		return true;
-		
 	}
-	
 	$scope.validateDate =  function(){
 		var date=new Date();
 		if(date<$scope.userToEdit.dob){
@@ -175,7 +183,13 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 			  $scope.userToEdit.roles = $scope.tempRoles;
 			return;
 		}
-		
+		if( _.contains($scope.userToEdit.roles,"ROLE_INTERVIEWER") )
+		{
+			$scope.hideCreate = false;
+		}else
+		{
+			$scope.hideCreate = true;
+		}
 		$scope.hideDetails =  _.contains($scope.userToEdit.roles,"ROLE_INTERVIEWER");
 		
 		$scope.hideRoles = true;
@@ -238,11 +252,79 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 			return "Enter valid mobile number..";
 	};
 		
+	$scope.hidecreate = function() {
+		
+		$scope.hideAddOne = true;
+		$scope.hideCreate = false;
+		
+	}
 	$scope.validateAlphanumeric = function(data) {
 		if (/^[a-zA-Z0-9]+$/.test(data)) {
 			return true;
 		} else
 			return "Enter valid Skype Id..";
 	};
+	
+	$scope.addFunctionalRounds = function ()
+	{
+		
+		if(!$scope.userToEdit.interviewRoundsAllocation )
+		{
+			$scope.userToEdit.interviewRoundsAllocation = [];
+		}
+		$scope.userToEdit.interviewRoundsAllocation.push({'department':$scope.functionalGroups[$scope.divisionIdx],"interviewRounds":$scope.interviewRoundsAllocation.selectedRounds});
+		$scope.functionalGroups.splice($scope.divisionIdx,1);
+		if($scope.functionalGroups.length == 0)
+		{
+			$scope.hideDevisionAllocation = true;
+		}
+		$scope.divisionIdx=undefined;
+		$scope.interviewRoundsAllocation.selectedRounds = "";
+		$scope.disableOk = true;
+		
+	}
+	$scope.deleteInterviewRound = function(index)
+	{
+		$scope.functionalGroups.push($scope.userToEdit.interviewRoundsAllocation[index].department);
+		$scope.userToEdit.interviewRoundsAllocation.splice(index,1);
+		$scope.hideDevisionAllocation = false;
+		
+	}
+	$scope.disableAdd = function() {
+		
+		if(angular.isDefined($scope.divisionIdx) && angular.isDefined($scope.interviewRoundsAllocation.selectedRounds) && $scope.interviewRoundsAllocation.selectedRounds.length > 0 )
+		{
+			$scope.disableOk = false;
+		}else
+		{
+			$scope.disableOk = true;
+		}
+	};
+	
+	$scope.init = function() {
+		
+		if(_.contains($scope.userToEdit.roles,"ROLE_INTERVIEWER"))
+		{
+			$scope.hideCreate = false ;
+		}
+		$scope.interviewFunctionalRounds = $scope.info.interviewRounds;
+		$scope.interviewFunctionalRounds.splice($scope.interviewFunctionalRounds.indexOf("Hr Round"), 1);
+		$scope.interviewFunctionalRounds.splice($scope.interviewFunctionalRounds.indexOf("Manager Round"), 1);
+		
+		angular.forEach($scope.userToEdit.interviewRoundsAllocation, function(object , index){
+			$scope.functionalGroups.splice($scope.functionalGroups.indexOf(object.department),1);
+		});
+		
+		
+		if($scope.functionalGroups.length == 0)
+		{
+			$scope.hideDevisionAllocation = true;
+		}
+		
+		
+		
+	};
+	$scope.init();
+	
 	
 }]);

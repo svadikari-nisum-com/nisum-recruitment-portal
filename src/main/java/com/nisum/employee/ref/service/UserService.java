@@ -54,4 +54,8 @@ public class UserService implements IUserService{
 	public List<UserInfoDTO> retrieveUserByRole(String role) {
 		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByRole(role));
 	}
+	@Override
+	public List<UserInfoDTO> retrieveUserByRole(String round,String department) {
+		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByRole(round,department));
+	}
 }

@@ -118,6 +118,82 @@
 							userToEdit.clientName || "Select Client" }} </a>
 					</div>
 				</div>
+				
+			<div class="panel panel-default" ng-hide="hideCreate" style="width: 90%;">
+				<div class="panel-heading" style="height: 36px;">
+					<span style="color: white;">Assign Interview Rounds </span>
+				</div>
+				<div class="panel-body">
+					<div class="row" ng-repeat="divisionRounds in userToEdit.interviewRoundsAllocation">
+					 <div class="control-group">
+						<div class="col-md-1"></div>
+						<div class="col-md-2">
+							<label class="lbl"> <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Division
+								:
+							</label>
+						</div>
+						<div class="col-md-3">
+							{{userToEdit.interviewRoundsAllocation[$index].department}}</div>
+					 </div>
+
+					 <div class="control-group">
+						<div class="col-md-2">
+							<label class="lbl"> <i
+								class="glyphicon glyphicon-envelope"></i>&nbsp;&nbsp;Rounds :
+							</label>
+						</div>
+						<div class="col-md-3">
+							{{userToEdit.interviewRoundsAllocation[$index].interviewRounds.toString()}}</div>
+						<div class="col-md-1">
+							<span class="glyphicon glyphicon-remove" style="cursor: pointer;"
+								ng-click="deleteInterviewRound($index)"></span>
+						</div>
+					  </div>
+					</div> 
+					
+					<div class="row" ng-hide="hideDevisionAllocation">
+					  <div class="control-group">
+						<div class="col-md-1"></div>
+						<div class="col-md-2">
+							<label class="lbl"> <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Division:</label>
+						</div>
+						<div class="col-md-3">
+							<select ng-model="divisionIdx"
+									ng-change="disableAdd()" 
+									ng-options="functionalGroups.indexOf(o) as o for o in functionalGroups ">
+								<option value="" disabled="disabled">Select Department</option>
+							</select>
+						</div>
+						
+					  </div>
+
+					  <div class="control-group" >
+						<div class="col-md-2">
+							<label class="lbl"> <i class="glyphicon glyphicon-home"></i>&nbsp;&nbsp;Rounds:	</label>
+						</div>
+						
+						<div class="col-md-3">
+							<ui-select multiple ng-model="interviewRoundsAllocation.selectedRounds" on-remove= "disableAdd()" on-select="disableAdd()" style="width:180px;" ui-select-required theme="select2">
+								<ui-select-match placeholder="Select Rounds...">{{$item}}</ui-select-match>
+								<ui-select-choices repeat="rounds in interviewFunctionalRounds | orderBy:'toString()' | filter:$select.search"> {{rounds}} </ui-select-choices> 
+							</ui-select>
+						</div>
+						
+						<div class="col-md-1" >
+							<span class="glyphicon glyphicon-ok" ng-hide="disableOk" style="cursor: pointer;"
+								ng-click="addFunctionalRounds();"></span>
+						</div>
+					  </div>
+				  </div>
+					
+					
+					
+				</div>
+				
+				
+		</div>
+				
+				
 				<div ng-class="adminCls1" ng-show="message1" align="center"
 						style="width: 650px; position: relative; left: -60; height: 50">
 					<h5 style="margin-top: 2px;">{{message1}}</h5>

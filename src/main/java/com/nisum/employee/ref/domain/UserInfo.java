@@ -26,6 +26,7 @@ public class UserInfo {
 	String mobileNumber;
 	String skypeId;
 	List<String> categories;
+	List<InterviewRoundsAllocation> interviewRoundsAllocation;
 	List<TimeSlots> timeSlots;
 	Boolean isNotAvailable = false;
 }

@@ -38,7 +38,7 @@
 							<select name="client" placeholder="Select Client"
 								ng-model="position.client"
 								ng-options="o as o for o in client | orderBy:'toString()'"
-								ng-change="getInterviewers(position.client)"
+								ng-change="getManagers()"
 								class="form-control input-sm" id="client" required>
 								<option value='' disabled="disabled">Select Client</option>
 							</select>
@@ -243,8 +243,26 @@
 								ng-model="position.noOfPositions"
 								placeholder="Enter Number Of Position" min="0">
 						</div>
+						
+						<div class="control-group">
+						<div class="col-md-2">
+							<label class="lbl" > <i
+								class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Functional Area<b class="mandatory">*</b>
+							</label>
+						</div>
+						<div class="col-md-3">
+							<select name="designation" placeholder="Select Designation"
+								required ng-model="position.functionalGroup"
+								ng-options="o as o for o in functionalGroups"
+								class="form-control input-sm" >
+								<option value='' disabled="disabled">Select Division</option>
+							</select>
+						</div>
+					</div>
+						
 					</div>
 				</div>
+					
 				
 				<div class="row">
 					<div class="control-group">

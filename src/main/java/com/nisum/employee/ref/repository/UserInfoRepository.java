@@ -65,6 +65,7 @@ public class UserInfoRepository{
 		update.set("timeSlots", user.getTimeSlots());
 		update.set("categories", user.getCategories());
 		update.set("isNotAvailable", user.getIsNotAvailable());
+		update.set("interviewRoundsAllocation", user.getInterviewRoundsAllocation());
 		update.set("skypeId", user.getSkypeId());
 		
 		mongoOperations.updateFirst(updateQuery, update, UserInfo.class);
@@ -88,5 +89,17 @@ public class UserInfoRepository{
 			query.addCriteria(Criteria.where("roles").is(role));
 		}
 		return mongoOperations.find(query, UserInfo.class);
+	}
+	public List<UserInfo> retrieveUserByRole(String round,String department) {
+		
+		try
+		{
+		Query query = new Query();
+		query.addCriteria(Criteria.where("roles").is("ROLE_INTERVIEWER").and("interviewRoundsAllocation.department").is(department).and("interviewRoundsAllocation.interviewRounds").is(round));
+		return mongoOperations.find(query, UserInfo.class);
+		}catch (Exception ex){ 
+			ex.printStackTrace();
+		}
+		return null;
 	}
 }

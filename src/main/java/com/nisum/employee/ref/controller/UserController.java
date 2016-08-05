@@ -39,7 +39,8 @@ public class UserController {
 			@RequestParam(value = "emailId", required = false) String emailId,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "clientName", required = false) String clientName,
-			@RequestParam(value = "clientRole", required = false) String clientRole) {
+			@RequestParam(value = "clientRole", required = false) String clientRole,
+			@RequestParam(value = "functionalGroup", required = false) String functionalGroup) {
 
 		List<UserInfoDTO> userInfos = null;
 		if (emailId != null) {
@@ -48,11 +49,15 @@ public class UserController {
 			userInfos = userService.retrieveUserByName(name);
 		} else if (clientName != null) {
 			userInfos = userService.retrieveUserByClient(clientName);
-		} else if ( clientRole != null )
+		} else if ( clientRole != null  && functionalGroup != null )
+		{
+			userInfos = userService.retrieveUserByRole(clientRole,functionalGroup);
+			
+		}else if (clientRole != null)
 		{
 			userInfos = userService.retrieveUserByRole(clientRole);
-			
-		} else
+		}
+		else
 		{
 			userInfos = userService.retrieveUser();
 		}

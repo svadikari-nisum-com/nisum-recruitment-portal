@@ -15,7 +15,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 	$scope.minExpYear=[];
 	$scope.maxExpYear=[];
 	$scope.interviewers=[];
-	
+	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
 	
 	$scope.info = $rootScope.info;
 	$scope.interviewRounds=[];

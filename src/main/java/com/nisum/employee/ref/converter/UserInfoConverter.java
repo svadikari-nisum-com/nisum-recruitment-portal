@@ -13,8 +13,10 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
 
+import com.nisum.employee.ref.domain.InterviewRoundsAllocation;
 import com.nisum.employee.ref.domain.TimeSlots;
 import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.view.InterviewRoundsAllocationDTO;
 import com.nisum.employee.ref.view.TimeSlotDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
@@ -45,7 +47,28 @@ public class UserInfoConverter extends TwowayConverter<UserInfo, UserInfoDTO> {
 				});
 				userInfoDTO.setTimeSlots(timeSlotDTOs);
 			}
-		} catch (IllegalAccessException | InvocationTargetException e) {
+			
+			if(userInfo.getInterviewRoundsAllocation() != null)
+			{
+				List<InterviewRoundsAllocationDTO> interviewRoundsAllocation = new ArrayList<InterviewRoundsAllocationDTO>();
+				userInfo.getInterviewRoundsAllocation().stream().forEach(interviewRoundsAllocations -> {
+					InterviewRoundsAllocationDTO interviewRoundsAllocationDTO = new InterviewRoundsAllocationDTO();
+					
+					try
+					{
+						BeanUtils.copyProperties(interviewRoundsAllocationDTO, interviewRoundsAllocations);
+						interviewRoundsAllocation.add(interviewRoundsAllocationDTO);
+					}catch(Exception e)
+					{
+						log.error(e.getMessage());
+					}
+					
+				});
+				userInfoDTO.setInterviewRoundsAllocation(interviewRoundsAllocation);
+			}
+			
+			
+		} catch (Exception  e) {
 			log.error(e.getMessage());
 			return userInfoDTO;
 		}
@@ -68,8 +91,29 @@ public class UserInfoConverter extends TwowayConverter<UserInfo, UserInfoDTO> {
 						log.error(e.getMessage());
 					}
 				});
+				
 				userInfo.setTimeSlots(timeSlots);
 			}
+			if(userInfoDTO.getInterviewRoundsAllocation() != null)
+			{
+				List<InterviewRoundsAllocation> interviewRoundsAllocations = new ArrayList<InterviewRoundsAllocation>();
+				userInfoDTO.getInterviewRoundsAllocation().stream().forEach(interviewRoundsAllocationDTO -> {
+					InterviewRoundsAllocation interviewRoundsAllocation = new InterviewRoundsAllocation();
+					
+					try
+					{
+						BeanUtils.copyProperties(interviewRoundsAllocation, interviewRoundsAllocationDTO);
+						interviewRoundsAllocations.add(interviewRoundsAllocation);
+					}catch(Exception e)
+					{
+						log.error(e.getMessage());
+					}
+					
+				});
+				userInfo.setInterviewRoundsAllocation(interviewRoundsAllocations);
+
+			}
+				
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			log.error(e.getMessage());
 			return userInfo;

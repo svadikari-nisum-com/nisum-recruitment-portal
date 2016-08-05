@@ -29,5 +29,6 @@ public class PositionDTO extends BaseDTO {
 	private String interviewer;
 	private String jobType;
 	private String salary;
+	private String functionalGroup;
 
 }

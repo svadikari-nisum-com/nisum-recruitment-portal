@@ -20,4 +20,6 @@ public interface IUserService {
 	List<UserInfoDTO> retrieveUserByClient(String clientName);
 	
 	List<UserInfoDTO> retrieveUserByRole(String role);
+	
+	List<UserInfoDTO> retrieveUserByRole(String role,String department);
 }

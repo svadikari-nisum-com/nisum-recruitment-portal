@@ -43,7 +43,8 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 	$scope.skills = [];
 	$scope.skillset = [];
 	$scope.profile = {};
-	
+	$scope.hrNames = [];
+	$scope.managersNames = [];
 	$scope.init = function() {
 		if(jobCodeService1.getjobCode() == undefined || jobCodeService1.getprofileUserId() == undefined) {
 			$state.go("recruitment.interviewManagement");
@@ -66,12 +67,15 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		}
 	);
 	$scope.usersInfo=[];
-			$scope.getInterviewerInfo = function(){
-	$http.get(URL1).success(function(data, status, headers, config) {
+	$scope.getInterviewerInfo = function(){
+		$http.get(URL1).success(function(data, status, headers, config) {
 		$scope.candidate =data[0];
 		$scope.candidatejc = data[0].jobcodeProfile;
 		var IR_Round='resources/searchPositionsBasedOnJobCode?jobcode='+$scope.jobCodeSel;
-		$http.get(IR_Round).success(function(data2, status, headers, config) {
+		
+		if($scope.jobCodeSel)
+		{
+			$http.get(IR_Round).success(function(data2, status, headers, config) {
 				$scope.interviewClient = data2.client;
 				
 				clientService.getClientByName($scope.interviewClient).then(function(data){
@@ -80,49 +84,44 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 				userService.getUserDetailsByClientName($scope.interviewClient).then(function(userData){
 					 $scope.usersInfo = userData;
 				});
-				
-				
-				$scope.setRounds = function(round){
-					  $scope.hrNames = [];
-			        	   $scope.interviewerNames = [];
-			        	   var roundName = round.replace(/\s+/g, '');  
-			        	   roundName = roundName.substring(0, 1).toLowerCase() + roundName.substring(1);
-			        	   
-			        	  var roundUser = $scope.clientDetails[0].interviewers[roundName];
-			        	  if(roundName ==  "hrRound"){
-			        		  $scope.hrNames = roundUser;
-			        		  angular.forEach($scope.hrNames,function(hrName) {
-			        			  $scope.interviewerNames.push(hrName.name);
-			        		  });
-			        	  }else
-			        	  {
-			        			angular.forEach($scope.usersInfo,function(userInfo) {
-									if(!_.isUndefined(_.findWhere(roundUser, {emailId: userInfo.emailId})) && !userInfo.isNotAvailable){
-										var commSkills = _.intersection($scope.profile.primarySkills,userInfo.skills);
-										if (commSkills.length > 0) {
-											$scope.interviewerNames.push(userInfo.name);
-										}
-									}
-									
-								});
-			        	  }
-						
-			          }	
-			
 				var rounds =[];	
 				angular.forEach(data.interviewRounds, function(value, key) {
 					 rounds.push(value.toString());
 				});
 				 $scope.candidate.interviewRounds=rounds;
+				}).error(function(data, status, headers, config) {
+					$log.error(data);
+				});
+		}
 		}).error(function(data, status, headers, config) {
 			$log.error(data);
 		});
-		
-	}).error(function(data, status, headers, config) {
-		$log.error(data);
-	});	
 	}
-	
+	$scope.setRounds = function(round){
+		
+		//Get interview details
+		//1.If HR Round set  hrNames 
+		//2.If Manager Round  set managersNames
+		//3.Load user based on functional group and round name
+		if( round == "Hr Round" )
+		{
+			$scope.interviewerNames = $scope.hrNames;
+		}else if (round == "Manager Round")
+		{
+			$scope.interviewerNames = $scope.managersNames;
+		}
+		else 
+		{
+			$scope.interviewerNames = [];
+			userService.getUserByRole(round,$scope.position.functionalGroup).then(function (data){
+				angular.forEach(data,function(user){
+					$scope.interviewerNames.push(user.name);
+				})
+			});
+		}
+		
+    }	
+
 	$scope.getJobCodeRound = function(){
 		if($scope.jobCodeSel!==""){
 			$scope.reset();
@@ -286,6 +285,19 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 					}
 				})
 			}
+		});
+		userService.getUserByRole("ROLE_HR").then(function (data){
+			
+			angular.forEach(data,function(user){
+				
+				$scope.hrNames.push(user.name);
+			})
+			
+		});
+		userService.getUserByRole("ROLE_MANAGER").then(function (data){
+			angular.forEach(data,function(user){
+				$scope.managersNames.push(user.name);
+			})
 		});
 	}
 	

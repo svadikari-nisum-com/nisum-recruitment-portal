@@ -8,7 +8,8 @@ function userService($http,$rootScope,appConstants,$q) {
 		getUserById : getUserDetailsById,
 		getUserDetailsByName : getUserDetailsByName,
 		updateUser : updateUserDetails,
-		getUserDetailsByClientName : getUserDetailsByClientName
+		getUserDetailsByClientName : getUserDetailsByClientName,
+		getUserByRole : getUserByRole
 	};
 	
 	function getCurrentUserDetails(){
@@ -42,6 +43,26 @@ function userService($http,$rootScope,appConstants,$q) {
 			        	return data = response.data;
 			        })
 			         .catch(sendGetUserError);
+	}
+	function getUserByRole(role,functionalGroup){
+		
+		if(functionalGroup)
+		{
+			return $http.get('resources/user?clientRole='+role+'&functionalGroup='+functionalGroup)
+	        .then(function(response){
+	        	return data = response.data;
+	        })
+	         .catch(sendGetUserError);
+			
+		}else
+		{
+			return $http.get('resources/user?clientRole='+role)
+	        .then(function(response){
+	        	return data = response.data;
+	        })
+	         .catch(sendGetUserError);
+		}
+		
 	}
 	
 	function addUserDetails(user){
