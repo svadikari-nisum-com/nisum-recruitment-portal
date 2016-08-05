@@ -176,11 +176,13 @@
 		$scope.feedback = function(positionId, candidateEmail) {
 			jobCodeService1.setprofileUserId(candidateEmail);
 			jobCodeService1.setjobCode(positionId);
+			jobCodeService1.setPreviousPage("recruitment.interviewManagement");
 			location.href='#recruitment/interviewFeedback';
 		};
 		$scope.schedule = function(positionId, candidateEmail) {
 			jobCodeService1.setprofileUserId(candidateEmail);
 			jobCodeService1.setjobCode(positionId);
+			jobCodeService1.setPreviousPage("recruitment.interviewManagement");
 			
 			location.href='#recruitment/scheduleInterview';
 		};

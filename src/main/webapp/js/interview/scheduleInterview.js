@@ -45,12 +45,19 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 	$scope.profile = {};
 	$scope.hrNames = [];
 	$scope.managersNames = [];
+	$scope.previousPage = "recruitment.interviewManagement";
 	$scope.init = function() {
 		if(jobCodeService1.getjobCode() == undefined || jobCodeService1.getprofileUserId() == undefined) {
 			$state.go("recruitment.interviewManagement");
 		}
 		$scope.emailId = jobCodeService1.getprofileUserId();
 		$scope.jobcode = jobCodeService1.getjobCode();
+		
+		if(jobCodeService1.getPreviousPage() != undefined && jobCodeService1.getPreviousPage() != null)
+		{
+			$scope.previousPage = jobCodeService1.getPreviousPage();
+			
+		}
 	}
 	$scope.init();
 	
