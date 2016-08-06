@@ -55,8 +55,8 @@
 					<label class="lbl" for="candidateName"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Interviewer Name<b style="color:red;">*</b>: </label> 	
 				</div>
 				<div class="col-md-3" ng-hide="hasRole('ROLE_INTERVIEWER')">	
-				<select name="interviewerName" ng-hide="hasRole('ROLE_INTERVIEWER')" ng-change="setvalues()" placeholder="Select InterviewerName" required
-						ng-model="interviewschedule.interviewerName" ng-options = "o as o for o in interviewerNames" class="form-control input-sm" id="interviewerName"  style="color: black">
+				<select name="interviewerName" ng-hide="hasRole('ROLE_INTERVIEWER')" ng-change="setvalues(interviewschedule.interviewerName)" placeholder="Select InterviewerName" required
+						ng-model="interviewschedule.interviewerName" ng-options = "o.emailId as o.name for o in interviewerNames" class="form-control input-sm" id="interviewerName"  style="color: black">
 						<option value='' disabled="disabled">Select Interviewer</option>
 				</select>
 				<!-- <div class="error" 
@@ -224,7 +224,7 @@
     <div class="col-md-3" style = "left: 400px;">	
     <button  class="btn btn-info active" ng-show="hasRole('ROLE_ADMIN','ROLE_HR,ROLE_INTERVIEWER');!(scheduleButnHide)" ng-disabled="scheduleButnDis" type="button" ng-click="reSchedule()"><span class="glyphicon glyphicon-ok-circle"></span> Re-Schedule</button>
     <button  class="btn btn-info active" ng-show="hasRole('ROLE_ADMIN','ROLE_HR,ROLE_INTERVIEWER');scheduleButnHide" ng-disabled="scheduleButnDis" type="submit"><span class="glyphicon glyphicon-ok-circle"></span> Schedule</button>
-	<a href="" class="btn btn-info active" ui-sref="recruitment.interviewManagement" ng-disabled="">
+	<a href="" class="btn btn-info active" ui-sref="{{previousPage}}" ng-disabled="">
          <span class="glyphicon glyphicon-remove"></span> Back
     </a>
 				</div>

@@ -1,5 +1,5 @@
-app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$window','$timeout','$filter','$log','appConstants','infoService','offerService','userService',
-    function($scope, $state, $http, $upload, $q, $window, $timeout,$filter,$log,appConstants,infoService, offerService, userService) {
+app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$window','$timeout','$filter','$log','appConstants','infoService','offerService','userService','designationService',
+    function($scope, $state, $http, $upload, $q, $window, $timeout,$filter,$log,appConstants,infoService, offerService, userService ,designationService) {
 
 	if(offerService.getData() == undefined) {
 		$state.go('offer.list');
@@ -8,13 +8,14 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	$scope.profile = offerService.getData();
 	// console.log(angular.toJson($scope.profile));	
 	$scope.pageName = "Create Offer";
+	//$scope.designations = [];
 	$scope.candidate = {};
 	$scope.candidate.emailId = $scope.profile.emailId;
 	if($scope.profile.mobileNo && $scope.profile.mobileNo != null)
 	{
 		$scope.candidate.mobileNo = $scope.profile.mobileNo;
 	}
-	$scope.candidate.jobcodeProfile = angular.copy($scope.profile.jobcodeProfile);
+	$scope.candidate.jobcodeProfile = angular.copy($scope.profile.jobcodeProfile[0]);
 	$scope.candidate.candidateName = $scope.profile.candidateName;
 	$scope.candidate.project = "";
 	$scope.candidate.reportingManager = "";
@@ -22,6 +23,8 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	$scope.candidate.offerLetterName = "";
 	$scope.candidate.relocationAllowance = "";
 	$scope.candidate.singInBonus = "";
+	$scope.candidate.ctc = "";
+	$scope.candidate.designation = "";
 	$scope.candidate.comments = "";
 	$scope.candidate.joiningDate = "";
 	$scope.candidate.location = "";
@@ -161,9 +164,17 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	
 	var init = function () {
 		
+		designationService.getDesignation().then(function(data){
+			$scope.designations=data;
+		}).catch(function(msg){
+			$scope.message=msg;
+			 $scope.cls=appConstants.ERROR_CLASS;
+			 $timeout( function(){ $scope.alHide(); }, 5000);
+		});
+		
 		$http.get("resources/offer?emailId="+offerService.getData().emailId).success(function(data, status)
 		{
-			if(data && data != null)
+			if(data != null)
 			{
 				$scope.candidate = data;
 				$scope.pageName = "Update Offer";

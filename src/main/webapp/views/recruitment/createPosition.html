@@ -103,7 +103,7 @@
 						<div class="col-md-3">
 							<ui-select multiple ng-model="position.primarySkills"
 								ng-keypress="myFunct($event)" name='sk.primarySkills'
-								id="skills" ui-select-required theme="select2"
+								id="skills" style="width: 230px;" ui-select-required theme="select2"
 								ng-disabled="disabled"> <ui-select-match
 								placeholder="Select skill...">{{$item}}</ui-select-match> <ui-select-choices
 								repeat="skill in pskills | orderBy:'toString()' | filter:$select.search">
@@ -136,7 +136,7 @@
 						</div>
 						<div class="col-md-3">
 							<ui-select multiple ng-keypress="myFunct($event)"
-								ng-model="position.interviewRounds" name="ir.interviewRounds"
+								ng-model="position.interviewRounds" style="width: 230px;" name="ir.interviewRounds"
 								id="irounds" ui-select-required theme="select2"
 								ng-disabled="disabled"> <ui-select-match
 								placeholder="Select Rounds..">{{$item}}</ui-select-match> <ui-select-choices
@@ -213,7 +213,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="control-group">
+					<!-- <div class="control-group">
 						<div class="col-md-2">
 							<label class="lbl" for="Salary"> <i
 								class="glyphicon glyphicon-tree-conifer"></i>&nbsp;&nbsp;Salary
@@ -227,7 +227,24 @@
 								<option value='' disabled="disabled">Select Salary</option>
 							</select>
 						</div>
+					</div> -->
+					
+					<div class="control-group">
+						<div class="col-md-2">
+							<label class="lbl" > <i
+								class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Functional Area<b class="mandatory">*</b>
+							</label>
+						</div>
+						<div class="col-md-3">
+							<select name="designation" placeholder="Select Designation"
+								required ng-model="position.functionalGroup"
+								ng-options="o as o for o in functionalGroups"
+								class="form-control input-sm" >
+								<option value='' disabled="disabled">Select Division</option>
+							</select>
+						</div>
 					</div>
+					
 				</div>
 				
 				<div class="row">
@@ -244,21 +261,7 @@
 								placeholder="Enter Number Of Position" min="0">
 						</div>
 						
-						<div class="control-group">
-						<div class="col-md-2">
-							<label class="lbl" > <i
-								class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Functional Area<b class="mandatory">*</b>
-							</label>
-						</div>
-						<div class="col-md-3">
-							<select name="designation" placeholder="Select Designation"
-								required ng-model="position.functionalGroup"
-								ng-options="o as o for o in functionalGroups"
-								class="form-control input-sm" >
-								<option value='' disabled="disabled">Select Division</option>
-							</select>
-						</div>
-					</div>
+						
 						
 					</div>
 				</div>

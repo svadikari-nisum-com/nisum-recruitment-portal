@@ -6,6 +6,7 @@ angular.module('erApp')
 		   var profileUserId;
 		   	var jobCode;
 			var designation;
+			var previousPage;
 			
 			return {
 		        setjobCode: function(code) {
@@ -45,6 +46,13 @@ angular.module('erApp')
 		        },
 		        getDesignation: function() {
 		        	return designation;
+		     },
+		     setPreviousPage: function(code) {
+		    	 previousPage=code;
+		        },
+		        getPreviousPage: function() {
+		        	return previousPage;
 		     }
+		     
 		    };	
 		});	

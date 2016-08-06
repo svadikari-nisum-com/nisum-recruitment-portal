@@ -45,12 +45,19 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 	$scope.profile = {};
 	$scope.hrNames = [];
 	$scope.managersNames = [];
+	$scope.previousPage = "recruitment.interviewManagement";
 	$scope.init = function() {
 		if(jobCodeService1.getjobCode() == undefined || jobCodeService1.getprofileUserId() == undefined) {
 			$state.go("recruitment.interviewManagement");
 		}
 		$scope.emailId = jobCodeService1.getprofileUserId();
 		$scope.jobcode = jobCodeService1.getjobCode();
+		
+		if(jobCodeService1.getPreviousPage() != undefined && jobCodeService1.getPreviousPage() != null)
+		{
+			$scope.previousPage = jobCodeService1.getPreviousPage();
+			
+		}
 	}
 	$scope.init();
 	
@@ -81,9 +88,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 				clientService.getClientByName($scope.interviewClient).then(function(data){
 					$scope.clientDetails = data;
 				});
-				userService.getUserDetailsByClientName($scope.interviewClient).then(function(userData){
-					 $scope.usersInfo = userData;
-				});
+				
 				var rounds =[];	
 				angular.forEach(data.interviewRounds, function(value, key) {
 					 rounds.push(value.toString());
@@ -115,7 +120,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 			$scope.interviewerNames = [];
 			userService.getUserByRole(round,$scope.position.functionalGroup).then(function (data){
 				angular.forEach(data,function(user){
-					$scope.interviewerNames.push(user.name);
+					$scope.interviewerNames.push({'name':user.name,"emailId":user.emailId});
 				})
 			});
 		}
@@ -180,34 +185,26 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 	}
 
 	$scope.onTimeSet = function (newDate, oldDate) {
-		day = $filter('date')(newDate, 'dd/MM/yy');
-	       var toDay = new Date(); 
-	       var scheduleDate = newDate; 
-	       if(toDay>=scheduleDate){
-	               $scope.hidePrvDateMsg = false;
-	               $scope.data.date = "";
-	               return;
-	               }
-	       else{
-	               $scope.hidePrvDateMsg = true;
-	               
-	       }
-		var interviewerName = $scope.interviewschedule.interviewerName;
-		selectedDay = $filter('date')(newDate, 'EEEE');
 		
-			$http.get('resources/user?emailId='+sessionStorage.userId)
-			.success(function(data, status, headers, config) {
-				$scope.interviewerData = data[0];
-			}).
-			  error(function(data, status, headers, config) {
-				  $log.error("failed --"+data);
-			  });
-			angular.forEach($scope.interviewerData.timeSlots, function(timeslot) {
-				if(selectedDay == timeslot.day) {
-					$scope.interviewerTimeslot = timeslot;
-					$log.info("Interviewer is available");
-				} 
-			})
+       day = $filter('date')(newDate, 'dd/MM/yy');
+       var toDay = new Date(); 
+       var scheduleDate = newDate; 
+       if(toDay>=scheduleDate){
+           $scope.hidePrvDateMsg = false;
+           $scope.data.date = "";
+           return;
+        }
+       else
+       {
+          $scope.hidePrvDateMsg = true;
+        }
+		selectedDay = $filter('date')(newDate, 'EEEE');
+		angular.forEach($scope.interviewerData.timeSlots, function(timeslot) {
+			if(selectedDay == timeslot.day) {
+				$scope.interviewerTimeslot = timeslot;
+				$log.info("Interviewer is available");
+			} 
+		})
 
 		if(selectedDay == $scope.interviewerTimeslot.day){
 		} else {
@@ -223,26 +220,19 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
        
 	}
 	
-	$scope.setvalues = function() {
-		var interviewerName = $scope.interviewschedule.interviewerName;
-		angular.forEach($scope.usersInfo, function(interviewer) {
-			if(interviewerName == interviewer.name) {
-				$scope.interviewerInfo = interviewer;
-			}
-		})
-		$http.get('resources/user?emailId='+$scope.interviewerInfo.emailId)
-			.success(function(data, status, headers, config) {
+	$scope.setvalues = function(emailId) 
+	{
+		userService.getUserById(emailId).then(function (data){
+			
 				$scope.interviewerData = data[0];
 				$scope.disableDate = false;
 				$scope.interviewschedule.emailIdInterviewer = $scope.interviewerData.emailId;
 				$scope.interviewschedule.interviewerMobileNumber = $scope.interviewerData.mobileNumber;
 				$scope.interviewschedule.skypeId = $scope.interviewerData.skypeId;
 				$scope.sel.selectedLocation = $scope.interviewerData.location;
-				//$scope.data.date = "";
-			}).
-			  error(function(data, status, headers, config) {
-				  $log.error("failed --"+data);
-			  })
+				$scope.data.date="";
+		});
+		
 	}
 	$scope.alHide =  function(){
 		$scope.errormessage = true;
@@ -290,13 +280,13 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 			
 			angular.forEach(data,function(user){
 				
-				$scope.hrNames.push(user.name);
+				$scope.hrNames.push({'name':user.name,"emailId":user.emailId});
 			})
 			
 		});
 		userService.getUserByRole("ROLE_MANAGER").then(function (data){
 			angular.forEach(data,function(user){
-				$scope.managersNames.push(user.name);
+				$scope.managersNames.push({'name':user.name,"emailId":user.emailId});
 			})
 		});
 	}
@@ -338,7 +328,10 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 							$scope.interviewschedule = round.interviewSchedule;
 							$scope.sel.selectedLocation = round.interviewSchedule.interviewLocation;
 							$scope.sel.selectedtypeOfInterview = round.interviewSchedule.typeOfInterview;
-							$scope.setvalues();
+							$scope.interviewerNames = [];
+							$scope.interviewerNames.push({'name':$scope.interviewschedule.interviewerName,"emailId":$scope.interviewschedule.emailIdInterviewer});
+							$scope.interviewschedule.interviewerName = $scope.interviewschedule.emailIdInterviewer;
+							$scope.setvalues($scope.interviewschedule.emailIdInterviewer);
 							var day = new Date(round.interviewSchedule.interviewDateTime);
 							$scope.data.date = day;
 							if(round.interviewFeedback===null){

@@ -305,11 +305,13 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	$scope.feedback = function(positionId, candidateEmail) {
 		jobCodeService1.setprofileUserId(candidateEmail);
 		jobCodeService1.setjobCode(positionId);
+		jobCodeService1.setPreviousPage("recruitment.viewProfile");
 		location.href='#recruitment/interviewFeedback';
 	};
 	$scope.schedule = function(positionId, candidateEmail) {
 		jobCodeService1.setprofileUserId(candidateEmail);
 		jobCodeService1.setjobCode(positionId);
+		jobCodeService1.setPreviousPage("recruitment.viewProfile");
 		location.href='#recruitment/scheduleInterview';
 	};
 	$scope.gotoAnchor = function() {

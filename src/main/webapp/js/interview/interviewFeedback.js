@@ -19,6 +19,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.disableSchedule = true;
 	$scope.hideSubmit = false;
 	$scope.interviewFeedback.status="";
+	$scope.previousPage = "recruitment.interviewManagement";
 	var i = 0;
 	
 	
@@ -28,6 +29,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 		}
 		$scope.jobcode =jobCodeService1.getjobCode();
 		$scope.emailId = jobCodeService1.getprofileUserId();
+		if(jobCodeService1.getPreviousPage() != undefined && jobCodeService1.getPreviousPage() != null)
+		{
+			$scope.previousPage = jobCodeService1.getPreviousPage();
+			
+		}
 	}
 	$scope.init();
 	
