@@ -89,7 +89,7 @@
 		    	   		<input type="text" id="dLabel" name="idate" style="margin-top:5px;background-color: white;" data-ng-model="data.date"  ng-bind="data.date" data-toggle="dropdown" data-target="#" placeholder="Click Here To Select Date..." ng-disabled = "disableDate" class="dropdown-toggle form-control" readonly required />
 		    			<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 			        		<datetimepicker data-ng-model="data.date" data-on-set-time="onTimeSet(newDate, oldDate)"
-			                        data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle' }">
+			                        data-datetimepicker-config="{ dropdownSelector: '#dLabel' }">
 			                </datetimepicker>
 		    			</ul>
 					</div>	

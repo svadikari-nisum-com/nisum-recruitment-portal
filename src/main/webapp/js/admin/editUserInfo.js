@@ -22,7 +22,7 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 	$scope.att=["name","emailId","roles","clientName"];
 	$scope.att1=["roles"];
 	
-	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
+	$scope.functionalGroups = $scope.info.FunctionalTeam;
 	
 	if(sharedDataService.getData() == undefined) {
 		location.href="#admin/users";

@@ -74,6 +74,8 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		}
 	);
 	$scope.usersInfo=[];
+	$scope.managerInfo=[];
+	$scope.hrInfo=[];
 	$scope.getInterviewerInfo = function(){
 		$http.get(URL1).success(function(data, status, headers, config) {
 		$scope.candidate =data[0];
@@ -111,6 +113,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		if( round == "Hr Round" )
 		{
 			$scope.interviewerNames = $scope.hrNames;
+
 		}else if (round == "Manager Round")
 		{
 			$scope.interviewerNames = $scope.managersNames;
@@ -119,6 +122,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		{
 			$scope.interviewerNames = [];
 			userService.getUserByRole(round,$scope.position.functionalGroup).then(function (data){
+				$scope.usersInfo = data;
 				angular.forEach(data,function(user){
 					$scope.interviewerNames.push({'name':user.name,"emailId":user.emailId});
 				})
@@ -143,12 +147,15 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 	$scope.schedule = function(){
 		blockUI.start("Scheduling..");
 		setTimeout(function () {
+		
+		$scope.interviewschedule.interviewerName = $scope.interviewerData.name;
 		$scope.interviewschedule.jobcode = $scope.jobCodeSel;
 		$scope.interviewschedule.typeOfInterview = $scope.sel.selectedtypeOfInterview;
 		$scope.interviewschedule.interviewLocation = $scope.sel.selectedLocation;
 		$scope.interviewschedule.interviewDateTime = $scope.data.date;
 		$scope.interviewschedule.candidateId = $scope.candidate.emailId;
 		$scope.interviewschedule.candidateName = $scope.candidate.candidateName;
+		
 		//$scope.interviewschedule.cureentPositinId = $scope.jobCodeSel;
 		$http.post('resources/interviewSchedule', $scope.interviewschedule).
 		  success(function(data, status, headers, config) {
@@ -172,7 +179,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 				$scope.jobCodeSel="";
 				$scope.interviewschedule.roundName="";
 				$scope.data.date="";
-				$location.path("recruitment/interviewManagement");
+				$location.path($scope.previousPage.replace(".", "/"));
 		  }).
 		  error(function(data, status, headers, config) {
 			  $scope.cls = 'alert alert-danger alert-error';
@@ -222,16 +229,30 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 	
 	$scope.setvalues = function(emailId) 
 	{
-		userService.getUserById(emailId).then(function (data){
+		if( $scope.interviewschedule.roundName == "Hr Round" )
+		{
+			$scope.interviewerData = $scope.hrInfo.filter(function ( obj ) {
+			    return obj.emailId == emailId;
+			})[0];
+				
+		}else if ( $scope.interviewschedule.roundName == "Manager Round" )
+		{
+			$scope.interviewerData = $scope.managerInfo.filter(function ( obj ) {
+			    return obj.emailId == emailId;
+			})[0];
 			
+		}else
+		{
+			userService.getUserById(emailId).then(function (data){
 				$scope.interviewerData = data[0];
-				$scope.disableDate = false;
-				$scope.interviewschedule.emailIdInterviewer = $scope.interviewerData.emailId;
-				$scope.interviewschedule.interviewerMobileNumber = $scope.interviewerData.mobileNumber;
-				$scope.interviewschedule.skypeId = $scope.interviewerData.skypeId;
-				$scope.sel.selectedLocation = $scope.interviewerData.location;
-				$scope.data.date="";
-		});
+			});
+		}
+		$scope.disableDate = false;
+		$scope.interviewschedule.emailIdInterviewer = $scope.interviewerData.emailId;
+		$scope.interviewschedule.interviewerMobileNumber = $scope.interviewerData.mobileNumber;
+		$scope.interviewschedule.skypeId = $scope.interviewerData.skypeId;
+		$scope.sel.selectedLocation = $scope.interviewerData.location;
+		$scope.data.date="";
 		
 	}
 	$scope.alHide =  function(){
@@ -278,6 +299,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		});
 		userService.getUserByRole("ROLE_HR").then(function (data){
 			
+			$scope.hrInfo=data;
 			angular.forEach(data,function(user){
 				
 				$scope.hrNames.push({'name':user.name,"emailId":user.emailId});
@@ -285,6 +307,8 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 			
 		});
 		userService.getUserByRole("ROLE_MANAGER").then(function (data){
+			
+			$scope.managerInfo=data;
 			angular.forEach(data,function(user){
 				$scope.managersNames.push({'name':user.name,"emailId":user.emailId});
 			})
@@ -375,6 +399,8 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 	$scope.reSchedule = function(){
 		blockUI.start("Scheduling..");
 		setTimeout(function () {
+		
+		$scope.interviewschedule.interviewerName = $scope.interviewerData.name;
 		$scope.interviewschedule.jobcode = $scope.jobCodeSel;
 		$scope.interviewschedule.typeOfInterview = $scope.sel.selectedtypeOfInterview;
 		$scope.interviewschedule.interviewLocation = $scope.sel.selectedLocation;
@@ -392,7 +418,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 				$scope.jobCodeSel="";
 				$scope.interviewschedule.roundName="";
 				$scope.data.date="";
-				$location.path("recruitment/interviewManagement");
+				$location.path($scope.previousPage.replace(".", "/"));
 		  }).
 		  error(function(data, status, headers, config) {
 			  $scope.cls = 'alert alert-danger alert-error';
