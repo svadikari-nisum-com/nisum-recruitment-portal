@@ -25,6 +25,8 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		
 	$scope.client =[];
 	
+	$scope.functionalGroups = $scope.info.FunctionalTeam;
+	
 	$scope.init = function() {
 		if(jobCodeService1.getjobCode() == undefined) {
 			$state.go("recruitment.searchPosition");

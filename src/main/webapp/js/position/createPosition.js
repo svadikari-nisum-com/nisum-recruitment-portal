@@ -48,6 +48,8 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 	
 	$scope.pskills=$rootScope.info.skills;
 	$scope.interview=$scope.info.interviewRounds;
+	$scope.functionalGroups = $scope.info.FunctionalTeam;
+	
 	  $scope.getData = function() {
 		  
 		  $scope.deg  =_.find($scope.designations,function(obj){
