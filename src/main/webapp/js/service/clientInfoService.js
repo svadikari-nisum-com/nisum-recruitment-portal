@@ -30,7 +30,7 @@ function clientInfoService($http,$q,$timeout,appConstants){
 	function addClient(clientInfo){
 		return $http.post('resources/clientInfo', clientInfo)
 					.then(clientAddedSuccess)
-					.catch(sendGetClientError);
+					.catch(sendCreateClientError);
 	}
 	
 	function updateClient(clientInfo){
@@ -54,7 +54,7 @@ function clientInfoService($http,$q,$timeout,appConstants){
 	}
 	
 	function clientAddedSuccess(response){
-		return  response.config.data.clientName +" Client has been added successfully";
+		return  response.config.data.clientName +" Client added successfully";
 	}
 	
 	function clientDeletedSuccess(response){
@@ -63,6 +63,12 @@ function clientInfoService($http,$q,$timeout,appConstants){
 	
 	function sendGetClientError(response){
 		 return $q.reject('Error retrieving book(s). (HTTP status: ' + response.status + ')');
+	}
+	
+	function sendCreateClientError(response){
+		// return $q.reject('Error retrieving book(s). (HTTP status: ' + response.status + ')');
+		var showContent = response.data.errors[0].desc;
+		return $q.reject(showContent);
 	}
 	
 	};

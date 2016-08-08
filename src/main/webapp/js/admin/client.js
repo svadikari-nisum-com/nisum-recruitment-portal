@@ -29,10 +29,8 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 			$timeout( function(){ $scope.message = ""; $scope.cls = ''; sharedDataService.setmessage("");sharedDataService.getClass("");}, 3000);
 		}
 	
-	$scope.submit = function(){		
-		if($scope.checkClients()){		
+	$scope.submit = function(){
 			$scope.client.clientId = $scope.client.clientName.toUpperCase().replace(/\s/g, '');
-	
 			clientService.createClient($scope.client)
 						 .then(function(msg) { 
 							 $scope.sendSharedMessage(msg,'/admin/client');
@@ -41,7 +39,6 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 							 $scope.message=msg;
 							 $scope.cls=appConstants.ERROR_CLASS;
 						});
-		}
 	}
 	
 	$scope.deleteClient = function(clientId){
@@ -59,20 +56,15 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 
 	}
 	
-	$scope.checkClients = function(){
-		 $scope.checkCls=true;
+/*	$scope.checkClients = function(){
 		angular.forEach($scope.clients, function(cl){
-			
-			if($scope.client.clientName.toUpperCase() == cl.clientName.toUpperCase()){			
-				 $scope.message="Client Already Exists";
+			if($scope.client.clientName == cl.clientName){
+				 //$scope.message="Client Already Exists";
 				 $scope.cls=appConstants.ERROR_CLASS;
 				 $scope.checkCl = false;
-				 $scope.checkCls= false;
-			}
-		
-			});
-		return  $scope.checkCls;
-	}
+		}});
+		return true;
+	}*/
 	
 	$scope.editClient = function(data){
 		jobCodeService1.setclientId(data.clientId);

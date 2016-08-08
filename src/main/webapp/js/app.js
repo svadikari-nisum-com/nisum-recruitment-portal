@@ -171,4 +171,4 @@ app.run(function($rootScope,$document) {
 		            $rootScope.idleEndTime = n+(30*60*1000); 
 		        }
 		    }
-		});3
+		});

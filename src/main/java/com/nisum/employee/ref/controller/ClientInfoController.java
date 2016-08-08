@@ -74,9 +74,9 @@ public class ClientInfoController {
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(value = "/clientInfo", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> createClient(@RequestBody ClientInfoDTO clientInfoDTO) {
+	public ResponseEntity<ClientInfoDTO> createClient(@RequestBody ClientInfoDTO clientInfoDTO) {
 		clientInfoService.createClient(clientInfoDTO);
-		return new ResponseEntity<ClientInfoDTO>(clientInfoDTO, HttpStatus.OK);
+		return new ResponseEntity<ClientInfoDTO>(clientInfoDTO,clientInfoDTO.hasErrors()?HttpStatus.BAD_REQUEST: HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
