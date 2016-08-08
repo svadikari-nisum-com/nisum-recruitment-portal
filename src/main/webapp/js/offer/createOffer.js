@@ -75,8 +75,8 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 
 	$scope.saveOffer = function() {
 		
-		$scope.uploadFileIntoDB($scope.offerLetterFile);
-		$http.post(RELEASE_OFFER, $scope.candidate).success(function(data, status) {
+		//$scope.uploadFileIntoDB($scope.offerLetterFile);
+		$http.post('resources/save-offer', $scope.candidate).success(function(data, status) {
 			$log.info("saved offer...");
 			$scope.sendNotification("Offer Saved Successfully",'/offer');
 		  }).error(function(data) {
@@ -85,6 +85,14 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	};
 	
 	  
+	$scope.validateNumField = function(){
+		 // if(!/^\d*\.\d*$/.test($scope.candidate.ctc)){
+		if(!/^\d*\.\d$/.test($scope.candidate.ctc)){
+		    alert("Please only enter numeric characters.(Allowed input:0-9)")
+		    $scope.candidate.ctc = '';
+		}
+	}
+	
 	$scope.uploadFileIntoDB = function (files) {
         if (files && ( files.length==1 )) {
             for (var i = 0; i < files.length; i++) {
