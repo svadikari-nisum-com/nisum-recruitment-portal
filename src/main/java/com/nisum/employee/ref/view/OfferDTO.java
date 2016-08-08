@@ -26,10 +26,12 @@ public class OfferDTO extends BaseDTO {
 	private String singInBonus;
 	private String comments;
 	private Date joiningDate;
-	private ArrayList<String> jobcodeProfile;
+	private String jobcodeProfile;
 	private String location;
 	private String offerLetterName;
 	private String status;
 	private String mobileNo;
+	private String ctc;
+	private String designation;
 
 }
