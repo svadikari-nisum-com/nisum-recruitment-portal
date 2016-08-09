@@ -56,7 +56,7 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 	}
 	
 	function sendErrorprofileMsg(msg){
-		return $q.reject("Failed To Get Profile!"+msg);
+		return $q.reject("Profile Updation failed");
 	}
 	
 	function createProfileSuccess(response){

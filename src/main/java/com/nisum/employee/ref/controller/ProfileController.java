@@ -63,10 +63,9 @@ public class ProfileController {
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/profile", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<?> updateUser(@RequestBody Profile candidate) {
+	public ResponseEntity<ProfileDTO> updateUser(@RequestBody ProfileDTO candidate) {
 		profileService.updateCandidate(candidate);
-		String jsonObj="{\"msg\":\"Profile successfully Updated\"}";
-		return new ResponseEntity<String>(jsonObj, HttpStatus.OK);
+		return new ResponseEntity<ProfileDTO>(candidate, HttpStatus.OK);
 	}
 
 	@ResponseStatus(HttpStatus.OK)

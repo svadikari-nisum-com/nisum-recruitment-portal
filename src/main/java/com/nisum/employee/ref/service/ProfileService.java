@@ -57,8 +57,8 @@ public class ProfileService implements IProfileService{
 	}
 
 	@Override
-	public void updateCandidate(Profile candidate) {
-		profileRepository.updateCandidate(candidate);
+	public void updateCandidate(ProfileDTO candidate) {
+		profileRepository.updateCandidate(profileConverter.convertToEntity(candidate));
 	}
 	public void updateCandidateStatus(String email,String status){
 		profileRepository.updateCandidateStatus(email, status);

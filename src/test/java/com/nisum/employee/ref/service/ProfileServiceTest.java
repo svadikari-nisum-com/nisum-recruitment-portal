@@ -100,8 +100,8 @@ public class ProfileServiceTest {
 		Profile candidate = new Profile();
 		candidate.setEmailId("dprasad@nisum.com");
 
-		doNothing().when(profileRepository).updateCandidate(candidate);
-		profileService.updateCandidate(candidate);
+		doNothing().when(profileRepository).updateCandidate(Mockito.any(Profile.class));
+		profileService.updateCandidate(profileConverter.convertToDTO(candidate));
 	}
 
 	@Test

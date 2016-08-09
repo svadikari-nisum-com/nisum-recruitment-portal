@@ -14,7 +14,7 @@ import com.nisum.employee.ref.view.ProfileDTO;
 public interface IProfileService {
 	void createCandidate(ProfileDTO candidate) throws Exception;
 
-	void updateCandidate(Profile candidate);
+	void updateCandidate(ProfileDTO candidate);
 	void updateCandidateStatus(String email,String status);
 
 	List<ProfileDTO> retrieveCandidateDetails(String emailId);

@@ -104,7 +104,7 @@ public class ProfileControllerTest {
    }
    @Test
    public void testUpdateUser() throws Exception {
-	  Profile profile = new Profile();
+	  ProfileDTO profile = new ProfileDTO();
 	  profile.setCandidateName("swathi");
 	  doNothing().when(profileService).updateCandidate(profile);
 		 mockMvc.perform(
