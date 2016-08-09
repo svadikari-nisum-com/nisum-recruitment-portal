@@ -1,3 +1,17 @@
+
+app.directive('number', function () {
+    return {
+        link: function (scope, el, attr) {
+            el.bind("keydown keypress", function (event) {
+                //ignore all characters that are not numbers, except backspace, delete, left arrow and right arrow
+                if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 37 && event.keyCode != 39) {
+                    event.preventDefault();
+                }
+            });
+        }
+    };
+});
+
 app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$window','$timeout','$filter','$log','appConstants','infoService','offerService','userService','designationService',
     function($scope, $state, $http, $upload, $q, $window, $timeout,$filter,$log,appConstants,infoService, offerService, userService ,designationService) {
 
@@ -40,10 +54,11 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	                  "TN"];
 	$scope.allowances = ["$100","$150","$200"];
 	$scope.bonus = ["$200","$400","$600"];
+	$scope.isDisableOfferSave = true;
 	if($scope.candidate.jobcodeProfile=="")
-		 $scope.candidate.status = "Not Initialized";
+		 $scope.candidate.status = "NOTINITIATED";
 	 else
-		 $scope.candidate.status = "Initialized";
+		 $scope.candidate.status = "INITIATED";
 	var offerLetterFile = null;
 	$scope.invalidFile = true;
 	
@@ -75,7 +90,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 
 	$scope.saveOffer = function() {
 		
-		//$scope.uploadFileIntoDB($scope.offerLetterFile);
+		$scope.uploadFileIntoDB($scope.offerLetterFile);
 		$http.post('resources/save-offer', $scope.candidate).success(function(data, status) {
 			$log.info("saved offer...");
 			$scope.sendNotification("Offer Saved Successfully",'/offer');
@@ -85,13 +100,25 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	};
 	
 	  
-	$scope.validateNumField = function(){
-		 // if(!/^\d*\.\d*$/.test($scope.candidate.ctc)){
-		if(!/^\d*\.\d$/.test($scope.candidate.ctc)){
-		    alert("Please only enter numeric characters.(Allowed input:0-9)")
-		    $scope.candidate.ctc = '';
-		}
-	}
+	$scope.validateOffer = function() {
+		if (!angular.isUndefined($scope.candidate) && $scope.validateField($scope.candidate.reportingManager) 
+				&& $scope.validateField($scope.candidate.project) && $scope.validateField($scope.candidate.hrManager) 
+				&& $scope.validateField($scope.candidate.imigrationStatus) && $scope.validateField($scope.candidate.joiningDate)
+				&& $scope.validateField($scope.candidate.designation) && $scope.validateField($scope.candidate.ctc)
+				&& $scope.validateField($scope.candidate.relocationAllowance) && $scope.validateField($scope.candidate.singInBonus)
+				&& $scope.validateField($scope.candidate.status)) {
+			
+			$scope.isDisableOfferSave = false;
+		} else
+			$scope.isDisableOfferSave = true;
+	};
+	
+	$scope.validateField = function(data) {
+		if (angular.isUndefined(data) || data === null || data.length == 0  ) {
+			return false;
+		} else
+			return true;
+	};
 	
 	$scope.uploadFileIntoDB = function (files) {
         if (files && ( files.length==1 )) {

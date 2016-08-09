@@ -48,7 +48,7 @@
 							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Report Manager <b
 							style="color: red;">*</b></label>
 						<div class="col-md-3">
-						    <input class="form-control input-sm" type="text" name="reportManager"
+						    <input class="form-control input-sm" type="text" name="reportManager" ng-change="validateOffer();" 
 								ng-model="candidate.reportingManager" class="form-control"
 								ng-disabled="false" placeholder="Select Reporting Manager" required>
 							<!-- <select name="reportManager" 
@@ -63,7 +63,7 @@
 							class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Project<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<input class="form-control input-sm" type="text" name="project"
+							<input class="form-control input-sm" type="text" name="project" ng-change="validateOffer();" 
 								ng-model="candidate.project" class="form-control"
 								placeholder="Enter Project Name" required>
 						</div>
@@ -85,7 +85,7 @@
 							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;HR Manager<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<input class="form-control input-sm" type="text" name="hrManager"
+							<input class="form-control input-sm" type="text" name="hrManager" ng-change="validateOffer();" 
 								ng-model="candidate.hrManager" class="form-control"
 								ng-disabled="false" placeholder="Select HR Manager" required>
 						</div>
@@ -93,7 +93,7 @@
 							class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Immigration
 							Status<span style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<select name="immigration" placeholder="Immigration Status"
+							<select name="immigration" placeholder="Immigration Status" ng-change="validateOffer();" 
 								required ng-model="candidate.imigrationStatus"
 								ng-options="o for o in iStatus" class="form-control">
 								<option value='' disabled="disabled">Select Immigration
@@ -107,7 +107,7 @@
 							class="glyphicon glyphicon-calendar"></i>&nbsp;&nbsp;Joining Date<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<input type="text" class="form-control" ng-click="open($event)"
+							<input type="text" class="form-control" ng-click="open($event)" ng-change="validateOffer();" 
 								datepicker-popup="{{format}}" ng-model="candidate.joiningDate"
 								is-open="opened" min-date="minDate" max-date="maxDate"
 								datepicker-options="dateOptions"
@@ -121,8 +121,8 @@
 							class="mandatory-field" style="color: red;">*</b></label>
 							
 						<div class="col-md-3">
-							 <select name="designation"
-								ng-model="candidate.designation"
+							 <select name="designation" 
+								ng-model="candidate.designation"  ng-change="validateOffer();" 
 								ng-options="o.designation as o.designation for o in designations | orderBy:'toString()'"
 								class="form-control input-sm" >
 								<option value='' disabled="disabled">Select Designation</option>
@@ -140,8 +140,8 @@
 							<span style="color: red;">*</span></label>
 							
 						<div class="col-md-3">
-							<input class="form-control input-sm" type="number" name="ctc" min="0"
-								ng-model="candidate.ctc" class="form-control"  
+							<input number class="form-control input-sm" type="text" name="ctc" title="Enter numaric digits only"
+								ng-model="candidate.ctc" class="form-control"   ng-change="validateOffer();" 
 								ng-disabled="false" placeholder="Select CTC" required>
 								
 						</div>
@@ -156,8 +156,8 @@
 								<option value='' disabled="disabled">Select Relocation
 									Allowance</option>
 							</select> -->
-							<input class="form-control input-sm" type="number" name="relAlowance" min="0"
-								ng-model="candidate.relocationAllowance" class="form-control"
+							<input number class="form-control input-sm" type="text" name="relAlowance"  title="Enter numaric digits only"
+								ng-model="candidate.relocationAllowance" class="form-control" ng-change="validateOffer();" 
 								ng-disabled="false" placeholder="Select Relocation Allowance" required>
 							
 						</div>
@@ -173,8 +173,8 @@
 								<option value='' disabled="disabled">Select Sign-on
 									Bonus</option>
 							</select> -->
-							<input class="form-control input-sm" type="number" name="bonus" min="0"
-								ng-model="candidate.singInBonus" class="form-control"
+							<input number class="form-control input-sm" type="text" name="bonus" title="Enter numaric digits only"
+								ng-model="candidate.singInBonus" class="form-control" ng-change="validateOffer();" 
 								ng-disabled="false" placeholder="Select Sign-on Bonus" required>
 							
 						</div>
@@ -182,7 +182,7 @@
 							class="glyphicon "></i>&nbsp;&nbsp;
 							Status<span style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<select name="staus" ng-model="candidate.status"
+							<select name="staus" ng-model="candidate.status" ng-change="validateOffer();" 
 								ng-options="o for o in offerData" class="form-control input-sm">
 								<option value='' disabled="disabled"> Staus </option>
 							</select>
@@ -207,7 +207,7 @@
 							class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;Select Offer
 							Letter<span style="color: red;">*</span></label>
 						<div class="col-md-3">
-							<input id="uploadFile" type="file" class="custom-file-input"
+							<input id="uploadFile" type="file" class="custom-file-input" 
 								ng-file-select="upload($files)" valid-file required /> <small
 								ng-show="fileError" style="color: red;">File Extensions
 								Accepted: [doc, docx, pdf]</small>
@@ -231,7 +231,7 @@
 			</div>
 		</div>
 		<div align="center">
-			<button type="submit" class="btn btn-primary" ng-click="saveOffer()">
+			<button type="submit" ng-disabled="isDisableOfferSave" class="btn btn-primary" ng-click="saveOffer()">
 				<span class="glyphicon glyphicon-ok-circle"></span> Save
 			</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;
