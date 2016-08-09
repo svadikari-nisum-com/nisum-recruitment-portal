@@ -31,10 +31,10 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 	$scope.userToEdit = sharedDataService.getData();
 	
 	
-	if($scope.userToEdit.emailId == sessionStorage.userId )
+	/*if($scope.userToEdit.emailId == sessionStorage.userId )
 	{
 		$scope.hideTimeSlot = true;
-	}
+	}*/
 	
 	$scope.message = sharedDataService.getmessage();
 	$scope.adminCls = sharedDataService.getClass();

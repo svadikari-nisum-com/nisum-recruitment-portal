@@ -322,6 +322,13 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	         $anchorScroll();
 	       }
 	};
+	$scope.disableFeedback = function(rounds) {
+		if(rounds == null){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	
 	$scope.download = function(){
