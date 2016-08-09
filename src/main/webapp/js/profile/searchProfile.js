@@ -42,7 +42,7 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
 			enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
 	        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 			paginationCurrentPage: 1,
-			rowTemplate: '<div <div ng-repeat="col in colContainer.renderedColumns track by col.colDef.name"  class="ui-grid-cell" ui-grid-cell><md-tooltip>{{row.entity.jobcodeProfile}}</md-tooltip></div></div>',
+			rowTemplate: '<div <div ng-repeat="col in colContainer.renderedColumns track by col.colDef.name"  class="ui-grid-cell" ui-grid-cell><md-tooltip>{{row.entity.jobcodeProfile[0]}}</md-tooltip></div></div>',
 		    columnDefs: [
 		      { field: 'candidateName', displayName:"Name", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editProfile(row.entity); $event.stopPropagation();" ui-sref="recruitment.viewProfile">{{row.entity.candidateName}} </a>'},
 		      { field: 'emailId', displayName:"Email Id", cellClass: 'ui-grid-align'},
