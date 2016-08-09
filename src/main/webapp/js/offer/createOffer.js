@@ -55,12 +55,13 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	$scope.allowances = ["$100","$150","$200"];
 	$scope.bonus = ["$200","$400","$600"];
 	$scope.isDisableOfferSave = true;
-	if($scope.candidate.jobcodeProfile=="")
+	//if($scope.candidate.jobcodeProfile=="")
 		 $scope.candidate.status = "NOTINITIATED";
-	 else
-		 $scope.candidate.status = "INITIATED";
+	// else
+	//	 $scope.candidate.status = "INITIATED";
 	var offerLetterFile = null;
 	$scope.invalidFile = true;
+	
 	
 	userService.getUsers().then(
 			function(data){
@@ -82,11 +83,19 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 		$log.error(data);
 	});
 	
+	$scope.getNextStatus = function(){
 		offerService.getNextStatuses($scope.candidate.status).then(function(data){
 			$scope.offerData = data;
 		}).catch(function(msg){
 			$log.error(msg);
 		});
+	}
+	
+	/*$scope.validateStatus = function(){
+		if($scope.candidate.status === 'CLOSED'){
+			$scope.statusClosed = true;
+		}
+	}*/
 
 	$scope.saveOffer = function() {
 		
@@ -213,9 +222,11 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 			{
 				$scope.candidate = data;
 				$scope.pageName = "Update Offer";
-			}	
-		}).catch(function(status){
+			}
 			
+			$scope.getNextStatus();
+		}).catch(function(status){
+			$scope.getNextStatus();
 			$log.error(status);
 		});
 		
@@ -223,6 +234,8 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	};
 	
 	init();
+	
+	
 	
 	
 }]);
