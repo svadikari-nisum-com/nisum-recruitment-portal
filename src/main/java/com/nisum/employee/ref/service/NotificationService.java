@@ -73,7 +73,6 @@ public class NotificationService implements INotificationService {
 
 	private static final String ROLE_HR = "ROLE_HR";
 	private static final String TRUE = "true";
-	private static final String PORT_587 = "587";
 	private static final String MAIL_SMTP_PORT = "mail.smtp.port";
 	private static final String MAIL_SMTP_HOST = "mail.smtp.host";
 	private static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
@@ -81,6 +80,8 @@ public class NotificationService implements INotificationService {
 
 	private static final String INTERVIEWERS_NOTAVAILABLE_SUBJECT = "Interviewers not available";
 
+	@Value("${mail.smtp.auth}")
+	private String smtpAuthRequired;
 	@Value("${mail.fromAddress}")
 	private String from;
 	@Value("${mail.username}")
@@ -89,6 +90,9 @@ public class NotificationService implements INotificationService {
 	private String password;
 	@Value("${mail.host}")
 	private String host;
+
+	@Value("${mail.port}")
+	private String port;
 
 	@Autowired
 	private EnDecryptUtil enDecryptUtil;
@@ -286,18 +290,23 @@ public class NotificationService implements INotificationService {
 
 	private Session getSession() throws ServiceException {
 		Properties props = new Properties();
-		props.put(MAIL_SMTP_AUTH, TRUE);
+		props.put(MAIL_SMTP_AUTH, smtpAuthRequired);
 		props.put(MAIL_SMTP_STARTTLS_ENABLE, TRUE);
 		props.put(MAIL_SMTP_HOST, host);
-		props.put(MAIL_SMTP_PORT, PORT_587);
+		props.put(MAIL_SMTP_PORT, port);
 
-		String pwd = enDecryptUtil.decrypt(password);
-		Session session = Session.getInstance(props,
-				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(username, pwd);
-					}
-				});
+		Session session = null;
+		if (Boolean.TRUE.equals(Boolean.parseBoolean(smtpAuthRequired))) {
+			String pwd = enDecryptUtil.decrypt(password);
+			session = Session.getInstance(props,
+					new javax.mail.Authenticator() {
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(username, pwd);
+						}
+					});
+		} else {
+			session = Session.getInstance(props);
+		}
 		return session;
 	}
 
