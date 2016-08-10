@@ -90,9 +90,8 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			  success(function(data, status) {
 				  $scope.cls = 'alert  alert-success';
 				  $scope.message = "Feedback Submitted Successfully!";
-				  $timeout( function(){ $scope.alHide(); }, 5000);
-				  $scope.reset();
-				  
+				  $timeout( function(){ $scope.alHide(); }, 1000);
+				  $scope.reset();				  
 				  $log.info("Feedback Submitted Successfully!");
 			  }).
 			  error(function(data, status) {
@@ -111,7 +110,15 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	    $location.path("recruitment/interviewManagement");
 	}
 	
-	
+	$scope.reset = function(){
+		$scope.interviewFeedback.duration = "";
+		$scope.interviewFeedback.additionalSkills = "";
+		$scope.interviewFeedback.strengths = "";
+		$scope.interviewFeedback.improvement = "";
+		$scope.disableFields = false;
+		$scope.submitShow = true;
+		$scope.interviewSchedule = "";
+	}
 	
 	$scope.setfeedbackData = function(roundName){
 		if($scope.interview.rounds!= undefined){
