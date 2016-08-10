@@ -39,7 +39,7 @@ public class InterviewController {
 	@RequestMapping(value="/interviewRe-Schedule", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<?> reScheduleInterviewSchedule(@RequestBody InterviewSchedule interviewSchedule) throws Exception {
-		InterviewDetails interviewSchedule2 = interviewDetailsService.scheduleInterview1(interviewSchedule);
+		InterviewDetails interviewSchedule2 = interviewDetailsService.reScheduleInterview(interviewSchedule);
 		return new ResponseEntity<InterviewDetails>(interviewSchedule2, HttpStatus.OK);
 	}
 

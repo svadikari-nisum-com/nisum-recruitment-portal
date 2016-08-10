@@ -57,7 +57,7 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 		return interviewDetails;
 	}
 
-	public InterviewDetails scheduleInterview1(InterviewSchedule interviewSchedule) throws Exception {
+	public InterviewDetails reScheduleInterview(InterviewSchedule interviewSchedule) throws Exception {
 		InterviewDetails interviewDetails = null;
 		InterviewDetails interviewDetails2 = interviewDetailsRepository
 				.getInterviewDetailsById(interviewSchedule.getCandidateId());
@@ -84,6 +84,7 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 		rounds1.add(i, new Round(interviewSchedule.getRoundName(), interviewSchedule, null));
 		interviewDetails2.setRounds(rounds1);
 		interviewDetails2.setCurrentPositionId(interviewSchedule.getJobcode());
+		interviewDetails2.setProgress(interviewSchedule.getRoundName() +  "  Rescheduled");
 		return interviewDetails2;
 	}
 
