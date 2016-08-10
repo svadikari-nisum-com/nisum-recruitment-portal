@@ -70,7 +70,7 @@ public class InterviewControllerTest {
       interviewDetails.setCandidateName("swati");
       interviewDetails.setClientName("Nisum");
       Mockito.when(
-				(interviewDetailsService).scheduleInterview1(interviewSchedule))
+				(interviewDetailsService).reScheduleInterview(interviewSchedule))
 				.thenReturn(interviewDetails);
       mockMvc.perform(
  			post("/interviewRe-Schedule").contentType(MediaType.APPLICATION_JSON).
