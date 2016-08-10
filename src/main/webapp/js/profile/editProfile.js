@@ -106,7 +106,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 			$scope.posobj = data2;
 			$scope.interviewClient = data2.client;
 			$scope.rounds = data2.interviewRounds;
-			clientService.getClientByName($scope.interviewClient).then(function(data3){
+			/*clientService.getClientByName($scope.interviewClient).then(function(data3){
 				$scope.interviewers = data3[0].interviewers;
 		        angular.forEach($scope.interviewers, function(interviewer) {
 		        $scope.interviewerNames.push(interviewer.name);
@@ -114,7 +114,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 			}).catch(function(msg){
 				$log.error("Failed!! ---> "+msg);
 			})
-			
+			*/
 			var rounds =[];	
 			angular.forEach(data.interviewRounds, function(value, key) {
 				 rounds.push(value.toString());

@@ -229,30 +229,36 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 	
 	$scope.setvalues = function(emailId) 
 	{
+		var deferred = $q.defer();
+		deferred.promise.then(function(){
+			$scope.disableDate = false;
+			$scope.interviewschedule.emailIdInterviewer = $scope.interviewerData.emailId;
+			$scope.interviewschedule.interviewerMobileNumber = $scope.interviewerData.mobileNumber;
+			$scope.interviewschedule.skypeId = $scope.interviewerData.skypeId;
+			$scope.sel.selectedLocation = $scope.interviewerData.location;
+			$scope.data.date="";
+			
+		});
 		if( $scope.interviewschedule.roundName == "Hr Round" )
 		{
 			$scope.interviewerData = $scope.hrInfo.filter(function ( obj ) {
 			    return obj.emailId == emailId;
 			})[0];
-				
+			deferred.resolve();
 		}else if ( $scope.interviewschedule.roundName == "Manager Round" )
 		{
 			$scope.interviewerData = $scope.managerInfo.filter(function ( obj ) {
 			    return obj.emailId == emailId;
 			})[0];
-			
+			deferred.resolve();
 		}else
 		{
 			userService.getUserById(emailId).then(function (data){
 				$scope.interviewerData = data[0];
+				deferred.resolve();
 			});
+				
 		}
-		$scope.disableDate = false;
-		$scope.interviewschedule.emailIdInterviewer = $scope.interviewerData.emailId;
-		$scope.interviewschedule.interviewerMobileNumber = $scope.interviewerData.mobileNumber;
-		$scope.interviewschedule.skypeId = $scope.interviewerData.skypeId;
-		$scope.sel.selectedLocation = $scope.interviewerData.location;
-		$scope.data.date="";
 		
 	}
 	$scope.alHide =  function(){
