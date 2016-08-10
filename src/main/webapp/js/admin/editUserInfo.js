@@ -102,6 +102,25 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 		}
 		return false;
 	}
+
+
+$scope.validateUserInfo = function() {
+
+	if (!angular.isUndefined($scope.userToEdit) && $scope.validateField($scope.userToEdit.name) 
+			&& $scope.validateField($scope.userToEdit.mobileNumber) && $scope.validateField($scope.userToEdit.skypeId)&& $scope.validateField($scope.userToEdit.roles)) {
+		
+		$scope.isUserFormValid = false;
+	} else
+		$scope.isUserFormValid = true;
+	return true;
+};
+
+$scope.validateField = function(data) {
+	if (angular.isUndefined(data) || data === null || data.length == 0  ) {
+		return false;
+	} else
+		return true;
+};
 	
 	$scope.validateSlotTimings = function(){
 		

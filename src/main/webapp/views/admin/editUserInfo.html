@@ -4,7 +4,7 @@
 	<h5 style="margin-top: 2px;">{{message}}</h5>
 </div>
 <!-- ----------------------------------alert Message--------------------------------------------------------- -->
-<div>
+<div ng-show="validateUserInfo()">
 	<div class="panel panel-default" style="width: 90%">
 		<div class="panel-heading" style="height: 36px;">
 			<div align="center">
@@ -20,7 +20,7 @@
 						class="mandatory-field">*</b> : </label>
 					<div class="col-md-3">
 						<a href="#" editable-text="userToEdit.name"
-							onbeforesave="validateChar($data)" e-required>{{
+							onbeforesave="validateChar($data)"  onaftersave="validateUserInfo()" e-required>{{
 							userToEdit.name || "Click Here To Edit" }}</a>
 					</div>
 					<label class="lbl col-md-2"><i
@@ -34,8 +34,8 @@
 						class="glyphicon glyphicon-phone"></i>&nbsp;&nbsp; Mobile<b
 						class="mandatory-field">*</b>: </label>
 					<div class="col-md-3">
-						<a href="#" maxlength="15" editable-text="userToEdit.mobileNumber"
-							onbeforesave="validatePhNo($data)" e-required>{{
+						<a href="#"   maxlength="15" editable-text="userToEdit.mobileNumber"
+							onbeforesave="validatePhNo($data)"  onaftersave="validateUserInfo()"    e-required>{{
 							userToEdit.mobileNumber || "Click Here To Edit" }}</a>
 					</div>
 					<label class="lbl col-md-2"><i
@@ -43,7 +43,7 @@
 						class="mandatory-field">*</b>:</label>
 					<div class="col-md-3">
 						<a href="#" maxlength="15" editable-text="userToEdit.skypeId"
-							onbeforesave="validateSkypeId($data)" e-required>{{
+							onbeforesave="validateSkypeId($data)" onaftersave="validateUserInfo()" e-required>{{
 							userToEdit.skypeId || "Click Here To Edit" }}</a>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 						class="mandatory-field">*</b> :</label>
 					<div class="col-md-3">
 						<a href="" ng-hide="hideView" ng-click="editRoles()" e-required><div
-								ng-repeat="role in userToEdit.roles">{{role}}{{$last ? ''
+								ng-repeat="role in userToEdit.roles" onaftersave="validateUserInfo()">{{role}}{{$last ? ''
 								: ', '}}</div></a>
 
 						<ui-select ng-hide="hideRoles" multiple ui-select-required
@@ -264,7 +264,7 @@
 	</div>
 
 	<div align="center">
-		<button class="btn btn-info active" ng-click="update()" type="submit">
+		<button class="btn btn-info active" ng-disabled="isUserFormValid" ng-click="update()" type="submit">
 			<span class="glyphicon glyphicon-ok-circle"></span> Save
 		</button>
 		&nbsp;
