@@ -249,15 +249,17 @@ public class NotificationService implements INotificationService {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
-		message.setSubject(FEEDBACK_SUBMITTED_FOR
-				+ interviewFeedback.getRoundName() + OF
-				+ interviewFeedback.getCandidateName());
-		message.setContent(writer.toString(), TEXT_HTML);
+		if (message != null) {
+			message.setSubject(FEEDBACK_SUBMITTED_FOR
+					+ interviewFeedback.getRoundName() + OF
+					+ interviewFeedback.getCandidateName());
+			message.setContent(writer.toString(), TEXT_HTML);
 
-		for (String obj : HR_Emails) {
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(obj));
-			Transport.send(message);
+			for (String obj : HR_Emails) {
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse(obj));
+				Transport.send(message);
+			}
 		}
 	}
 

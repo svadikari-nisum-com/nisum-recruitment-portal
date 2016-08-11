@@ -14,7 +14,7 @@ public enum OfferState {
 	NOTINITIATED {
 		@Override
 		public OfferState prev() {
-			return null;
+			return NOTINITIATED;
 		}
 
 		@Override
@@ -132,7 +132,7 @@ public enum OfferState {
 
 		@Override
 		public List<OfferState> next() {
-			return new ArrayList<OfferState>();
+			return new ArrayList<>();
 		}
 	};
 

@@ -3,14 +3,20 @@
  */
 package com.nisum.employee.ref.view;
 
+import java.io.Serializable;
+
 
 /**
  * @author NISUM
  *
  */
 
-public class ErrorDTO {
+public class ErrorDTO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4115821257866287633L;
 	/**
 	 * @return the code
 	 */
