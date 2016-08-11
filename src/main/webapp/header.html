@@ -80,10 +80,10 @@ border-bottom: 4px solid #CD5C5C;}
 				class="dropdown-toggle" data-toggle="dropdown"
 				style="text-decoration: none; color: white;" ng-click="alHide()">
 				<img class="img img-circle " src="{{profile_picture}}" class="img-circle" width="25" height="25" >
-				&nbsp;{{user.name}}&nbsp;<span
+				&nbsp;{{user.name}}&nbsp;<!-- <span
 					class="badge badge-default"
 					style="background-color: #FB5557; position: relative; top: -10px;">
-						{{count}} </span><b class="caret"></b></a>
+						{{count}} </span> --><b class="caret"></b></a>
 				<ul class="dropdown-menu pull-right">
 					<li><a href="#viewUser" ng-click="alHide(); setActiveTab('Profile')" >
 						<img class="img img-circle " src="{{profile_picture}}" class="img-circle" width="25" height="25" >
@@ -91,12 +91,12 @@ border-bottom: 4px solid #CD5C5C;}
 					</li>
 					<li><a id="logout" href="logout.html" ng-click="alHide()"><i
 							class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Logout</a></li>
-<!-- 					<li class="divider"></li> -->
-<!-- 					<li><a href="" data-toggle="modal" data-target="#myModal"><i -->
-<!-- 							class="icon-bell"></i>&nbsp;&nbsp;Notification <span -->
-<!-- 							class="badge badge-default" -->
-<!-- 							style="background-color: #FB5557; font-size: 9px; position: relative; top: -7px;"> -->
-<!-- 								{{count}} </span> </a></li> -->
+ <!-- 					<li class="divider"></li> 
+					<li><a href="" data-toggle="modal" data-target="#myModal"><i
+							class="icon-bell"></i>&nbsp;&nbsp;Notification <span
+							class="badge badge-default"
+							style="background-color: #FB5557; font-size: 9px; position: relative; top: -7px;">
+								{{count}} </span> </a></li> -->
 				</ul></li>
 		</ul>
 	</div>
