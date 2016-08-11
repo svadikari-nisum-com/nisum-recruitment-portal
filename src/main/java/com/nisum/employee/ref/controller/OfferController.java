@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nisum.employee.ref.common.OfferState;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.service.OfferService;
 import com.nisum.employee.ref.view.OfferDTO;
 
@@ -30,7 +31,7 @@ public class OfferController {
 
 	@ResponseBody
 	@RequestMapping(value = "/save-offer", method = RequestMethod.POST)
-	public ResponseEntity<OfferDTO> saveOfferDetails(@RequestBody OfferDTO offer) {
+	public ResponseEntity<OfferDTO> saveOfferDetails(@RequestBody OfferDTO offer) throws ServiceException {
 		offerService.saveOffer(offer);
 		return new ResponseEntity<OfferDTO>(offer, HttpStatus.OK);
 	}

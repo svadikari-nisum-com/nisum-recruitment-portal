@@ -98,8 +98,8 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	}*/
 
 	$scope.saveOffer = function() {
-		
-		$scope.uploadFileIntoDB($scope.offerLetterFile);
+		//Removed this functionality as we are generating offer letter when the status is "RELEASED"
+		//$scope.uploadFileIntoDB($scope.offerLetterFile);
 		$http.post('resources/save-offer', $scope.candidate).success(function(data, status) {
 			$log.info("saved offer...");
 			$scope.sendNotification("Offer Saved Successfully",'/offer');
