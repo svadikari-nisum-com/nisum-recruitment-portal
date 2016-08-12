@@ -386,29 +386,31 @@ public class NotificationService implements INotificationService {
 		Transport.send(message);
 	}
 	
-	public void sendOfferNotificationMail(String candidateName, String mailId) throws ServiceException {
-		//StringBuilder sbAddresses = new StringBuilder();
-		/*recruiters.forEach(recruiter -> sbAddresses.append(
-				recruiter.getEmailId()).append(","));*/
+	public void sendOfferNotificationMail(String mailId) throws ServiceException {
 		
 		try{
 			Message message = getMessage();
 			message.setSubject(OFFER_LETTER);
+			message.setDescription("Please find the attached Offer details");
 			//message.setContent(writer.toString(), TEXT_HTML);
 			//message.setContent(mp);
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mailId, true));
 			
 			BodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setText("This is message body");
-			Multipart multipart = new MimeMultipart();
 			
+			messageBodyPart.setDescription("This is message body");
+			Multipart multipart = new MimeMultipart();
 			String[] file = offerRepository.getData(mailId);
 			
-			messageBodyPart = new MimeBodyPart();
+			BodyPart messageBody = new MimeBodyPart();
+			messageBody.setText("This is message body");
+			
+			
 			DataSource source = new FileDataSource(file[0]);
 			messageBodyPart.setDataHandler(new DataHandler(source));
 			messageBodyPart.setFileName(file[1]);
 			multipart.addBodyPart(messageBodyPart);
+			multipart.addBodyPart(messageBody);
 			message.setContent(multipart);
 			Transport.send(message);
 		

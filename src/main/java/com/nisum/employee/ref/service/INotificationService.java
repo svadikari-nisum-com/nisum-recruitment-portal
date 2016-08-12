@@ -9,5 +9,5 @@ import com.nisum.employee.ref.exception.ServiceException;
 public interface INotificationService {
 	void sendFeedbackMail(InterviewFeedback interviewFeedback) throws MessagingException;
 	String sendScheduleMail(InterviewSchedule interviewSchedule, String mobileNo, String altMobileNo, String skypeId) throws Exception;
-	void sendOfferNotificationMail(String candidateName,String mailId) throws MessagingException, ServiceException;
+	void sendOfferNotificationMail(String mailId) throws ServiceException;
 }
