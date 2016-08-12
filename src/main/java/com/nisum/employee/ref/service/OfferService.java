@@ -23,23 +23,29 @@ public class OfferService implements IOfferService {
 	
 	@Autowired
 	private OfferConverter offerConverter;
+	
+	@Autowired
+	private GenerateOfferService offerService;
+	
+	@Autowired
+	private INotificationService notificationService;
     
 	@Override
 	public void saveOffer(OfferDTO offer) throws ServiceException {
 		 offerRepository.saveOffer(offerConverter.convertToEntity(offer));
-		 if(offer.getStatus().equals(OfferState.RELEASED)){
+		 if(offer.getStatus().equals(OfferState.RELEASED.toString())){
 			 try{
 				 generateOfferLetter(offer);
-				 //TODO send offer letter as part of email notification.
+				 //TODO send offer letter to candidate as part of email notification.
+				 notificationService.sendOfferNotificationMail(offer.getCandidateName(),offer.getEmailId());
 			 }catch(Exception ex){
 				 throw new ServiceException(ex);
 			 }
 		 }
 	}
 	@Override
-	public void generateOfferLetter(OfferDTO offer) {
-		 //offerRepository.saveOffer(offerConverter.convertToEntity(offer));
-		//TODO Generate Offer letter logic
+	public void generateOfferLetter(OfferDTO offer) throws ServiceException {
+		offerService.generateOffer(offer);
 	}
 	
 	@Override

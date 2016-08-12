@@ -27,6 +27,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -36,11 +37,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.exception.ServiceException;
+import com.nisum.employee.ref.repository.OfferRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.EnDecryptUtil;
 
@@ -79,6 +82,7 @@ public class NotificationService implements INotificationService {
 	private static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
 
 	private static final String INTERVIEWERS_NOTAVAILABLE_SUBJECT = "Interviewers not available";
+	private static final String OFFER_LETTER = "Offer Letter";
 
 	@Value("${mail.smtp.auth}")
 	private String smtpAuthRequired;
@@ -115,6 +119,9 @@ public class NotificationService implements INotificationService {
 
 	@Autowired
 	IProfileService profileService;
+	
+	@Autowired
+	OfferRepository offerRepository;
 
 	@Autowired
 	private UserInfoRepository userInfoRepository;
@@ -198,8 +205,7 @@ public class NotificationService implements INotificationService {
 				.getCandidateId());
 		DataSource source = new FileDataSource(resume[0]);
 		messageBodyPart.setDataHandler(new DataHandler(source));
-		messageBodyPart.setFileName(interviewSchedule.getCandidateName() + "_"
-				+ resume[1]);
+		messageBodyPart.setFileName(interviewSchedule.getCandidateName() + "_"+ resume[1]);
 		multipart.addBodyPart(messageBodyPart);
 		msgInterviewer.setContent(multipart);
 
@@ -378,5 +384,36 @@ public class NotificationService implements INotificationService {
 		message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(sbAddresses.toString(), true));
 		Transport.send(message);
+	}
+	
+	public void sendOfferNotificationMail(String candidateName, String mailId) throws ServiceException {
+		//StringBuilder sbAddresses = new StringBuilder();
+		/*recruiters.forEach(recruiter -> sbAddresses.append(
+				recruiter.getEmailId()).append(","));*/
+		
+		try{
+			Message message = getMessage();
+			message.setSubject(OFFER_LETTER);
+			//message.setContent(writer.toString(), TEXT_HTML);
+			//message.setContent(mp);
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mailId, true));
+			
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setText("This is message body");
+			Multipart multipart = new MimeMultipart();
+			
+			String[] file = offerRepository.getData(mailId);
+			
+			messageBodyPart = new MimeBodyPart();
+			DataSource source = new FileDataSource(file[0]);
+			messageBodyPart.setDataHandler(new DataHandler(source));
+			messageBodyPart.setFileName(file[1]);
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+		
+		}catch(Exception ex){
+			throw new ServiceException(ex);
+		}
 	}
 }

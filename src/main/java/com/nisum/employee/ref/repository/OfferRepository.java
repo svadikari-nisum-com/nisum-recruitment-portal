@@ -1,8 +1,13 @@
 package com.nisum.employee.ref.repository;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
+import net.sourceforge.htmlunit.cyberneko.HTMLScanner.ContentScanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -16,9 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.nisum.employee.ref.domain.Offer;
+import com.nisum.employee.ref.util.Constants;
 
+@Slf4j
 @Repository
 public class OfferRepository {
 
@@ -50,6 +58,24 @@ public class OfferRepository {
 			gridFSInputFile.setMetaData(metaData);
 			gridFSInputFile.setFilename(multipartFile.getOriginalFilename());
 			gridFSInputFile.setContentType(multipartFile.getContentType());
+			gridFSInputFile.saveChunks();
+			gridFSInputFile.save();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void saveOfferInBucket(ByteArrayOutputStream output,String candidateName,String emailId) {
+		DBObject metaData = new BasicDBObject();
+		metaData.put("candidateName", candidateName);
+		metaData.put("candidateid", emailId);
+		try {
+			GridFS gridFS = new GridFS(dbFactory.getDb(), "offerletter");
+			GridFSInputFile gridFSInputFile = gridFS.createFile(output.toByteArray());
+			gridFSInputFile.setMetaData(metaData);
+			gridFSInputFile.setFilename(candidateName + Constants.FILE_EXT);
+			gridFSInputFile.setContentType(Constants.PDF_CONTENT_TYPE);
 			gridFSInputFile.saveChunks();
 			gridFSInputFile.save();
 		} catch (IOException e) {
@@ -91,5 +117,25 @@ public class OfferRepository {
 		update.set("status", offer.getStatus());
 		update.set("jobcodeProfile", offer.getJobcodeProfile());
 		mongoOperations.updateFirst(query, update, Offer.class);
+	}
+	
+	public String[] getData(String emailId) throws Exception {
+		GridFS gridFS = new GridFS(dbFactory.getDb(), "offerletter");
+		List<GridFSDBFile> file = gridFS.find(new Query().addCriteria(Criteria.where("metadata.candidateid")
+				.is(emailId)).getQueryObject());
+		
+		File temp = null;
+		if (file.get(0).getFilename().contains(Constants.FILE_EXT.toString().toLowerCase())) {
+			temp = File.createTempFile(file.get(0).getFilename(), Constants.FILE_EXT.toString().toLowerCase());
+		}else {
+			log.info("Invalid File Type!");
+		}
+		
+		if (temp != null) {
+			String tempPath = temp.getAbsolutePath();
+			file.get(0).writeTo(tempPath);
+			return new String[] { tempPath, file.get(0).getFilename() };
+		} 
+		return new String[] {};
 	}
 }
