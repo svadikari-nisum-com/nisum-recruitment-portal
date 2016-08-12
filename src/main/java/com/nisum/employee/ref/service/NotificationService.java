@@ -398,12 +398,12 @@ public class NotificationService implements INotificationService {
 			
 			BodyPart messageBodyPart = new MimeBodyPart();
 			
-			messageBodyPart.setDescription("This is message body");
+			messageBodyPart.setDescription("This is message body");//TODO We need get template for this message body.
 			Multipart multipart = new MimeMultipart();
 			String[] file = offerRepository.getData(mailId);
 			
 			BodyPart messageBody = new MimeBodyPart();
-			messageBody.setText("This is message body");
+			messageBody.setContent("<h1>This is message body</h1>", TEXT_HTML);
 			
 			
 			DataSource source = new FileDataSource(file[0]);
