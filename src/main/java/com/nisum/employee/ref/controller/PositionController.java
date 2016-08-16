@@ -29,7 +29,7 @@ public class PositionController {
 	@Autowired
 	private PositionService  positionService;
 	
-	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN"})
+	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER"})
 	@RequestMapping(value="/position", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<PositionDTO> createPosition(@RequestBody PositionDTO position) {
