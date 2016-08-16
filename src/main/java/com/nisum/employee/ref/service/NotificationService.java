@@ -74,7 +74,7 @@ public class NotificationService implements INotificationService {
 	private static final String IMPROVEMENTS = "improvements";
 	private static final String STRENGTHS = "strengths";
 
-	private static final String ROLE_HR = "ROLE_HR";
+	private static final String ROLE_HR = "ROLE_RECRUITER";
 	private static final String TRUE = "true";
 	private static final String MAIL_SMTP_PORT = "mail.smtp.port";
 	private static final String MAIL_SMTP_HOST = "mail.smtp.host";
