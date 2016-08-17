@@ -40,17 +40,7 @@ angular.module('erApp')
 	};
 	
 	$scope.hasNotRole = function(role) {
-		var roleArray = role.split(','); 
-		if($scope.user.roles) {
-			for (i = 0; i< $scope.user.roles.length;i++){
-				for(j=0;j< roleArray.length; j++){
-					if($rootScope.user.roles[i] == roleArray[j]){
-						return false;
-					}
-				}
-			}
-		}
-		return true;
+		return !hasRole(role);
 	};
 	
 	$scope.sendNotification = function(msg,path){
