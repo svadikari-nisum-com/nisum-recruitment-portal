@@ -14,7 +14,7 @@
 		$scope.roleManagerDetails = [];
 		$scope.positions = [];
 		$scope.userRoles = [];
-		$scope.interviewData = {};
+		//$scope.interviewData = {};
 		$scope.interviewermail = [];
 		$scope.userclient = "";
 		$scope.useremailId = sessionStorage.userId;
@@ -53,11 +53,23 @@
 					} else if(_.contains($scope.userRoles, "ROLE_MANAGER")){
 						$scope.clienthidden = false;
 						$scope.positionhidden = false;
-						$http.get('resources/getInterviewByParam?client='+$scope.userclient).success(function(data, status, headers, config) {
-							$scope.interviewDetails = data;
+						$http.get('resources/getInterviewByInterviewer?interviewerEmail='+$scope.useremailId).success(function(data, status, headers, config) {
+							
+							if(data==undefined || data == null || data.length == 0){
+								$scope.interviewDetails = [];
+								$scope.tableHide = true;
+								$scope.hideNoDataMessage = false;
+							}else
+							{
+								$scope.interviewDetails = data;
+							}
+							
 						}).error(function(data, status, headers, config) {
 							$log.error(data);
 						})
+						
+						
+						
 					} else if(_.contains($scope.userRoles, "ROLE_INTERVIEWER")){
 						$scope.clienthidden = true;
 						$scope.positionhidden = true;
@@ -68,7 +80,7 @@
 								$scope.tableHide = true;
 								$scope.hideNoDataMessage = false;
 							}else{
-								$scope.interviewData = data;
+								//$scope.interviewData = data;
 								$scope.interviewDetails = data;
 								//console.log(angular.toJson($scope.interviewDetails));
 								

@@ -55,7 +55,35 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				$scope.interviewFeedback.rateSkills =[];
 				for(var i=0; i<$scope.position.primarySkills.length;i++){
 					$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
-			}
+				}
+					
+				if(_.contains($scope.user.roles,"ROLE_INTERVIEWER") || _.contains($scope.user.roles,"ROLE_MANAGER") )
+				{
+					$scope.interviewFeedback.roundName = $scope.interview.rounds[$scope.interview.rounds.length-1].roundName;
+					$scope.selectDropDownDisable = true;
+					var interviewLastRoundInfo = $scope.interview.rounds[$scope.interview.rounds.length-1];
+					if(interviewLastRoundInfo.interviewFeedback != undefined){
+						$scope.disableFields = true;
+						$scope.submitShow = false;
+						$scope.disableSchedule = false;
+						$scope.interviewFeedback = interviewLastRoundInfo.interviewFeedback;
+						$scope.interviewSchedule = interviewLastRoundInfo.interviewSchedule;
+						$scope.interviewFeedback.roundName = interviewLastRoundInfo.interviewFeedback.roundName;
+					}else{
+						$scope.interviewFeedback.rateSkills =[];
+						for(i=0; i<$scope.position.primarySkills.length; i++){
+							$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
+							$scope.interviewFeedback.duration = "";
+							$scope.interviewFeedback.additionalSkills = "";
+							$scope.interviewFeedback.strengths = "";
+							$scope.interviewFeedback.improvement = "";
+							$scope.disableFields = false;
+							$scope.submitShow = true;
+							$scope.interviewSchedule = interviewLastRoundInfo.interviewSchedule;
+						}
+					}
+				}
+			
 			},
 			function(errorMsg) {
 				$log.error("-------"+errorMsg);
