@@ -16,6 +16,14 @@ public class ReportsVO implements Serializable {
 	
 	List<Profile> profiles;
 	List<InterviewDetails> interviewDetails;
+	private int noOfOpenPositions;
+	private int profilesInTechnicalRound1;
+	private int profilesInTechnicalRound2;
+	private int profilesInManagerRound;
+	private int profilesInHRRound;
+	private int offered;
+	private int closed;
+	private String functionalGrp;
 	
 	public ReportsVO(){}
 

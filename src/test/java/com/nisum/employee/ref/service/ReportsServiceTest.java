@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.ReportsVO;
+import com.nisum.employee.ref.repository.PositionRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 
@@ -29,12 +30,22 @@ public class ReportsServiceTest {
 
 	@Mock
 	private ProfileRepository profileRepository;
-
+	
 	@Mock
+	private PositionRepository positionRepository;
+	
+
+	@InjectMocks
 	private InterviewDetailsService interviewDetailsService;
 
 	@Mock
 	private ReportsVO reportsVO;
+
+	@InjectMocks
+	PositionService positionService;
+	
+	@InjectMocks
+	OfferService offerService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -59,6 +70,12 @@ public class ReportsServiceTest {
 		when(interviewDetailsService.getInterviewByJobCode(any(String.class))).thenReturn(interviewDetailsList);
 
 		reportsVO = reportsService.getDataByJobCode("Java");
+		assertNotNull(reportsVO);
+	}
+	
+	@Test
+	public void testGetReportByHiringManager() {
+		List<ReportsVO> reportsVO = reportsService.getReportByHiringManager("Shyam Vadikari");
 		assertNotNull(reportsVO);
 	}
 

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.htmlunit.cyberneko.HTMLScanner.ContentScanner;
@@ -137,5 +138,12 @@ public class OfferRepository {
 			return new String[] { tempPath, file.get(0).getFilename() };
 		} 
 		return new String[] {};
+	}
+	
+	public List<Offer> getOffersByJobcode(String jobcode) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("jobcodeProfile").regex(Pattern.compile(jobcode, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
+		List<Offer> offers = mongoOperations.find(query, Offer.class);
+		return offers;
 	}
 }
