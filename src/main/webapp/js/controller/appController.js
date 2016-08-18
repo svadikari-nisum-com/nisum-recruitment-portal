@@ -40,7 +40,7 @@ angular.module('erApp')
 	};
 	
 	$scope.hasNotRole = function(role) {
-		return !hasRole(role);
+		return !$scope.hasRole(role);
 	};
 	
 	$scope.sendNotification = function(msg,path){
