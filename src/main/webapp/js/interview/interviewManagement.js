@@ -199,11 +199,15 @@
 			location.href='#recruitment/scheduleInterview';
 		};
 		$scope.disableFeedback = function(rounds) {
-			if(rounds == null){
-				return true;
-			}else{
+			
+			if(angular.isDefined(rounds) && rounds != null && rounds[rounds.length-1].interviewSchedule.emailIdInterviewer == $scope.useremailId)
+			{
 				return false;
+			}else
+			{
+				return true;
 			}
+			
 		}
 		
 		$scope.advancedSearch = function(){
