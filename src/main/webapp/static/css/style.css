@@ -2926,3 +2926,7 @@ table.fc-border-separate {
 	white-space: nowrap;
 	overflow: hidden;
 }
+.timeslots-time {
+	height: auto !important;
+	padding: 0;
+}
