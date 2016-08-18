@@ -55,7 +55,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			})
 				$scope.interviewFeedback.rateSkills =[];
 				$scope.interviewFeedback.rateSkills.push({"skill":"", "rating":""}); 
-				
 				/*for(var i=0; i<$scope.position.primarySkills.length;i++){
 					$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
 				}*/
