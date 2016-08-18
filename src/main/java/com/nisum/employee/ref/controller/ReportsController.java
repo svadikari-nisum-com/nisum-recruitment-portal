@@ -1,6 +1,8 @@
 package com.nisum.employee.ref.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +28,14 @@ public class ReportsController {
 		ReportsVO profileDetails = reportsService.getDataByJobCode(jobcodeProfile);
 		return (null == profileDetails) ? new ResponseEntity<String>("profiles are not found", HttpStatus.NOT_FOUND)
 				: new ResponseEntity<ReportsVO>(profileDetails, HttpStatus.OK);
+	}
+	
+	
+	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER"})
+	@RequestMapping(value = "/reports", method = RequestMethod.GET)
+	public ResponseEntity<?> getReportData(@RequestParam(value = "hiringManager", required = true) String hiringManager) {
+		List<ReportsVO> reportList = reportsService.getReportByHiringManager(hiringManager);
+		return (null == reportList) ? new ResponseEntity<String>("Reports are not found", HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<ReportsVO>>(reportList, HttpStatus.OK);
 	}
 }
