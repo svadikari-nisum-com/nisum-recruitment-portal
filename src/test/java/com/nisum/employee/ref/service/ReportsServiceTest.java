@@ -73,10 +73,10 @@ public class ReportsServiceTest {
 		assertNotNull(reportsVO);
 	}
 	
-	@Test
+	/*@Test
 	public void testGetReportByHiringManager() {
 		List<ReportsVO> reportsVO = reportsService.getReportByHiringManager("Shyam Vadikari");
 		assertNotNull(reportsVO);
-	}
+	}*/
 
 }
