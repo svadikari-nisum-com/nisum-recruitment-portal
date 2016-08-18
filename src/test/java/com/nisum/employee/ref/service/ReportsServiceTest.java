@@ -35,16 +35,16 @@ public class ReportsServiceTest {
 	private PositionRepository positionRepository;
 	
 
-	@InjectMocks
+	@Mock
 	private InterviewDetailsService interviewDetailsService;
 
 	@Mock
 	private ReportsVO reportsVO;
 
-	@InjectMocks
+	@Mock
 	PositionService positionService;
 	
-	@InjectMocks
+	@Mock
 	OfferService offerService;
 
 	@Before
