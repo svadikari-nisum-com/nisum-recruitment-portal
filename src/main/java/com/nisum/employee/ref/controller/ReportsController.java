@@ -32,7 +32,7 @@ public class ReportsController {
 	
 	
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER"})
-	@RequestMapping(value = "/reports", method = RequestMethod.GET)
+	@RequestMapping(value = "/hiringManager", method = RequestMethod.GET)
 	public ResponseEntity<?> getReportData(@RequestParam(value = "hiringManager", required = true) String hiringManager) {
 		List<ReportsVO> reportList = reportsService.getReportByHiringManager(hiringManager);
 		return (null == reportList) ? new ResponseEntity<String>("Reports are not found", HttpStatus.NOT_FOUND)
