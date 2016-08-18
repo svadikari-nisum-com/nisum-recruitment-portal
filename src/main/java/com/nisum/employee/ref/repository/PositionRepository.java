@@ -121,7 +121,7 @@ public class PositionRepository {
 	
 	public List<Position> retrieveAllPositionsByHiringManager(String hiringManager) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("hiringManager").regex(Pattern.compile(hiringManager, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
+		query.addCriteria(Criteria.where("hiringManager").regex(hiringManager));
 		List<Position> positionDatails = mongoOperations.find(query, Position.class);
 		return positionDatails;
 	}

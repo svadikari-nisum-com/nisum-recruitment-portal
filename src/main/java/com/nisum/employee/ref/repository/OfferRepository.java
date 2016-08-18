@@ -142,7 +142,7 @@ public class OfferRepository {
 	
 	public List<Offer> getOffersByJobcode(String jobcode) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("jobcodeProfile").regex(Pattern.compile(jobcode, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
+		query.addCriteria(Criteria.where("jobcodeProfile").regex(jobcode));
 		List<Offer> offers = mongoOperations.find(query, Offer.class);
 		return offers;
 	}

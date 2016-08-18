@@ -68,8 +68,7 @@ public class ReportsService {
 			
 			offers = offerService.getOffersByJobcode(position.getJobcode());
 			for(OfferDTO offerDetails : offers){
-				if(offerDetails.getStatus().equalsIgnoreCase(OfferState.INITIATED.name()) ||
-						offerDetails.getStatus().equalsIgnoreCase(OfferState.APPROVED.name()) ||
+				if(offerDetails.getStatus().equalsIgnoreCase(OfferState.APPROVED.name()) ||
 						offerDetails.getStatus().equalsIgnoreCase(OfferState.RELEASED.name()) || 
 						offerDetails.getStatus().equalsIgnoreCase(OfferState.ACCEPTED.name()) ||
 						offerDetails.getStatus().equalsIgnoreCase(OfferState.JOINED.name())){

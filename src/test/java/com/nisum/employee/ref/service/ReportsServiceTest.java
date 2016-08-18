@@ -15,12 +15,15 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.common.OfferState;
 import com.nisum.employee.ref.domain.InterviewDetails;
+import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.ReportsVO;
 import com.nisum.employee.ref.repository.PositionRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.OfferDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReportsServiceTest {
@@ -73,10 +76,40 @@ public class ReportsServiceTest {
 		assertNotNull(reportsVO);
 	}
 	
-	/*@Test
+	@Test
 	public void testGetReportByHiringManager() {
-		List<ReportsVO> reportsVO = reportsService.getReportByHiringManager("Shyam Vadikari");
+		List<Position> positions = new ArrayList<>();
+		Position position = new Position();
+		position.setHiringManager("Aliza Zaffar ");
+		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
+		positions.add(position);
+		when(positionService.retrieveAllPositionsByHiringManager(any(String.class))).thenReturn(positions); 
+		List<String> positionsIds = new ArrayList<String>();
+		
+		for(Position pos : positions){
+			positionsIds.add(pos.getJobcode());
+		}
+		
+		List<InterviewDetails> interviewDetailsList = new ArrayList<>();
+		InterviewDetails interviewDetails = new InterviewDetails();
+		interviewDetails.setCandidateEmail("kushal@gmail.com_990");
+		interviewDetails.setPositionId(positionsIds);
+		interviewDetails.setProgress("Hr Round Scheduled");
+		interviewDetailsList.add(interviewDetails);
+		when(interviewDetailsService.getInterviewByJobCode(any(String.class))).thenReturn(interviewDetailsList);
+		
+		
+		List<OfferDTO> offers = new ArrayList<OfferDTO>();
+		OfferDTO offerDto = new OfferDTO();
+		offerDto.setEmailId("kushal@gmail.com");
+		offerDto.setJobcodeProfile("DEV_GAP-GID_HYD_382016_642");
+		offerDto.setStatus(OfferState.RELEASED.name());
+		offers.add(offerDto);
+		when(offerService.getOffersByJobcode(any(String.class))).thenReturn(offers);
+		
+		List<ReportsVO> reportsVO = reportsService.getReportByHiringManager("Aliza Zaffar ");
+		
 		assertNotNull(reportsVO);
-	}*/
+	}
 
 }
