@@ -186,9 +186,8 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
             enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
             enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
             columnDefs: [
-                { field: 'index', cellTemplate: '<span>{{row.entity.index + 1}}</span>', enableSorting: false},
                 { field: 'skills', cellClass: 'ui-grid-align'},
-                { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteSkill(row.entity.index,skill)"></a>' }
+                { field: 'delete', width:150, enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteSkill(row.entity.index,skill)"></a>' }
             ],
             onRegisterApi: function(gridApi) {
             	$scope.gridApi = gridApi;
