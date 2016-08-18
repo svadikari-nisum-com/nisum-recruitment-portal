@@ -108,7 +108,7 @@
 	$scope.searchReport=function(){
 	
 //			var reportsURL = 'resources/reports/hiringManager?hiringManager=hhh';
-		var reportsURL='resources/reports/hiringManager?hiringManager='+$scope.report.repManager;
+		var reportsURL='resources/reports?hiringManager='+$scope.report.repManager;
 			$http.get(reportsURL).success(function(data, status, headers, config) {
 		
 				$scope.gridOptions.data = data;

@@ -50,6 +50,7 @@ public class ReportsService {
 		for(Position position : positions){
 			reportsVO = new ReportsVO();
 			reportsVO.setFunctionalGrp(position.getFunctionalGroup());
+			reportsVO.setNoOfOpenPositions(position.getNoOfPositions());
 			listOfInteviewDetails = interviewDetailsService.getInterviewByJobCode(position.getJobcode());
 			/*if(listOfInteviewDetails != null){
 				listOfAllInteviewDetails.addAll(listOfInteviewDetails);

@@ -5,6 +5,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.newA
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -121,7 +122,7 @@ public class PositionRepository {
 	
 	public List<Position> retrieveAllPositionsByHiringManager(String hiringManager) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("hiringManager").regex(hiringManager));
+		query.addCriteria(Criteria.where("hiringManager").in(Arrays.asList(hiringManager.split(","))));
 		List<Position> positionDatails = mongoOperations.find(query, Position.class);
 		return positionDatails;
 	}
