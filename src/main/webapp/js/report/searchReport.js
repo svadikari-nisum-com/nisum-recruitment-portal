@@ -1,4 +1,4 @@
- app.controller('searchReportCntrl',['$scope', '$http', '$window','jobCodeService1','userService', '$timeout','$filter','$q', '$log', '$rootScope','blockUI','positionService','profileService','interviewService','reportService','uiGridConstants', function($scope, $http,$window, jobCodeService1,userService, $timeout,$filter, $q, $log, $rootScope,blockUI,positionService,profileService,interviewService,reportService,uiGridConstants) {
+ app.controller('searchReportCntrl',['$scope', '$http', '$window','jobCodeService1','userService', '$timeout','$filter','$q', '$log', '$rootScope','blockUI','positionService','profileService','interviewService','reportService','uiGridConstants','appConstants', function($scope, $http,$window, jobCodeService1,userService, $timeout,$filter, $q, $log, $rootScope,blockUI,positionService,profileService,interviewService,reportService,uiGridConstants,appConstants) {
 	$scope.data = {};
 	$scope.positions = {};
 	$scope.candidate = {};
@@ -13,9 +13,56 @@
 	$scope.recruiters=[];
 	$scope.repManagers = [];
 	$scope.skills=$rootScope.info.skills;
+	$scope.numRows = 10;
 	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
 	$scope.positionStatus=["Draft","Approved","Open","Closed"];
-	var position_URL = 'resources/position';
+	$scope.itemsPerPage = appConstants.ITEMS_PER_PAGE;
+	$scope.currentPage = 0;
+	$scope.changePage = function(){
+		$scope.currentPage = 0;
+	}
+	$scope.range = function (start) {
+		var pageCnt = $scope.pageCount();
+        var ret = [];
+
+		if (start + 1 == pageCnt && pageCnt==1) {
+			ret.push(0);
+			return ret;
+		}
+		if ((start + 2 >= pageCnt)) {
+			while (start + 2 >= pageCnt)
+				start--;
+		}
+		if(start<0)
+			start=0;
+		for (var i = start; i < pageCnt; i++) {
+			ret.push(i);
+			if (i == start + 2)
+				break;
+		}
+		return ret;
+    };
+
+		  $scope.prevPage = function() {
+		    if ($scope.currentPage > 0) {
+		      $scope.currentPage--;
+		    }
+		  };
+
+		  $scope.pageCount = function() {
+			if (!$scope.position) { return; }
+		    return Math.ceil($scope.position.length/$scope.itemsPerPage);
+		  };
+
+		  $scope.nextPage = function() {
+		    if ($scope.currentPage > $scope.pageCount()) {
+		      $scope.currentPage++;
+		    }
+		  };
+
+		  $scope.setPage = function() {
+		    $scope.currentPage = this.n;
+		  };
 	$scope.getUsers = function(role){
 		
 	
@@ -59,10 +106,13 @@
 		
 	}
 	$scope.searchReport=function(){
-		alert($scope.report.repManager)
-			var InterviewDetailsURL = 'resources/getReportByManager?repManager='+$scope.report.repManager;
-			$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
-				$scope.report = data;
+	
+//			var reportsURL = 'resources/reports/hiringManager?hiringManager=hhh';
+		var reportsURL='resources/reports/hiringManager?hiringManager='+$scope.report.repManager;
+			$http.get(reportsURL).success(function(data, status, headers, config) {
+		
+				$scope.gridOptions.data = data;
+			
 			}).error(function(data, status, headers, config) {
 				
 				$log.error(data);
@@ -78,14 +128,14 @@
 	        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 			paginationCurrentPage: 1,
 		    columnDefs: [
-		      { field: 'functionalGroup', displayName:"Functional Group", cellClass: 'ui-grid-align', cellTooltip:'jhjsdgjsd'},
-		      { field: 'positionsTechnical1', displayName:"# Positions in Technical Round1", cellClass: 'ui-grid-align'},	
-		      { field: 'positionsTechnical2', displayName:"# Positions in Technical Round2", cellClass: 'ui-grid-align'},
-		      { field: 'positionsManager', displayName:"# Positions in Manager Round", cellClass: 'ui-grid-align'},
-		      { field: 'positionsHR', displayName:"# Positions in HR Round", cellClass: 'ui-grid-align'},
-		      { field: 'offered', displayName:"Offered", width: 100, cellClass: 'ui-grid-align'},
-		      { field: 'closed', displayName:"Closed", width: 100, cellClass: 'ui-grid-align'},
-		      { field: 'totPositions', displayName:"No of Positions", cellClass: 'ui-grid-align'},
+		      { field: 'functionalGrp', displayName:"Functional Group", cellClass: 'ui-grid-align'},
+		      { field: 'profilesInTechnicalRound1', displayName:"# Positions in Technical Round1", cellClass: 'ui-grid-align'},	
+		      { field: 'profilesInTechnicalRound2', displayName:"# Positions in Technical Round2", cellClass: 'ui-grid-align'},
+		      { field: 'profilesInManagerRound', displayName:"# Positions in Manager Round", cellClass: 'ui-grid-align'},
+		      { field: 'profilesInHRRound', displayName:"# Positions in HR Round", cellClass: 'ui-grid-align'},
+		      { field: 'offered', displayName:"Offered",  cellClass: 'ui-grid-align'},
+		      { field: 'closed', displayName:"Closed",  cellClass: 'ui-grid-align'},
+		      { field: 'noOfOpenPositions', displayName:"No of Positions", cellClass: 'ui-grid-align'},
 		   
 		     
 		     
