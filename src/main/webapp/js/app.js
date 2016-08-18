@@ -35,6 +35,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             }
     	}
     })
+     .state('searchReport', {url:'/searchReport', views: {'': {templateUrl: 'views/searchReport.html', controller: 'searchReportCntrl'}},
+    	resolve : {
+    		permission: function(authorizationService,$route) {
+    			return authorizationService.permissionCheck(["ROLE_HR","ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN"]);
+            }
+    	}
+    })
    .state('offer', {url:'/offer',abstract:true, views: {'': {templateUrl: 'views/offer/offer.html', controller: 'offerManagementCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {

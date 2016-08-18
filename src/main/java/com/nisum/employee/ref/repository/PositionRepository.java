@@ -118,5 +118,12 @@ public class PositionRepository {
 		List<PositionAggregate> result = groupResults.getMappedResults();
 		return result;
 	}
+	
+	public List<Position> retrieveAllPositionsByHiringManager(String hiringManager) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("hiringManager").regex(Pattern.compile(hiringManager, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
+		List<Position> positionDatails = mongoOperations.find(query, Position.class);
+		return positionDatails;
+	}
 
 }

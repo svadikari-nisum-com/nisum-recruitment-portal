@@ -4,6 +4,7 @@ import java.util.List;
 
 
 
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nisum.employee.ref.exception.ServiceException;
@@ -16,4 +17,5 @@ public interface IOfferService {
 	public void saveResumeInBucket(MultipartFile multipartFile,
 			String candidateId);
 	List<OfferDTO> getOffers();
+	public List<OfferDTO> getOffersByJobcode(String jobcode);
 }

@@ -59,5 +59,10 @@ public class PositionService implements IPositionService{
 	public List<PositionAggregate> retrieveAllPositionsAggregate() {
 		return positionRepository.retrieveAllPositionsAggregate();
 	}
+	
+	@Override
+	public List<Position> retrieveAllPositionsByHiringManager(String hiringManager) {
+		return positionRepository.retrieveAllPositionsByHiringManager(hiringManager);
+	}
 
 }
