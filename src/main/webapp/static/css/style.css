@@ -2898,6 +2898,9 @@ table.fc-border-separate {
 .des-width {
 	width: 72%;
 }
+.skills-grid-width {
+	width: 50%;
+}
 
 .grid-tot-rec {
 	float: left;
