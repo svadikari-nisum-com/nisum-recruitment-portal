@@ -136,4 +136,18 @@ public class PositionServiceTest {
 		assertNotNull(positionAggregates);
 		assertEquals("SSE", positionAggregates.get(0).getDesignation());
 	}
+	
+	@Test
+	public void testRetrieveAllPositionsByHiringManager() {
+		List<Position> positions = new ArrayList<>();
+		Position position = new Position();
+		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
+		position.setHiringManager("Aliza Zaffar ");
+		positions.add(position);
+		
+		when(positionRepository.retrieveAllPositionsByHiringManager(any(String.class))).thenReturn(positions);
+		List<Position> allPositions = service.retrieveAllPositionsByHiringManager("Aliza Zaffar ");
+
+		assertNotNull(allPositions);
+	}
 }

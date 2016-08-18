@@ -27,6 +27,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -194,5 +195,16 @@ public class PositionRepositoryTest {
 		positionAggregate.setDesignation("SSE");
 		
 		return positionAggregate;
+	}
+	
+	@Test
+	public void testRetrieveAllPositionsByHiringManager() {
+		Position pos = new Position();
+		pos.setJobcode("DEV_GAP-GID_HYD_582016_845");
+		pos.setHiringManager("Shyam Vadikari");
+		Mockito.when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(pos));
+		List<Position> position = positionRepository.retrieveAllPositionsByHiringManager("DEV_GAP-GID_HYD_582016_845");
+		assertNotNull(position);
+		assertEquals("DEV_GAP-GID_HYD_582016_845", position.get(0).getJobcode());
 	}
 }
