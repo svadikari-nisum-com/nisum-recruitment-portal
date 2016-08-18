@@ -82,6 +82,8 @@ public class ReportsServiceTest {
 		Position position = new Position();
 		position.setHiringManager("Aliza Zaffar ");
 		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
+		position.setFunctionalGroup("DEV");
+		position.setNoOfPositions(2);
 		positions.add(position);
 		when(positionService.retrieveAllPositionsByHiringManager(any(String.class))).thenReturn(positions); 
 		List<String> positionsIds = new ArrayList<String>();
