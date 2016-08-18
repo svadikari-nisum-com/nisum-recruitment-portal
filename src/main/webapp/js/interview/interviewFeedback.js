@@ -21,6 +21,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.interviewFeedback.status="";
 	$scope.previousPage = "recruitment.interviewManagement";
 	var i = 0;
+	$scope.rating = [1, 2, 3, 4, 5];
 	
 	
 	$scope.init = function() {
@@ -53,10 +54,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				$scope.roundList.push(ro.roundName);
 			})
 				$scope.interviewFeedback.rateSkills =[];
-				for(var i=0; i<$scope.position.primarySkills.length;i++){
+				$scope.interviewFeedback.rateSkills.push({"skill":"", "rating":""}); 
+				/*for(var i=0; i<$scope.position.primarySkills.length;i++){
 					$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
-				}
-					
+				}*/
+				
 				if(_.contains($scope.user.roles,"ROLE_INTERVIEWER") || _.contains($scope.user.roles,"ROLE_MANAGER") )
 				{
 					$scope.interviewFeedback.roundName = $scope.interview.rounds[$scope.interview.rounds.length-1].roundName;
@@ -71,8 +73,9 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 						$scope.interviewFeedback.roundName = interviewLastRoundInfo.interviewFeedback.roundName;
 					}else{
 						$scope.interviewFeedback.rateSkills =[];
+						$scope.addSkills();
 						for(i=0; i<$scope.position.primarySkills.length; i++){
-							$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
+							//$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
 							$scope.interviewFeedback.duration = "";
 							$scope.interviewFeedback.additionalSkills = "";
 							$scope.interviewFeedback.strengths = "";
@@ -83,7 +86,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 						}
 					}
 				}
-			
 			},
 			function(errorMsg) {
 				$log.error("-------"+errorMsg);
@@ -95,6 +97,29 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
     $scope.overStar = value;
     $scope.percent = 100 * (value / $scope.max);
 	};
+	
+	$scope.addSkills = function() {
+		$scope.interviewFeedback.rateSkills.push({"skill":"", "rating":""});
+	}
+	
+	$scope.removeSkills = function(index) {
+		if($scope.interviewFeedback.rateSkills.length > 0 && index < $scope.interviewFeedback.rateSkills.length) {
+			($scope.interviewFeedback.rateSkills).splice(index, 1);
+			$scope['showaddskill_' + index ] = false;
+		}
+	}
+	
+	$scope.showAddSkills = function(rs, index) {
+		if(rs) {
+			if(rs.skill && rs.skill.length > 0 && rs.rating && rs.rating.toString().length > 0) {
+				 $scope['showaddskill_' + index ] = true;
+			}
+		}
+	}
+	
+	$scope.checkFBStatus = function() {
+		return false;
+	}
 	
 	$scope.status = {
 		    isFirstOpen: true,
@@ -164,8 +189,9 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			$scope.interviewFeedback.roundName = round.interviewFeedback.roundName;
 		}else{
 			$scope.interviewFeedback.rateSkills =[];
+			$scope.addSkills();
 			for(i=0; i<$scope.position.primarySkills.length; i++){
-				$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
+				//$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
 				$scope.interviewFeedback.duration = "";
 				$scope.interviewFeedback.additionalSkills = "";
 				$scope.interviewFeedback.strengths = "";
@@ -194,6 +220,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				$scope.submitShow = false;
 				$scope.interviewSchedule = {};
 				$scope.interviewFeedback.rateSkills =[];
+				$scope.addSkills();
 				$scope.interviewFeedback.duration = "";
 				$scope.interviewFeedback.additionalSkills = "";
 				$scope.interviewFeedback.strengths = "";
