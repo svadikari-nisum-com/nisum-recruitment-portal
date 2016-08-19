@@ -157,6 +157,17 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 		},3000);
 	}
 	
+	$scope.showSubmitButton = function()
+	{
+		if(angular.isDefined($scope.interview.rounds) && $scope.interview.rounds != null && $scope.interview.rounds[$scope.interview.rounds.length-1].interviewSchedule.emailIdInterviewer == $scope.useremailId)
+		{
+			$scope.submitShow = true; 
+		}else
+		{
+			$scope.submitShow = false; 
+		}
+	}
+	
 	$scope.alHide =  function(){
 	    $scope.message = "";
 	    $scope.cls = '';
@@ -191,28 +202,26 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 		}else{
 			$scope.interviewFeedback.rateSkills =[];
 			$scope.addSkills();
-			for(i=0; i<$scope.position.primarySkills.length; i++){
 				//$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
-				$scope.interviewFeedback.duration = "";
-				$scope.interviewFeedback.additionalSkills = "";
-				$scope.interviewFeedback.strengths = "";
-				$scope.interviewFeedback.improvement = "";
-				$scope.disableFields = false;
-				$scope.submitShow = true;
-				$scope.interviewSchedule = round.interviewSchedule;
-			}
+			$scope.interviewFeedback.duration = "";
+			$scope.interviewFeedback.additionalSkills = "";
+			$scope.interviewFeedback.strengths = "";
+			$scope.interviewFeedback.improvement = "";
+			$scope.disableFields = false;
+			$scope.showSubmitButton();
+			$scope.interviewSchedule = round.interviewSchedule;
 		}
 		}else if(round.interviewSchedule == null){
 			$scope.interviewFeedback.rateSkills =[];
 			for(var i=0; i<$scope.position.primarySkills.length;i++){
-				$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
+				$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0});
+			}
 				$scope.interviewFeedback.duration = "";
 				$scope.interviewFeedback.additionalSkills = "";
 				$scope.interviewFeedback.strengths = "";
 				$scope.interviewFeedback.improvement = "";
 				$scope.disableFields = false;
-				$scope.submitShow = true;
-			}
+				$scope.showSubmitButton();
 		} 
 		})
 			}else{
@@ -226,13 +235,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				$scope.interviewFeedback.strengths = "";
 				$scope.interviewFeedback.improvement = "";
 				$scope.disableFields = false;
-				if(angular.isDefined($scope.interview.rounds) && $scope.interview.rounds != null && $scope.interview.rounds[$scope.interview.rounds.length-1].interviewSchedule.emailIdInterviewer == $scope.useremailId)
-				{
-					$scope.submitShow = true; 
-				}else
-				{
-					$scope.submitShow = false; 
-				}
+				$scope.showSubmitButton();
 				
 				/*for(var i=0; i<$scope.position.primarySkills.length;i++){
 					$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
