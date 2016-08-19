@@ -17,6 +17,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.info = {};
 	$scope.roundList = [];
 	$scope.disableSchedule = true;
+	$scope.disableSubmit=true;
 	$scope.hideSubmit = false;
 	$scope.interviewFeedback.status="";
 	$scope.previousPage = "recruitment.interviewManagement";
@@ -36,6 +37,9 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			$scope.previousPage = jobCodeService1.getPreviousPage();
 			
 		}
+		
+		
+		
 	}
 	$scope.init();
 	
@@ -48,6 +52,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.info = $rootScope.info;
 	$q.all([profile_url, interview_URL, position_URL]).then(
 			function(response){
+			
 			$scope.profile = response[0].data[0];
 			$scope.interview = response[1].data[0];
 			$scope.position = response[2].data;
@@ -72,6 +77,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 						$scope.interviewFeedback = interviewLastRoundInfo.interviewFeedback;
 						$scope.interviewSchedule = interviewLastRoundInfo.interviewSchedule;
 						$scope.interviewFeedback.roundName = interviewLastRoundInfo.interviewFeedback.roundName;
+						if(new Date($scope.interviewSchedule.interviewDateTime)<=new Date()){	
+							$scope.disableSubmit = false;
+						}else{
+							$scope.disableSubmit = true;
+						}
 					}else{
 						$scope.interviewFeedback.rateSkills =[];
 						$scope.addSkills();
@@ -85,8 +95,15 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 							$scope.submitShow = true;
 							$scope.interviewSchedule = interviewLastRoundInfo.interviewSchedule;
 						}
+						if(new Date($scope.interviewSchedule.interviewDateTime)<=new Date()){	
+							$scope.disableSubmit = false;
+						}else{
+							$scope.disableSubmit = true;
+						}
 					}
 				}
+				
+			
 			},
 			function(errorMsg) {
 				$log.error("-------"+errorMsg);
@@ -138,7 +155,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			$scope.interviewFeedback.candidateId = $scope.emailId;
 			
 			profileService.addProfilesStatus($scope.emailId,$scope.interviewFeedback.status);
-			
+		
 			$http.post('resources/interviewFeedback', $scope.interviewFeedback).
 			  success(function(data, status) {
 				  $scope.cls = 'alert  alert-success';
@@ -152,7 +169,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				  $scope.message = "Something Went Wrong! Please Try Again!";
 				  $timeout( function(){ $scope.alHide(); }, 5000);
 				  $log.error("Feedback Submission Failed! --->"+data);
-			  });
+			  });			
 			blockUI.stop();
 		},3000);
 	}
