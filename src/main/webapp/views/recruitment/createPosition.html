@@ -57,7 +57,7 @@
 						</div>
 						<div class="col-md-1 col-xs-4">
 							<select name="minExpYear" id="minExpYear"
-								ng-change="toggleProDisable()" ng-model="position.minExpYear"
+								ng-change="toggleProDisable();validateMinExp();" ng-model="position.minExpYear"
 								ng-options="o as o for o in info.expYears"
 								class="form-control input-sm" required  style="color: graytext;width: 125%">
 								<option value='' disabled="disabled">Min</option>
@@ -65,7 +65,7 @@
 						</div>
 						<div class="col-md-1 col-xs-4">
 							<select name="maxExpYear" id="maxExpYear"
-								ng-change="toggleProDisable()" ng-model="position.maxExpYear"
+								ng-change="toggleProDisable();validate();" ng-model="position.maxExpYear"
 								ng-options="o as o for o in info.expYears"
 								class="form-control input-sm" required  style="color: graytext;width: 125%">
 								<option value='' disabled="disabled">Max</option>

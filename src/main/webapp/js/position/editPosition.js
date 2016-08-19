@@ -56,7 +56,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		})
 		
 		angular.forEach($scope.users,function(user){
-			if(user.roles.indexOf("ROLE_INTERVIEWER") >= 0 )
+			if(user.roles.indexOf("ROLE_RECRUITER") >= 0 )
 			$scope.interviewers.push(user.name);
 		})
 		
@@ -80,7 +80,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		
 	    $scope.updatePositionDetails = function() {
 	    	
-		/*var position1={};
+		var position1={};
 		var skills =[];
 		if ($scope.position !== undefined) {
 			 angular.forEach($scope.position.primarySkills, function(value, key) {
@@ -89,7 +89,8 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 			 $scope.position.primarySkills = skills;
 		     position1.jobcode=$scope.position.jobcode;
 		     position1.designation=$scope.position.designation;
-		     position1.experienceRequired=$scope.position.experienceRequired;
+		     position1.minExpYear=$scope.position.minExpYear;
+		     position1.maxExpYear=$scope.position.maxExpYear;
 		     position1.primarySkills=$scope.position.primarySkills;
 		     position1.secondarySkills=$scope.position.secondarySkills;
 		     position1.jobProfile=$scope.position.jobProfile;
@@ -101,7 +102,8 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		     position1.priority = $scope.position.priority;
 		     position1.interviewer = $scope.position.interviewer;
 		     position1.jobType = $scope.position.jobType;
-		     position1.salary = $scope.position.salary;
+		     position1.functionalGroup = $scope.position.functionalGroup;
+		     position1.jobHeader = $scope.position.jobHeader;
 		     positionService.updatePosition(position1).then(
 			    function(msg){
 			    	  $scope.sendNotification(msg,'recruitment/searchPosition');
@@ -109,7 +111,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 			    	$scope.message=errorMsg;
 					$scope.cls=appConstants.ERROR_CLASS;
 			     });
-		}*/
+		}
 	}
 	$scope.status = {
 			isFirstOpen: true,
