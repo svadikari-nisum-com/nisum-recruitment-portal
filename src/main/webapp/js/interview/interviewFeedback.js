@@ -20,6 +20,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.hideSubmit = false;
 	$scope.interviewFeedback.status="";
 	$scope.previousPage = "recruitment.interviewManagement";
+	$scope.selectDropDownDisable = false;
 	var i = 0;
 	$scope.rating = [1, 2, 3, 4, 5];
 	
@@ -217,7 +218,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			}else{
 				$scope.message = "Please Schedule Interview for this Round";
 				$scope.disableFields = true;
-				$scope.submitShow = false;
 				$scope.interviewSchedule = {};
 				$scope.interviewFeedback.rateSkills =[];
 				$scope.addSkills();
@@ -226,7 +226,14 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				$scope.interviewFeedback.strengths = "";
 				$scope.interviewFeedback.improvement = "";
 				$scope.disableFields = false;
-				$scope.submitShow = false;
+				if(angular.isDefined($scope.interview.rounds) && $scope.interview.rounds != null && $scope.interview.rounds[$scope.interview.rounds.length-1].interviewSchedule.emailIdInterviewer == $scope.useremailId)
+				{
+					$scope.submitShow = true; 
+				}else
+				{
+					$scope.submitShow = false; 
+				}
+				
 				/*for(var i=0; i<$scope.position.primarySkills.length;i++){
 					$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
 					$scope.interviewFeedback.duration = "";

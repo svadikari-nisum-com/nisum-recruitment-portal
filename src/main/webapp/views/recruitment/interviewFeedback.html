@@ -22,7 +22,7 @@
                                     <label class="lbl" for="interviewRound"><i class="glyphicon icon-chevron-right"></i>&nbsp;&nbsp;Interview Round<b style="color:red;">*</b>: </label>
                                 </div>
                                 <div class="col-md-3" style="display: inline;">
-                                    <select ng-model="interviewFeedback.roundName" ng-change="setfeedbackData(interviewFeedback.roundName);roundInfo()" class="form-control input-sm"
+                                    <select ng-model="interviewFeedback.roundName" ng-change="setfeedbackData(interviewFeedback.roundName);roundInfo()" ng-disabled="selectDropDownDisable" class="form-control input-sm"
                                         id="interviewers" ng-options="o as o for o in position.interviewRounds | orderBy:'toString()'"
                                         required>
 									<option value="" disabled="disabled">Select Round</option>
