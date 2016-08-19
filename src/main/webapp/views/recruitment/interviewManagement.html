@@ -27,7 +27,7 @@
 				{{position}} </ui-select-choices> </ui-select>
 			</div>
 			<div class="col-md-2">
-				<a style="position: relative; top: 10px; left: 0px;" href=""
+				<a style="position: relative; top: 10px; left: 0px;" href="" ng-hide="clienthidden"
 					ng-click="advancedSearch()"><small>Advanced Search</small></a>
 			</div>
 			<div class="col-md-2">
@@ -71,30 +71,59 @@
 		</div>
 		</div>
 		<br>
-		<div ng-hide="hideNoDataMessage"
+		
+	</form>
+	<div ng-hide="hideNoDataMessage"
 			style="font-size: large; color: navy;">
 			<b>{{noDataMessage}}</b>
 		</div>
-	</form>
 </div>
 <br>
-<div class="searchposition-container"
+<div  class="searchposition-container" ng-hide = "tableHide"
 	style="padding-top: 20px; padding-bottom: 20px; background-color: #f5f5f5">
+    
+    <div class="row" ng-hide = "hasNotRole('ROLE_INTERVIEWER') ">
+    	
+    	<div class="col-md-4"></div>
+    	<div class="col-md-3">
+    		 <form>
+			    <div class="form-group">
+			      <div class="input-group">
+			        <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+			        <input type="text" class="form-control" placeholder="Search Interviews" ng-model="searchInterviews">
+			      </div>      
+			    </div>
+			  </form>
+    	</div>
+    
+    </div>
+    
 	<table ng-hide="tableHide" id="interview">
+		<thead>
 		<tr>
-			<th>Name</th>
-			<th>Email ID</th>
-			<th>Skills</th>
-			<th>Job Code</th>
-			<th>Schedule</th>
-			<th>Feedback</th>
-			<th>Status</th>
+			<td><a href="#" ng-click="sortType = 'name'; sortReverse = !sortReverse">Name
+				 <span ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            	<span ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-triangle-top"></span> </a></td>
+			<td><a href="#" ng-click="sortType = 'emailId'; sortReverse = !sortReverse">Email ID
+			 	<span ng-show="sortType == 'emailId' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            	<span ng-show="sortType == 'emailId' && sortReverse" class="glyphicon glyphicon-triangle-top"></span></a></td>
+			<td><a href="#" ng-click="sortType = 'skills'; sortReverse = !sortReverse">Skills
+				<span ng-show="sortType == 'skills' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            	<span ng-show="sortType == 'skills' && sortReverse" class="glyphicon glyphicon-triangle-top"></span></a></td>
+			<td><a href="#" ng-click="sortType = 'jobCode'; sortReverse = !sortReverse">Job Code
+				<span ng-show="sortType == 'jobCode' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            	<span ng-show="sortType == 'jobCode' && sortReverse" class="glyphicon glyphicon-triangle-top"></span></a></td>
+			<td><a href="" >Schedule</a></td>
+			<td><a href="">Feedback</a></td>
+			<td><a href="#" ng-click="sortType = 'status'; sortReverse = !sortReverse">Status
+				<span ng-show="sortType == 'status' && !sortReverse" class="glyphicon glyphicon-triangle-bottom"></span>
+            	<span ng-show="sortType == 'status' && sortReverse" class="glyphicon glyphicon-triangle-top"></span></a></td>
 		</tr>
-		<tr ng-repeat="item in interviewDetails">
-			<td>
-					{{item.candidateName}}
-			
-			</td>
+		</thead>
+		<tbody>
+		<tr ng-repeat="item in interviewDetails | orderBy:sortType:sortReverse | filter: searchValues">
+		
+			<td>{{item.candidateName}}</td>
 			<td >{{item.candidateEmail}}</td>
 			<td><i ng-repeat="skills in item.candidateSkills">{{skills}}{{$last
 					? '' : ', '}}</i></td>
@@ -115,7 +144,7 @@
 			<td>
 				<button style="background-color: #F8F8F8; border: 0px;" href=""
 					id="" class="interview-feedback"
-					ng-disabled="disableFeedback(item.rounds) && hasNotRole('ROLE_HR,ROLE_RECRUITER'))"
+					ng-disabled="disableFeedback(item.rounds) && hasNotRole('ROLE_HR,ROLE_RECRUITER')"
 					ng-click="feedback(item.currentPositionId,item.candidateEmail)">
 					<span class="glyphicon glyphicon-envelope"
 						style="position: relative; top: 1px;"></span>
@@ -131,5 +160,6 @@
 					</span>
 			</td>
 		</tr>
+		</tbody>
 	</table>
 </div>

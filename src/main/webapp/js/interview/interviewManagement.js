@@ -22,6 +22,9 @@
 		$scope.info = $rootScope.info;
 		$scope.advancedHide = true;
 		
+		$scope.sortType     = 'name';
+		$scope.sortReverse  = false; 
+		
 		var User_URL = 'resources/user?emailId='+$scope.useremailId;
 		var position_URL = 'resources/position';
 		var clientNames_URL = 'resources/clientNames';
@@ -227,4 +230,23 @@
 			
 			
 		}
+		$scope.searchValues = function(searchValue) {
+			
+			if( angular.isDefined($scope.searchInterviews) && $scope.searchInterviews != null && $scope.searchInterviews.lenght > 0)
+			{
+				var serchString = $scope.searchInterviews.toLowerCase();
+				if(searchValue.candidateName.toLowerCase().indexOf(serchString) != -1 || 
+					searchValue.candidateEmail.toLowerCase().indexOf(serchString) != -1  || searchValue.currentPositionId.toLowerCase().indexOf(serchString) != -1)
+				{
+					return true;
+				}else 
+				{
+					return false;
+				}
+			}else 
+			{
+				return true;
+			}
+		}
+		
 	}]);
