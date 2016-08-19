@@ -230,23 +230,5 @@
 			
 			
 		}
-		$scope.searchValues = function(searchValue) {
-			
-			if( angular.isDefined($scope.searchInterviews) && $scope.searchInterviews != null && $scope.searchInterviews.lenght > 0)
-			{
-				var serchString = $scope.searchInterviews.toLowerCase();
-				if(searchValue.candidateName.toLowerCase().indexOf(serchString) != -1 || 
-					searchValue.candidateEmail.toLowerCase().indexOf(serchString) != -1  || searchValue.currentPositionId.toLowerCase().indexOf(serchString) != -1)
-				{
-					return true;
-				}else 
-				{
-					return false;
-				}
-			}else 
-			{
-				return true;
-			}
-		}
 		
 	}]);
