@@ -64,6 +64,23 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 			$scope.position.minExpYear = $scope.deg.minExpYear;
 			$scope.position.maxExpYear = $scope.deg.maxExpYear;
 		};
+		$scope.validate =  function(){
+			$scope.alHide();		
+		    if(parseInt($scope.position.maxExpYear)<parseInt($scope.position.minExpYear)){		    	
+			    $scope.cls=appConstants.ERROR_CLASS;
+			    $scope.position.maxExpYear="";
+			    $timeout( function(){ $scope.alHide(); }, 5000);
+		    }
+		}	
+		$scope.validateMinExp =  function(){
+			$scope.alHide();		
+		    if(parseInt($scope.position.maxExpYear)<parseInt($scope.position.minExpYear)){		    	
+			    $scope.cls=appConstants.ERROR_CLASS;
+			    $scope.position.minExpYear="";
+			    $timeout( function(){ $scope.alHide(); }, 5000);
+		    }
+		}
+		
 	designationService.getDesignation().then(function(data){
 		$scope.designations=data;
 		angular.forEach($scope.designations,function(deg){
