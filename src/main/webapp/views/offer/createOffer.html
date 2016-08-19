@@ -44,20 +44,14 @@
 								ng-model="profile.mobileNo" class="form-control"
 								ng-disabled="true" placeholder="Enter Mobile No" required>
 						</div> -->
+						
 						<label class="lbl col-md-2" style="margin-left:100px"><i
-							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Report Manager <b
-							style="color: red;">*</b></label>
+							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Reporting Manager<span
+							style="color: red;">*</span></label>
 						<div class="col-md-3">
-						    <input class="form-control input-sm" type="text" name="reportManager" ng-change="validateOffer();" 
-								ng-model="candidate.reportingManager" class="form-control"
+							<input class="form-control input-sm" type="text" name="hrManager" ng-change="validateOffer();" 
+								ng-model="candidate.hrManager" class="form-control"
 								ng-disabled="false" placeholder="Select Reporting Manager" required>
-							<!-- <select name="reportManager" 
-								ng-model="candidate.reportingManager"
-								ng-options="o.name as o.name for o in managers | orderBy:'toString()'"
-								class="form-control input-sm" >
-								<option value='' disabled="disabled">Select Reporting
-									Manager</option>
-							</select> -->
 						</div>
 						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:0px"><i
 							class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Project<span
@@ -81,15 +75,15 @@
 					</div> -->
 					<div class="form-group">
 						
-						<label class="lbl col-md-2" style="margin-left:100px"><i
+						<!-- <label class="lbl col-md-2" style="margin-left:100px"><i
 							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;HR Manager<span
 							style="color: red;">*</span></label>
 						<div class="col-md-3">
 							<input class="form-control input-sm" type="text" name="hrManager" ng-change="validateOffer();" 
 								ng-model="candidate.hrManager" class="form-control"
 								ng-disabled="false" placeholder="Select HR Manager" required>
-						</div>
-						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:0px"><i
+						</div> -->
+						<label class="lbl col-md-2 col-md-offset-1" style="margin-center:0px"><i
 							class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Immigration
 							Status<span style="color: red;">*</span></label>
 						<div class="col-md-3">
