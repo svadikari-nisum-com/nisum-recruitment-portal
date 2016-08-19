@@ -238,6 +238,22 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 			$scope.sel.selectedLocation = $scope.interviewerData.location;
 			$scope.data.date="";
 			
+			angular.forEach($scope.interviewerData.timeSlots, function(timeSlot) {
+				if(timeSlot.hour) {
+					var time = (timeSlot.hour).split('.');
+					var hour = time[0];
+					var min = time[1];
+					var date = new Date(timeSlot.time);
+					if(hour) {
+						date.setHours(date.getHours() + Number(hour));
+					}
+					if(min) {
+						date.setMinutes(date.getMinutes() + Number(min));
+					}
+					timeSlot.toTime = date;
+				}
+			});
+			
 		});
 		if( $scope.interviewschedule.roundName == "Hr Round" )
 		{

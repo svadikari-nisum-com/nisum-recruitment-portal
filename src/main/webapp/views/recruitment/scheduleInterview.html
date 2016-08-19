@@ -101,9 +101,12 @@
 			<div class="col-md-2" align = "left">			
 				<label class="lbl" for="Days"><i class="glyphicon icon-chevron-right"></i>&nbsp;&nbsp;Available Days </label>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<div ng-repeat = "day in interviewerData.timeSlots">
-						<b>{{day.day}} </b>
+						<div class="col-md-4"><b>{{day.day}} </b></div>
+						<div class="col-md-3"><b>{{day.time | date:'h:mma'}} </b></div>
+						<div class="col-md-1"><b> - </b></div>
+						<div class="col-md-3"><b>{{day.toTime | date:'h:mma'}} </b></div>
 				</div> 
 			</div>		
 		</div>	
