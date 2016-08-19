@@ -46,7 +46,7 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 	$scope.maxExpYear=[];
 	$scope.recruitmentData = [];
 	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
-	
+
 	$scope.pskills=$rootScope.info.skills;
 	$scope.interview=$scope.info.interviewRounds;
 	$scope.functionalGroups = $scope.info.FunctionalTeam;
@@ -148,14 +148,11 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 
 		
 	}
-	userService.getUsers().then(function(data) {
-		$scope.userData = data;
-		angular.forEach($scope.userData, function(userr){
-			if(_.contains(userr.roles, "ROLE_RECRUITER")){
-				$scope.recruitmentData.push(userr.name);
-			}
-		});
-}).catch(function(message) {
+	userService.getUserByRole("ROLE_RECRUITER").then(function (data){
+		angular.forEach(data,function(userr){
+		$scope.recruitmentData.push(userr.name);
+		})
+	}).catch(function(message) {
 	$log.error(message)
 });
     $scope.loadRounds = function(query) {

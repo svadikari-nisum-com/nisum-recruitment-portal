@@ -66,7 +66,8 @@ public class PositionRepository {
 		update.set("priority", position.getPriority());
 		update.set("interviewer", position.getInterviewer());
 		update.set("jobType", position.getJobType());
-		update.set("salary", position.getSalary());
+		update.set("functionalGroup", position.getFunctionalGroup());
+		update.set("jobHeader", position.getJobHeader());
 		
 		mongoOperations.updateFirst(query, update, Position.class);
 	}
