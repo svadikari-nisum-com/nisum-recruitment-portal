@@ -225,8 +225,8 @@
         </div><br>		
         
     <div class="col-md-3" style = "left: 400px;">	
-    <button  class="btn btn-info active" ng-show="hasRole('ROLE_ADMIN','ROLE_HR,ROLE_INTERVIEWER');!(scheduleButnHide)" ng-disabled="scheduleButnDis" type="button" ng-click="reSchedule()"><span class="glyphicon glyphicon-ok-circle"></span> Re-Schedule</button>
-    <button  class="btn btn-info active" ng-show="hasRole('ROLE_ADMIN','ROLE_HR,ROLE_INTERVIEWER');scheduleButnHide" ng-disabled="scheduleButnDis" type="submit"><span class="glyphicon glyphicon-ok-circle"></span> Schedule</button>
+    <button  class="btn btn-info active" ng-show="hasRole('ROLE_ADMIN','ROLE_HR,ROLE_INTERVIEWER');!(scheduleButnHide)" ng-disabled="scheduleButnDis||schedule_form.$invalid" type="button" ng-click="reSchedule()"><span class="glyphicon glyphicon-ok-circle"></span> Re-Schedule</button>
+    <button  class="btn btn-info active" ng-show="hasRole('ROLE_ADMIN','ROLE_HR,ROLE_INTERVIEWER');scheduleButnHide" ng-disabled="scheduleButnDis ||schedule_form.$invalid" type="submit"><span class="glyphicon glyphicon-ok-circle"></span> Schedule</button>
 	<a href="" class="btn btn-info active" ui-sref="{{previousPage}}" ng-disabled="">
          <span class="glyphicon glyphicon-remove"></span> Back
     </a>
