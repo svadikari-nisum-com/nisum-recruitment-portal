@@ -77,11 +77,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 						$scope.interviewFeedback = interviewLastRoundInfo.interviewFeedback;
 						$scope.interviewSchedule = interviewLastRoundInfo.interviewSchedule;
 						$scope.interviewFeedback.roundName = interviewLastRoundInfo.interviewFeedback.roundName;
-						if(new Date($scope.interviewSchedule.interviewDateTime)<=new Date()){	
-							$scope.disableSubmit = false;
-						}else{
-							$scope.disableSubmit = true;
-						}
+//						if(new Date($scope.interviewSchedule.interviewDateTime)<=new Date()){	
+//							$scope.disableSubmit = false;
+//						}else{
+//							$scope.disableSubmit = true;
+//						}
 					}else{
 						$scope.interviewFeedback.rateSkills =[];
 						$scope.addSkills();
@@ -95,11 +95,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 							$scope.submitShow = true;
 							$scope.interviewSchedule = interviewLastRoundInfo.interviewSchedule;
 						}
-						if(new Date($scope.interviewSchedule.interviewDateTime)<=new Date()){	
-							$scope.disableSubmit = false;
-						}else{
-							$scope.disableSubmit = true;
-						}
+//						if(new Date($scope.interviewSchedule.interviewDateTime)<=new Date()){	
+//							$scope.disableSubmit = false;
+//						}else{
+//							$scope.disableSubmit = true;
+//						}
 					}
 				}
 				
