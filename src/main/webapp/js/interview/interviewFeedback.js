@@ -65,7 +65,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 					$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
 				}*/
 				
-				if(_.contains($scope.user.roles,"ROLE_INTERVIEWER") || _.contains($scope.user.roles,"ROLE_MANAGER") )
+				if(_.contains($scope.user.roles,"ROLE_INTERVIEWER") || _.contains($scope.user.roles,"ROLE_MANAGER") || _.contains($scope.user.roles,"ROLE_HR"))
 				{
 					$scope.interviewFeedback.roundName = $scope.interview.rounds[$scope.interview.rounds.length-1].roundName;
 					$scope.selectDropDownDisable = true;
