@@ -110,7 +110,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$win
 	
 	  
 	$scope.validateOffer = function() {
-		if (!angular.isUndefined($scope.candidate) && $scope.validateField($scope.candidate.reportingManager) 
+		if (!angular.isUndefined($scope.candidate)
 				&& $scope.validateField($scope.candidate.project) && $scope.validateField($scope.candidate.hrManager) 
 				&& $scope.validateField($scope.candidate.imigrationStatus) && $scope.validateField($scope.candidate.joiningDate)
 				&& $scope.validateField($scope.candidate.designation) && $scope.validateField($scope.candidate.ctc)
