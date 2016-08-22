@@ -323,10 +323,12 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	       }
 	};
 	$scope.disableFeedback = function(rounds) {
-		if(rounds == null){
-			return true;
-		}else{
+		if(angular.isDefined(rounds) && rounds != null && rounds[rounds.length-1].interviewSchedule.emailIdInterviewer == sessionStorage.userId)
+		{
 			return false;
+		}else
+		{
+			return true;
 		}
 	}
 	

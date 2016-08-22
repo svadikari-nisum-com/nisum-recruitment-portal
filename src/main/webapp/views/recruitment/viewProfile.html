@@ -343,7 +343,7 @@
 					<td>
 						<button style="background-color: #F8F8F8; border: 0px;" href=""
 							id="" class="interview-feedback"
-							ng-disabled="disableFeedback(item.rounds) || hasNotRole('ROLE_INTERVIEWER,ROLE_HR')"
+							ng-disabled="disableFeedback(item.rounds) && hasNotRole('ROLE_HR,ROLE_RECRUITER')"
 							ng-click="feedback(item.currentPositionId,item.candidateEmail)">
 							<span class="glyphicon glyphicon-envelope"
 								style="position: relative; top: 1px;"></span>
