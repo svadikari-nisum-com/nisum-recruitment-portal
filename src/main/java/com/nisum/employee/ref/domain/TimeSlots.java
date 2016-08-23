@@ -9,4 +9,5 @@ public class TimeSlots {
 	String day;
 	String time;
 	String hour;
+	Boolean isNotAvailable = false;
 }

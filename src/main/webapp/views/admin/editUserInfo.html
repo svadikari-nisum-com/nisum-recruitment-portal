@@ -214,15 +214,16 @@
 
 						<div class="row" align="left" style="padding-bottom: 1%;">
 							<div align="center" class="control-group"">
-								<label class="lbl" ng-hide="{{!hideTimeSlot}}" >Not Available : <input
+								<!-- <label class="lbl" ng-hide="{{!hideTimeSlot}}" >Not Available : <input
 									type="checkbox" ng-model="userToEdit.isNotAvailable">
-								</label><br />
+								</label><br /> -->
 								<fieldset ng-disabled="hideTimeSlot">
 									<table id="timeSLots" ng-disabled="hideTimeSlot">
 										<tr>
 											<th>Day</th>
 											<th>Time</th>
 											<th>Hour</th>
+											<th>Not Available</th>
 											<th><button class="btn btn-primary" ng-click="addSlot()">
 													<span class="glyphicon glyphicon-plus"></span>
 												</button></th>
@@ -243,6 +244,11 @@
 													<select ng-model='slot.hour'
 														ng-options='hour for hour in hours'>
 													</select>
+												</div>
+											</td>
+											<td>
+												<div ng-hide="{{!hideTimeSlot}}" >
+													<input type="checkbox" ng-model="slot.isNotAvailable">
 												</div>
 											</td>
 											<td>
