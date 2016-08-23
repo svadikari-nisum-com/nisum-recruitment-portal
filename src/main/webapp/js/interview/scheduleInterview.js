@@ -209,23 +209,60 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		angular.forEach($scope.interviewerData.timeSlots, function(timeslot) {
 			if(selectedDay == timeslot.day) {
 				$scope.interviewerTimeslot = timeslot;
-				$log.info("Interviewer is available");
-			} 
+				var intSchDate = new Date(timeslot.time);
+				
+				// Interviewer Timings
+				var intDate = new Date();
+				var intHours = new Date(timeslot.time).getHours();
+				var intMinutes = new Date(timeslot.time).getMinutes();
+				
+				intDate.setHours(intHours, intMinutes)
+				
+				// Interview Span
+				
+				var time = (timeslot.hour).split('.');
+				var intToDate = new Date();
+				if(time[0]) {
+					intToDate.setHours(intHours + Number(time[0]));
+				}
+				if(time[1]) {
+					intToDate.setMinutes(intMinutes + Number(time[1]));
+				}
+				
+				
+				// Candidate Timings
+				
+				var canDate = new Date();
+				var canHours = newDate.getHours();
+				var canMinutes = newDate.getMinutes();
+				canDate.setHours(canHours, canMinutes)
+				
+				if(canDate >= intDate  && canDate < intToDate) {
+					$log.info("Interviewer is available");
+				} else {
+					showTimeslotError();
+				}
+			} 	
 		})
 
 		if(selectedDay == $scope.interviewerTimeslot.day){
 		} else {
-			 $scope.message = "Interviewer is not available on this date.";
-			 $scope.cls = 'alert alert-danger alert-error';
-			 $scope.showMsg = true;
-			 $timeout( function(){ $scope.alHide(); }, 4000);
-			//$scope.interviewschedule.interviewerName = "";
-			//$scope.interviewschedule.emailIdInterviewer = "";
-			//$scope.interviewschedule.interviewerMobileNumber = "";	
-			$scope.data.date = "";
+			showTimeslotError();
 		}
        
 	}
+	
+	function showTimeslotError() {
+		$scope.message = "Interviewer is not available on this date.";
+		 $scope.cls = 'alert alert-danger alert-error';
+		 $scope.showMsg = true;
+		 $timeout( function(){ $scope.alHide(); }, 4000);
+		//$scope.interviewschedule.interviewerName = "";
+		//$scope.interviewschedule.emailIdInterviewer = "";
+		//$scope.interviewschedule.interviewerMobileNumber = "";	
+		$scope.data.date = "";
+	}
+	
 	
 	$scope.setvalues = function(emailId) 
 	{
