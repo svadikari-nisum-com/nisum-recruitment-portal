@@ -68,7 +68,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	$http.get('resources/user').success(function(data, status, headers, config) {
 		$scope.userData = data;
 		angular.forEach($scope.userData, function(userr){
-			if(_.contains(userr.roles, "ROLE_HR")){
+			if(_.contains(userr.roles, "ROLE_RECRUITER")){
 				$scope.recruitmentData.push(userr.name);
 			}
 		})

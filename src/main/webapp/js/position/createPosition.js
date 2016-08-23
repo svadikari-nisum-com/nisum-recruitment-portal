@@ -12,7 +12,7 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
    
 	$scope.position.primarySkills = {};
 	$scope.position.interviewRounds = {};
-	$scope.position.interviewRounds = ['Technical Round 1','Technical Round 2','Manager Round', 'Hr Round'];
+	//$scope.position.interviewRounds = ['Technical Round 1','Technical Round 2','Manager Round', 'Hr Round'];
 	$scope.position.designation = "";
 	$scope.position.minExpYear = "";
 	$scope.position.maxExpYear = "";
@@ -28,7 +28,8 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 	$scope.position.noOfPositions = "";
 	
 	$scope.enableDisbleButton = true;
-
+	$scope.emailId ="";
+	$scope.roles = [];
 	$scope.message = "";
 	$scope.info = $rootScope.info;
 	$scope.pskills = [];
@@ -104,19 +105,27 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 					$scope.client.push(cl.clientName);
 				})
 			  });
+	 userService.getCurrentUser().then(function (data){
+    angular.forEach(data,function(userrs){
+       $scope.emailId  = userrs.emailId;
+       $scope.roles = userrs.roles[0];
+    })
+});
 	$scope.getManagers = function(){
 		
 		
 		$scope.managers = [];
 		userService.getUserByRole("ROLE_MANAGER").then(function (data){
 			
-			angular.forEach(data,function(user){
-				
+			angular.forEach(data,function(user) {
+				if(user.emailId == $scope.emailId && $scope.roles == user.roles[0]) {
+			          $scope.position.hiringManager = user.name;
+		           }
 				$scope.managers.push(user.name);
 			})
 			
 		});
-		
+	}	
 		
 		/*$scope.names = [];
 		$scope.object = [];
@@ -147,14 +156,16 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		  });*/
 
 		
-	}
 	userService.getUserByRole("ROLE_RECRUITER").then(function (data){
-		angular.forEach(data,function(userr){
-		$scope.recruitmentData.push(userr.name);
-		})
+		    angular.forEach(data,function(userr) {
+			           if(userr.emailId == $scope.emailId &&  $scope.roles == userr.roles[0]) {
+				          $scope.position.interviewer = userr.name;
+			           }
+			           $scope.recruitmentData.push(userr.name);
+		    })
 	}).catch(function(message) {
-	$log.error(message)
-});
+	   $log.error(message)
+   });
     $scope.loadRounds = function(query) {
     	$scope.interview=$scope.info.interviewRounds;
 		return $scope.interview; 

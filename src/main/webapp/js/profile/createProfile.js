@@ -32,8 +32,10 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 	$scope.info = $rootScope.info;
 	$scope.pskills=$scope.info.skills;
 	$scope.designations={};
+	$scope.emailId  ="";
+    $scope.roles = [];
 	
-	userService.getUsers().then(function(data) {
+	/*userService.getUsers().then(function(data) {
 			$scope.userData = data;
 			angular.forEach($scope.userData, function(userr){
 				if(_.contains(userr.roles, "ROLE_RECRUITER")){
@@ -42,7 +44,23 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 			});
 	}).catch(function(message) {
 		$log.error(message)
+	});*/
+	userService.getCurrentUser().then(function (data){
+	    angular.forEach(data,function(userrs){
+	       $scope.emailId  = userrs.emailId;
+	       $scope.roles = userrs.roles[0];
+	    })
 	});
+	userService.getUserByRole("ROLE_RECRUITER").then(function (data){
+		    angular.forEach(data,function(userr) {
+			        if(userr.emailId == $scope.emailId &&  $scope.roles == userr.roles[0]) {
+				       $scope.candidate.hrAssigned = userr.name;
+			        }
+			        $scope.recruitmentData.push(userr.name);
+		    })
+	 }).catch(function(message) {
+	   $log.error(message)
+     });
 	
 	$scope.jobCodeSl = function(){
 		positionService.getPositionByDesignation($scope.candidate.designation).then(function(data){
