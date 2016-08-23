@@ -237,7 +237,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 				var canMinutes = newDate.getMinutes();
 				canDate.setHours(canHours, canMinutes)
 				
-				if(canDate >= intDate  && canDate < intToDate) {
+				if(canDate >= intDate  && canDate < intToDate && !timeslot.isNotAvailable) {
 					$log.info("Interviewer is available");
 				} else {
 					showTimeslotError();
