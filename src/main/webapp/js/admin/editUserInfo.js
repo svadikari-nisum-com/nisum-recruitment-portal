@@ -22,7 +22,7 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 	$scope.att=["name","emailId","roles","clientName"];
 	$scope.att1=["roles"];
 	
-	$scope.functionalGroups = $scope.info.FunctionalTeam;
+	$scope.functionalGroups = angular.copy( $scope.info.FunctionalTeam);
 	
 	if(sharedDataService.getData() == undefined) {
 		location.href="#admin/users";
@@ -324,7 +324,7 @@ $scope.validateField = function(data) {
 		{
 			$scope.hideCreate = false ;
 		}
-		$scope.interviewFunctionalRounds = $scope.info.interviewRounds;
+		$scope.interviewFunctionalRounds = angular.copy( $scope.info.interviewRounds);
 		$scope.interviewFunctionalRounds.splice($scope.interviewFunctionalRounds.indexOf("Hr Round"), 1);
 		$scope.interviewFunctionalRounds.splice($scope.interviewFunctionalRounds.indexOf("Manager Round"), 1);
 		

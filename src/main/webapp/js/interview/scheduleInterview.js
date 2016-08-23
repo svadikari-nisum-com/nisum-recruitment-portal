@@ -411,8 +411,12 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 							$scope.interviewschedule = round.interviewSchedule;
 							$scope.sel.selectedLocation = round.interviewSchedule.interviewLocation;
 							$scope.sel.selectedtypeOfInterview = round.interviewSchedule.typeOfInterview;
-							$scope.interviewerNames = [];
-							$scope.interviewerNames.push({'name':$scope.interviewschedule.interviewerName,"emailId":$scope.interviewschedule.emailIdInterviewer});
+							
+							if(angular.isUndefined())
+							{
+								$scope.interviewerNames = [];
+								$scope.interviewerNames.push({'name':$scope.interviewschedule.interviewerName,"emailId":$scope.interviewschedule.emailIdInterviewer});
+							}
 							$scope.interviewschedule.interviewerName = $scope.interviewschedule.emailIdInterviewer;
 							$scope.setvalues($scope.interviewschedule.emailIdInterviewer);
 							var day = new Date(round.interviewSchedule.interviewDateTime);
