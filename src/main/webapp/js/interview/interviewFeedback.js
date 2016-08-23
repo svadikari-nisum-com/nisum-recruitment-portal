@@ -160,7 +160,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			  success(function(data, status) {
 				  $scope.cls = 'alert  alert-success';
 				  $scope.message = "Feedback Submitted Successfully!";
-				  $timeout( function(){ $scope.alHide(); }, 1000);
+				  $timeout( function(){ $scope.alHide(); }, 1200);
 				  $scope.reset();				  
 				  $log.info("Feedback Submitted Successfully!");
 			  }).
