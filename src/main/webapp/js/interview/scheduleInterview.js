@@ -184,11 +184,11 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		  error(function(data, status, headers, config) {
 			  $scope.cls = 'alert alert-danger alert-error';
 			  $scope.message = "Something wrong, try again";
-			  $timeout( function(){ $scope.alHide(); }, 5000);
+			  $timeout( function(){ $scope.alHide(); }, 1000);
 			 $log.error("failed=="+data);
 		  });
 		blockUI.stop();
-		},3000);	
+		},1000);	
 	}
 
 	$scope.onTimeSet = function (newDate, oldDate) {
@@ -435,7 +435,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		}).catch(function(msg){
 			  $scope.cls = 'alert alert-danger alert-error';
 			  $scope.message = msg;
-			  $timeout( function(){ $scope.alHide(); }, 5000);
+			  $timeout( function(){ $scope.alHide(); }, 1000);
 		});
 	}
 
@@ -482,11 +482,11 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 		  error(function(data, status, headers, config) {
 			  $scope.cls = 'alert alert-danger alert-error';
 			  $scope.message = "Something wrong, try again";
-			  $timeout( function(){ $scope.alHide(); }, 5000);
+			  $timeout( function(){ $scope.alHide(); }, 1000);
 			 $log.error("failed=="+data);
 		  });
 		blockUI.stop();
-		},3000);
+		},1000);
 		//blockUI.stop();
 	}
 }]);

@@ -167,11 +167,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			  error(function(data, status) {
 				  $scope.cls = 'alert alert-danger alert-error';
 				  $scope.message = "Something Went Wrong! Please Try Again!";
-				  $timeout( function(){ $scope.alHide(); }, 5000);
+				  $timeout( function(){ $scope.alHide(); }, 1000);
 				  $log.error("Feedback Submission Failed! --->"+data);
 			  });			
 			blockUI.stop();
-		},3000);
+		},1000);
 	}
 	
 	$scope.showSubmitButton = function()
