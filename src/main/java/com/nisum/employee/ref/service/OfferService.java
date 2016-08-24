@@ -38,7 +38,7 @@ public class OfferService implements IOfferService {
 			 try{
 				 generateOfferLetter(offer);
 				 // send offer letter to candidate as part of email notification.
-				 notificationService.sendOfferNotificationMail(offer.getEmailId());
+				 notificationService.sendOfferNotificationMail(offer);
 			 }catch(Exception ex){
 				 throw new ServiceException(ex);
 			 }

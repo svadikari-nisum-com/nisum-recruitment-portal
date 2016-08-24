@@ -47,6 +47,7 @@ import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.OfferRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.EnDecryptUtil;
+import com.nisum.employee.ref.view.OfferDTO;
 
 @Service
 public class NotificationService implements INotificationService {
@@ -114,6 +115,9 @@ public class NotificationService implements INotificationService {
 
 	@Value("${INTERVIEWERS_NOTAVAILABLE_TEMPLATE}")
 	private String INTERVIEWERS_NOTAVAILABLE_TEMPLATE;
+	
+	@Value("${OFFER_MAIL_BODY_TEMPLATE}")
+	private String OFFER_MAIL_BODY_TEMPLATE;
 
 	@Value("${error.mail.to}")
 	private String errors_notifications_to;
@@ -394,25 +398,34 @@ public class NotificationService implements INotificationService {
 		Transport.send(message);
 	}
 	
-	public void sendOfferNotificationMail(String mailId) throws ServiceException {
+	public void sendOfferNotificationMail(OfferDTO offer) throws ServiceException {
 		
 		try{
 			Message message = getMessage();
 			message.setSubject(OFFER_LETTER);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
 			message.setDescription("Please find the attached Offer details");
 			//message.setContent(writer.toString(), TEXT_HTML);
 			//message.setContent(mp);
-			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(mailId, true));
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(offer.getEmailId(), true));
 			
 			BodyPart messageBodyPart = new MimeBodyPart();
 			
 			messageBodyPart.setDescription("This is message body");//TODO We need get template for this message body.
 			Multipart multipart = new MimeMultipart();
-			String[] file = offerRepository.getData(mailId);
+			String[] file = offerRepository.getData(offer.getEmailId());
+			
+			VelocityContext context = new VelocityContext();
+			context.put("cname", offer.getCandidateName());
+			context.put("designation", offer.getDesignation());
+			context.put("joiningDate",  dateFormat.format(offer.getJoiningDate()));
+			Template candidateTemplate = getVelocityTemplate(OFFER_MAIL_BODY_TEMPLATE);
+			StringWriter writer = new StringWriter();
+			candidateTemplate.merge(context, writer);
 			
 			BodyPart messageBody = new MimeBodyPart();
-			messageBody.setContent("<h1>This is message body</h1>", TEXT_HTML);
-			
+			message.setSubject("Offer of Employment");
+			messageBody.setContent(writer.toString(), TEXT_HTML);
 			
 			DataSource source = new FileDataSource(file[0]);
 			messageBodyPart.setDataHandler(new DataHandler(source));
