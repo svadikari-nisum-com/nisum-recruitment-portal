@@ -4,11 +4,10 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 	$scope.client = {};
 	$scope.clients = {};
 
-	$scope.col=["Clients","Location"];
+	$scope.col=["Clients","Location","Delete"];
 	
 	$scope.att=["clientName","locations"];
 	//$scope.att1=["roles"];
-	
 	$scope.clientCls = sharedDataService.getClass();
 	$scope.message = sharedDataService.getmessage();
 	$scope.client.interviewers = {"technicalRound1": [], "technicalRound2": []};
@@ -41,7 +40,7 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 						});
 	}
 	
-	$scope.deleteClient = function(clientId){
+	/*$scope.deleteClient = function(rowEntity){
 		clientService.removeClient(clientId)
 		 .then(successMsg)
 		 .catch(errorMsg);
@@ -54,7 +53,7 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
   		$scope.message=msg;
 		$scope.cls=appConstants.ERROR_CLASS;  	};
 
-	}
+	}*/
 	
 /*	$scope.checkClients = function(){
 		angular.forEach($scope.clients, function(cl){
@@ -70,7 +69,6 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 		jobCodeService1.setclientId(data.clientId);
 		jobCodeService1.setclientName(data.clientName);
 		//location.href='#admin/client/editClient';
-		
 		$state.go('admin.client.editClient');
 	}
 	
@@ -87,8 +85,9 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
         enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 		paginationCurrentPage: 1,
 	    columnDefs: [
-	      { field: 'clientName', displayName:"Clients", cellClass: 'ui-grid-align'},
-	      { field: 'locations', displayName:"Location", cellClass: 'ui-grid-align'}
+	      { field: 'clientName', displayName:"Clients", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editClient(row.entity); $event.stopPropagation();" ui-sref="admin.client.editClient">{{row.entity.clientName}} </a>'},
+	      { field: 'locations', displayName:"Location", cellClass: 'ui-grid-align'},
+	      { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteClient(row.entity)"></a>' }
 	    ],
 	    onRegisterApi: function( gridApi ) {
 	      $scope.gridApi = gridApi;
@@ -99,7 +98,22 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 	$scope.searchFilter = function() {
 		$scope.gridApi.grid.refresh();
 	};
-
+	$scope.deleteClient = function(rowEntity) {
+        var deleteUser = $window.confirm('Are you sure you want to delete?');
+        if (deleteUser) {
+        	$scope.clients.splice($scope.clients.indexOf(rowEntity), 1);
+        	
+        	clientService.removeClient(rowEntity.clientId).then(function(msg){
+	        	$scope.message = rowEntity.clientName+ " " + msg;
+	        	$scope.cls = appConstants.SUCCESS_CLASS;
+	        	$timeout(function() { $scope.alHide();},3000);
+    		}).catch(function(deleteMessage){
+    			sendSharedMessage(msg, appConstants.ERROR_CLASS);
+                $timeout(function() { $scope.alHide(); }, 5000);
+    		});   
+        	
+        }
+    }
 	$scope.singleFilter = function(renderableRows) {
 		var searchValue = "";
 		if($scope.filterValue){
