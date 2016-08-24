@@ -180,7 +180,11 @@ public class NotificationService implements INotificationService {
 		context2.put(TYPE_OF_INTERVIEW, interviewSchedule.getTypeOfInterview());
 		context2.put(INTERVIEW_DATE_TIME,
 				getDateTime(interviewSchedule.getInterviewDateTime()));
+		if(skypeId!=null&&!skypeId.isEmpty()){
 		context2.put(SKYPE_ID, skypeId);
+		}else{
+			context2.put(SKYPE_ID, "");
+		}
 
 		Template interviewerTemplate = getVelocityTemplate(SRC_INTERVIEWER_VM);
 
