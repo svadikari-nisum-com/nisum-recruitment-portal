@@ -190,7 +190,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	    $scope.cls = '';
 	    $location.path("recruitment/interviewManagement");
 	}
-	
+	$scope.filterValue = function($event){
+        if(isNaN(String.fromCharCode($event.keyCode)) || (parseInt($scope.interviewFeedback.duration + String.fromCharCode($event.keyCode))) > 60 ){
+            $event.preventDefault();
+        }
+	};
 	$scope.reset = function(){
 		$scope.interviewFeedback.duration = "";
 		$scope.interviewFeedback.additionalSkills = "";

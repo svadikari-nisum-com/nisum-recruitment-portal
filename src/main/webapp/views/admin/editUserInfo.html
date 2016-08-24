@@ -256,7 +256,7 @@
 			</div>
 			<div class="row">
 				<div class="panel panel-default"
-					ng-init="isCollapsed = !isCollapsed" style="width: 70%">
+					ng-init="isCollapsed = !isCollapsed" style="width: 90%">
 					<div class="panel-heading" style="height: 36px; color: white;"
 						ng-click="isCollapsed = !isCollapsed">
 						<font>Time Slots</font> <i class="pull-right glyphicon"
@@ -267,35 +267,83 @@
 
 						<div class="row" align="left" style="padding-bottom: 1%;">
 							<div align="center" class="control-group"">
-								<label class="lbl" ng-hide="{{!hideTimeSlot}}" >Not Available : <input
+								<!-- <label class="lbl" ng-hide="{{!hideTimeSlot}}" >Not Available : <input
 									type="checkbox" ng-model="userToEdit.isNotAvailable">
-								</label><br />
+								</label><br /> -->
 								<fieldset ng-disabled="hideTimeSlot">
-									<table id="timeSLots" ng-disabled="hideTimeSlot">
+									<table class="edit-timeslot" ng-disabled="hideTimeSlot">
 										<tr>
 											<th>Day</th>
 											<th>Time</th>
 											<th>Hour</th>
-											<th><button class="btn btn-primary" ng-click="addSlot()">
+											<th>Not Available</th>
+											<th>From Date <b class="mandatory-field">*</b></th>
+											<th>To Date <b class="mandatory-field">*</b></th>
+											<th>
+												<button class="btn btn-primary" ng-click="addSlot()">
 													<span class="glyphicon glyphicon-plus"></span>
-												</button></th>
+												</button>
+											</th>
 										</tr>
 										<tr ng-repeat="slot in userToEdit.timeSlots">
-											<td><div>
+											<td>
+												<div>
 													<select ng-model='slot.day'
 														ng-options='day for day in days' >
 													</select>
-												</div></td>
-											<td><div>
+												</div>
+											</td>
+											<td>
+												<div>
 													<timepicker ng-model="slot.time" ng-change="changed()"
 														hour-step="1" minute-step="10" show-meridian="true"
 														arrowkeys="false" readonly-input="true" ></timepicker> 
-												</div></td>
+												</div>
+											</td>
 											<td>
 												<div>
 													<select ng-model='slot.hour'
 														ng-options='hour for hour in hours'>
 													</select>
+												</div>
+											</td>
+											<td>
+												<div  ng-hide="{{!hideTimeSlot}}">
+													<input type="checkbox" ng-model="slot.isNotAvailable" ng-change="resetNotAvailble(slot)">
+												</div>
+											</td>
+											<td>
+												<div ng-show="slot.isNotAvailable" class="tsTable" ng-hide="{{!hideTimeSlot}}">
+													<a href="" ng-click="openFromToCal('from')" ng-hide="fromCalendar">
+														{{slot.fromDate || "click here to edit..." | date:'dd/MM/yyyy'}}</a>
+														<input ng-hide="hideFromCal" type="text" datepicker-popup="dd-MMMM-yyyy"
+														ng-model="slot.fromDate" is-open="isFromOpen" min-date="timeSlotMinDate"
+														ng-click="isFromOpen = true" readonly="true" datepicker-options="dateOptions"
+														placeholder="Select From Date" ng-required="slot.isNotAvailable" close-text="Close" class="input-md" />
+														<span class="input-group-btn" style="width: 60%"> </span>
+														
+														<div>
+															<button class="glyphicon glyphicon-ok btn btn-primary"
+																ng-hide="hideFromCal" ng-click="closeFromToCal('from');validateDate()"
+																style="width: 40px; height: 28px;"></button>
+														</div>
+												</div>
+											</td>
+											<td>
+												<div ng-show="slot.isNotAvailable"  class="tsTable" ng-hide="{{!hideTimeSlot}}">
+													<a href="" ng-click="openFromToCal('to')" ng-hide="toCalendar">
+														{{slot.toDate || "click here to edit..." | date:'dd/MM/yyyy'}}</a>
+														<input ng-hide="hideToCal" type="text" datepicker-popup="dd-MMMM-yyyy"
+														ng-model="slot.toDate" is-open="isToOpen" min-date="slot.fromDate == null ? timeSlotMinDate : slot.fromDate"
+														ng-click="isToOpen = true" readonly="true" datepicker-options="dateOptions"
+														placeholder="Select To Date" close-text="Close" class="input-md" />
+														<span class="input-group-btn" style="width: 60%"> </span>
+														
+														<div>
+															<button class="glyphicon glyphicon-ok btn btn-primary"
+																ng-hide="hideToCal" ng-click="closeFromToCal('to');validateDate()"
+																style="width: 40px; height: 28px;"></button>
+														</div>
 												</div>
 											</td>
 											<td>

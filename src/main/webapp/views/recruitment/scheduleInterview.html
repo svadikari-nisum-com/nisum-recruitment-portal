@@ -103,7 +103,7 @@
 			</div>
 			<div class="col-md-4">
 				<div ng-repeat = "day in interviewerData.timeSlots">
-					<div ng-hide="day.isNotAvailable">
+					<div ng-show="day.showAvailablity">
 						<div class="col-md-4"><b>{{day.day}} </b></div>
 						<div class="col-md-3"><b>{{day.time | date:'h:mma'}} </b></div>
 						<div class="col-md-1"><b> - </b></div>

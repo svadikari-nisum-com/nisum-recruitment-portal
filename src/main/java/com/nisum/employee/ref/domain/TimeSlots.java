@@ -10,4 +10,6 @@ public class TimeSlots {
 	String time;
 	String hour;
 	Boolean isNotAvailable = false;
+	String fromDate;
+	String toDate;
 }

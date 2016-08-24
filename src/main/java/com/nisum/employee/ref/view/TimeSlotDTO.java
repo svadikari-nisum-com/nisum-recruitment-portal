@@ -15,4 +15,6 @@ public class TimeSlotDTO extends BaseDTO{
 	private String time;
 	private String hour;
 	private Boolean isNotAvailable = false;
+	private String fromDate;
+	private String toDate;
 }

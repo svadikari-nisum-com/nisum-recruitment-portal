@@ -237,10 +237,29 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 				var canMinutes = newDate.getMinutes();
 				canDate.setHours(canHours, canMinutes)
 				
-				if(canDate >= intDate  && canDate < intToDate && !timeslot.isNotAvailable) {
-					$log.info("Interviewer is available");
+				// Interviewer From Time
+				var intFromDateTime = new Date(timeslot.fromDate);
+				
+				
+				// Interviewer To Time
+				var intToDateTime = new Date(timeslot.toDate);
+				
+				if(timeslot.isNotAvailable) {
+					if(!(intFromDateTime <= newDate && newDate < intToDateTime)) {
+						if(canDate >= intDate  && canDate < intToDate) {
+							$log.info("Interviewer is available");
+						} else {
+							showTimeslotError();
+						}
+					}else {
+						showTimeslotError();
+					}
 				} else {
-					showTimeslotError();
+					if(canDate >= intDate  && canDate < intToDate) {
+						$log.info("Interviewer is available");
+					} else {
+						showTimeslotError();
+					}
 				}
 			} 	
 		})
@@ -277,6 +296,24 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeSer
 			
 			angular.forEach($scope.interviewerData.timeSlots, function(timeSlot) {
 				if(timeSlot.hour) {
+					
+					// Interviewer From Time
+					var intFromDateTime = new Date(timeSlot.fromDate);
+					intFromDateTime.setHours(0,0,0,0)
+					
+					// Interviewer To Time
+					var intToDateTime = new Date(timeSlot.toDate);
+					intToDateTime.setHours(0,0,0,0)
+					
+					timeSlot.showAvailablity = true;
+					
+					var curDate = new Date();
+					curDate.setHours(0,0,0,0)
+					
+					if(intFromDateTime <= curDate && curDate < intToDateTime) {
+						timeSlot.showAvailablity = false;
+					}
+					
 					var time = (timeSlot.hour).split('.');
 					var hour = time[0];
 					var min = time[1];
