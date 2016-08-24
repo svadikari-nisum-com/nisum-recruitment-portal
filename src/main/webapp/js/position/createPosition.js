@@ -105,12 +105,12 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 					$scope.client.push(cl.clientName);
 				})
 			  });
-	 userService.getCurrentUser().then(function (data){
+	 /*userService.getCurrentUser().then(function (data){
     angular.forEach(data,function(userrs){
        $scope.emailId  = userrs.emailId;
        $scope.roles = userrs.roles[0];
     })
-});
+});*/
 	$scope.getManagers = function(){
 		
 		
@@ -118,7 +118,7 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		userService.getUserByRole("ROLE_MANAGER").then(function (data){
 			
 			angular.forEach(data,function(user) {
-				if(user.emailId == $scope.emailId && $scope.roles == user.roles[0]) {
+				if(user.emailId == sessionStorage.userId ) {
 			          $scope.position.hiringManager = user.name;
 		           }
 				$scope.managers.push(user.name);
@@ -158,7 +158,7 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		
 	userService.getUserByRole("ROLE_RECRUITER").then(function (data){
 		    angular.forEach(data,function(userr) {
-			           if(userr.emailId == $scope.emailId &&  $scope.roles == userr.roles[0]) {
+			           if(userr.emailId == sessionStorage.userId) {
 				          $scope.position.interviewer = userr.name;
 			           }
 			           $scope.recruitmentData.push(userr.name);
