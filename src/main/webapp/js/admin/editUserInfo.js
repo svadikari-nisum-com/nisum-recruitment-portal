@@ -124,6 +124,18 @@ $scope.validateField = function(data) {
 	
 	$scope.validateSlotTimings = function(){
 		
+		if($scope.userToEdit.timeSlots && $scope.userToEdit.timeSlots.length > 0) {
+			for(i in $scope.userToEdit.timeSlots) {
+				var ts = $scope.userToEdit.timeSlots[i];
+				
+				if(ts.isNotAvailable) {
+					if(ts.fromDate == null || ts.fromDate.length == 0 || ts.toDate == null || ts.toDate.length == 0) {
+						return false;
+					}
+				}
+			}
+		}
+		
 		if( $scope.userToEdit.timeSlots &&  $scope.userToEdit.timeSlots != null)
 		{
 		for(var initTSIndex = 0; initTSIndex < $scope.userToEdit.timeSlots.length; initTSIndex++) 
@@ -184,6 +196,42 @@ $scope.validateField = function(data) {
 		$scope.hideCal = false;
 		$scope.maxDate = new Date();
 		$scope.minDate = new Date().setFullYear(new Date().getFullYear() - 100);
+	}
+	
+	$scope.hideFromCal = true;
+	$scope.hideToCal = true;
+	
+	$scope.openFromToCal = function(value){
+		if(value == 'from') {
+			 $scope.hideFromCal = false
+			 $scope.fromCalendar = true;
+		} else {
+			$scope.hideToCal = false;
+			$scope.toCalendar = true;
+		}
+		
+		$scope.timeSlotMinDate = new Date();
+	}
+	
+	$scope.resetNotAvailble = function(slot) {
+		if(!slot.isNotAvailable) {
+			$scope.hideFromCal = true;
+			$scope.hideToCal = true;
+			$scope.fromCalendar = false;
+			$scope.toCalendar = false;
+		}
+		slot.fromDate = "";
+		slot.toDate = "";
+	}
+	
+	$scope.closeFromToCal = function(value) {
+		if(value == 'from') {
+			$scope.fromCalendar = false;
+			$scope.hideFromCal = true;
+		} else {
+			$scope.toCalendar = false;
+			$scope.hideToCal = true;
+		}
 	}
 	
 	$scope.closeCal = function(){
