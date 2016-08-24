@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -325,6 +326,9 @@ public class NotificationService implements INotificationService {
 	private String getDateTime(String dateTime) {
 		SimpleDateFormat formatter, FORMATTER;
 		formatter = new SimpleDateFormat(YYYY_MM_DD_T_HH_MM_SS_SSS_Z);
+		//User selected time(UTC) is converting to local time by DatePicker and same is saving in MongoDB
+		//We need to convert local time to UTC, while using time in our java code. DatePicker is  doing that in UI level, Here we need to do.
+		formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 		FORMATTER = new SimpleDateFormat(DD_MMM_YYYY_HH_MM);
 		Date convertedDate = null;
 		try {
