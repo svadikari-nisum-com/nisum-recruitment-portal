@@ -52,7 +52,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 	userService.getUserByRole("ROLE_RECRUITER").then(function (data){
 		    angular.forEach(data,function(userr) {
 			        if(userr.emailId ==  sessionStorage.userId) {
-				       $scope.candidate.hrAssigned = userr.name;
+				       $scope.candidate.hrAssigned = userr.emailId;
 			        }
 			       // $scope.recruitmentData.push(userr.name);
 			        $scope.recruitmentData.push({'name':userr.name,"emailId":userr.emailId});
