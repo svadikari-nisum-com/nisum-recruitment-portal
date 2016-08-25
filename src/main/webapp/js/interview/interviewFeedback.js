@@ -188,8 +188,9 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	    $location.path("recruitment/interviewManagement");
 	}
 	$scope.filterValue = function($event){
-        if(isNaN(String.fromCharCode($event.keyCode)) || (parseInt($scope.interviewFeedback.duration + String.fromCharCode($event.keyCode))) > 60 ){
-            $event.preventDefault();
+		var value = $event.keyCode ? $event.keyCode : $event.which;
+        if(value != 8 && (isNaN(String.fromCharCode(value)) || (parseInt($scope.interviewFeedback.duration + String.fromCharCode(value))) > 60)  || value == 32){
+        	$event.preventDefault();
         }
 	};
 	$scope.reset = function(){
