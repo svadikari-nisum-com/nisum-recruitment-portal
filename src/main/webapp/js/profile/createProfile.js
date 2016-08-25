@@ -32,8 +32,6 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 	$scope.info = $rootScope.info;
 	$scope.pskills=$scope.info.skills;
 	$scope.designations={};
-	$scope.emailId  ="";
-    $scope.roles = [];
 	
 	/*userService.getUsers().then(function(data) {
 			$scope.userData = data;
@@ -45,18 +43,19 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 	}).catch(function(message) {
 		$log.error(message)
 	});*/
-	userService.getCurrentUser().then(function (data){
+	/*userService.getCurrentUser().then(function (data){
 	    angular.forEach(data,function(userrs){
 	       $scope.emailId  = userrs.emailId;
 	       $scope.roles = userrs.roles[0];
 	    })
-	});
+	});*/
 	userService.getUserByRole("ROLE_RECRUITER").then(function (data){
 		    angular.forEach(data,function(userr) {
-			        if(userr.emailId == $scope.emailId &&  $scope.roles == userr.roles[0]) {
+			        if(userr.emailId ==  sessionStorage.userId) {
 				       $scope.candidate.hrAssigned = userr.name;
 			        }
-			        $scope.recruitmentData.push(userr.name);
+			       // $scope.recruitmentData.push(userr.name);
+			        $scope.recruitmentData.push({'name':userr.name,"emailId":userr.emailId});
 		    })
 	 }).catch(function(message) {
 	   $log.error(message)

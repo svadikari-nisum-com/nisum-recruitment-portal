@@ -262,7 +262,7 @@
 			</div>
 			<div class="col-md-3">
 				<a href="#" editable-select="candidate.hrAssigned"
-					e-ng-options="o as o for o in recruitmentData">{{
+					e-ng-options="o.name as o.name for o in recruitmentData">{{
 					candidate.hrAssigned || "--" }}</a>
 			</div>
 		</div>

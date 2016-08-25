@@ -64,15 +64,20 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	var interview_URL = 'resources/getInterview?interviewerId='+$scope.emailId+"_"+$scope.jobCode;
 	var URL = 'resources/profile?emailId='+$scope.emailId;
 	var InterviewDetails_URL = 'resources/getInterviewByParam?candiateId='+$scope.emailId;
-	
+	var deferred = $q.defer();
 	$http.get('resources/user').success(function(data, status, headers, config) {
 		$scope.userData = data;
 		angular.forEach($scope.userData, function(userr){
+			
 			if(_.contains(userr.roles, "ROLE_RECRUITER")){
-				$scope.recruitmentData.push(userr.name);
+				
+				$scope.recruitmentData.push({'name':userr.name,"emailId":userr.emailId});
+				
 			}
 		})
+		deferred.resolve();
 	}).error(function(data, status, headers, config) {
+		deferred.resolve();
 		$log.error(status)
 	});
 	
@@ -89,8 +94,12 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 		    isFirstDisabled: false
 		  };
 	
+	deferred.promise.then(function(){
+	
 	$http.get(URL).success(function(data, status, headers, config) {
 		$scope.candidate =data[0];
+		$scope.candidate.hrAssigned = $scope.recruitmentData.filter(function (person) { return person.emailId == $scope.candidate.hrAssigned })[0].name;
+		
 		positionService.getPositionByDesignation($scope.candidate.designation).then(function(data){
 			$scope.positionData = data;
 			 angular.forEach($scope.positionData, function(jobcodeProfile){
@@ -126,7 +135,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	}).error(function(data, status, headers, config) {
 		$log.error("Failed!! ---> "+data);
 	});	
-	
+	});
 	$scope.editCandidate = function() {
 		$scope.enableDisableButton = false;
         $scope.disableEditButton = true;
@@ -160,7 +169,8 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	    	$scope.updateInterview.candidateSkills = $scope.candidate.primarySkills;
 	    	$scope.updateInterview.positionId = $scope.candidate.jobcodeProfile;
 	    	$scope.updateInterview.designation = $scope.candidate.designation;
-	    	$scope.updateInterview.hrAssigned	=	 $scope.candidate.hrAssigned;
+	    	//$scope.updateInterview.hrAssigned	=	 $scope.candidate.hrAssigned;
+	    	$scope.candidate.hrAssigned = $scope.recruitmentData.filter(function (person) { return person.name == $scope.candidate.hrAssigned })[0].emailId;
 	        interviewService.updateInterview($scope.updateInterview);
 		}
 	}

@@ -28,7 +28,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -38,13 +37,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
+import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.OfferRepository;
+import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.EnDecryptUtil;
 import com.nisum.employee.ref.view.OfferDTO;
@@ -134,6 +134,9 @@ public class NotificationService implements INotificationService {
 	@Autowired
 	UserNotificationService userNotificationService;
 
+	@Autowired
+	ProfileRepository profileRepository;
+	
 	@Override
 	public String sendScheduleMail(InterviewSchedule interviewSchedule,
 			String mobileNo, String altMobileNo, String skypeId)
@@ -237,12 +240,14 @@ public class NotificationService implements INotificationService {
 	public void sendFeedbackMail(InterviewFeedback interviewFeedback)
 			throws MessagingException {
 
-		List<UserInfo> info = userInfoRepository.retrieveUserByRole(ROLE_HR);
-		List<String> HR_Emails = new ArrayList<String>();
+		
+		List<Profile> profile = profileRepository.retrieveCandidateDetails(interviewFeedback.getCandidateId());
+		
+		/*List<String> HR_Emails = new ArrayList<String>();
 
 		for (UserInfo ui : info) {
 			HR_Emails.add(ui.getEmailId());
-		}
+		}*/
 
 		VelocityContext context = getVelocityContext(
 				interviewFeedback.getCandidateName(),
@@ -270,11 +275,10 @@ public class NotificationService implements INotificationService {
 					+ interviewFeedback.getCandidateName());
 			message.setContent(writer.toString(), TEXT_HTML);
 
-			for (String obj : HR_Emails) {
-				message.setRecipients(Message.RecipientType.TO,
-						InternetAddress.parse(obj));
-				Transport.send(message);
-			}
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(profile.get(0).getHrAssigned()));
+			Transport.send(message);
+			
 		}
 	}
 

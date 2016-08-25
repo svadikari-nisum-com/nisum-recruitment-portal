@@ -358,7 +358,8 @@
 					</div>
 					<div class="col-md-3">
 						<select name="referredBy" ng-model="candidate.hrAssigned"
-							ng-options="o as o for o in recruitmentData | orderBy:'toString()'"
+							
+							ng-options="o.emailId as o.name for o in recruitmentData"
 							class="form-control input-sm" id="referredBy" required
 							>
 							<option value='' disabled="disabled">Select Value</option>
