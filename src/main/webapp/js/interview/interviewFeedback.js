@@ -44,7 +44,9 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.init();
 	
 
-	
+	$scope.hasRequired = function() {
+		return _.contains($scope.user.roles,"ROLE_HR") || _.contains($scope.user.roles,"ROLE_MANAGER")
+	}
 	
 	var profile_url = $http.get('resources/profile?emailId='+$scope.emailId);
 	var interview_URL = $http.get('resources/getInterviewByParam?candiateId='+$scope.emailId);
