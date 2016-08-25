@@ -2,9 +2,6 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
-
-
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.nisum.employee.ref.common.OfferState;
 import com.nisum.employee.ref.converter.OfferConverter;
+import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.OfferRepository;
 import com.nisum.employee.ref.view.OfferDTO;
@@ -33,7 +31,9 @@ public class OfferService implements IOfferService {
     
 	@Override
 	public void saveOffer(OfferDTO offer) throws ServiceException {
-		 offerRepository.saveOffer(offerConverter.convertToEntity(offer));
+		Offer offerEntity = offerConverter.convertToEntity(offer);
+		 offerRepository.saveOffer(offerEntity);
+		 offerRepository.updateInterviewDetails(offerEntity);
 		 if(offer.getStatus().equals(OfferState.RELEASED.toString())){
 			 try{
 				 generateOfferLetter(offer);

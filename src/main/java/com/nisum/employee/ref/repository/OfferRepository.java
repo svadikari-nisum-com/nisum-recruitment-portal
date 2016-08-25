@@ -24,6 +24,7 @@ import com.mongodb.DBObject;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
+import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.util.Constants;
 
@@ -145,5 +146,16 @@ public class OfferRepository {
 		query.addCriteria(Criteria.where("jobcodeProfile").regex(jobcode));
 		List<Offer> offers = mongoOperations.find(query, Offer.class);
 		return offers;
+	}
+
+	public void updateInterviewDetails(Offer offerEntity) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").regex(offerEntity.getEmailId()));
+		InterviewDetails interviewDetails = mongoOperations.findOne(query, InterviewDetails.class);
+		if (interviewDetails != null) {
+			Update update = new Update();
+			update.set("progress", offerEntity.getStatus());
+			mongoOperations.updateFirst(query, update, InterviewDetails.class);
+		}
 	}
 }
