@@ -35,8 +35,7 @@ public enum OfferState {
 		public List<OfferState> next() {
 			List<OfferState> states = new ArrayList<>();
 			states.add(APPROVED);
-			states.add(REJECTED);
-			states.add(HOLD);
+			states.add(REJECTED);		
 			return states;
 		}
 	},
