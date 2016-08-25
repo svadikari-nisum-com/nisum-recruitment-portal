@@ -113,7 +113,7 @@ public class GenerateOfferService
     
     private static VelocityContext getVelocityContext(OfferDTO offer) throws NumberFormatException, Exception {
 		VelocityContext context = new VelocityContext();
-		CTCClaculator calc = new CTCClaculator(Long.parseLong(offer.getCtc()));
+		CTCCalculator calc = new CTCCalculator(Long.parseLong(offer.getCtc()));
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
 		
 		context.put("cname", offer.getCandidateName());

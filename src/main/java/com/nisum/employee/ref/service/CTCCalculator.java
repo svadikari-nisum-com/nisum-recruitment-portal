@@ -9,7 +9,7 @@ import lombok.Getter;
 import com.nisum.employee.ref.exception.ServiceException;
 
 @Getter
-public class CTCClaculator {
+public class CTCCalculator {
 
 	private Long medicalAllowance = new Long(1250);
 	private Long conveyanceAllowance = new Long(1600);
@@ -44,7 +44,7 @@ public class CTCClaculator {
 	private Long conveyanceAllowanceYearly;
 	private Long conveyanceAllowanceMonthly;
 
-	public CTCClaculator(long ctc) throws ServiceException {
+	public CTCCalculator(long ctc) throws ServiceException {
 
 		try{
 			if(ctc > 0){
