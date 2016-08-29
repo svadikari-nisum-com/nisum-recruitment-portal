@@ -1,17 +1,27 @@
 package com.nisum.employee.ref.domain;
 import java.util.ArrayList;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 
 
 @Getter
 @Setter
 @Document(collection = "Profile")
-public class Profile{
+public class Profile extends BaseEntity{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1101137648677221577L;
 	String candidateName ;
 	@Id
 	String emailId;
@@ -40,4 +50,9 @@ public class Profile{
 	String skypeId;
 	String status;
 	String interviewProgress;
+	
+	@Override
+	public String getId() {
+		return emailId;
+	}
 }

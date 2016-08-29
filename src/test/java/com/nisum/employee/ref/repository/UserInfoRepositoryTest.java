@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -43,7 +44,7 @@ public class UserInfoRepositoryTest {
 
 	@Test
 	public final void testRetrieveUser() {
-		Mockito.when(mongoOperations.findAll(UserInfo.class)).thenReturn(Arrays.asList(getUserInfo()));
+		Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(getUserInfo()));
 		List<UserInfo> userInfo = userInfoRepository.retrieveUser();
 		
 		Assert.assertNotNull(userInfo);
@@ -89,7 +90,19 @@ public class UserInfoRepositoryTest {
 		
 		userInfoRepository.updateUser(getUserInfo());
 	}
-
+	@Test
+	public final void testDeleteUser() {
+		Mockito.when(mongoOperations.findOne(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(getUserInfo());
+		Mockito.doAnswer( new Answer<WriteResult>() {
+			@Override
+			public WriteResult answer(final InvocationOnMock invocation) throws Throwable
+			{
+				return null;
+			}
+		}).when(mongoOperations).updateFirst(Mockito.any(Query.class), Mockito.any(Update.class), Mockito.eq(UserInfo.class));
+		
+		userInfoRepository.deleteUser(getUserInfo());
+	}
 	@Test
 	public final void testRetrieveUserByClient() {
 		Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(getUserInfo()));

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -38,6 +39,7 @@ public class ProfileRepository {
 	}
 
 	public void updateCandidate(Profile candidate) {
+		candidate.setPersisted(true);
 		mongoOperations.save(candidate);		
 	}
 	
@@ -72,7 +74,9 @@ public class ProfileRepository {
 	}
 
 	public List<Profile> retrieveAllProfiles() {
-		List<Profile> profileDetails = mongoOperations.findAll(Profile.class);
+		Query query = new Query();	
+		query.with(new Sort(Sort.Direction.DESC, "createDtm"));
+		List<Profile> profileDetails = mongoOperations.find(query,Profile.class);
 		return profileDetails;
 	}
 

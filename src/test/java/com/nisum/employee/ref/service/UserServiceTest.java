@@ -117,7 +117,13 @@ public class UserServiceTest {
 		userInfoDTO.setClientName("TestCient");
 		userService.updateUser(userInfoDTO);
 	}
-
+	@Test
+	public void deleteUserTest() {
+		doNothing().when(userInfoRepository).updateUser(actualUserInfo);
+		UserInfoDTO userInfoDTO = new UserInfoDTO();		
+		userInfoDTO.setIsActiveUser(true);
+		userService.deleteUser(userInfoDTO);
+	}
 	@Test
 	public void retrieveUserByClientTest() {
 		when(userInfoRepository.retrieveUserByClient(any(String.class))).thenReturn(actualUserInfos);

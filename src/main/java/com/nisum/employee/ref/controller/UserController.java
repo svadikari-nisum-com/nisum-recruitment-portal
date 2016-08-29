@@ -78,4 +78,19 @@ public class UserController {
 
 		return new ResponseEntity<ResponseVO<UserInfoDTO>>(response, HttpStatus.OK);
 	}
+	@Secured({ "ROLE_USER", "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@RequestMapping(value="/delete",method=RequestMethod.PUT)
+	@ResponseBody
+	public ResponseEntity<ResponseVO<UserInfoDTO>> deleteUser(@RequestBody UserInfoDTO user) {
+	
+		userService.deleteUser(user);
+		ResponseVO<UserInfoDTO> response = new ResponseVO<UserInfoDTO>();
+		response.setDate(new Date());
+		user.setIsActiveUser(false);
+		response.setData(user);
+		response.setHttpStatus(200);
+		response.setMessage(" Deleted succesfully.");
+
+		return new ResponseEntity<ResponseVO<UserInfoDTO>>(response, HttpStatus.OK);
+	}
 }

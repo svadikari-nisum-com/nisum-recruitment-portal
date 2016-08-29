@@ -56,6 +56,18 @@ public class UserControllerTest {
 				.andExpect(status().isOk());
 
 	}
+	
+	@Test
+	public void testDeleteUser() throws Exception {
+		UserInfoDTO userInfo = new UserInfoDTO();
+		userInfo.setEmailId("rgangaa@nisum.com");
+		doNothing().when(userService).deleteUser(userInfo);
+		mockMvc.perform(
+				put("/user/delete").contentType(MediaType.APPLICATION_JSON).content(
+						MockTestUtil.convertToJsonFormat(new UserInfo())))
+				.andExpect(status().isOk());
+
+	}
 
 	@Test
 	public void testRetrieveUsersByUserId() throws Exception {

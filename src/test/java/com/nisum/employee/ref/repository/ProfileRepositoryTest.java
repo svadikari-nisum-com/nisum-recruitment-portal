@@ -135,7 +135,7 @@ public class ProfileRepositoryTest {
 
 	@Test
 	public final void testRetrieveAllProfiles() {
-		Mockito.when(mongoOperations.findAll(Profile.class)).thenReturn(Arrays.asList(getProfile()));
+		Mockito.when(mongoOperations.find(any(Query.class), eq(Profile.class))).thenReturn(Arrays.asList(getProfile()));
 		List<Profile> profile = profileRepository.retrieveAllProfiles();
 		Assert.assertNotNull(profile);
 		Assert.assertSame("SE", profile.get(0).getDesignation());

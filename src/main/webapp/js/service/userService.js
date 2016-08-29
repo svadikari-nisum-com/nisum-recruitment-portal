@@ -9,7 +9,9 @@ function userService($http,$rootScope,appConstants,$q) {
 		getUserDetailsByName : getUserDetailsByName,
 		updateUser : updateUserDetails,
 		getUserDetailsByClientName : getUserDetailsByClientName,
-		getUserByRole : getUserByRole
+		getUserByRole : getUserByRole,
+		deleteUser:deleteUser
+		
 	};
 	
 	function getCurrentUserDetails(){
@@ -76,7 +78,11 @@ function userService($http,$rootScope,appConstants,$q) {
 	function getUsers(response) {
 		return response.data;
 	}
-	
+	function deleteUser(user){
+		return $http.put('resources/user/delete',user)
+		  .then(userUpdateSuccessMsg)
+	        .catch(sendUpdateUserError);
+	}
 	function sendGetUserError(response) {
 	     return $q.reject('Error retrieving user. status: ' + response.status );
 	}

@@ -1,5 +1,5 @@
-app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$state', 'sharedDataService','appConstants', '$log', '$rootScope','$location','userService', 'uiGridConstants',
-                            	function($scope, $http, $filter, $timeout, $q, $state, sharedDataService,appConstants,$log,$rootScope,$location,userService, uiGridConstants) {
+app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$window','$state', 'sharedDataService','appConstants', '$log', '$rootScope','$location','userService', 'uiGridConstants',
+                            	function($scope, $http, $filter, $timeout, $q,$window, $state, sharedDataService,appConstants,$log,$rootScope,$location,userService, uiGridConstants) {
 	
 	$scope.info = $rootScope.info;
 	$scope.numRows = 10;
@@ -51,10 +51,29 @@ app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$stat
 	      { field: 'emailId', cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editUser(row.entity); $event.stopPropagation();" ui-sref="admin.users.edit">{{row.entity.emailId}} </a>' },
 	      { field: 'roles', cellClass: 'ui-grid-align', cellFilter: 'stringArrayFilter' },
 	      { field: 'clientName', cellClass: 'ui-grid-align'},
-	      { field: 'edit', enableSorting: false , cellTemplate: '<a ng-click="grid.appScope.editUser(row.entity)" ui-sref="admin.users.edit" class="glyphicon glyphicon-edit"></a>'}
-	    ],
+	      { field: 'edit', enableSorting: false , cellTemplate: '<a ng-click="grid.appScope.editUser(row.entity)" ui-sref="admin.users.edit" class="glyphicon glyphicon-edit"></a>'},
+	      { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteUser(row.entity)"></a>' }
+
+	      ],
 	    onRegisterApi: function( gridApi ) {
 	      $scope.grid1Api = gridApi;
 	    }
 	  };
+	$scope.deleteUser = function(rowEntity) {
+        var deleteUser = $window.confirm('Are you sure you want to delete?');
+        if (deleteUser) {
+    
+        	$scope.myData.splice($scope.myData.indexOf(rowEntity), 1);
+        	
+        	userService.deleteUser(rowEntity).then(function(msg){
+	        	$scope.message = rowEntity.name+ " " + msg;
+	        	$scope.cls = appConstants.SUCCESS_CLASS;
+	        	$timeout(function() { $scope.alHide();},3000);
+    		}).catch(function(deleteMessage){
+    			sendSharedMessage(msg, appConstants.ERROR_CLASS);
+                $timeout(function() { $scope.alHide(); }, 5000);
+    		});   
+        	
+        }
+    }
 }]);

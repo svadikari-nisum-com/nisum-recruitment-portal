@@ -16,6 +16,7 @@ public interface IUserService {
 	UserInfoDTO createUserInfo(String userName);
 
 	void updateUser(UserInfoDTO userdTO);
+	void deleteUser(UserInfoDTO userdTO);
 
 	List<UserInfoDTO> retrieveUserByClient(String clientName);
 	

@@ -12,6 +12,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.nisum.employee.ref.domain.UserInfo;
 
 @Repository
@@ -24,8 +27,10 @@ public class UserInfoRepository{
 		mongoOperations.save(createUserInfo(emailId));
 	}
 	
-	public List<UserInfo> retrieveUser() {
-		return mongoOperations.findAll(UserInfo.class);
+	public List<UserInfo> retrieveUser() {	
+		Query query2 = new Query();
+		query2.addCriteria(Criteria.where("isActiveUser").ne(false));		
+		  return mongoOperations.find(query2,UserInfo.class);		
 	}
 	public List<UserInfo> retrieveUserById(String userId) {
 		Query query = new Query();
@@ -66,11 +71,34 @@ public class UserInfoRepository{
 		update.set("categories", user.getCategories());
 		update.set("isNotAvailable", user.getIsNotAvailable());
 		update.set("interviewRoundsAllocation", user.getInterviewRoundsAllocation());
+		update.set("isActiveUser", user.getIsActiveUser());
 		update.set("skypeId", user.getSkypeId());
 		
 		mongoOperations.updateFirst(updateQuery, update, UserInfo.class);
 	}		
-	
+	public void deleteUser(UserInfo user) {
+		Query updateQuery = new Query();
+		updateQuery.addCriteria(Criteria.where("emailId").is(user.getEmailId()));
+		UserInfo user1 = mongoOperations.findOne(updateQuery, UserInfo.class);
+		user1.equals(user) ;
+		Update update = new Update();
+		update.set("name", user.getName());
+		update.set("dob", user.getDob());
+		update.set("location", user.getLocation());
+		update.set("roles", user.getRoles());
+		update.set("skills", user.getSkills());
+		update.set("clientName", user.getClientName());
+		update.set("mobileNumber", user.getMobileNumber());
+		update.set("categories", user.getCategories());
+		update.set("timeSlots", user.getTimeSlots());
+		update.set("categories", user.getCategories());
+		update.set("isNotAvailable", user.getIsNotAvailable());
+		update.set("interviewRoundsAllocation", user.getInterviewRoundsAllocation());
+		update.set("isActiveUser", user.getIsActiveUser());
+		update.set("skypeId", user.getSkypeId());
+		update.set("isActiveUser",false);
+		mongoOperations.updateFirst(updateQuery, update, UserInfo.class);
+	}	
 	public List<UserInfo> retrieveUserByClient(String clientName) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("clientName").regex(Pattern.compile(clientName, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
