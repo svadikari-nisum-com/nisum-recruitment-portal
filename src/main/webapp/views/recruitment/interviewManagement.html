@@ -117,10 +117,10 @@
 			<td >{{item.candidateEmail}}</td>
 			<td><i ng-repeat="skills in item.candidateSkills">{{skills}}{{$last
 					? '' : ', '}}</i></td>
-			<td ng-hide="hasRole('ROLE_INTERVIEWER,ROLE_ADMIN')"><i
+			<td ng-hide="hasRole('ROLE_INTERVIEWER')"><i
 				ng-repeat="jobcode in item.positionId">{{jobcode}}{{$last ? '' :
 					', '}}</i></td>
-			<td ng-hide="!(hasRole('ROLE_INTERVIEWER,ROLE_ADMIN'))">{{item.currentPositionId}}</td>
+			<td ng-hide="!(hasRole('ROLE_INTERVIEWER'))">{{item.currentPositionId}}</td>
 			<td>
 				<button
 					style="background-color: #F8F8F8; color: #337ab7; border: 0px;"
