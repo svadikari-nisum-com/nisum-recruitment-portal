@@ -38,7 +38,7 @@
 							<select name="client" placeholder="Select Client"
 								ng-model="position.client"
 								ng-options="o as o for o in client | orderBy:'toString()'"
-								ng-change="getManagers()"
+								
 								class="form-control input-sm" id="client" required>
 								<option value='' disabled="disabled">Select Client</option>
 							</select>

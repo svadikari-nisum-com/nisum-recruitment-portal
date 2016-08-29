@@ -126,7 +126,7 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 			
 		});
 	}	
-		
+	$scope.getManagers();
 		/*$scope.names = [];
 		$scope.object = [];
 		$scope.filterNames = [];
