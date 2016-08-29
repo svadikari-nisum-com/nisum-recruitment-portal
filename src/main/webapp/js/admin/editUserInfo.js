@@ -309,7 +309,12 @@ $scope.validateField = function(data) {
 		} else
 			return "Enter valid name..";
 	};
-
+	$scope.validateLocation = function(data) {
+		if (/^[a-zA-Z _]*$/.test(data)) {
+			return true;
+		} else
+			return "Enter valid Location..";
+	};
 	$scope.validatePhNo = function(data) {
 		if (/^\+?\d{10,12}$/.test(data)) {
 			return true;
