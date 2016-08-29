@@ -42,8 +42,8 @@ app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeo
 				angular.forEach(data, function(obj){
 					angular.forEach(obj.rounds, function(obj2){
 						var dbDate = new Date(obj2.interviewSchedule.interviewDateTime);
-						if(dbDate >= today && tomorrow >= dbDate){
-							showScheduleData.push({"cname":obj.candidateName, "round":obj2.interviewSchedule.roundName, "date":dbDate, "interviewId":obj.interviewerId});
+						if(dbDate >= today){
+							showScheduleData.push({"cname":obj.candidateName,"currentPositionId":obj.currentPositionId,"email":obj.candidateEmail, "round":obj2.interviewSchedule.roundName, "date":dbDate, "interviewId":obj.interviewerId,"interviewerEmail":obj.interviewerEmail});
 					    }
 					})
 				});
@@ -62,12 +62,24 @@ app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeo
 		$log.error(data);
 	})
 
-	$scope.showInterview = function(obj, obj2) {
+	/*$scope.showInterview = function(obj, obj2) {
 		jobCodeService1.setjobCode(obj);
 		jobCodeService1.setinterviewRound(obj2);
 		location.href='#recruitment/showInterview';
 		
-	};
+	};*/
+	$scope.feedback = function(obj, obj2,obj3,obj4,obj5) {
+		   if(sessionStorage.userId == obj3 ) {
+			   jobCodeService1.setjobCode(obj);
+				jobCodeService1.setprofileUserId(obj2); 
+				jobCodeService1.setPreviousPage("#main");
+				location.href='#recruitment/interviewFeedback';
+		   } else {
+			    jobCodeService1.setjobCode(obj4);
+				jobCodeService1.setinterviewRound(obj5);
+				location.href='#recruitment/showInterview';
+		   }
+		};
 	
 	$scope.setActiveTab = function(value) {
 		navService.setActiveTab(value);

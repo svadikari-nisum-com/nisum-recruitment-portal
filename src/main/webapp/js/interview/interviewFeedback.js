@@ -20,7 +20,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.disableSubmit=true;
 	$scope.hideSubmit = false;
 	$scope.interviewFeedback.status="";
-	$scope.previousPage = "recruitment.interviewManagement";
+	$scope.previousPage = "";
 	$scope.selectDropDownDisable = false;
 	var i = 0;
 	$scope.rating = [1, 2, 3, 4, 5];
@@ -28,7 +28,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	
 	$scope.init = function() {
 		if(jobCodeService1.getjobCode() == undefined || jobCodeService1.getprofileUserId() == undefined) {
-			$state.go("recruitment.interviewManagement");
+			if (_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
+				$state.go("#main");
+			} else {
+				$state.go("recruitment.interviewManagement");
+			}
 		}
 		$scope.jobcode =jobCodeService1.getjobCode();
 		$scope.emailId = jobCodeService1.getprofileUserId();
@@ -158,6 +162,9 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				  $scope.cls = 'alert  alert-success';
 				  $scope.message = "Feedback Submitted Successfully!";
 				  $timeout( function(){ $scope.alHide(); }, 1200);
+				  if(_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
+				    	 $location.path("#main");
+				    }
 				  $scope.reset();				  
 				  $log.info("Feedback Submitted Successfully!");
 			  }).
@@ -169,6 +176,17 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			  });			
 			blockUI.stop();
 		},1000);
+	}
+	
+	
+	$scope.cancelFeedBack = function(){
+		
+		if(_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
+	    	 $location.path("#main");
+	    } else {
+	    	 $location.path("recruitment/interviewManagement");
+	    }
+		
 	}
 	
 	$scope.showSubmitButton = function()
@@ -185,7 +203,12 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.alHide =  function(){
 	    $scope.message = "";
 	    $scope.cls = '';
-	    $location.path("recruitment/interviewManagement");
+	    if(_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
+	    	 $location.path("#main");
+	    } else {
+	    	 $location.path("recruitment/interviewManagement");
+	    }
+	   
 	}
 	$scope.filterValue = function($event){
 		var value = $event.keyCode ? $event.keyCode : $event.which;

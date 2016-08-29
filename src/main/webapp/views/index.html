@@ -155,7 +155,7 @@
                 <tbody>
                   <tr ng-repeat="obj in showScheduleData">
                     <td> {{obj.cname}} </td>
-                    <td><a href="" ng-click="showInterview(obj.interviewId, obj.round)"><span class="label label-info">{{obj.round}}</span></a></td>
+                    <td><a href="" ng-click="feedback(obj.currentPositionId,obj.email,obj.interviewerEmail,obj.interviewId, obj.round)"><span class="label label-info">{{obj.round}}</span></a></td>
                     <td><span class="label label-success">{{obj.date | date:'medium'}}</span></td>
                   </tr>
                 </tbody>
