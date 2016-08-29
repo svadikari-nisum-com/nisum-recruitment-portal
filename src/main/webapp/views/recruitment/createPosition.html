@@ -153,7 +153,7 @@
 						<div class="col-md-3">
 							<select name="designation" placeholder="Select Designation"
 								required ng-model="position.hiringManager"
-								ng-options="o as o for o in managers"
+								ng-options="o.emailId as o.name for o in managers"
 								class="form-control input-sm" id="hiringManager">
 								<option value='' disabled="disabled">Select Hiring
 									Manager</option>
