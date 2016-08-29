@@ -116,7 +116,7 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
 		paginationCurrentPage: 1,
 	    columnDefs: [
 	      { field: 'jobcode', displayName:"Job code", cellClass: 'ui-grid-align', cellTemplate: '<div class="text-wrap"><a style="padding-left: 5px;" ng-click="grid.appScope.editPosition(row.entity.jobcode); $event.stopPropagation();">{{row.entity.jobcode}}<md-tooltip>  {{row.entity.jobcode}} </md-tooltip> </a></div>'},
-	      { field: 'designation', displayName:"Designation", cellClass: 'ui-grid-align'},
+	      { field: 'designation', displayName:"Role", cellClass: 'ui-grid-align'},
 	      { field: 'minExpYear', displayName:"Min-Exp", width: 100, cellClass: 'ui-grid-align'},
 	      { field: 'maxExpYear', displayName:"Max-Exp", width: 100, cellClass: 'ui-grid-align'},
 	      { field: 'location', displayName:"Location", cellClass: 'ui-grid-align'},
