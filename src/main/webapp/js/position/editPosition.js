@@ -27,6 +27,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 	
 	$scope.functionalGroups = $scope.info.FunctionalTeam;
 	
+	$scope.positionEmailId = "";
 	$scope.init = function() {
 		if(jobCodeService1.getjobCode() == undefined) {
 			$state.go("recruitment.searchPosition");
@@ -46,29 +47,36 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 					 )}).catch(function(msg){
 						 $log.error(msg);
 					 });
-	
+	var deferred = $q.defer();
+	deferred.promise.then(function(){
+	    positionService.getPositionByJobcode($scope.jobcode).then(function(data){
+	    	$scope.position =data;
+	    	$scope.positionHiringManagerEmailId = $scope.position.hiringManager;
+	    	$scope.position.hiringManager = $scope.managers.filter(function (manager) { return manager.emailId == $scope.position.hiringManager })[0].name;
+	    	$scope.positionHiringManagerName = $scope.position.hiringManager;
+			$scope.enableDisableButton = false;
+	    }).catch(function(msg){
+	    	$log.error(msg); 
+	    })
+	});
 	userService.getUsers()
 	.then(function(data){
 		$scope.users = data;
 		angular.forEach($scope.users,function(user){
 			if(user.roles.indexOf("ROLE_MANAGER") >= 0 )
-			$scope.managers.push(user.name);
+			$scope.managers.push({"emailId":user.emailId,"name":user.name});
 		})
 		
 		angular.forEach($scope.users,function(user){
 			if(user.roles.indexOf("ROLE_RECRUITER") >= 0 )
 			$scope.interviewers.push(user.name);
 		})
-		
-	  });
-			
-	    positionService.getPositionByJobcode($scope.jobcode).then(function(data){
-	    	$scope.position =data;
-			$scope.enableDisableButton = false;
-	    }).catch(function(msg){
+		deferred.resolve();
+	  }).catch(function(msg){
+		  deferred.resolve();
 	    	$log.error(msg); 
-	    })
-		
+	    });
+
 	    ngNotify.config({
 		    theme: 'pure',
 		    position: 'top',
@@ -98,7 +106,14 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		     position1.noOfPositions = $scope.position.noOfPositions;
 		     position1.client=$scope.position.client;
 		     position1.interviewRounds = $scope.position.interviewRounds;
-		     position1.hiringManager  = $scope.position.hiringManager;
+		     if($scope.position.hiringManager == $scope.positionHiringManagerName)
+		     {
+		    	 position1.hiringManager  = $scope.positionHiringManagerEmailId;
+		     }else
+		     {
+		    	 position1.hiringManager = $scope.managers.filter(function (manager) { return manager.name == $scope.position.hiringManager })[0].emailId;
+		     }
+		     //position1.hiringManager  = $scope.position.hiringManager;
 		     position1.priority = $scope.position.priority;
 		     position1.interviewer = $scope.position.interviewer;
 		     position1.jobType = $scope.position.jobType;

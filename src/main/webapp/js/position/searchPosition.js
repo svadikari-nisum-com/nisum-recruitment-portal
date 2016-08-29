@@ -8,8 +8,14 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
 	$scope.numRows = 10;
 	
 	$scope.title = "Search";
+	$scope.managerId = undefined;
 	
-	positionService.getPosition().then(function(data){
+	if($scope.hasRole('ROLE_MANAGER'))
+	{
+		$scope.managerId = $scope.user.emailId;
+	}
+	
+	positionService.getPosition($scope.managerId).then(function(data){
 		$scope.position=data;
 		
 		$scope.gridOptions.data = data;

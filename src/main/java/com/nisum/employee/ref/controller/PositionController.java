@@ -50,11 +50,16 @@ public class PositionController {
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/position", method = RequestMethod.GET)
 	public ResponseEntity<List<PositionDTO>> retrievePositionByClient(@RequestParam(value = "client", required = false) String client,
-			@RequestParam(value = "designation", required = false) String designation) {
+			@RequestParam(value = "designation", required = false) String designation,
+			@RequestParam(value = "hiringManager", required = false) String hiringManager) {
 		List<PositionDTO> positionsDetails;
 		if(!StringUtils.isEmpty(designation)) {
 			positionsDetails = positionService.retrievePositionsbasedOnDesignation(designation);
-		} else {
+		} else if (!(hiringManager == null || "".equals(hiringManager)) )
+		{
+			positionsDetails = positionService.retrievePositionsbasedOnHiringManager(hiringManager);
+			
+		}else {
 			positionsDetails = (!StringUtils.isEmpty(client)) ? positionService.retrievePositionByClient(client) : positionService.retrieveAllPositions();
 		}
 		return (null == positionsDetails) ? new ResponseEntity<List<PositionDTO>>(HttpStatus.NOT_FOUND)

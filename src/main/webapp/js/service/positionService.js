@@ -39,8 +39,15 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		return "Failed To update Position! Response Status: " + response.status;
 	}
 	
-	function getPosition(){
-		return $http.get('resources/position')
+	function getPosition(isManager){
+		
+		var positionURL = "resources/position";
+		if(typeof isManager !== 'undefined')
+		{
+			positionURL = "resources/position?hiringManager="+isManager;
+		}
+		
+		return $http.get(positionURL)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}

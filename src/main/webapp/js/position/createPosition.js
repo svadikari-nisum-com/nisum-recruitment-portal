@@ -119,9 +119,10 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 			
 			angular.forEach(data,function(user) {
 				if(user.emailId == sessionStorage.userId ) {
-			          $scope.position.hiringManager = user.name;
+			          $scope.position.hiringManager = user.emailId;
 		           }
-				$scope.managers.push(user.name);
+				
+				$scope.managers.push({"emailId":user.emailId,"name":user.name});
 			})
 			
 		});

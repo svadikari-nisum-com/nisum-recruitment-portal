@@ -42,6 +42,11 @@ public class PositionService implements IPositionService{
 	public List<PositionDTO> retrievePositionsbasedOnDesignation(String designation) {
 		return positionConverter.convertToDTOs((positionRepository.retrievePositionsbasedOnDesignation(designation)));
 	}
+	
+	@Override
+	public List<PositionDTO> retrievePositionsbasedOnHiringManager(String hiringManager) {
+		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositionsByHiringManager(hiringManager)));
+	}
 	@Override
 	public PositionDTO retrievePositionsbasedOnJobCode(String jobcode) {
 		return positionConverter.convertToDTO((positionRepository.retrievePositionsbasedOnJobCode(jobcode)));
