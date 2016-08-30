@@ -17,13 +17,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nisum.employee.ref.common.OfferState;
 import com.nisum.employee.ref.domain.InterviewDetails;
-import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.ReportsVO;
 import com.nisum.employee.ref.repository.PositionRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.view.OfferDTO;
+import com.nisum.employee.ref.view.PositionDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReportsServiceTest {
@@ -78,8 +78,8 @@ public class ReportsServiceTest {
 	
 	@Test
 	public void testGetReportByHiringManager() {
-		List<Position> positions = new ArrayList<>();
-		Position position = new Position();
+		List<PositionDTO> positions = new ArrayList<>();
+		PositionDTO position = new PositionDTO();
 		position.setHiringManager("Aliza Zaffar ");
 		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
 		position.setFunctionalGroup("DEV");
@@ -88,7 +88,7 @@ public class ReportsServiceTest {
 		when(positionService.retrieveAllPositionsByHiringManager(any(String.class))).thenReturn(positions); 
 		List<String> positionsIds = new ArrayList<String>();
 		
-		for(Position pos : positions){
+		for(PositionDTO pos : positions){
 			positionsIds.add(pos.getJobcode());
 		}
 		

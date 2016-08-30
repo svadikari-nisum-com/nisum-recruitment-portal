@@ -25,7 +25,6 @@ public interface IPositionService {
 
 	public List<PositionAggregate> retrieveAllPositionsAggregate();
 	
-	public List<Position> retrieveAllPositionsByHiringManager(String hiringManager);
-
-	List<PositionDTO> retrievePositionsbasedOnHiringManager(String hiringManager);
+	public List<PositionDTO> retrieveAllPositionsByHiringManager(String hiringManager);
+	
 }

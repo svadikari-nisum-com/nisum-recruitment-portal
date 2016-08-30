@@ -146,7 +146,7 @@ public class PositionServiceTest {
 		positions.add(position);
 		
 		when(positionRepository.retrieveAllPositionsByHiringManager(any(String.class))).thenReturn(positions);
-		List<Position> allPositions = service.retrieveAllPositionsByHiringManager("Aliza Zaffar ");
+		List<PositionDTO> allPositions = service.retrieveAllPositionsByHiringManager("Aliza Zaffar ");
 
 		assertNotNull(allPositions);
 	}
