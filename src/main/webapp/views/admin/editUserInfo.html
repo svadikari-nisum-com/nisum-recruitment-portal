@@ -314,34 +314,34 @@
 											</td>
 											<td>
 												<div ng-show="slot.isNotAvailable" class="tsTable" ng-hide="{{!hideTimeSlot}}">
-													<a href="" ng-click="openFromToCal('from')" ng-hide="fromCalendar">
+													<a href="" ng-click="openFromToCal('from', slot)" ng-hide="slot.fromCalendar">
 														{{slot.fromDate || "click here to edit..." | date:'dd/MM/yyyy'}}</a>
-														<input ng-hide="hideFromCal" type="text" datepicker-popup="dd-MMMM-yyyy"
-														ng-model="slot.fromDate" is-open="isFromOpen" min-date="timeSlotMinDate"
-														ng-click="isFromOpen = true" readonly="true" datepicker-options="dateOptions"
+														<input ng-show="slot.hideFromCal" type="text" datepicker-popup="dd-MMMM-yyyy"
+														ng-model="slot.fromDate" is-open="slot.isFromOpen" min-date="timeSlotMinDate"
+														ng-click="slot.isFromOpen = true" readonly="true" datepicker-options="dateOptions"
 														placeholder="Select From Date" ng-required="slot.isNotAvailable" close-text="Close" class="input-md" />
 														<span class="input-group-btn" style="width: 60%"> </span>
 														
 														<div>
 															<button class="glyphicon glyphicon-ok btn btn-primary"
-																ng-hide="hideFromCal" ng-click="closeFromToCal('from');validateDate()"
+																ng-show="slot.hideFromCal" ng-click="closeFromToCal('from', slot);validateDate()"
 																style="width: 40px; height: 28px;"></button>
 														</div>
 												</div>
 											</td>
 											<td>
 												<div ng-show="slot.isNotAvailable"  class="tsTable" ng-hide="{{!hideTimeSlot}}">
-													<a href="" ng-click="openFromToCal('to')" ng-hide="toCalendar">
+													<a href="" ng-click="openFromToCal('to', slot)" ng-hide="slot.toCalendar">
 														{{slot.toDate || "click here to edit..." | date:'dd/MM/yyyy'}}</a>
-														<input ng-hide="hideToCal" type="text" datepicker-popup="dd-MMMM-yyyy"
-														ng-model="slot.toDate" is-open="isToOpen" min-date="slot.fromDate == null ? timeSlotMinDate : slot.fromDate"
-														ng-click="isToOpen = true" readonly="true" datepicker-options="dateOptions"
+														<input ng-show="slot.hideToCal" type="text" datepicker-popup="dd-MMMM-yyyy"
+														ng-model="slot.toDate" is-open="slot.isToOpen" min-date="slot.fromDate == null ? timeSlotMinDate : slot.fromDate | date"
+														ng-click="slot.isToOpen = true" readonly="true" datepicker-options="dateOptions"
 														placeholder="Select To Date" close-text="Close" class="input-md" />
 														<span class="input-group-btn" style="width: 60%"> </span>
 														
 														<div>
 															<button class="glyphicon glyphicon-ok btn btn-primary"
-																ng-hide="hideToCal" ng-click="closeFromToCal('to');validateDate()"
+																ng-show="slot.hideToCal" ng-click="closeFromToCal('to', slot);validateDate()"
 																style="width: 40px; height: 28px;"></button>
 														</div>
 												</div>

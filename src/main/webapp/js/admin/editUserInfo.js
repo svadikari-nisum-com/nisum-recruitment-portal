@@ -198,16 +198,14 @@ $scope.validateField = function(data) {
 		$scope.minDate = new Date().setFullYear(new Date().getFullYear() - 100);
 	}
 	
-	$scope.hideFromCal = true;
-	$scope.hideToCal = true;
 	
-	$scope.openFromToCal = function(value){
+	$scope.openFromToCal = function(value, slot){
 		if(value == 'from') {
-			 $scope.hideFromCal = false
-			 $scope.fromCalendar = true;
+			slot.hideFromCal = true;
+			slot.fromCalendar = true;
 		} else {
-			$scope.hideToCal = false;
-			$scope.toCalendar = true;
+			slot.hideToCal = true;
+			slot.toCalendar = true;
 		}
 		
 		$scope.timeSlotMinDate = new Date();
@@ -215,8 +213,8 @@ $scope.validateField = function(data) {
 	
 	$scope.resetNotAvailble = function(slot) {
 		if(!slot.isNotAvailable) {
-			$scope.hideFromCal = true;
-			$scope.hideToCal = true;
+			$scope.hideFromCal = false;
+			$scope.hideToCal = false;
 			$scope.fromCalendar = false;
 			$scope.toCalendar = false;
 		}
@@ -224,13 +222,13 @@ $scope.validateField = function(data) {
 		slot.toDate = "";
 	}
 	
-	$scope.closeFromToCal = function(value) {
+	$scope.closeFromToCal = function(value, slot) {
 		if(value == 'from') {
-			$scope.fromCalendar = false;
-			$scope.hideFromCal = true;
+			slot.fromCalendar = false;
+			slot.hideFromCal = false;
 		} else {
-			$scope.toCalendar = false;
-			$scope.hideToCal = true;
+			slot.toCalendar = false;
+			slot.hideToCal = false;
 		}
 	}
 	
