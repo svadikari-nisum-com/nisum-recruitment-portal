@@ -30,6 +30,8 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 		if(jobCodeService1.getjobCode() == undefined || jobCodeService1.getprofileUserId() == undefined) {
 			if (_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
 				$state.go("#main");
+			} else if(_.contains($scope.user.roles, "ROLE_HR") || _.contains($scope.user.roles, "ROLE_MANAGER")) { 
+				$state.go("recruitment.searchProfile");
 			} else {
 				$state.go("recruitment.interviewManagement");
 			}
@@ -164,6 +166,10 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				  $timeout( function(){ $scope.alHide(); }, 1200);
 				  if(_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
 				    	 $location.path("#main");
+				    } else if(_.contains($scope.user.roles, "ROLE_HR") || _.contains($scope.user.roles, "ROLE_MANAGER")) { 
+				    	$location.path("recruitment/searchProfile");
+					} else {
+				    	 $location.path("recruitment/interviewManagement");
 				    }
 				  $scope.reset();				  
 				  $log.info("Feedback Submitted Successfully!");
@@ -183,7 +189,9 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 		
 		if(_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
 	    	 $location.path("#main");
-	    } else {
+	    }   else if(_.contains($scope.user.roles, "ROLE_HR") || _.contains($scope.user.roles, "ROLE_MANAGER")) { 
+	    	$location.path("recruitment/searchProfile");
+		} else {
 	    	 $location.path("recruitment/interviewManagement");
 	    }
 		
@@ -205,7 +213,9 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	    $scope.cls = '';
 	    if(_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
 	    	 $location.path("#main");
-	    } else {
+	    } else if(_.contains($scope.user.roles, "ROLE_HR") || _.contains($scope.user.roles, "ROLE_MANAGER")) { 
+	    	$location.path("recruitment/searchProfile");
+		} else {
 	    	 $location.path("recruitment/interviewManagement");
 	    }
 	   

@@ -3,7 +3,10 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
 	
 	$scope.errorHide = true;
 	$scope.numRows = 10;
-	
+	$scope.interviewTemplate = '<a href="" id="" class="interview-schedule"  ng-click="grid.appScope.schedule(row.entity.jobcodeProfile,row.entity.emailId)" >'
+        +'<span class="glyphicon glyphicon-plus" ng-show='+$scope.hasRole("ROLE_RECRUITER") + ' ng-hide='+$scope.hasRole("ROLE_HR,ROLE_MANAGER")+' style="position: relative; top: 1px;"  />'
+        +'<span class="glyphicon glyphicon-envelope" ng-show='+$scope.hasRole("ROLE_HR,ROLE_MANAGER")+' ng-hide='+$scope.hasRole("ROLE_RECRUITER,ROLE_ADMIN")+' style="position: relative; top: 1px;"  />';
+
 	$scope.col=["Name","Email Id","Role","Experience","Recrutier","Interview Status"];
 	$scope.recruitmentData = {};
 	$scope.att=["candidateName","emailId","designation","expYear","hrAssigned","interviewProgress"];
@@ -63,6 +66,7 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
 		      { field: 'designation', displayName:"Role", width: 150, cellClass: 'ui-grid-align'},
 		      { field: 'expYear', displayName:"Experience", width: 100, cellClass: 'ui-grid-align'},
 		      { field: 'hrAssigned', displayName:"Recrutier", width: 200, cellClass: 'ui-grid-align'},
+		      { field: 'schedule', displayName:"Schedule", width: 100, cellClass: 'ui-grid-align',cellTemplate: $scope.interviewTemplate },
 		      { field: 'interviewProgress', displayName:"Interview Status", cellClass: 'ui-grid-align'}
 		    ],
 		    onRegisterApi: function( gridApi ) {
@@ -74,7 +78,23 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
 		$scope.searchFilter = function() {
 			$scope.gridApi.grid.refresh();
 		};
-
+        
+		 $scope.schedule = function(positionId, candidateEmail) {
+				jobCodeService1.setprofileUserId(candidateEmail);
+				jobCodeService1.setjobCode(positionId);
+				jobCodeService1.setPreviousPage("recruitment.searchProfile");
+				for (i = 0; i< $rootScope.user.roles.length;i++) {
+			    	if ($rootScope.user.roles[i] == 'ROLE_RECRUITER'){
+			    		location.href='#recruitment/scheduleInterview';
+			    	} else if ($rootScope.user.roles[i] == 'ROLE_ADMIN') {
+			    		location.href='#recruitment/interviewManagement';
+			    	} else  {
+			    		location.href='#recruitment/interviewFeedback';
+			    	}
+			    }
+				
+			};
+			
 		$scope.singleFilter = function(renderableRows) {
 			var searchValue = "";
 			if($scope.filterValue){
