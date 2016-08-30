@@ -8,6 +8,7 @@
 	.st0{fill:#CBDB29;;}
 	.st1{fill:#ffffff;}
 	.st2{ fill:#ffffff;fill-opacity:1;stroke:#00B3E3;stroke-width:1; stroke-linecap:round; stroke-miterlimit:10;}
+
 #box{
 	fill: transparent;
 }

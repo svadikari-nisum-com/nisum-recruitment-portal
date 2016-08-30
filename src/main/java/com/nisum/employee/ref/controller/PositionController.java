@@ -55,9 +55,9 @@ public class PositionController {
 		List<PositionDTO> positionsDetails;
 		if(!StringUtils.isEmpty(designation)) {
 			positionsDetails = positionService.retrievePositionsbasedOnDesignation(designation);
-		} else if (!(hiringManager == null || "".equals(hiringManager)) )
+		} else if ( !StringUtils.isEmpty(hiringManager) )
 		{
-			positionsDetails = positionService.retrievePositionsbasedOnHiringManager(hiringManager);
+			positionsDetails = positionService.retrieveAllPositionsByHiringManager(hiringManager);
 			
 		}else {
 			positionsDetails = (!StringUtils.isEmpty(client)) ? positionService.retrievePositionByClient(client) : positionService.retrieveAllPositions();

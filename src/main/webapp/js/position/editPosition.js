@@ -1,5 +1,5 @@
-app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService1','$q','$timeout','$rootScope','$location', '$log','ngNotify','clientService','appConstants','positionService','userService', 'designationService',
-                                      function($scope, $state, $http,jobCodeService1,$q,$timeout, $rootScope, $location,$log,ngNotify,clientService,appConstants,positionService,userService, designationService) {
+app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService1','$q','$timeout','$rootScope','$filter','$location', '$log','ngNotify','clientService','appConstants','positionService','userService', 'designationService',
+                                      function($scope, $state, $http,jobCodeService1,$q,$timeout, $rootScope, $filter, $location,$log,ngNotify,clientService,appConstants,positionService,userService, designationService) {
 		
 	$scope.hideRounds= true;
 	$scope.hideSkills = true;
@@ -47,18 +47,6 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 					 )}).catch(function(msg){
 						 $log.error(msg);
 					 });
-	var deferred = $q.defer();
-	deferred.promise.then(function(){
-	    positionService.getPositionByJobcode($scope.jobcode).then(function(data){
-	    	$scope.position =data;
-	    	$scope.positionHiringManagerEmailId = $scope.position.hiringManager;
-	    	$scope.position.hiringManager = $scope.managers.filter(function (manager) { return manager.emailId == $scope.position.hiringManager })[0].name;
-	    	$scope.positionHiringManagerName = $scope.position.hiringManager;
-			$scope.enableDisableButton = false;
-	    }).catch(function(msg){
-	    	$log.error(msg); 
-	    })
-	});
 	userService.getUsers()
 	.then(function(data){
 		$scope.users = data;
@@ -66,14 +54,22 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 			if(user.roles.indexOf("ROLE_MANAGER") >= 0 )
 			$scope.managers.push({"emailId":user.emailId,"name":user.name});
 		})
-		
 		angular.forEach($scope.users,function(user){
 			if(user.roles.indexOf("ROLE_RECRUITER") >= 0 )
 			$scope.interviewers.push(user.name);
 		})
-		deferred.resolve();
+		positionService.getPositionByJobcode($scope.jobcode).then(function(data){
+	    	$scope.position =data;
+	    	/*$scope.positionHiringManagerEmailId = $scope.position.hiringManager;
+	    	$scope.position.hiringManager = $scope.managers.filter(function (manager) { return manager.emailId == $scope.position.hiringManager })[0].name;
+	    	$scope.positionHiringManagerName = $scope.position.hiringManager;*/
+			$scope.enableDisableButton = false;
+	    }).catch(function(msg){
+	    	$log.error(msg); 
+		})
+		
 	  }).catch(function(msg){
-		  deferred.resolve();
+		 
 	    	$log.error(msg); 
 	    });
 
@@ -106,14 +102,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		     position1.noOfPositions = $scope.position.noOfPositions;
 		     position1.client=$scope.position.client;
 		     position1.interviewRounds = $scope.position.interviewRounds;
-		     if($scope.position.hiringManager == $scope.positionHiringManagerName)
-		     {
-		    	 position1.hiringManager  = $scope.positionHiringManagerEmailId;
-		     }else
-		     {
-		    	 position1.hiringManager = $scope.managers.filter(function (manager) { return manager.name == $scope.position.hiringManager })[0].emailId;
-		     }
-		     //position1.hiringManager  = $scope.position.hiringManager;
+		     position1.hiringManager  = $scope.position.hiringManager;
 		     position1.priority = $scope.position.priority;
 		     position1.interviewer = $scope.position.interviewer;
 		     position1.jobType = $scope.position.jobType;
@@ -174,7 +163,11 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 	    $scope.message = "";
 	    $scope.cls = '';
 	}
-	
+	$scope.setHiringManager = function (){
+		
+		var selected = $filter('filter')($scope.managers, {emailId: $scope.position.hiringManager});
+	    return ($scope.position.hiringManager && selected.length) ? selected[0].name : 'Not set';
+	}
 	$scope.getData = function() {
 	    $scope.deg  =_.find($scope.designations,function(obj){
 			return obj.designation == $scope.position.designation; 

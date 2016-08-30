@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.nisum.employee.ref.common.OfferState;
 import com.nisum.employee.ref.domain.InterviewDetails;
-import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.ReportsVO;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.view.OfferDTO;
+import com.nisum.employee.ref.view.PositionDTO;
 
 @Service
 public class ReportsService {
@@ -45,9 +45,9 @@ public class ReportsService {
 		List<OfferDTO> offers;
 		ReportsVO reportsVO = new ReportsVO();
 		List<ReportsVO> reportList = new ArrayList<ReportsVO>();
-		List<Position> positions = positionService.retrieveAllPositionsByHiringManager(hiringManager);
+		List<PositionDTO> positions = positionService.retrieveAllPositionsByHiringManager(hiringManager);
 		
-		for(Position position : positions){
+		for(PositionDTO position : positions){
 			reportsVO = new ReportsVO();
 			reportsVO.setFunctionalGrp(position.getFunctionalGroup());
 			reportsVO.setNoOfOpenPositions(position.getNoOfPositions());

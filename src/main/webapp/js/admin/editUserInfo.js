@@ -211,6 +211,7 @@ $scope.validateField = function(data) {
 		$scope.timeSlotMinDate = new Date();
 	}
 	
+	
 	$scope.resetNotAvailble = function(slot) {
 		if(!slot.isNotAvailable) {
 			$scope.hideFromCal = false;
