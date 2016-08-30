@@ -29,5 +29,5 @@ public class UserInfo {
 	List<InterviewRoundsAllocation> interviewRoundsAllocation;
 	List<TimeSlots> timeSlots;
 	Boolean isNotAvailable = false;
-	Boolean isActiveUser=true;
+	Boolean active;
 }

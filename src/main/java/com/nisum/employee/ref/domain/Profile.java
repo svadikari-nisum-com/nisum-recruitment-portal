@@ -1,17 +1,10 @@
 package com.nisum.employee.ref.domain;
 import java.util.ArrayList;
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
 
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
-import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 
 
 @Getter

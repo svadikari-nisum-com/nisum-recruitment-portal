@@ -19,6 +19,8 @@ import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.service.UserService;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
+import org.springframework.http.HttpEntity;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -30,10 +32,12 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<String> registerUser(@RequestBody UserInfo userInfo) {
 		userService.registerUserByEmailId(userInfo.getEmailId());
-		return new ResponseEntity<String>("User registered Successfully", HttpStatus.OK);
+		return new ResponseEntity<String>("User registered Successfully",
+				HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_USER", "ROLE_HR", "ROLE_RECRUITER", "ROLE_ADMIN",
+			"ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<UserInfoDTO>> retrieveUsers(
 			@RequestParam(value = "emailId", required = false) String emailId,
@@ -49,26 +53,26 @@ public class UserController {
 			userInfos = userService.retrieveUserByName(name);
 		} else if (clientName != null) {
 			userInfos = userService.retrieveUserByClient(clientName);
-		} else if ( clientRole != null  && functionalGroup != null )
-		{
-			userInfos = userService.retrieveUserByRole(clientRole,functionalGroup);
-			
-		}else if (clientRole != null)
-		{
+		} else if (clientRole != null && functionalGroup != null) {
+			userInfos = userService.retrieveUserByRole(clientRole,
+					functionalGroup);
+
+		} else if (clientRole != null) {
 			userInfos = userService.retrieveUserByRole(clientRole);
-		}
-		else
-		{
+		} else {
 			userInfos = userService.retrieveUser();
 		}
-		return (null == userInfos) ? new ResponseEntity<List<UserInfoDTO>>(HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<UserInfoDTO>>(userInfos, HttpStatus.OK);
+		return (null == userInfos) ? new ResponseEntity<List<UserInfoDTO>>(
+				HttpStatus.NOT_FOUND) : new ResponseEntity<List<UserInfoDTO>>(
+				userInfos, HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_USER", "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_USER", "ROLE_HR", "ROLE_RECRUITER", "ROLE_ADMIN",
+			"ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<ResponseVO<UserInfoDTO>> updateUser(@RequestBody UserInfoDTO user) {
+	public ResponseEntity<ResponseVO<UserInfoDTO>> updateUser(
+			@RequestBody UserInfoDTO user) {
 		userService.updateUser(user);
 		ResponseVO<UserInfoDTO> response = new ResponseVO<UserInfoDTO>();
 		response.setDate(new Date());
@@ -76,21 +80,19 @@ public class UserController {
 		response.setHttpStatus(200);
 		response.setMessage("User Updated succesfully.");
 
-		return new ResponseEntity<ResponseVO<UserInfoDTO>>(response, HttpStatus.OK);
+		return new ResponseEntity<ResponseVO<UserInfoDTO>>(response,
+				HttpStatus.OK);
 	}
-	@Secured({ "ROLE_USER", "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
-	@RequestMapping(value="/delete",method=RequestMethod.PUT)
-	@ResponseBody
-	public ResponseEntity<ResponseVO<UserInfoDTO>> deleteUser(@RequestBody UserInfoDTO user) {
-	
-		userService.deleteUser(user);
-		ResponseVO<UserInfoDTO> response = new ResponseVO<UserInfoDTO>();
-		response.setDate(new Date());
-		user.setIsActiveUser(false);
-		response.setData(user);
-		response.setHttpStatus(200);
-		response.setMessage(" Deleted succesfully.");
 
-		return new ResponseEntity<ResponseVO<UserInfoDTO>>(response, HttpStatus.OK);
+	@Secured({ "ROLE_ADMIN" })
+	@RequestMapping(method = RequestMethod.DELETE)
+	@ResponseBody
+	public ResponseEntity<ResponseVO<UserInfoDTO>> deleteUser(
+			@RequestParam(value = "userId", required = true) String userId) {	
+	
+		userService.deleteUser(userId);
+		ResponseVO<UserInfoDTO> response = new ResponseVO<UserInfoDTO>();	
+		return new ResponseEntity<ResponseVO<UserInfoDTO>>(response,
+				HttpStatus.OK);
 	}
 }

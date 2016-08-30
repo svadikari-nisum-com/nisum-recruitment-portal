@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -58,16 +59,11 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void testDeleteUser() throws Exception {
-		UserInfoDTO userInfo = new UserInfoDTO();
-		userInfo.setEmailId("rgangaa@nisum.com");
-		doNothing().when(userService).deleteUser(userInfo);
-		mockMvc.perform(
-				put("/user/delete").contentType(MediaType.APPLICATION_JSON).content(
-						MockTestUtil.convertToJsonFormat(new UserInfo())))
-				.andExpect(status().isOk());
-
-	}
+	public void deleteUserTest() throws Exception {
+		String emailId = "rgangadhari@nisum.com";
+		doNothing().when(userService).deleteUser(emailId);;
+		mockMvc.perform(delete("/user").param("userId", "rgangadhari@nisum.com")).andExpect(status().isOk());
+   }
 
 	@Test
 	public void testRetrieveUsersByUserId() throws Exception {

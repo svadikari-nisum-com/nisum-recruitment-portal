@@ -141,11 +141,11 @@
 				</button>
 			</td>
 			<td style="font-weight: bold">
-				<span ng-if="item.rounds[item.rounds.length-1].roundName == 'Hr Round' && item.rounds[item.rounds.length-1].interviewFeedback.status == 'Selected' && hasRole('ROLE_HR,ROLE_RECRUITER')"> 
+				<span ng-if="item.rounds[item.rounds.length-1].roundName == 'Hr Round' && item.rounds[item.rounds.length-1].interviewFeedback.status == 'Yes' && hasRole('ROLE_HR,ROLE_RECRUITER')"> 
 					<a style="padding-left: 5px;cursor: pointer" ng-click="selectCandidate(item,$index);" >Initialize offer 
 						<md-tooltip md-direction="right"> Create / Update Offer</md-tooltip></a>
 				</span>
-				<span ng-if="item.rounds[item.rounds.length-1].roundName != 'Hr Round' || item.rounds[item.rounds.length-1].interviewFeedback.status != 'Selected'  || hasNotRole('ROLE_HR,ROLE_RECRUITER')"> 
+				<span ng-if="item.rounds[item.rounds.length-1].roundName != 'Hr Round' || item.rounds[item.rounds.length-1].interviewFeedback.status != 'Yes'  || hasNotRole('ROLE_HR,ROLE_RECRUITER')"> 
 					{{item.progress}}
 					</span>
 			</td>

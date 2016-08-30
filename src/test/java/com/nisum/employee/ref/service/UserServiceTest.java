@@ -119,10 +119,11 @@ public class UserServiceTest {
 	}
 	@Test
 	public void deleteUserTest() {
+		String emailId="rgangadhari@nisum.com";
 		doNothing().when(userInfoRepository).updateUser(actualUserInfo);
 		UserInfoDTO userInfoDTO = new UserInfoDTO();		
-		userInfoDTO.setIsActiveUser(true);
-		userService.deleteUser(userInfoDTO);
+		userInfoDTO.setActive(true);
+		userService.deleteUser(emailId);
 	}
 	@Test
 	public void retrieveUserByClientTest() {

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -91,7 +90,8 @@ public class UserInfoRepositoryTest {
 		userInfoRepository.updateUser(getUserInfo());
 	}
 	@Test
-	public final void testDeleteUser() {
+	public final void deleteUser() {
+		String emailId="rgangadhari@nisum.com";
 		Mockito.when(mongoOperations.findOne(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(getUserInfo());
 		Mockito.doAnswer( new Answer<WriteResult>() {
 			@Override
@@ -101,7 +101,7 @@ public class UserInfoRepositoryTest {
 			}
 		}).when(mongoOperations).updateFirst(Mockito.any(Query.class), Mockito.any(Update.class), Mockito.eq(UserInfo.class));
 		
-		userInfoRepository.deleteUser(getUserInfo());
+		userInfoRepository.deleteUser(emailId);
 	}
 	@Test
 	public final void testRetrieveUserByClient() {

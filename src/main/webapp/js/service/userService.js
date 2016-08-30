@@ -79,7 +79,7 @@ function userService($http,$rootScope,appConstants,$q) {
 		return response.data;
 	}
 	function deleteUser(user){
-		return $http.put('resources/user/delete',user)
+		return $http.delete('resources/user?userId='+user.emailId)
 		  .then(userUpdateSuccessMsg)
 	        .catch(sendUpdateUserError);
 	}
