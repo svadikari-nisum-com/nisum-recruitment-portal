@@ -28,5 +28,5 @@ public class UserInfoDTO extends BaseDTO{
 	private List<InterviewRoundsAllocationDTO> interviewRoundsAllocation;
 	private List<TimeSlotDTO> timeSlots;
 	private Boolean isNotAvailable = false;
-	private Boolean isActiveUser=true;
+	private Boolean active;
 }

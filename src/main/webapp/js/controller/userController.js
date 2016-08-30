@@ -66,12 +66,11 @@ app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$wind
         	$scope.myData.splice($scope.myData.indexOf(rowEntity), 1);
         	
         	userService.deleteUser(rowEntity).then(function(msg){
-	        	$scope.message = rowEntity.name+ " " + msg;
+	        	$scope.message = rowEntity.name+ "  Deleted Successfully";
 	        	$scope.cls = appConstants.SUCCESS_CLASS;
 	        	$timeout(function() { $scope.alHide();},3000);
-    		}).catch(function(deleteMessage){
-    			sendSharedMessage(msg, appConstants.ERROR_CLASS);
-                $timeout(function() { $scope.alHide(); }, 5000);
+    		}).catch(function(deleteMessage){    			
+    			$log.error("Failed! ---> "+deleteMessage);
     		});   
         	
         }

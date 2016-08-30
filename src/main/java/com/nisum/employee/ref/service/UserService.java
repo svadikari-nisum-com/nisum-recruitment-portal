@@ -46,8 +46,8 @@ public class UserService implements IUserService{
 		userInfoRepository.updateUser(userInfoConverter.convertToEntity(userDTO));
 	}
 	@Override
-	public void deleteUser(UserInfoDTO userDTO) {
-		userInfoRepository.deleteUser(userInfoConverter.convertToEntity(userDTO));
+	public void deleteUser(String emailId) {
+		userInfoRepository.deleteUser(emailId);
 	}
 	@Override
 	public List<UserInfoDTO> retrieveUserByClient(String clientName) {

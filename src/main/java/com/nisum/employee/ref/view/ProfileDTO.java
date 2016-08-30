@@ -1,11 +1,6 @@
 package com.nisum.employee.ref.view;
 
 import java.util.ArrayList;
-import java.util.Date;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import lombok.Getter;
 import lombok.Setter;
 

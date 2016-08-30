@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 
 /**
@@ -20,7 +19,6 @@ public class BaseDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1076260393766812035L;
-
 	private List<ErrorDTO> errors = new ArrayList<>();
 	private Date createDtm;
 	private Date updateDtm;
