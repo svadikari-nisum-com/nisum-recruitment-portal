@@ -1,11 +1,11 @@
-app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeService1','$rootScope', '$filter', '$log','appConstants', 'uiGridConstants',
-                                    function($scope, $http, $q, $window, jobCodeService1,$rootScope, $filter,$log,appConstants, uiGridConstants) {
+app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeService1','$rootScope','userService', '$filter', '$log','appConstants', 'uiGridConstants',
+                                    function($scope, $http, $q, $window, jobCodeService1,$rootScope,userService, $filter,$log,appConstants, uiGridConstants) {
 	
 	$scope.errorHide = true;
 	$scope.numRows = 10;
 	
 	$scope.col=["Name","Email Id","Role","Experience","Recrutier","Interview Status"];
-	
+	$scope.recruitmentData = {};
 	$scope.att=["candidateName","emailId","designation","expYear","hrAssigned","interviewProgress"];
 	$scope.att1=["jobcodeProfile"];
 	for (i = 0; i< $rootScope.user.roles.length;i++){
@@ -16,12 +16,26 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
     	}
     }
 	$http.get(URLL).success(function(data, status, headers, config) {
-		$scope.myData = data;
-		
-		$scope.gridOptions.data = data;
-		$scope.gridOptions.totalItems = data.length;
-		$scope.gridOptions.paginationPageSize = $scope.numRows;
-		$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
+		userService.getUserByRole("ROLE_RECRUITER").then(function (userdata){
+		    angular.forEach(userdata,function(user) {
+			      
+		    	$scope.recruitmentData[user.emailId] = user.name;
+		    });
+		    angular.forEach(data,function(profileRec)
+    		{
+    			profileRec.hrAssigned = $scope.recruitmentData[profileRec.hrAssigned] ? $scope.recruitmentData[profileRec.hrAssigned] : profileRec.hrAssigned;
+    		});
+		    		
+    		$scope.myData = data;
+    		$scope.gridOptions.data = data;
+    		$scope.gridOptions.totalItems = data.length;
+    		$scope.gridOptions.paginationPageSize = $scope.numRows;
+    		$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
+		    
+		    
+		}).catch(function(message) {
+			$log.error(message)
+		});
 		
 	}).error(function(data, status, headers, config) {
 		$log.error("Failed To Get Prfiles! ---> "+data);
