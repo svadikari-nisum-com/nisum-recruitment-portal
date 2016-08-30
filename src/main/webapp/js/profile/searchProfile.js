@@ -19,6 +19,12 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
     	}
     }
 	$http.get(URLL).success(function(data, status, headers, config) {
+		
+		$scope.myData = data;
+		$scope.gridOptions.data = data;
+		$scope.gridOptions.totalItems = data.length;
+		$scope.gridOptions.paginationPageSize = $scope.numRows;
+		$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
 		userService.getUserByRole("ROLE_RECRUITER").then(function (userdata){
 		    angular.forEach(userdata,function(user) {
 			      
@@ -29,11 +35,7 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeSe
     			profileRec.hrAssigned = $scope.recruitmentData[profileRec.hrAssigned] ? $scope.recruitmentData[profileRec.hrAssigned] : profileRec.hrAssigned;
     		});
 		    		
-    		$scope.myData = data;
-    		$scope.gridOptions.data = data;
-    		$scope.gridOptions.totalItems = data.length;
-    		$scope.gridOptions.paginationPageSize = $scope.numRows;
-    		$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
+    		
 		    
 		    
 		}).catch(function(message) {
