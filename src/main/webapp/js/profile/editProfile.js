@@ -98,7 +98,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	
 	$http.get(URL).success(function(data, status, headers, config) {
 		$scope.candidate =data[0];
-		$scope.candidate.hrAssigned = $scope.recruitmentData.filter(function (person) { return person.emailId == $scope.candidate.hrAssigned })[0].name;
+		//$scope.candidate.hrAssigned = $scope.recruitmentData.filter(function (person) { return person.emailId == $scope.candidate.hrAssigned })[0].name;
 		
 		positionService.getPositionByDesignation($scope.candidate.designation).then(function(data){
 			$scope.positionData = data;
@@ -169,8 +169,8 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	    	$scope.updateInterview.candidateSkills = $scope.candidate.primarySkills;
 	    	$scope.updateInterview.positionId = $scope.candidate.jobcodeProfile;
 	    	$scope.updateInterview.designation = $scope.candidate.designation;
-	    	//$scope.updateInterview.hrAssigned	=	 $scope.candidate.hrAssigned;
-	    	$scope.candidate.hrAssigned = $scope.recruitmentData.filter(function (person) { return person.name == $scope.candidate.hrAssigned })[0].emailId;
+	    	$scope.updateInterview.hrAssigned	=	 $scope.candidate.hrAssigned;
+	    	//$scope.candidate.hrAssigned = $scope.recruitmentData.filter(function (person) { return person.name == $scope.candidate.hrAssigned })[0].emailId;
 	        interviewService.updateInterview($scope.updateInterview);
 		}
 	}
@@ -341,7 +341,11 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 			return true;
 		}
 	}
-	
+	$scope.setHRAssigned = function (){
+		
+		var selected = $filter('filter')($scope.recruitmentData, {emailId: $scope.candidate.hrAssigned});
+	    return ($scope.candidate.hrAssigned && selected.length) ? selected[0].name : 'Not set';
+	}
 	
 	$scope.download = function(){
 		$http.get('resources/fileDownload?candidateId='+$scope.emailId, {responseType: 'arraybuffer'})
