@@ -19,7 +19,6 @@ public class BaseDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1076260393766812035L;
-
 	private List<ErrorDTO> errors = new ArrayList<>();
 	private Date createDtm;
 	private Date updateDtm;
