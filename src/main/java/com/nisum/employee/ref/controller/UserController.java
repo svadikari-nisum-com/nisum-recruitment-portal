@@ -19,8 +19,6 @@ import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.service.UserService;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
-import org.springframework.http.HttpEntity;
-
 @Controller
 @RequestMapping("/user")
 public class UserController {
