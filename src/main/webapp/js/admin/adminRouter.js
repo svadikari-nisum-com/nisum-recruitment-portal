@@ -30,6 +30,17 @@ app.service('sharedDataService', function() {
 	  	      .ok('Got It!')
 	  	    return $mdDialog.show(confirm);
 	        	
+	        },
+	     	showConformPopUp: function(message,title,$mdDialog)
+	        {
+	          var confirm = $mdDialog.confirm()
+	  	      .title(title)
+	  	      .content(message)
+	  	      .ariaLabel('Warning')
+	  	      .ok('OKAY!')
+	  	      .cancel("NOPE")
+	  	      return $mdDialog.show(confirm);
+	        	
 	        }
 	        
 	    };	

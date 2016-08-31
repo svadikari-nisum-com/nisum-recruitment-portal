@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50; // always scroll by 50 extra pixels
 }])
-app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$filter', 'appConstants', 'infoService', '$location', '$anchorScroll', 'infoService', 'appConstants', 'convertArray2Json', 'uiGridConstants',
-    function($scope, $http, $q, $window, $timeout, $filter, appConstants, infoService, $location, $anchorScroll, infoService, appConstants, convertArray2Json, uiGridConstants) {
+app.controller('skillSet', ['$scope', '$http', '$q', '$timeout', '$filter','$mdDialog', 'appConstants','sharedDataService', 'infoService', '$location', '$anchorScroll', 'infoService', 'appConstants', 'convertArray2Json', 'uiGridConstants',
+    function($scope, $http, $q, $timeout, $filter, $mdDialog, appConstants, sharedDataService, infoService, $location, $anchorScroll, infoService, appConstants, convertArray2Json, uiGridConstants) {
 	
 	$scope.numRows = 10;
 	
@@ -75,9 +75,9 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
         }
 
         $scope.deleteSkill = function(index, skill) {
-            var deleteUser = $window.confirm('Are you sure you want to delete?');
-            if (deleteUser) {
-                $scope.skills1.value.splice(index, 1);
+           
+            sharedDataService.showConformPopUp("Are you sure you want to delete?","Delete Skill",$mdDialog).then(function(){
+            	$scope.skills1.value.splice(index, 1);
 
                 infoService.removeInformation($scope.skills1).then(function(msg) {
                     sendSharedMessage(msg, appConstants.SUCCESS_CLASS);
@@ -91,7 +91,7 @@ app.controller('skillSet', ['$scope', '$http', '$q', '$window', '$timeout', '$fi
 
                 $scope.dis = false;
                 $scope.dis2 = true;
-            }
+            });
         }
 
         $scope.Skills1 = function() {

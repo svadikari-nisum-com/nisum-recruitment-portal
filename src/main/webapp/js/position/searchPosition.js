@@ -1,5 +1,5 @@
-app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeService1','$filter', '$log','positionService','appConstants', 'uiGridConstants',
-                                     function($scope, $http, $q, $window,jobCodeService1,$filter, $log,positionService,appConstants, uiGridConstants) {
+app.controller('searchPositionCtrl',['$scope', '$http','$q','jobCodeService1','$filter', '$log','positionService','appConstants', 'uiGridConstants',
+                                     function($scope, $http, $q, jobCodeService1,$filter, $log,positionService,appConstants, uiGridConstants) {
 
 	$scope.approveBtnDisable = true;
 	$scope.errorHide = true;

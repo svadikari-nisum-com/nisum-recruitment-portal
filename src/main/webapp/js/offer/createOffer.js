@@ -12,8 +12,8 @@ app.directive('number', function () {
     };
 });
 
-app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$window','$timeout','$filter','$log','appConstants','infoService','offerService','userService','designationService',
-    function($scope, $state, $http, $upload, $q, $window, $timeout,$filter,$log,appConstants,infoService, offerService, userService ,designationService) {
+app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$timeout','$filter','$log','appConstants','infoService','offerService','userService','designationService',
+    function($scope, $state, $http, $upload, $q, $timeout,$filter,$log,appConstants,infoService, offerService, userService ,designationService) {
 
 	if(offerService.getData() == undefined) {
 		$state.go('offer.list');

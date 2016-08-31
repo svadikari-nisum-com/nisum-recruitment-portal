@@ -1,6 +1,6 @@
 var app = angular.module('erApp');
 
-app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$window', '$log', '$q', 'navService', function ($scope, $rootScope, $http, $window, $log, $q, navService) {
+app.controller('headerCtrl', ['$scope', '$rootScope', '$http', '$log', '$q', 'navService', function ($scope, $rootScope, $http, $log, $q, navService) {
 	
 	$scope.info = $rootScope.info;
 	$scope.notificationData = {};

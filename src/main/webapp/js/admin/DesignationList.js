@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }])
-app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1','sharedDataService','$state', 'uiGridConstants',
-                                      function($scope,$rootScope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1,sharedDataService, $state, uiGridConstants ) {
+app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$timeout','$filter','$log','appConstants','infoService','$location','$mdDialog', '$anchorScroll','designationService','jobCodeService1','sharedDataService','$state', 'uiGridConstants',
+                                      function($scope,$rootScope, $http, $q, $timeout,$filter,$log,appConstants,infoService,$location,$mdDialog,$anchorScroll,designationService,jobCodeService1,sharedDataService, $state, uiGridConstants ) {
 	
 	$scope.designation1 = {};
 	$scope.hideSkills = true;
@@ -123,9 +123,9 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
 	    }
 	  };
 		$scope.deleteDesignation = function(rowEntity) {
-        var deleteUser = $window.confirm('Are you sure you want to delete?');
-        if (deleteUser) {
-        	$scope.designation1.splice($scope.designation1.indexOf(rowEntity), 1);
+			
+		sharedDataService.showConformPopUp("Are you sure you want to delete?","Delete Designation",$mdDialog).then(function(){	
+			$scope.designation1.splice($scope.designation1.indexOf(rowEntity), 1);
         	
         	designationService.removeDesignation(rowEntity.designation).then(function(msg){
 	        	$scope.message=rowEntity.designation+ " " + msg;
@@ -138,7 +138,8 @@ app.controller('DesignationListCtrl',['$scope','$rootScope', '$http','$q', '$win
         	
             $scope.dis = false;
             $scope.dis2 = true;
-        }
+		});
+       
     }
 	
 	

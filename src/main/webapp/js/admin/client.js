@@ -1,5 +1,5 @@
-app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$timeout', '$log','$location', '$state', 'jobCodeService1','appConstants','sharedDataService','clientService', 'uiGridConstants',
-                             function($scope,$rootScope, $http, $q, $window, $timeout, $log, $location, $state, jobCodeService1,appConstants,sharedDataService,clientService, uiGridConstants) {
+app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$timeout', '$log','$location', '$state', '$mdDialog', 'jobCodeService1','appConstants','sharedDataService','clientService', 'uiGridConstants',
+                             function($scope,$rootScope, $http, $q, $timeout, $log, $location, $state, $mdDialog,jobCodeService1,appConstants,sharedDataService,clientService, uiGridConstants) {
 	
 	$scope.client = {};
 	$scope.clients = {};
@@ -99,10 +99,8 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
 		$scope.gridApi.grid.refresh();
 	};
 	$scope.deleteClient = function(rowEntity) {
-        var deleteUser = $window.confirm('Are you sure you want to delete?');
-        if (deleteUser) {
-        	$scope.clients.splice($scope.clients.indexOf(rowEntity), 1);
-        	
+		sharedDataService.showConformPopUp("Are you sure you want to delete?","Delete Client",$mdDialog).then(function(){
+			$scope.clients.splice($scope.clients.indexOf(rowEntity), 1);
         	clientService.removeClient(rowEntity.clientId).then(function(msg){
 	        	$scope.message = rowEntity.clientName+ " " + msg;
 	        	$scope.cls = appConstants.SUCCESS_CLASS;
@@ -110,9 +108,8 @@ app.controller('clientCtrl',['$scope','$rootScope','$http','$q', '$window', '$ti
     		}).catch(function(deleteMessage){
     			sendSharedMessage(msg, appConstants.ERROR_CLASS);
                 $timeout(function() { $scope.alHide(); }, 5000);
-    		});   
-        	
-        }
+    		}); 
+		});
     }
 	$scope.singleFilter = function(renderableRows) {
 		var searchValue = "";

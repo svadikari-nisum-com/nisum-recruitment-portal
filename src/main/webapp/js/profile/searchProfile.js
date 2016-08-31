@@ -1,5 +1,5 @@
-app.controller('searchProfileCtrl',['$scope', '$http','$q', '$window','jobCodeService1','$rootScope','userService', '$filter', '$log','appConstants', 'uiGridConstants',
-                                    function($scope, $http, $q, $window, jobCodeService1,$rootScope,userService, $filter,$log,appConstants, uiGridConstants) {
+app.controller('searchProfileCtrl',['$scope', '$http','$q','jobCodeService1','$rootScope','userService', '$filter', '$log','appConstants', 'uiGridConstants',
+                                    function($scope, $http, $q, jobCodeService1,$rootScope,userService, $filter,$log,appConstants, uiGridConstants) {
 	
 	$scope.errorHide = true;
 	$scope.numRows = 10;

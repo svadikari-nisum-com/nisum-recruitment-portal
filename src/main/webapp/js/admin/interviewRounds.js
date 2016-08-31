@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }])
-app.controller('interviewRoundController',['$scope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll', 'convertArray2Json', 'uiGridConstants',
-                                           function($scope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll, convertArray2Json, uiGridConstants) {
+app.controller('interviewRoundController',['$scope', '$http','$q','$timeout','$filter','$mdDialog','$log','appConstants','sharedDataService','infoService','$location','$anchorScroll', 'convertArray2Json', 'uiGridConstants',
+                                           function($scope, $http, $q,$timeout,$filter,$mdDialog,$log,appConstants,sharedDataService,infoService,$location,$anchorScroll, convertArray2Json, uiGridConstants) {
 	
 	$scope.status = {
 		    isFirstOpen: true,
@@ -74,24 +74,24 @@ $scope.checkRounds = function(){
 }
 
 $scope.deleteInterviewRound = function(index,interviewRound){
-	 var deleteUser = $window.confirm('Are you absolutely sure you want to delete?');
-	 if(deleteUser){
-		$scope.interviewRounds2.value.splice(index,1);
-		infoService.removeInformation($scope.interviewRounds2)
-    	.then(function(msg) {
-    		 sendSharedMessage(msg,appConstants.SUCCESS_CLASS);
-    		 infoService.getInfoById('interviewRounds').then(getInterviewRounds).catch(getUserError);
-    		 $timeout( function(){ $scope.alHide(); }, 5000);
-    		 $log.info("------------>"+msg);
-		  }).
-		  catch(function(msg) {
-			  sendSharedMessage(msg,appConstants.ERROR_CLASS);
-			  $timeout( function(){ $scope.alHide(); }, 5000);
-		  });
-		$scope.dis = false;
-		$scope.dis2 = true;
-	 }
-	}
+	
+	 sharedDataService.showConformPopUp("Are you sure you want to delete?","Delete level",$mdDialog).then(function(){
+		 $scope.interviewRounds2.value.splice(index,1);
+			infoService.removeInformation($scope.interviewRounds2)
+	    	.then(function(msg) {
+	    		 sendSharedMessage(msg,appConstants.SUCCESS_CLASS);
+	    		 infoService.getInfoById('interviewRounds').then(getInterviewRounds).catch(getUserError);
+	    		 $timeout( function(){ $scope.alHide(); }, 5000);
+	    		 $log.info("------------>"+msg);
+			  }).
+			  catch(function(msg) {
+				  sendSharedMessage(msg,appConstants.ERROR_CLASS);
+				  $timeout( function(){ $scope.alHide(); }, 5000);
+			  });
+			$scope.dis = false;
+			$scope.dis2 = true; 
+	 });
+}
 
 	$scope.Skills1 = function(){
 		$scope.dis = true;

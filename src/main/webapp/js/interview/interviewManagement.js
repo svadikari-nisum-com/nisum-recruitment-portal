@@ -1,4 +1,4 @@
-	app.controller('interviewManagementCtrl',['$scope', '$http','$q', '$window','$state','jobCodeService1','offerService', '$log', '$rootScope', function($scope, $http, $q, $window,$state,jobCodeService1,offerService, $log, $rootScope) {
+	app.controller('interviewManagementCtrl',['$scope', '$http','$q', '$state','jobCodeService1','offerService', '$log', '$rootScope', function($scope, $http, $q, $state,jobCodeService1,offerService, $log, $rootScope) {
 		$scope.interview = {};
 		$scope.positionDisable = true;
 		$scope.searchDisable = true;

@@ -1,5 +1,5 @@
-app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blockUI', '$timeout','$rootScope','$log','profileService','positionService','userService', 'interviewService','designationService','appConstants', 
-									function($scope, $http, $upload , $window, blockUI, $timeout,$rootScope, $log,profileService,positionService,userService, interviewService,designationService,appConstants) {
+app.controller("createProfileCtrl", ['$scope', '$http','$upload', 'blockUI', '$timeout','$rootScope','$log','profileService','positionService','userService', 'interviewService','designationService','appConstants', 
+									function($scope, $http, $upload , blockUI, $timeout,$rootScope, $log,profileService,positionService,userService, interviewService,designationService,appConstants) {
 	$scope.successHide2 = true;
 	$scope.errorHide2 = true;
 	$scope.candidate = {};

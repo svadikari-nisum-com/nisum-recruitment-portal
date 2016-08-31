@@ -1,5 +1,5 @@
-app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$log', '$rootScope','appConstants','userService',
-                               function($scope, $http, $q, $window, $timeout, $log, $rootScope,appConstants, userService) {
+app.controller('editUserCtrl',['$scope', '$http','$q', '$timeout', '$log', '$rootScope','appConstants','userService',
+                               function($scope, $http, $q, $timeout, $log, $rootScope,appConstants, userService) {
 	
 	$scope.info = $rootScope.info;
 	$scope.user = $rootScope.user;

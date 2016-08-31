@@ -1,5 +1,5 @@
-app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$window','$state', 'sharedDataService','appConstants', '$log', '$rootScope','$location','userService', 'uiGridConstants',
-                            	function($scope, $http, $filter, $timeout, $q,$window, $state, sharedDataService,appConstants,$log,$rootScope,$location,userService, uiGridConstants) {
+app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$mdDialog','$state', 'sharedDataService','appConstants', '$log', '$rootScope','$location','userService', 'uiGridConstants',
+                            	function($scope, $http, $filter, $timeout, $q,$mdDialog, $state, sharedDataService,appConstants,$log,$rootScope,$location,userService, uiGridConstants) {
 	
 	$scope.info = $rootScope.info;
 	$scope.numRows = 10;
@@ -60,19 +60,17 @@ app.controller("userCtrl", ['$scope', '$http', '$filter', '$timeout','$q','$wind
 	    }
 	  };
 	$scope.deleteUser = function(rowEntity) {
-        var deleteUser = $window.confirm('Are you sure you want to delete?');
-        if (deleteUser) {
-    
+        
+        sharedDataService.showConformPopUp("Are you sure you want to delete?","Delete User",$mdDialog).then(function(){
         	$scope.myData.splice($scope.myData.indexOf(rowEntity), 1);
-        	
         	userService.deleteUser(rowEntity).then(function(msg){
 	        	$scope.message = rowEntity.name+ "  Deleted Successfully";
 	        	$scope.cls = appConstants.SUCCESS_CLASS;
 	        	$timeout(function() { $scope.alHide();},3000);
     		}).catch(function(deleteMessage){    			
     			$log.error("Failed! ---> "+deleteMessage);
-    		});   
-        	
-        }
+    		});
+        });
+        
     }
 }]);

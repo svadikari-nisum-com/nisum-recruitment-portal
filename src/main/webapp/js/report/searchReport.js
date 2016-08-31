@@ -1,4 +1,4 @@
- app.controller('searchReportCntrl',['$scope', '$http', '$window','jobCodeService1','userService', '$timeout','$filter','$q', '$log', '$rootScope','blockUI','positionService','profileService','interviewService','reportService','uiGridConstants','appConstants', function($scope, $http,$window, jobCodeService1,userService, $timeout,$filter, $q, $log, $rootScope,blockUI,positionService,profileService,interviewService,reportService,uiGridConstants,appConstants) {
+ app.controller('searchReportCntrl',['$scope', '$http','jobCodeService1','userService', '$timeout','$filter','$q', '$log', '$rootScope','blockUI','positionService','profileService','interviewService','reportService','uiGridConstants','appConstants', function($scope, $http, jobCodeService1,userService, $timeout,$filter, $q, $log, $rootScope,blockUI,positionService,profileService,interviewService,reportService,uiGridConstants,appConstants) {
 	$scope.data = {};
 	$scope.positions = {};
 	$scope.candidate = {};

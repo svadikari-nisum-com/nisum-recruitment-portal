@@ -1,5 +1,5 @@
-app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window', '$timeout', '$filter', '$log','$location', 'jobCodeService1','clientService','sharedDataService', 
-                                 	function($scope, $http,$rootScope, $q, $window, $timeout, $filter, $log,$location, jobCodeService1, clientService,sharedDataService) {
+app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$timeout', '$filter', '$log','$location', 'jobCodeService1','clientService','sharedDataService', 
+                                 	function($scope, $http,$rootScope, $q, $timeout, $filter, $log,$location, jobCodeService1, clientService,sharedDataService) {
 	
 	$scope.clientId = jobCodeService1.getclientId();
 	$scope.clientName = jobCodeService1.getclientName();

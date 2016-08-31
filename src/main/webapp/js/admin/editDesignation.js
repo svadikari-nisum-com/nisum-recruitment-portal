@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }])
-app.controller('editDesignationCtrl',['$scope','$rootScope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1',
-                                      function($scope,$rootScope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1) {
+app.controller('editDesignationCtrl',['$scope','$rootScope', '$http','$q', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1',
+                                      function($scope,$rootScope, $http, $q, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1) {
 	
 	$scope.designation= {};
 	$scope.designation1={};

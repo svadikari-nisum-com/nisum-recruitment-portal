@@ -1,5 +1,5 @@
-app.controller('offerManagementCtrl',['$scope', '$http','$q', '$window','$state', '$timeout','$filter','$log','appConstants','infoService','offerService',
-                                      function($scope, $http, $q, $window, $state, $timeout,$filter,$log,appConstants,infoService, offerService) {
+app.controller('offerManagementCtrl',['$scope', '$http','$q', '$state', '$timeout','$filter','$log','appConstants','infoService','offerService',
+                                      function($scope, $http, $q, $state, $timeout,$filter,$log,appConstants,infoService, offerService) {
 	
 	$scope.col=["Name","Email Id","Client","Status"];
 	

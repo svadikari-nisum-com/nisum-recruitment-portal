@@ -1,5 +1,5 @@
-app.controller('scheduleInterviewCtrl',['$scope', '$http', '$window','jobCodeService1', '$timeout','$filter','$q', '$log', '$rootScope','blockUI','clientService','interviewService','$state', '$location','userService','profileService', 
-                                        function($scope, $http,$window, jobCodeService1, $timeout,$filter, $q, $log, $rootScope, blockUI, clientService, interviewService,$state,$location,userService,profileService) {
+app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$timeout','$filter','$q', '$log', '$rootScope','blockUI','clientService','interviewService','$state', '$location','userService','profileService', 
+                                        function($scope, $http, jobCodeService1, $timeout,$filter, $q, $log, $rootScope, blockUI, clientService, interviewService,$state,$location,userService,profileService) {
 	$scope.data = {};
 	$scope.sel = {};
 	$scope.candidate = {};
