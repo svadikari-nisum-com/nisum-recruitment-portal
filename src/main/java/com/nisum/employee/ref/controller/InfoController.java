@@ -18,12 +18,13 @@ import com.nisum.employee.ref.view.InfoEntityDTO;
 
 @Component
 @Controller
+@RequestMapping(value="/info")
 public class InfoController {
 
 	@Autowired
 	private IAppInfoService infoService;
 	
-	@RequestMapping(value="/info",method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> retrieveInfo() {
 		
 		List<InfoEntityDTO> info = infoService.retrieveSkills();
@@ -33,7 +34,7 @@ public class InfoController {
 	
 
 	@Secured({"ROLE_ADMIN","ROLE_HR"})
-	@RequestMapping(value="/info", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<?> updateInfo(@RequestBody InfoEntityDTO info) throws Exception {
 		infoService.updateInfo(info);
@@ -44,7 +45,7 @@ public class InfoController {
 	
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR"})
-	@RequestMapping(value="/info", method = RequestMethod.DELETE)
+	@RequestMapping(method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<?> deleteInfo(@RequestBody InfoEntityDTO info) throws Exception {
 		infoService.updateDesigInfo(info);

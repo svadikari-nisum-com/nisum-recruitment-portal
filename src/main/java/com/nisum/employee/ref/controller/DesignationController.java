@@ -20,12 +20,13 @@ import com.nisum.employee.ref.view.DesignationDTO;
 
 @Component
 @Controller
+@RequestMapping(value = "/design")
 public class DesignationController {
 
 	@Autowired
 	private IDesignationService designationService;
 
-	@RequestMapping(value = "/design", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> retrieveDesignation() {
 
 		List<DesignationDTO> designation = designationService.retrieveDesignations();
@@ -35,7 +36,7 @@ public class DesignationController {
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/design", method = RequestMethod.POST)
+	@RequestMapping( method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<?> saveDesignation(@RequestBody DesignationDTO designation) throws Exception {
 		designationService.prepareDesignation(designation);
@@ -43,7 +44,7 @@ public class DesignationController {
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/design", method = RequestMethod.PUT)
+	@RequestMapping( method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<?> updateDesignation(@RequestBody DesignationDTO designation) throws Exception {
 		designationService.updateDesignation(designation);
@@ -51,7 +52,7 @@ public class DesignationController {
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/design/{designation}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{designation}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public ResponseEntity<?> deleteDesignation(@PathVariable("designation") String designation) throws Exception {
 		designationService.deleteDesignation(designation);
