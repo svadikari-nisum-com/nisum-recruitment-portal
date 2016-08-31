@@ -26,21 +26,21 @@ public class ClientInfoRepository {
 		return mongoOperations.findAll(ClientInfo.class);
 	}
 
-	public List<ClientInfo> getClientDetailsByClient(String clientName) {
+	/*public List<ClientInfo> getClientDetailsByClient(String clientName) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where(Constants.clientName)
 				.regex(Pattern.compile(clientName, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
 		return mongoOperations.find(query, ClientInfo.class);
-	}
+	}*/
 
-	public List<String> getClientNames() {
+	/*public List<String> getClientNames() {
 		List<String> clientNames = new ArrayList<String>();
 		List<ClientInfo> clients = mongoOperations.findAll(ClientInfo.class);
 		for (ClientInfo clientInfo : clients) {
 			clientNames.add(clientInfo.getClientName());
 		}
 		return clientNames;
-	}
+	}*/
 
 	public List<ClientInfo> getClientById(String clientId) {
 		Query query = new Query();

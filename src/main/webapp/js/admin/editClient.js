@@ -32,7 +32,7 @@ app.controller('editClientCtrl',['$scope', '$http','$rootScope','$q', '$window',
 	$scope.client.locations="";
 	$scope.plocation=$rootScope.info.locations;
 	
-	var getClient = $http.get( 'resources/getClientById?clientId='+$scope.clientId);
+	var getClient = $http.get( 'resources/clients?clientId='+$scope.clientId);
 	var getUsers_URL = $http.get('resources/user?clientRole=IMR');
 	
 	

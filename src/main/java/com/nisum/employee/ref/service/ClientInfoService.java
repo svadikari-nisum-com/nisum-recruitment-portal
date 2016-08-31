@@ -40,22 +40,22 @@ public class ClientInfoService implements IClientInfoService {
 		return clientInfoConverter.convertToDTOs(clientInfoRepository.getClientDetails());
 	}
 
-	public List<ClientInfoDTO> getClientDetailsByClient(String clientName) {
+	/*public List<ClientInfoDTO> getClientDetailsByClient(String clientName) {
 		return clientInfoConverter.convertToDTOs(clientInfoRepository.getClientDetailsByClient(clientName));
-	}
+	}*/
 
-	public List<String> getClientNames() {
+	/*public List<String> getClientNames() {
 		return clientInfoRepository.getClientNames();
-	}
+	}*/
 
-	public List<String> getInterviewerNames() {
+	/*public List<String> getInterviewerNames() {
 		List<String> interviewerNames = new ArrayList<String>();
 		List<ClientInfo> clients = (List<ClientInfo>) clientInfoRepository.getClientDetails();
 		for (ClientInfo clientInfo : clients) {
 			interviewerNames.add(clientInfo.getInterviewer().getTechnicalRound1().get(0).getName());
 		}
 		return interviewerNames;
-	}
+	}*/
 
 	public List<ClientInfoDTO> getClientById(String clientId) {
 		return clientInfoConverter.convertToDTOs(clientInfoRepository.getClientById(clientId));

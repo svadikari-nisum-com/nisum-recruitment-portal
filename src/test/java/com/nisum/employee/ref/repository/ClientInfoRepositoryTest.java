@@ -63,7 +63,7 @@ public class ClientInfoRepositoryTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void testGetClientDetailsByClient() 
 	{
 			when(mongoOperations.find(any(Query.class), eq(ClientInfo.class))).thenReturn(Arrays.asList(getClientInfo()));
@@ -71,9 +71,9 @@ public class ClientInfoRepositoryTest {
 			Assert.assertNotNull(clientInfo);
 			System.out.println("getClientDetailsByClient()--> Name::"+clientInfo.get(0).getClientName());
 	
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public final void testGetClientNames() {
 		
 		when(mongoOperations.findAll(ClientInfo.class)).thenReturn(Arrays.asList(getClientInfo()));
@@ -83,7 +83,7 @@ public class ClientInfoRepositoryTest {
 			System.out.println("clientNames()--->Name::"+cName);
 		}
 		
-	}
+	}*/
 
 	@Test
 	public final void testGetClientById() 

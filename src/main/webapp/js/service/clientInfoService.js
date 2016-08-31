@@ -13,34 +13,34 @@ function clientInfoService($http,$q,$timeout,appConstants){
 	
 	
 	function getClientInfo(){
-		return $http.get('resources/clientInfo')
+		return $http.get('resources/clients')
 		 .then(getData)
 		 .catch(sendGetClientError);	
 	}
 	function getClientName(){
-		return $http.get('resources/clientNames')
+		return $http.get('resources/clients')
 		 .then(getData)
 		 .catch(sendGetClientError);	
 	}
 	function getClientByName(clientNames){
-		return $http.get('resources/clientInfo?clientName='+clientNames)
+		return $http.get('resources/clients?clientId='+clientNames)
 		 .then(getData)
 		 .catch(sendGetClientError);	
 	}
 	function addClient(clientInfo){
-		return $http.post('resources/clientInfo', clientInfo)
+		return $http.post('resources/clients', clientInfo)
 					.then(clientAddedSuccess)
 					.catch(sendCreateClientError);
 	}
 	
 	function updateClient(clientInfo){
-		return $http.put('resources/clientInfo', clientInfo)
+		return $http.put('resources/clients', clientInfo)
 					.then(clientUpdatedSuccess)
 					.catch(sendGetClientError);
 	}
 	
 	function deleteClient(clientId){
-		return $http.delete('resources/clientInfo?clientId='+clientId)
+		return $http.delete('resources/clients?clientId='+clientId)
 					.then(clientDeletedSuccess)
 					.catch("sdsdfsfsdfsd")
 	}

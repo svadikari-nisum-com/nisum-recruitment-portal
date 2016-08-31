@@ -8,11 +8,11 @@ import com.nisum.employee.ref.view.UserInfoDTO;
 public interface IClientInfoService {
 	List<ClientInfoDTO> getClientDetails();
 
-	List<String> getClientNames();
+	//List<String> getClientNames();
 
-	List<ClientInfoDTO> getClientDetailsByClient(String clientName);
+	//List<ClientInfoDTO> getClientDetailsByClient(String clientName);
 
-	List<String> getInterviewerNames();
+	//List<String> getInterviewerNames();
 
 	List<ClientInfoDTO> getClientById(String clientId);
 
