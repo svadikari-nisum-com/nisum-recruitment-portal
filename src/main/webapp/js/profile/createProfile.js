@@ -155,7 +155,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload', 'blockUI', '$t
 	            for (var i = 0; i < files.length; i++) {
 	                var file = files[0];
 	                $upload.upload({
-	                    url: 'resources/file',
+	                    url: 'resources/profile/file',
 	                    file: file,
 	                    params: {
 	                        candidateId: $scope.candidate.emailId

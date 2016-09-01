@@ -348,7 +348,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	}
 	
 	$scope.download = function(){
-		$http.get('resources/file?candidateId='+$scope.emailId, {responseType: 'arraybuffer'})
+		$http.get('resources/profile/file?candidateId='+$scope.emailId, {responseType: 'arraybuffer'})
 	       .then(function (response) {
 	    	   var data = response.data;
 	    	    $scope.headers = response.headers();
