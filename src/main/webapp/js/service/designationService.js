@@ -10,22 +10,22 @@ function designationService($http,$filter,$rootScope,$log,$q,$cacheFactory,appCo
 	};
 
 	function getDesignation(){
-		return $http.get('resources/design')
+		return $http.get('resources/designations')
 			 .then(getDesignationData)
 			 .catch(sendErrorDesignationMsg);
 	}
 	function addDesignation(designation){
-		return $http.post('resources/design', designation)
+		return $http.post('resources/designations', designation)
 		.then(createDesignationSuccess)
 		.catch(sendErrorCreate);
 	}
 	function updateDesignation(designation){
-		return $http.put('resources/design', designation)
+		return $http.put('resources/designations', designation)
 		.then(updateDesignationSuccess)
 		.catch(sendErrorupdate);
 	}
 	function deleteDesignation(designation){
-		return $http.delete('resources/design/'+designation)
+		return $http.delete('resources/designations/'+designation)
 		.then(deleteDesignationSuccess)
 		.catch(sendErrorDesignationMsg);
 	}

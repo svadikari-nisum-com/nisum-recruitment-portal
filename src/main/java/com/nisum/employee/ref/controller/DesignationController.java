@@ -20,25 +20,23 @@ import com.nisum.employee.ref.view.DesignationDTO;
 
 @Component
 @Controller
-@RequestMapping(value = "/design")
+@RequestMapping(value = "/designations")
 public class DesignationController {
 
 	@Autowired
 	private IDesignationService designationService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<?> retrieveDesignation() {
+	public ResponseEntity<List<DesignationDTO>> retrieveDesignation() {
 
 		List<DesignationDTO> designation = designationService.retrieveDesignations();
-		return (null == designation)
-				? new ResponseEntity<String>(Constants.designationNotFound, HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<DesignationDTO>>(designation, HttpStatus.OK);
+		return  new ResponseEntity<List<DesignationDTO>>(designation, HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping( method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> saveDesignation(@RequestBody DesignationDTO designation) throws Exception {
+	public ResponseEntity<String> saveDesignation(@RequestBody DesignationDTO designation) throws Exception {
 		designationService.prepareDesignation(designation);
 		return new ResponseEntity<String>( "{\"msg\":\"Created\"}" , HttpStatus.OK);
 	}
@@ -46,7 +44,7 @@ public class DesignationController {
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping( method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<?> updateDesignation(@RequestBody DesignationDTO designation) throws Exception {
+	public ResponseEntity<String> updateDesignation(@RequestBody DesignationDTO designation) throws Exception {
 		designationService.updateDesignation(designation);
 		return new ResponseEntity<String>( "{\"msg\":\"Updated\"}" , HttpStatus.OK);
 	}
@@ -54,7 +52,7 @@ public class DesignationController {
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(value = "/{designation}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<?> deleteDesignation(@PathVariable("designation") String designation) throws Exception {
+	public ResponseEntity<String> deleteDesignation(@PathVariable("designation") String designation) throws Exception {
 		designationService.deleteDesignation(designation);
 		return new ResponseEntity<String>("{\"msg\":\"Deleted\"}", HttpStatus.OK);
 	}

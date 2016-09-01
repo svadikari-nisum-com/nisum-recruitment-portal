@@ -54,7 +54,7 @@ public class DesignationControllerTest {
 			   (designationService).retrieveDesignations())
 			   .thenReturn(designationList);
 	   mockMvc.perform(
-				get("/design").contentType(MediaType.APPLICATION_JSON).
+				get("/designations").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Designation()))).andExpect(status().isOk());
    }
    @Test
@@ -65,7 +65,7 @@ public class DesignationControllerTest {
 	    designation.setMinExpYear("1");
 		doNothing().when(designationService).prepareDesignation(designation);
 		mockMvc.perform(
-				post("/design").contentType(MediaType.APPLICATION_JSON).
+				post("/designations").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Designation()))).andExpect(status().isOk());
 
 	}
@@ -77,7 +77,7 @@ public class DesignationControllerTest {
   	    designation.setMinExpYear("1");
   		doNothing().when(designationService).updateDesignation(designation);
   		mockMvc.perform(
-  				put("/design").contentType(MediaType.APPLICATION_JSON).
+  				put("/designations").contentType(MediaType.APPLICATION_JSON).
   				content(MockTestUtil.convertToJsonFormat(new Designation()))).andExpect(status().isOk());
 
   	}
