@@ -58,7 +58,7 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 		return interviewDetails;
 	}
 
-	public InterviewDetails reScheduleInterview(InterviewSchedule interviewSchedule) throws Exception {
+	public InterviewDetails updateInterview(InterviewSchedule interviewSchedule) throws Exception {
 		InterviewDetails interviewDetails = null;
 		InterviewDetails interviewDetails2 = interviewDetailsRepository
 				.getInterviewDetailsById(interviewSchedule.getCandidateId());

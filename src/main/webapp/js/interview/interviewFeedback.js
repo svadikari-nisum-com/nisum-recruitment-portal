@@ -50,7 +50,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.init();
 	
 	var profile_url = $http.get('resources/profile?emailId='+$scope.emailId);
-	var interview_URL = $http.get('resources/getInterviewByParam?candiateId='+$scope.emailId);
+	var interview_URL = $http.get('resources/interview?candiateId='+$scope.emailId);
 	var position_URL = $http.get('resources/searchPositionsBasedOnJobCode?jobcode='+$scope.jobcode);
 	$scope.info = $rootScope.info;
 	$q.all([profile_url, interview_URL, position_URL]).then(
@@ -159,7 +159,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			
 			profileService.addProfilesStatus($scope.emailId,$scope.interviewFeedback.status);
 		
-			$http.post('resources/interviewFeedback', $scope.interviewFeedback).
+			$http.post('resources/interview/feedback', $scope.interviewFeedback).
 			  success(function(data, status) {
 				  $scope.cls = 'alert  alert-success';
 				  $scope.message = "Feedback Submitted Successfully!";

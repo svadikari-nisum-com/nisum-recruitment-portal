@@ -61,9 +61,9 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	
 	$scope.init();
 	
-	var interview_URL = 'resources/getInterview?interviewerId='+$scope.emailId+"_"+$scope.jobCode;
+	var interview_URL = 'resources/interview?interviewerId='+$scope.emailId+"_"+$scope.jobCode;
 	var URL = 'resources/profile?emailId='+$scope.emailId;
-	var InterviewDetails_URL = 'resources/getInterviewByParam?candiateId='+$scope.emailId;
+	var InterviewDetails_URL = 'resources/interview?candiateId='+$scope.emailId;
 	var deferred = $q.defer();
 	$http.get('resources/user').success(function(data, status, headers, config) {
 		$scope.userData = data;

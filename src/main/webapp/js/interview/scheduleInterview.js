@@ -157,7 +157,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 		$scope.interviewschedule.candidateName = $scope.candidate.candidateName;
 		
 		//$scope.interviewschedule.cureentPositinId = $scope.jobCodeSel;
-		$http.post('resources/interviewSchedule', $scope.interviewschedule).
+		$http.post('resources/interview/schedule', $scope.interviewschedule).
 		  success(function(data, status, headers, config) {
 			  
 			  $http.get('resources/profile?emailId='+$scope.emailId).success(function(data, status, headers, config) {
@@ -359,7 +359,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 	
 	$scope.onLoad = function(){
 		var User_URL='resources/user?emailId='+sessionStorage.userId;
-		var interviewSchDetails_URL= 'resources/getInterviewByInterviewer?interviewerEmail='+sessionStorage.userId+'&jobCode='+$scope.jobcode;
+		var interviewSchDetails_URL= 'resources/interview?interviewerEmail='+sessionStorage.userId+'&jobCode='+$scope.jobcode;
 		
 		$http.get(User_URL).success(function(data, status, headers, config) {
 			$scope.getInterviewerInfo();
@@ -417,7 +417,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 	$scope.interviewDetails.rounds = [];
 	
 	$scope.roundInfo = function(){
-		var InterviewDetailsURL = 'resources/getInterviewByParam?candiateId='+$scope.emailId;
+		var InterviewDetailsURL = 'resources/interview?candiateId='+$scope.emailId;
 		$scope.interviewDetails = {};
 		$scope.reset();		
 		
@@ -508,7 +508,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 		$scope.interviewschedule.candidateId = $scope.candidate.emailId;
 		$scope.interviewschedule.candidateName = $scope.candidate.candidateName;
 		$scope.interviewschedule.candidateSkills = $scope.candidate.primarySkills;
-		$http.post('resources/interviewRe-Schedule', $scope.interviewschedule).
+		$http.put('resources/interview/schedule', $scope.interviewschedule).
 		  success(function(data, status, headers, config) {
 			  $scope.cls = 'alert alert-success alert-error';
 			  $scope.message = "Re-scheduled successfully";

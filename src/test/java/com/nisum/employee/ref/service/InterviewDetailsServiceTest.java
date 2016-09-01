@@ -163,7 +163,7 @@ public class InterviewDetailsServiceTest {
 		when(notificationService.sendScheduleMail(any(InterviewSchedule.class), anyString(), anyString(), anyString()))
 				.thenReturn("");
 
-		InterviewDetails actualInterviewDetails = interviewDetailsService.reScheduleInterview(interviewSchedule);
+		InterviewDetails actualInterviewDetails = interviewDetailsService.updateInterview(interviewSchedule);
 		assertNotNull(actualInterviewDetails);
 		assertEquals("can_name", actualInterviewDetails.getCandidateName());
 	}

@@ -6,7 +6,7 @@ app.controller("showInterviewCtrl", ['$scope', '$http', '$upload','$filter', '$t
 	$scope.interviewData = {};
 	$scope.interviewSetData = [];
 	
-	var getSchedule_url = 'resources/getInterviewByParam?interviewId='+$scope.interviewId;
+	var getSchedule_url = 'resources/interview?interviewId='+$scope.interviewId;
 	
 	$http.get(getSchedule_url).success(function(data, status, headers, config) {
 		$scope.interviewData = data[0];
