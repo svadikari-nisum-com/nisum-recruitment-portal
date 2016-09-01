@@ -42,58 +42,45 @@ public class ProfileControllerTest {
 	    mockMvc = MockMvcBuilders.standaloneSetup(profileController)
 			      .setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
    }
+   
    @Test
-   public void testRetrieveCandidateDetailsByMail() throws Exception {
+   public void testRetrieveProfile() throws Exception
+   {
 	   ProfileDTO profile = new ProfileDTO();
 	   List<ProfileDTO> positionsDetails  = new ArrayList<>();
 	   profile.setEmailId("karanam@nisum.com");
-		positionsDetails.add(profile);
+	   positionsDetails.add(profile);
+	
+	   //By Email
 		Mockito.when(
 				(profileService).retrieveCandidateDetails(any(String.class)))
 				.thenReturn(positionsDetails);
 		mockMvc.perform(get("/profile").param("emailId", "skaranam@nisum.com")).andExpect(status().isOk());
-   }
-   @Test
-   public void testRetrieveCandidateDetailsByJobCodeProfile() throws Exception {
-	   ProfileDTO profile = new ProfileDTO();
-	   List<ProfileDTO> positionsDetails  = new ArrayList<>();
-	   ArrayList<String> jobcodeProfile = new ArrayList<>();
-	   jobcodeProfile.add("1");
-	   profile.setJobcodeProfile(jobcodeProfile);
-		positionsDetails.add(profile);
+
+		
+		//jobcodeProfile
 		Mockito.when(
-				(profileService).retrieveProfileByJobCode(any(String.class)))
+				(profileService).retrieveProfileByJobCode("Rama"))
 				.thenReturn(positionsDetails);
 		 mockMvc.perform(
-					get("/profile").contentType(MediaType.APPLICATION_JSON).
-					content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
+					get("/profile").param("jobcodeProfile", "Rama")).andExpect(status().isOk()); 
+		 
+		 //profilecreatedBy
+		 Mockito.when(
+					(profileService).retrieveProfileByProfileCreatedBy("Naga"))
+					.thenReturn(positionsDetails);
+			 mockMvc.perform(
+						get("/profile").param("profilecreatedBy", "Naga")).andExpect(status().isOk()); 
+		
+		//All Profiles
+		 Mockito.when(
+					(profileService).retrieveAllProfiles())
+					.thenReturn(positionsDetails);
+			 mockMvc.perform(
+						get("/profile").contentType(MediaType.APPLICATION_JSON).
+						content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
    }
-   @Test
-   public void testRetrieveCandidateDetailsProfileCreatedBy() throws Exception {
-	   ProfileDTO profile = new ProfileDTO();
-	   List<ProfileDTO> positionsDetails  = new ArrayList<>();
-	   profile.setProfilecreatedBy("skaranam@gmail.com");
-		positionsDetails.add(profile);
-		Mockito.when(
-				(profileService).retrieveProfileByProfileCreatedBy(any(String.class)))
-				.thenReturn(positionsDetails);
-		 mockMvc.perform(
-					get("/profile").contentType(MediaType.APPLICATION_JSON).
-					content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
-   }
-   @Test
-   public void testRetrieveAllProfiles() throws Exception {
-	   ProfileDTO profile = new ProfileDTO();
-	   List<ProfileDTO> positionsDetails  = new ArrayList<>();
-	   profile.setProfilecreatedBy("skaranam@gmail.com");
-		positionsDetails.add(profile);
-		Mockito.when(
-				(profileService).retrieveAllProfiles())
-				.thenReturn(positionsDetails);
-		 mockMvc.perform(
-					get("/profile").contentType(MediaType.APPLICATION_JSON).
-					content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
-   }
+   
    @Test
    public void testRegisterUser() throws Exception {
 	  ProfileDTO profile = new ProfileDTO();
@@ -102,19 +89,28 @@ public class ProfileControllerTest {
 	  mockMvc.perform(post("/profile").contentType(MediaType.APPLICATION_JSON).content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
 
    }
+   
    @Test
-   public void testUpdateUser() throws Exception {
+   public void testUpdateProfile() throws Exception {
 	  ProfileDTO profile = new ProfileDTO();
 	  profile.setCandidateName("swathi");
+	  
+	  //By profile
 	  doNothing().when(profileService).updateCandidate(profile);
 		 mockMvc.perform(
 					put("/profile").contentType(MediaType.APPLICATION_JSON).
 					content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
    }
+   
    @Test
-   public void testUpdateProfileStatus() throws Exception {
-	   doNothing().when(profileService).updateCandidateStatus("skaran@gmail.com","true");
-		mockMvc.perform(post("/status").param("emailId", "sk@gmail.com").param("status", "true")).andExpect(status().isOk());
-
+   public void testUpdateProfileStatus() throws Exception
+   {
+	   ProfileDTO profile = new ProfileDTO();
+		  profile.setCandidateName("swathi");
+		  
+		  //By emailId, status
+		  doNothing().when(profileService).updateCandidateStatus("skaran@gmail.com","true");
+			mockMvc.perform(put("/profile/status").param("emailId", "sk@gmail.com").param("status", "true")).andExpect(status().isOk());
    }
+   
 }

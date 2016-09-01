@@ -26,6 +26,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.service.IProfileService;
 import com.nisum.employee.ref.view.ProfileDTO;
 
+@RequestMapping("/profile")
 @Slf4j
 @Controller
 public class ProfileController {
@@ -34,8 +35,10 @@ public class ProfileController {
 	private IProfileService profileService;
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public ResponseEntity<List<ProfileDTO>> retrieveProfile(@RequestParam(value = "emailId", required = false) String emailId,@RequestParam(value = "jobcodeProfile", required = false) String jobcodeProfile,@RequestParam(value = "profilecreatedBy", required = false) String profilecreatedBy) {
+	@RequestMapping( method = RequestMethod.GET )
+	public ResponseEntity<List<ProfileDTO>> retrieveProfile(@RequestParam(value = "emailId", required = false) String emailId,@RequestParam(value = "jobcodeProfile", 
+											required = false) String jobcodeProfile,@RequestParam(value = "profilecreatedBy", required = false) String profilecreatedBy) 
+	{
 		List<ProfileDTO> positionsDetails = null;
 		if (emailId != null && !emailId.isEmpty()) {
 			positionsDetails = profileService.retrieveCandidateDetails(emailId);
@@ -51,7 +54,7 @@ public class ProfileController {
 	}
 
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/profile", method = RequestMethod.POST)
+	@RequestMapping( method = RequestMethod.POST )
 	@ResponseBody
 	public ResponseEntity<ProfileDTO> registerUser(@RequestBody ProfileDTO candidate) throws Exception{
 			 profileService.createCandidate(candidate);
@@ -59,33 +62,36 @@ public class ProfileController {
 	}
 
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/profile", method = RequestMethod.PUT)
+	@RequestMapping( method = RequestMethod.PUT )
 	@ResponseBody
-	public ResponseEntity<ProfileDTO> updateUser(@RequestBody ProfileDTO candidate) {
-		profileService.updateCandidate(candidate);
-		return new ResponseEntity<ProfileDTO>(candidate, HttpStatus.OK);
+	public ResponseEntity<ProfileDTO> updateProfile(@RequestBody ProfileDTO candidate ) {
+		
+			profileService.updateCandidate(candidate);
+			return new ResponseEntity<ProfileDTO>(candidate, HttpStatus.OK);
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
-	public ResponseEntity<String> uploadResume(HttpServletRequest request, Model model, @RequestParam(value = "file") MultipartFile multipartFile, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
-		profileService.saveResume(multipartFile, candidateId);
-		return new ResponseEntity<String>("Resume Uploaded Successfully", HttpStatus.OK);
-	}
-	
-	@ResponseStatus(HttpStatus.OK)
 //	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/status", method = RequestMethod.POST)
+	@RequestMapping(value = "/status", method = RequestMethod.PUT)
 	public ResponseEntity<String> updateProfileStatus(@RequestParam(value = "emailId", required = true) String emailId,
 			@RequestParam(value = "status", required = true) String status) throws Exception {
 		profileService.updateCandidateStatus(emailId, status);
 		return new ResponseEntity<String>("Status Updated Successfully", HttpStatus.OK);
 	}
 	
+	//value = "/fileUpload"
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/fileDownload", method = RequestMethod.GET)
+	@RequestMapping( value = "/file", method = RequestMethod.POST)
+	public ResponseEntity<String> uploadResume(HttpServletRequest request, Model model, @RequestParam(value = "file") MultipartFile multipartFile, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
+		profileService.saveResume(multipartFile, candidateId);
+		return new ResponseEntity<String>("Resume Uploaded Successfully", HttpStatus.OK);
+	}
+	
+	//value = "/fileDownload"
+	@ResponseStatus(HttpStatus.OK)
+	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@RequestMapping( value = "/file", method = RequestMethod.GET)
 	public void downloadFile(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
 		List<GridFSDBFile> files = profileService.getFileData(candidateId);
 		GridFSDBFile file = files.get(0);
