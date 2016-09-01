@@ -46,8 +46,9 @@ db.Info.insert({"_id":"progress",value:["15", "30", "45", "60"]});
 db.Info.insert({"_id":"Priority",value:["Low", "Medium", "High"]});
 db.Info.insert({"_id":"salary",value:[ "$6000 - $7000", "$7000 - $9000","$9000 - $10000", "$10000- $12000"]});
 db.Info.insert({"_id":"jobType",value:["Full Time", "Part Time", "Independent Contractor", "Temporary Worker"]});
-db.Info.insert({"_id":"status",value:["Yes", "No"]});
+db.Info.insert({"_id":"status",value:["Approved", "Rejected","Hold"]});
 db.Info.insert({"_id":"FunctionalTeam",value:["DEV", "QA", "SUPPORT","NOC"]});
+db.Info.insert({"_id":"feedbackStatus",value:["Yes", "No"]});
 
 // DEVELOPER User data
 db.UserInfo.insert({"_id":"prawate@nisum.com",'name':"Pradeep Rawate","mobileNumber":"+918087810808","dob":"",location:"Pune",skypeId:"prawate",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"2"},{day:"Friday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});

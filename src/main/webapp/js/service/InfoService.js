@@ -56,6 +56,7 @@ function getInfoData(response) {
 		info.salary = $filter('filter')(data,{key:'salary'})[0].value;
 		info.status = $filter('filter')(data,{key:'status'})[0].value;
 		info.FunctionalTeam = $filter('filter')(data,{key:'FunctionalTeam'})[0].value;
+		info.feedbackStatus=$filter('filter')(data,{key:'feedbackStatus'})[0].value;
 		$rootScope.info = info;
 		return info;
  }
