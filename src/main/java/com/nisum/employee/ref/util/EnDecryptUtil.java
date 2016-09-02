@@ -26,6 +26,7 @@ import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +37,7 @@ public class EnDecryptUtil {
 
 	private final String CYPHER_TRANSFORMATION = "DES/CBC/PKCS5Padding";
 	private final String ALGORITHM = "DES";
+	private final String ENCODING_TYPE = "ISO-8859-1";
 	private Cipher deCipher;
 	private Cipher enCipher;
 
@@ -65,7 +67,15 @@ public class EnDecryptUtil {
 	public String encrypt(String value) throws ServiceException {
 		String returnBytes = null;
 		try {
-			returnBytes = new String(enCipher.doFinal(convertToByteArray(value)));
+			if (SystemUtils.IS_OS_LINUX) {
+				returnBytes = new String(
+						enCipher.doFinal(convertToByteArray(value)),
+						ENCODING_TYPE);
+			} else {
+				returnBytes = new String(
+						enCipher.doFinal(convertToByteArray(value)));
+			}
+
 		} catch (IllegalBlockSizeException | BadPaddingException | IOException e) {
 			throw new ServiceException(e);
 		}
@@ -75,8 +85,13 @@ public class EnDecryptUtil {
 	public String decrypt(String encrypted) throws ServiceException {
 		String returnObj = null;
 		try {
-			returnObj = (String)convertFromByteArray(deCipher.doFinal(encrypted
-					.getBytes()));
+			if (SystemUtils.IS_OS_LINUX) {
+				returnObj = (String) convertFromByteArray(deCipher
+						.doFinal(encrypted.getBytes(ENCODING_TYPE)));
+			} else {
+				returnObj = (String) convertFromByteArray(deCipher
+						.doFinal(encrypted.getBytes()));
+			}
 		} catch (ClassNotFoundException | IllegalBlockSizeException
 				| BadPaddingException | IOException e) {
 			throw new ServiceException(e);
