@@ -30,7 +30,7 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 	}
 	
 	function addProfilesStatus(emailId,status){
-		return $http.post('resources/profile/status?emailId='+emailId+'&status='+status)
+		return $http.put('resources/profile/status?emailId='+emailId+'&status='+status)
 		
 	}
 	
