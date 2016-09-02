@@ -63,10 +63,10 @@
 		  $scope.setPage = function() {
 		    $scope.currentPage = this.n;
 		  };
-	$scope.getUsers = function(role){
-		
+	$scope.getUsers = function(){
 	
-		userService.getUserByRole(role).then(function (data){
+	
+		userService.getUsers().then(function (data){
 			if(angular.isUndefined($scope.repManagers)){
 			$scope.repManagers = [];
 			$scope.reportingMngr=[];
@@ -78,18 +78,19 @@
 				$scope.recruiters=[];
 				}
 			angular.forEach(data,function(user){
-				
-			if(role=="ROLE_MANAGER"){
+		for(var i=0;i<user.roles.length;i++){
+			if(user.roles[i]=="ROLE_MANAGER"){
 				$scope.repManagers.push(user.name);
 				$scope.reportingMngr.push(user.name);			
 				
-			}else if(role=="ROLE_HR"){		
+			}else if(user.roles[i]=="ROLE_HR"){		
 				$scope.hr.push(user.name);
 				
 			}
-			else if(role=="ROLE_RECRUITER"){
+			else if(user.roles[i]=="ROLE_RECRUITER"){
 				$scope.recruiters.push(user.name);
 			}
+		}
 			})
 			
 		});
@@ -97,11 +98,11 @@
 	}
 	$scope.init=function(){
 		
-		
-		$scope.repManagers = $scope.getUsers("ROLE_MANAGER");
-	
-		$scope.hr = $scope.getUsers("ROLE_HR");
-		$scope.recruiters = $scope.getUsers("ROLE_RECRUITER");
+		$scope.getUsers();
+//		$scope.repManagers = $scope.getUsers("ROLE_MANAGER");
+//	
+//		$scope.hr = $scope.getUsers("ROLE_HR");
+//		$scope.recruiters = $scope.getUsers("ROLE_RECRUITER");
 		
 		
 	}
@@ -140,10 +141,7 @@
 		     
 		     
 		    ],
-		    onRegisterApi: function( gridApi ) {
-		    	$scope.gridApi = gridApi;
-	 	        $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
-		    }
+
 		  };
    
 }]);
