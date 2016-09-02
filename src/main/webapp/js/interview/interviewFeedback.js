@@ -51,14 +51,14 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	
 	var profile_url = $http.get('resources/profile?emailId='+$scope.emailId);
 	var interview_URL = $http.get('resources/interview?candiateId='+$scope.emailId);
-	var position_URL = $http.get('resources/searchPositionsBasedOnJobCode?jobcode='+$scope.jobcode);
+	var position_URL = $http.get('resources/positions?jobcode='+$scope.jobcode);
 	$scope.info = $rootScope.info;
 	$q.all([profile_url, interview_URL, position_URL]).then(
 			function(response){
 			
 			$scope.profile = response[0].data[0];
 			$scope.interview = response[1].data[0];
-			$scope.position = response[2].data;
+			$scope.position = response[2].data[0];
 			angular.forEach($scope.interview.rounds, function(ro){
 				$scope.roundList.push(ro.roundName);
 			})

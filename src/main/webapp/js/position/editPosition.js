@@ -47,8 +47,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 					 )}).catch(function(msg){
 						 $log.error(msg);
 					 });
-	userService.getUsers()
-	.then(function(data){
+	userService.getUsers().then(function(data){
 		$scope.users = data;
 		angular.forEach($scope.users,function(user){
 			if(user.roles.indexOf("ROLE_MANAGER") >= 0 )
@@ -59,7 +58,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 			$scope.interviewers.push(user.name);
 		})
 		positionService.getPositionByJobcode($scope.jobcode).then(function(data){
-	    	$scope.position =data;
+	    	$scope.position = data[0];
 	    	/*$scope.positionHiringManagerEmailId = $scope.position.hiringManager;
 	    	$scope.position.hiringManager = $scope.managers.filter(function (manager) { return manager.emailId == $scope.position.hiringManager })[0].name;
 	    	$scope.positionHiringManagerName = $scope.position.hiringManager;*/
@@ -69,7 +68,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		})
 		
 	  }).catch(function(msg){
-		 
+		  console.log("not getting");
 	    	$log.error(msg); 
 	    });
 

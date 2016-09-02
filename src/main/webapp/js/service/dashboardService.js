@@ -8,7 +8,7 @@ function dashboardService($http,$filter,$rootScope,$timeout,appConstants,$q) {
 	};
 	
 	function getPositionData(obj){
-		return $http.get('resources/getPositionsByAggregation')
+		return $http.get('resources/positions/getPositionsByAggregation')
 		.then(getPositionDataSuccess)
 		.catch(getPositionDataError);
 	}

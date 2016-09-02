@@ -24,6 +24,7 @@ import org.springframework.stereotype.Repository;
 
 import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
+import com.nisum.employee.ref.view.PositionDTO;
 
 
 @Repository
@@ -91,10 +92,10 @@ public class PositionRepository {
 		return positionDatails;
 	}
 	
-	public Position retrievePositionsbasedOnJobCode(String jobcode) {
+	public List<Position> retrievePositionsbasedOnJobCode(String jobcode) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where(_ID).regex(jobcode));
-		Position positionDetail = mongoOperations.findOne(query, Position.class);
+		List<Position> positionDetail = mongoOperations.find(query, Position.class);
 		return positionDetail;
 	}
 	

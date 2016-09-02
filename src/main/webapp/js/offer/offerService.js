@@ -59,18 +59,18 @@ function offerService($http,$filter,$rootScope, appConstants, $q, $timeout, $log
 	}
 	
 	function getPosition(){
-		return $http.get('resources/position')
+		return $http.get('resources/positions')
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	function getPositionByDesignation(designation){
-		return $http.get('resources/position?designation='+designation)
+		return $http.get('resources/positions?designation='+designation)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	
 	function getPositionByJobcode(jobcode){
-		return $http.get('resources/searchPositionsBasedOnJobCode?jobcode='+jobcode)
+		return $http.get('resources/positions?jobcode='+jobcode)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}

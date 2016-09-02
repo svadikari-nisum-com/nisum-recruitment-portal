@@ -17,7 +17,7 @@ public interface IPositionService {
 
 	public List<PositionDTO> retrievePositionsbasedOnDesignation(String designation);
 
-	public PositionDTO retrievePositionsbasedOnJobCode(String jobcode);
+	public List<PositionDTO> retrievePositionsbasedOnJobCode(String jobcode);
 
 	public Position deletePositionBasedOnJC(String jobcode);
 

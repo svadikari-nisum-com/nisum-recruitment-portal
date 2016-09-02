@@ -23,14 +23,16 @@ import com.nisum.employee.ref.view.PositionDTO;
 
 
 @Slf4j
+
 @Controller
+@RequestMapping("/positions")
 public class PositionController {
 
 	@Autowired
 	private PositionService  positionService;
 	
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER"})
-	@RequestMapping(value="/position", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<PositionDTO> createPosition(@RequestBody PositionDTO position) {
 		log.info("creating new position");
@@ -39,7 +41,7 @@ public class PositionController {
 	}
 
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER"})
-	@RequestMapping(value="/position", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
 	public ResponseEntity<String> updatePosition(@RequestBody Position position) {
 		positionService.updatePosition(position);
@@ -48,39 +50,28 @@ public class PositionController {
 	}
 	
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/position", method = RequestMethod.GET)
-	public ResponseEntity<List<PositionDTO>> retrievePositionByClient(@RequestParam(value = "client", required = false) String client,
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<PositionDTO>> retrievePositions(@RequestParam(value = "client", required = false) String client,
 			@RequestParam(value = "designation", required = false) String designation,
-			@RequestParam(value = "hiringManager", required = false) String hiringManager) {
+			@RequestParam(value = "hiringManager", required = false) String hiringManager,
+			@RequestParam(value = "jobcode", required = false) String jobcode,
+			@RequestParam(value = "location", required = false) String location) {
 		List<PositionDTO> positionsDetails;
-		if(!StringUtils.isEmpty(designation)) {
+		if (!StringUtils.isEmpty(designation)) {
 			positionsDetails = positionService.retrievePositionsbasedOnDesignation(designation);
-		} else if ( !StringUtils.isEmpty(hiringManager) )
-		{
+		} else if (!StringUtils.isEmpty(hiringManager)){
 			positionsDetails = positionService.retrieveAllPositionsByHiringManager(hiringManager);
-			
-		}else {
-			positionsDetails = (!StringUtils.isEmpty(client)) ? positionService.retrievePositionByClient(client) : positionService.retrieveAllPositions();
+		} else if (!StringUtils.isEmpty(jobcode)){
+			positionsDetails = positionService.retrievePositionsbasedOnJobCode(jobcode);
+		} else if (!StringUtils.isEmpty(location)){
+			positionsDetails = positionService.retrievePositionbasedOnLocation(location);
+		} else if (!StringUtils.isEmpty(client)){
+			positionsDetails =  positionService.retrievePositionByClient(client);
+		} else {
+			positionsDetails = positionService.retrieveAllPositions();
 		}
-		return (null == positionsDetails) ? new ResponseEntity<List<PositionDTO>>(HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<PositionDTO>>(positionsDetails, HttpStatus.OK);
+		return new ResponseEntity<List<PositionDTO>>(positionsDetails, HttpStatus.OK);
 	}
-	
-	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/searchPositionsBasedOnJobCode", method = RequestMethod.GET)
-	public ResponseEntity<PositionDTO> retrievePositionsBasedOnJobCode(@RequestParam(value = "jobcode", required = true) String jobcode) {
-		PositionDTO positionsDetail = positionService.retrievePositionsbasedOnJobCode(jobcode);
-		return (null == positionsDetail) ? new ResponseEntity<PositionDTO>(HttpStatus.NOT_FOUND)
-				: new ResponseEntity<PositionDTO>(positionsDetail, HttpStatus.OK);
-	} 
-	
-	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/searchPositionBasedOnLocation", method = RequestMethod.GET)
-	public ResponseEntity<List<PositionDTO>> retrievesearchPositionbasedOnLocation(@RequestParam(value = "location", required = true) String location,@RequestParam(value = "expYear", required = false) String expYear,@RequestParam(value = "primarySkills", required = false) String primarySkills) {
-		List<PositionDTO> positionsDetail = positionService.retrievePositionbasedOnLocation(location);
-		return (null == positionsDetail) ? new ResponseEntity<List<PositionDTO>>(HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<PositionDTO>>(positionsDetail, HttpStatus.OK);
-	} 
 	
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/getPositionsByAggregation", method = RequestMethod.GET)

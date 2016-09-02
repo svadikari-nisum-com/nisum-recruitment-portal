@@ -14,7 +14,7 @@ function interviewService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		
 		var profile_url = $http.get('resources/profile?emailId='+emailId);
 		var interview_URL = $http.get('resources/interview?interviewerId='+emailId+"_"+jobcode);
-		var position_URL = $http.get('resources/searchPositionsBasedOnJobCode?jobcode='+jobcode);
+		var position_URL = $http.get('resources/positions?jobcode='+jobcode);
 		
 		return $q.all([profile_url, interview_URL, position_URL]).then(
 				function(response){

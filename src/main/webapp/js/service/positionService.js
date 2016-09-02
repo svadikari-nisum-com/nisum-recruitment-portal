@@ -13,7 +13,7 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 	};
 	
 	function addPosition(positionObj){
-		return $http.post('resources/position', positionObj)
+		return $http.post('resources/positions', positionObj)
 		.then(createPositionSuccess)
 		.catch(createPositionError);
 	}
@@ -27,7 +27,7 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 	}
 	
 	function updatePosition(positionObj){
-		return $http.put('resources/position', positionObj)
+		return $http.put('resources/positions', positionObj)
 		.then(updatePositionSuccess)
 		.catch(updatePositionError);
 	}
@@ -41,10 +41,10 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 	
 	function getPosition(isManager){
 		
-		var positionURL = "resources/position";
+		var positionURL = "resources/positions";
 		if(typeof isManager !== 'undefined')
 		{
-			positionURL = "resources/position?hiringManager="+isManager;
+			positionURL = "resources/positions?hiringManager="+isManager;
 		}
 		
 		return $http.get(positionURL)
@@ -52,18 +52,20 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		.catch(getPositionError);
 	}
 	function getPositionByDesignation(designation){
-		return $http.get('resources/position?designation='+designation)
+		return $http.get('resources/positions?designation='+designation)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	
 	function getPositionByJobcode(jobcode){
-		return $http.get('resources/searchPositionsBasedOnJobCode?jobcode='+jobcode)
-		.then(getPositionSuccess)
+		return $http.get('resources/positions?jobcode='+jobcode)
+		.then(function(response) {
+			return data = response.data;
+		})
 		.catch(getPositionError);
 	}
 	function getPositionBylocation(location){
-		return $http.get('resources/searchPositionBasedOnLocation?location='+location)
+		return $http.get('resources/positions?location='+location)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}

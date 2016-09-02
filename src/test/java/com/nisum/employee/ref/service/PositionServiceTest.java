@@ -97,11 +97,11 @@ public class PositionServiceTest {
 	
 	@Test
 	public void shouldRetrievePositionsbasedOnJobCode() {
-		when(positionRepository.retrievePositionsbasedOnJobCode(Mockito.anyString())).thenReturn(position);
-		PositionDTO actualPosition = service.retrievePositionsbasedOnJobCode("JSSE");
+		when(positionRepository.retrievePositionsbasedOnJobCode(Mockito.anyString())).thenReturn(positions);
+		List<PositionDTO> actualPosition = service.retrievePositionsbasedOnJobCode("JSSE");
 
 		assertNotNull(actualPosition);
-		assertEquals("SSE", actualPosition.getJobcode());
+		assertEquals("SSE", actualPosition.get(0).getJobcode());
 	}
 	
 	@Test

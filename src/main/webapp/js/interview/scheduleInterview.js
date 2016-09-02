@@ -79,20 +79,20 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 	$scope.getInterviewerInfo = function(){
 		$http.get(URL1).success(function(data, status, headers, config) {
 		$scope.candidate =data[0];
-		$scope.candidatejc = data[0].jobcodeProfile;
-		var IR_Round='resources/searchPositionsBasedOnJobCode?jobcode='+$scope.jobCodeSel;
+		//$scope.candidatejc = data[0].jobcodeProfile;
+		var IR_Round='resources/positions?jobcode='+$scope.jobCodeSel;
 		
 		if($scope.jobCodeSel)
 		{
 			$http.get(IR_Round).success(function(data2, status, headers, config) {
-				$scope.interviewClient = data2.client;
+				$scope.interviewClient = data2[0].client;
 				
 				clientService.getClientByName($scope.interviewClient).then(function(data){
 					$scope.clientDetails = data;
 				});
 				
 				var rounds =[];	
-				angular.forEach(data.interviewRounds, function(value, key) {
+				angular.forEach(data2[0].interviewRounds, function(value, key) {
 					 rounds.push(value.toString());
 				});
 				 $scope.candidate.interviewRounds=rounds;
@@ -134,9 +134,9 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 	$scope.getJobCodeRound = function(){
 		if($scope.jobCodeSel!==""){
 			$scope.reset();
-			var rounds_URL = 'resources/searchPositionsBasedOnJobCode?jobcode='+$scope.jobCodeSel;
+			var rounds_URL = 'resources/positions?jobcode='+$scope.jobCodeSel;
 			$http.get(rounds_URL).success(function(data, status, headers, config) {
-				$scope.position = data;
+				$scope.position = data[0];
 			}).error(function(data, status, headers, config) {
 		        $log.error(data);
 			})

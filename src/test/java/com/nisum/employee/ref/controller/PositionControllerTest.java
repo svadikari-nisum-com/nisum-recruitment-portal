@@ -49,7 +49,7 @@ public class PositionControllerTest {
 	public void shouldCreatePosition() throws Exception {
 		doNothing().when(positionService).preparePosition(any(PositionDTO.class));
 		mockMvc.perform(
-				post("/position").contentType(MediaType.APPLICATION_JSON).
+				post("/positions").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
 
 	}
@@ -57,7 +57,7 @@ public class PositionControllerTest {
 	public void shouldUpdatePosition() throws Exception {
 		doNothing().when(positionService).updatePosition(any(Position.class));
 		mockMvc.perform(
-				put("/position").contentType(MediaType.APPLICATION_JSON).
+				put("/positions").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isAccepted());
 
 	}
@@ -73,7 +73,7 @@ public class PositionControllerTest {
 		Mockito.when(
 				(positionService).retrievePositionsbasedOnDesignation(any(String.class)))
 				.thenReturn(positions);
-		mockMvc.perform(get("/position").param("designation", "Software Engineer")).andExpect(status().isOk());
+		mockMvc.perform(get("/positions").param("designation", "Software Engineer")).andExpect(status().isOk());
 	}
 	@Test
 	public void testRetrievePositionByClient() throws Exception {
@@ -84,7 +84,7 @@ public class PositionControllerTest {
 		Mockito.when(
 				(positionService).retrievePositionByClient(any(String.class)))
 				.thenReturn(positions);
-		mockMvc.perform(get("/position").param("client", "GAP")).andExpect(status().isOk());
+		mockMvc.perform(get("/positions").param("client", "GAP")).andExpect(status().isOk());
 	}
 	@Test
 	public void testRetrieveAllPositions() throws Exception {
@@ -96,15 +96,18 @@ public class PositionControllerTest {
 		Mockito.when(
 				(positionService).retrieveAllPositions())
 				.thenReturn(positions);
-		mockMvc.perform(get("/position").param("client", "GAP").param("designation", "Software Engineer")).andExpect(status().isOk());
+		mockMvc.perform(get("/positions").param("client", "GAP").param("designation", "Software Engineer")).andExpect(status().isOk());
 	}
 	@Test
 	public void testRetrievePositionsBasedOnJobCode() throws Exception {
 		PositionDTO positionsDetail = new PositionDTO();
+		List<PositionDTO> positions = new ArrayList<>();
+		positionsDetail.setJobcode("SE");
+		positions.add(positionsDetail);
 		Mockito.when(
 				(positionService).retrievePositionsbasedOnJobCode("SE"))
-				.thenReturn(positionsDetail);
-		mockMvc.perform(get("/searchPositionsBasedOnJobCode").param("jobcode", "SE")).andExpect(status().isOk());
+				.thenReturn(positions);
+		mockMvc.perform(get("/positions").param("jobcode", "SE")).andExpect(status().isOk());
 	}
 	@Test
 	public void testRetrievesearchPositionbasedOnLocation() throws Exception {
@@ -115,7 +118,7 @@ public class PositionControllerTest {
 		Mockito.when(
 				(positionService).retrievePositionbasedOnLocation(any(String.class)))
 				.thenReturn(positions);
-		mockMvc.perform(get("/searchPositionBasedOnLocation").param("location", "Banglore")).andExpect(status().isOk());
+		mockMvc.perform(get("/positions").param("location", "Banglore")).andExpect(status().isOk());
 	}
 	@Test
 	public void testRetrieveAllPositionsAggregate() throws Exception {
@@ -128,7 +131,7 @@ public class PositionControllerTest {
 				(positionService).retrieveAllPositionsAggregate())
 				.thenReturn(positions);
 		mockMvc.perform(
-				get("/getPositionsByAggregation").contentType(MediaType.APPLICATION_JSON).
+				get("/positions/getPositionsByAggregation").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
 	}
 }

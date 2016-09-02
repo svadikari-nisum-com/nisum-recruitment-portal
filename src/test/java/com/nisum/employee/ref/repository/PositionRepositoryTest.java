@@ -140,10 +140,10 @@ public class PositionRepositoryTest {
 	@Test
 	public void retrievePositionsbasedOnJobCode()
 	{
-		when(mongoOperations.findOne(any(Query.class), eq(Position.class))).thenReturn(getPosition());
-		Position position = positionRepository.retrievePositionsbasedOnJobCode("SSE");
+		when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(getPosition()));
+		List<Position> position = positionRepository.retrievePositionsbasedOnJobCode("SSE");
 		assertNotNull(position);
-		assertEquals("SSE", position.getJobcode());
+		assertEquals("SSE", position.get(0).getJobcode());
 	}
 	
 	@Test

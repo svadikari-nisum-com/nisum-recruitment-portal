@@ -26,8 +26,8 @@
 		$scope.sortReverse  = false; 
 		
 		var User_URL = 'resources/user?emailId='+$scope.useremailId;
-		var position_URL = 'resources/position';
-		var clientNames_URL = 'resources/clientNames';
+		var position_URL = 'resources/positions';
+		var clientNames_URL = 'resources/clients';
 		var InterviewDetailsURL = 'resources/interview';
 		
 		$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
