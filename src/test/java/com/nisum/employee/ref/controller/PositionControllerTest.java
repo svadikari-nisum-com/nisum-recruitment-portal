@@ -63,7 +63,7 @@ public class PositionControllerTest {
 	}
 	
 	@Test
-	public void testRetrievePositionByDesignation() throws Exception {
+	public void retrievePositionByDesignation() throws Exception {
 		List<PositionDTO> positions = new ArrayList<>();
 		PositionDTO position = new PositionDTO();
 		position.setJobcode("SE");
@@ -76,7 +76,7 @@ public class PositionControllerTest {
 		mockMvc.perform(get("/positions").param("designation", "Software Engineer")).andExpect(status().isOk());
 	}
 	@Test
-	public void testRetrievePositionByClient() throws Exception {
+	public void retrievePositionByClient() throws Exception {
 		List<PositionDTO> positions = new ArrayList<>();
 		PositionDTO position = new PositionDTO();
 		position.setClient("GAP");
@@ -87,7 +87,7 @@ public class PositionControllerTest {
 		mockMvc.perform(get("/positions").param("client", "GAP")).andExpect(status().isOk());
 	}
 	@Test
-	public void testRetrieveAllPositions() throws Exception {
+	public void retrieveAllPositions() throws Exception {
 		List<PositionDTO> positions = new ArrayList<>();
 		PositionDTO position = new PositionDTO();
 		position.setJobcode("SE");
@@ -99,7 +99,7 @@ public class PositionControllerTest {
 		mockMvc.perform(get("/positions").param("client", "GAP").param("designation", "Software Engineer")).andExpect(status().isOk());
 	}
 	@Test
-	public void testRetrievePositionsBasedOnJobCode() throws Exception {
+	public void retrievePositionsBasedOnJobCode() throws Exception {
 		PositionDTO positionsDetail = new PositionDTO();
 		List<PositionDTO> positions = new ArrayList<>();
 		positionsDetail.setJobcode("SE");
@@ -110,7 +110,7 @@ public class PositionControllerTest {
 		mockMvc.perform(get("/positions").param("jobcode", "SE")).andExpect(status().isOk());
 	}
 	@Test
-	public void testRetrievesearchPositionbasedOnLocation() throws Exception {
+	public void retrievesearchPositionbasedOnLocation() throws Exception {
 		PositionDTO positionsDetail = new PositionDTO();
 		List<PositionDTO> positions = new ArrayList<>();
 		positionsDetail.setLocation("Banglore");
@@ -121,7 +121,7 @@ public class PositionControllerTest {
 		mockMvc.perform(get("/positions").param("location", "Banglore")).andExpect(status().isOk());
 	}
 	@Test
-	public void testRetrieveAllPositionsAggregate() throws Exception {
+	public void retrieveAllPositionsAggregate() throws Exception {
 		PositionAggregate positionAggregate = new PositionAggregate();
 		List<PositionAggregate> positions = new ArrayList<>();
 		positionAggregate.setDesignation("SSE");

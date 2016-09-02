@@ -128,7 +128,7 @@ public class PositionRepositoryTest {
 	}
 	
 	@Test
-	public void retrievePositionsbasedOnDesignation()
+	public void retrievePositionsByDesignation()
 	{
 		Mockito.when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(getPosition()));
 		List<Position> position = positionRepository.retrievePositionsbasedOnDesignation("SSE");
@@ -138,7 +138,7 @@ public class PositionRepositoryTest {
 	
 	
 	@Test
-	public void retrievePositionsbasedOnJobCode()
+	public void retrievePositionsByJobCode()
 	{
 		when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(getPosition()));
 		List<Position> position = positionRepository.retrievePositionsbasedOnJobCode("SSE");
@@ -147,7 +147,7 @@ public class PositionRepositoryTest {
 	}
 	
 	@Test
-	public void deletePositionBasedOnJC()
+	public void deletePositionByJC()
 	{
 		when(mongoOperations.findAndRemove(any(Query.class), eq(Position.class))).thenReturn(getPosition());
 		Position position = positionRepository.deletePositionBasedOnJC("SSE");
@@ -198,7 +198,7 @@ public class PositionRepositoryTest {
 	}
 	
 	@Test
-	public void testRetrieveAllPositionsByHiringManager() {
+	public void retrieveAllPositionsByHiringManager() {
 		Position pos = new Position();
 		pos.setJobcode("DEV_GAP-GID_HYD_582016_845");
 		pos.setHiringManager("Shyam Vadikari");

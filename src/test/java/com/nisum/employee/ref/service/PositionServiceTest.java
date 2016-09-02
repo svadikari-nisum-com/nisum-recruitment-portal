@@ -41,7 +41,6 @@ public class PositionServiceTest {
 	private List<Position> positions;
 
 	private Position position;
-	private PositionDTO positionDTO;
 
 	@Before
 	public void init() {
@@ -57,19 +56,19 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void shouldSavePosition() {
+	public void savePosition() {
 		doNothing().when(positionRepository).preparePosition(position);
 		service.preparePosition(positionConverter.convertToDTO(position));
 	}
 	
 	@Test
-	public void shouldUpdatePosition() {
+	public void updatePosition() {
 		doNothing().when(positionRepository).updatePosition(position);
 		service.updatePosition(position);
 	}
 
 	@Test
-	public void shouldRetrievePositionByClient() throws Exception {
+	public void retrievePositionByClient() throws Exception {
 		Mockito.when(positionRepository.retrievePositionByClient(any(String.class))).thenReturn(positions);
 
 		List<PositionDTO> listPosition = service.retrievePositionByClient("GAP");
@@ -79,7 +78,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void shouldRetrieveAllPositions() {
+	public void retrieveAllPositions() {
 		when(positionRepository.retrieveAllPositions()).thenReturn(positions);
 		List<PositionDTO> listPosition = service.retrieveAllPositions();
 		assertNotNull(listPosition);
@@ -87,7 +86,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void shouldRetrievePositionsBasedOnDesignation() {
+	public void retrievePositionsByDesignation() {
 		when(positionRepository.retrievePositionsbasedOnDesignation(Mockito.anyString())).thenReturn(positions);
 		List<PositionDTO> listPosition = service.retrievePositionsbasedOnDesignation("SE");
 
@@ -96,7 +95,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void shouldRetrievePositionsbasedOnJobCode() {
+	public void retrievePositionsByJobCode() {
 		when(positionRepository.retrievePositionsbasedOnJobCode(Mockito.anyString())).thenReturn(positions);
 		List<PositionDTO> actualPosition = service.retrievePositionsbasedOnJobCode("JSSE");
 
@@ -105,7 +104,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void shouldDeletePositionsbasedOnJobCode() {
+	public void deletePositionsByJobCode() {
 		when(positionRepository.deletePositionBasedOnJC(Mockito.anyString())).thenReturn(position);
 		Position actualPosition = service.deletePositionBasedOnJC("JSSE");
 
@@ -114,7 +113,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void shouldRetrievePositionsBasedOnLocation() {
+	public void retrievePositionsByLocation() {
 		when(positionRepository.retrievePositionbasedOnLocation(Mockito.anyString())).thenReturn(positions);
 		List<PositionDTO> listPosition = service.retrievePositionbasedOnLocation("Hyd");
 
@@ -123,7 +122,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void shouldRetrieveAllPositionsAggregate() {
+	public void retrieveAllPositionsAggregate() {
 		List<PositionAggregate> aggregates = new ArrayList<>();
 		PositionAggregate positionAggregate = new PositionAggregate();
 		positionAggregate.setDesignation("SSE");
@@ -138,7 +137,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void testRetrieveAllPositionsByHiringManager() {
+	public void retrieveAllPositionsByHiringManager() {
 		List<Position> positions = new ArrayList<>();
 		Position position = new Position();
 		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
