@@ -98,57 +98,93 @@ public class InterviewControllerTest {
 	}
 
 	@Test
-	public void testGetInterviewDetails() throws Exception {
-		InterviewDetails interviewDetails = new InterviewDetails();
-		interviewDetails.setCandidateName("swati");
-		interviewDetails.setClientName("Nisum");
-		List<InterviewDetails> checkDetails = new ArrayList<>();
-		checkDetails.add(interviewDetails);
-
-		// By interviewId
+	public void getInterviewDetailsById() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterview("79")).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("interviewerId", "79")).andExpect(status().isOk());
-
-		// By Interviewer and JobCode
+	}
+	
+	@Test
+	public void getInterviewDetailsByInterviewerAndJobcode() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByInterviewerAndJobCode("skaranam@gmail.com", "1"))
 				.thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("interviewerEmail", "skaranam@gmail.com").param("jobCode", "1"))
 				.andExpect(status().isOk());
-
-		// By Interviewer
+	}
+	
+	@Test
+	public void getInterviewDetailsByInterviewer() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByInterviewer("skaranam@gmail.com"))
 				.thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("interviewerEmail", "skaranam@gmail.com")).andExpect(status().isOk());
-
-		// By jobCode
+	}
+	
+	@Test
+	public void getInterviewDetailsByJobCode() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByJobCode("NisumDeveloper")).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("jobCode", "NisumDeveloper")).andExpect(status().isOk());
-
-		// By candiateId
+	}
+	
+	@Test
+	public void getInterviewDetailsByCandiateId() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByCandidateId("79")).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("candiateId", "79")).andExpect(status().isOk());
-
-		// By Client
+	}
+	
+	@Test
+	public void getInterviewDetailsByClient() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByClient("NISUM")).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("client", "NISUM")).andExpect(status().isOk());
-
-		// By Progress
+	}
+	
+	@Test
+	public void getInterviewDetailsByProgress() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByProgress("Passed")).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("progress", "Passed")).andExpect(status().isOk());
-
-		// By Skills
+	}
+	
+	@Test
+	public void getInterviewDetailsBySkills() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewBySkill("JAVA")).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("skill", "JAVA")).andExpect(status().isOk());
-
-		// By Designation
+	}
+	
+	@Test
+	public void getInterviewDetailsByDesignation() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByDesignation("SSE")).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("designation", "SSE")).andExpect(status().isOk());
-
+	}
+	
+	@Test
+	public void getInterviewDetailsByInterviewrID() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		// By InterviewrID
 		Mockito.when((interviewDetailsService).getInterviewByDesignation("799")).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").param("interviewId", "799")).andExpect(status().isOk());
-
-		// By All
+	}
+	
+	@Test
+	public void getInterviewDetails() throws Exception {
+		
+		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getAll()).thenReturn(checkDetails);
 		mockMvc.perform(get("/interview").contentType(MediaType.APPLICATION_JSON)
 				.content(MockTestUtil.convertToJsonFormat(new InterviewDetails()))).andExpect(status().isOk());
@@ -163,6 +199,17 @@ public class InterviewControllerTest {
 
 		mockMvc.perform(put("/interview").contentType(MediaType.APPLICATION_JSON)
 				.content(MockTestUtil.convertToJsonFormat(new InterviewDetails()))).andExpect(status().isOk());
+	}
+	
+	public List<InterviewDetails> getInterviewDetailsObject()
+	{
+		InterviewDetails interviewDetails = new InterviewDetails();
+		interviewDetails.setCandidateName("swati");
+		interviewDetails.setClientName("Nisum");
+		List<InterviewDetails> checkDetails = new ArrayList<>();
+		checkDetails.add(interviewDetails);
+		return checkDetails;
+		
 	}
 
 }
