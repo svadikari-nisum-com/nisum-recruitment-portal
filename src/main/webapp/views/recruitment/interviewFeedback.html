@@ -15,20 +15,26 @@
                         </center>
                     </div>
                     <div class="panel-body" align="left">
-                        <div class="row">
-                            <div align="left">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-2">
-                                    <label class="lbl" for="interviewRound"><i class="glyphicon icon-chevron-right"></i>&nbsp;&nbsp;Interview Round<b style="color:red;">*</b>: </label>
-                                </div>
-                                <div class="col-md-3" style="display: inline;">
-                                    <select ng-model="interviewFeedback.roundName" ng-change="setfeedbackData(interviewFeedback.roundName);roundInfo()" ng-disabled="selectDropDownDisable" class="form-control input-sm"
+                        <div class="row" >
+                                <div class="col-md-4">
+                                    <label type="text" class="lbl" style="width:40%;" for="interviewRound">Interview Level: </label>
+                                     <input ng-model="interviewFeedback.roundName" style="width:45%;" ng-change="setfeedbackData(interviewFeedback.roundName);roundInfo()" ng-disabled="selectDropDownDisable" 
                                         id="interviewers" ng-options="o as o for o in position.interviewRounds | orderBy:'toString()'"
-                                        required>
-									<option value="" disabled="disabled">Select Round</option>
-									</select>
+                                        required/>
                                 </div>
-                            </div>
+                                <div class="col-md-4">
+                                    <label class="lbl" for="date" style="width:35%;">Interview Date: </label>
+                                    <b>{{interviewSchedule.interviewDateTime | date:'medium'}}</b>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="lbl" style="width:20%;" for="emailId">Type: </label>
+                                    <b>{{interviewSchedule.typeOfInterview}}</b>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="lbl" for="duration" style="width:35%;">Duration<b style="color :red;">*</b>: </label>
+                                    <input type="text" name="duration"  placeholder="Max 60 Min" ng-keypress ="filterValue($event)" ng-disabled="disableFields" ng-model="interviewFeedback.duration" style="width:45%"  id="duration" required>
+                                		<md-tooltip  md-direction="bottom"> Please enter time in minutes </md-tooltip> </input>
+                                </div>
                         </div>
 
                         <div class="row" align="left">
@@ -57,7 +63,7 @@
                             </div>
                         </div>
                         <br>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div align="left">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2">
@@ -76,21 +82,21 @@
                                     <b>{{interviewSchedule.typeOfInterview}}</b>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <br>
                         <div class="row">
                             <div align="left">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2">
-                                    <label class="lbl">Duration<b style="color :red;">*</b>: </label>
+                                   <!--  <label class="lbl">Duration<b style="color :red;">*</b>: </label> -->
                                     <br><br>
                                     <label class="lbl" align="left">Additional Skills: </label>
                                 </div>
                                 <div class="col-md-3">
                                 	<div>
                                 	
-                                	<input type="text" name="duration"  placeholder="Max 60 Min" ng-keypress ="filterValue($event)" ng-disabled="disableFields" ng-model="interviewFeedback.duration" style="width:55%"  class="form-control input-sm" id="duration" required>
-                                		<md-tooltip  md-direction="top"> Please enter time in minutes </md-tooltip> </input>
+                                	<!-- <input type="text" name="duration"  placeholder="Max 60 Min" ng-keypress ="filterValue($event)" ng-disabled="disableFields" ng-model="interviewFeedback.duration" style="width:55%"  class="form-control input-sm" id="duration" required>
+                                		<md-tooltip  md-direction="top"> Please enter time in minutes </md-tooltip> </input> -->
                                     </div>
                                     <br>
                                     <textarea ng-model="interviewFeedback.additionalSkills" style="width:180px;" ng-disabled="disableFields"></textarea>

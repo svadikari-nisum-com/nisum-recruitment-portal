@@ -63,7 +63,7 @@ public class PositionController {
 	}
 	
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/getPositionsByAggregation", method = RequestMethod.GET)
+	@RequestMapping(value = "/positionsByAggregation", method = RequestMethod.GET)
 	public ResponseEntity<List<PositionAggregate>> retrieveAllPositionsAggregate() {
 		List<PositionAggregate> positionsDetail = positionService.retrieveAllPositionsAggregate();
 		return (null == positionsDetail) ? new ResponseEntity<List<PositionAggregate>>(HttpStatus.NOT_FOUND)
