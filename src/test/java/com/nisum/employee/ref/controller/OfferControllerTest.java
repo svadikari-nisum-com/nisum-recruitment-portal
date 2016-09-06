@@ -53,7 +53,7 @@ public class OfferControllerTest {
 	public void shouldSaveOfferDetails() throws Exception {
 	    doNothing().when(offerService).saveOffer(any(OfferDTO.class));
 	  	 mockMvc.perform(
-				post("/save-offer").contentType(MediaType.APPLICATION_JSON).
+				post("/offers").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Offer()))).andExpect(status().isOk());
 	}
 	@Test
