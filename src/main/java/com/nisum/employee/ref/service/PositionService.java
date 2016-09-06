@@ -27,14 +27,15 @@ public class PositionService implements IPositionService{
 		positionRepository.preparePosition(positionConverter.convertToEntity(position));
 	}
 	@Override
-	public void updatePosition(Position position) {
-		positionRepository.updatePosition(position);
+	public void updatePosition(PositionDTO position) {
+		positionRepository.updatePosition(positionConverter.convertToEntity(position));
 	}
 	
 	@Override
 	public List<PositionDTO> retrieveAllPositions(String searchKey, String searchValue) {
-		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositions(searchKey,searchValue)));
+		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositions(searchKey, searchValue)));
 	}
+	
 	@Override
 	public List<PositionDTO> retrieveAllPositions() {
 		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositions()));

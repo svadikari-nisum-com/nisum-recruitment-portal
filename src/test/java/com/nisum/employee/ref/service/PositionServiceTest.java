@@ -64,10 +64,9 @@ public class PositionServiceTest {
 	@Test
 	public void updatePosition() {
 		doNothing().when(positionRepository).updatePosition(position);
-		service.updatePosition(position);
+		service.updatePosition(positionConverter.convertToDTO(position));
 	}
 
-	
 	@Test
 	public void retrieveAllPositions() {
 		when(positionRepository.retrieveAllPositions(Mockito.anyString(),Mockito.anyString())).thenReturn(positions);
@@ -75,15 +74,6 @@ public class PositionServiceTest {
 		assertNotNull(listPosition);
 		assertEquals("SSE", listPosition.get(0).getJobcode());
 	}
-	
-	/*@Test
-	public void retrievePositionsByJobCode() {
-		when(positionRepository.retrievePositionsbasedOnJobCode(Mockito.anyString())).thenReturn(positions);
-		List<PositionDTO> actualPosition = service.retrievePositionsbasedOnJobCode("JSSE");
-
-		assertNotNull(actualPosition);
-		assertEquals("SSE", actualPosition.get(0).getJobcode());
-	}*/
 	
 	@Test
 	public void deletePositionsByJobCode() {

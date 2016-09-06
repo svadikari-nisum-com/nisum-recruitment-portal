@@ -55,7 +55,7 @@ public class PositionControllerTest {
 	}
 	@Test
 	public void shouldUpdatePosition() throws Exception {
-		doNothing().when(positionService).updatePosition(any(Position.class));
+		doNothing().when(positionService).updatePosition(any(PositionDTO.class));
 		mockMvc.perform(
 				put("/positions").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isAccepted());
@@ -86,7 +86,7 @@ public class PositionControllerTest {
 				(positionService).retrieveAllPositionsAggregate())
 				.thenReturn(positions);
 		mockMvc.perform(
-				get("/positions/getPositionsByAggregation").contentType(MediaType.APPLICATION_JSON).
+				get("/positions/positionsByAggregation").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
 	}
 }

@@ -9,7 +9,7 @@ import com.nisum.employee.ref.view.PositionDTO;
 public interface IPositionService {
 	public void preparePosition(PositionDTO position);
 
-	public void updatePosition(Position position);
+	public void updatePosition(PositionDTO position);
 
 	public Position deletePositionBasedOnJC(String jobcode);
 
@@ -17,6 +17,7 @@ public interface IPositionService {
 	
 	List<PositionDTO> retrieveAllPositions(String searchKey, String searchValue);
 	List<PositionDTO> retrieveAllPositions();
+
 
 	
 }
