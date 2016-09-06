@@ -20,7 +20,7 @@ function offerService($http,$filter,$rootScope, appConstants, $q, $timeout, $log
 	};
 	
 	function getNextStatuses(status){
-		return $http.get('resources/offer/nextStatuses?currentStatus='+status)
+		return $http.get('resources/offers/nextStatuses?currentStatus='+status)
 		.then(getStatusSuccess)
 		.catch(getStatusError);
 	}

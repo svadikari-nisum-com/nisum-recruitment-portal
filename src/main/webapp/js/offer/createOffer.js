@@ -100,7 +100,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 	$scope.saveOffer = function() {
 		//Removed this functionality as we are generating offer letter when the status is "RELEASED"
 		//$scope.uploadFileIntoDB($scope.offerLetterFile);
-		$http.post('resources/save-offer', $scope.candidate).success(function(data, status) {
+		$http.post('resources/offers', $scope.candidate).success(function(data, status) {
 			$log.info("saved offer...");
 			$scope.sendNotification("Offer Saved Successfully",'/offer');
 		  }).error(function(data) {
@@ -134,11 +134,8 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
             for (var i = 0; i < files.length; i++) {
                 var file = files[0];
                 $upload.upload({
-                    url: 'resources/upload-offer-letter',
-                    file: file,
-                    params: {
-                        candidateId: $scope.candidate.emailId
-                    }
+                    url: 'resources/'+ $scope.candidate.emailId +'/upload-offer-letter',
+                    file: file
                 }).progress(function (evt) {
                 }).success(function (data, status) {
                 	$log.info("Offer Letter Saved...");
@@ -216,7 +213,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 			 $timeout( function(){ $scope.alHide(); }, 5000);
 		});
 		
-		$http.get("resources/offer?emailId="+offerService.getData().emailId).success(function(data, status)
+		$http.get("resources/offers/"+offerService.getData().emailId).success(function(data, status)
 		{
 			if(data != null)
 			{
