@@ -56,6 +56,7 @@ public class OfferControllerTest {
 				post("/offers").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Offer()))).andExpect(status().isOk());
 	}
+	
 	@Test
 	public void getOffersTest() throws Exception{
 		List<OfferDTO> offers=new ArrayList<OfferDTO>();

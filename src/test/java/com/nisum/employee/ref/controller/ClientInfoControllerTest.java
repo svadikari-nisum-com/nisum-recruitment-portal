@@ -2,6 +2,7 @@ package com.nisum.employee.ref.controller;
 
 
 import static org.mockito.Matchers.any;
+
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -44,13 +44,6 @@ public class ClientInfoControllerTest {
 	    mockMvc = MockMvcBuilders.standaloneSetup(clientInfoController)
 			      .setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
    }
-   @Ignore
-   public void testGetClients() throws Exception {
-	   List<String> clientNames = new ArrayList<>();
-	   clientNames.add("Nisum");
-	   //Mockito.when((clientInfoService).getClientNames()).thenReturn(clientNames);
-	   mockMvc.perform(get("/clientNames").param("clientNames", "NISUM","Nisum1")).andExpect(status().isOk());
-   }
    @Test
    public void testGetClientDetailsByClient() throws Exception {
 	    ClientInfoDTO clientInfo = new ClientInfoDTO();
@@ -69,15 +62,6 @@ public class ClientInfoControllerTest {
 		Mockito.when((clientInfoService).getClientDetails()).thenReturn(clients);
 		mockMvc.perform(get("/clients").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new ClientInfoDTO()))).andExpect(status().isOk());
-   }
-   @Ignore
-   public void testGetInterviewerNames() throws Exception {
-	   List<String> interviewerNames = new ArrayList<>();
-	   interviewerNames.add("Swati");
-	   //Mockito.when((clientInfoService).getInterviewerNames()).thenReturn(interviewerNames);
-
-	   mockMvc.perform(
-			   get("/clients/interviewerNames").param("interviewerNames", "swati","arjun")).andExpect(status().isOk());
    }
    @Test
    public void testClientById() throws Exception {
