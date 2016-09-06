@@ -2,17 +2,27 @@ package com.nisum.employee.ref.controller;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 
 
+
+
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,4 +56,16 @@ public class OfferControllerTest {
 				post("/save-offer").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Offer()))).andExpect(status().isOk());
 	}
+	@Test
+	public void getOffersTest() throws Exception{
+		List<OfferDTO> offers=new ArrayList<OfferDTO>();
+		OfferDTO offer=new OfferDTO();
+		offer.setEmailId("rgangadhari@nisum.com");
+		offers.add(offer);
+		Mockito.when((offerService).getOffers()).thenReturn(offers);
+		mockMvc.perform(get("/offers").param("emailId","rgangadhari@nisum.com")).andExpect(status().isOk());
+		
+		
+	}
+	
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,9 +53,16 @@ public class OfferController {
 
 	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_RECRUITER" })
 	@RequestMapping(value = "/offers", method = RequestMethod.GET)
-	public ResponseEntity<List<OfferDTO>> getOffers() throws Exception {
-		return new ResponseEntity<List<OfferDTO>>(offerService.getOffers(),
-				HttpStatus.OK);
+	public ResponseEntity<List<OfferDTO>> getOffers(@RequestParam(value = "managerEmail", required = false) String managerEmail) throws Exception {
+		List<OfferDTO> li_offerDTO=null;
+		if(!StringUtils.isEmpty(managerEmail)){
+			li_offerDTO=offerService.getOffersByManagerId(managerEmail);
+		}else{
+			li_offerDTO=offerService.getOffers();
+		}
+		
+		
+		return new ResponseEntity<List<OfferDTO>>(li_offerDTO,HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_RECRUITER" })

@@ -50,9 +50,9 @@ public class DesignationController {
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/{designation}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<String> deleteDesignation(@PathVariable("designation") String designation) throws Exception {
+	public ResponseEntity<String> deleteDesignation(@PathVariable("id") String designation) throws Exception {	
 		designationService.deleteDesignation(designation);
 		return new ResponseEntity<String>("{\"msg\":\"Deleted\"}", HttpStatus.OK);
 	}
