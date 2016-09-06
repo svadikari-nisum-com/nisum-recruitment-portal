@@ -1,6 +1,5 @@
 package com.nisum.employee.ref.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import com.nisum.employee.ref.converter.UserInfoConverter;
 import com.nisum.employee.ref.domain.ClientInfo;
 import com.nisum.employee.ref.repository.ClientInfoRepository;
 import com.nisum.employee.ref.view.ClientInfoDTO;
-import com.nisum.employee.ref.view.ErrorDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
 import lombok.Getter;
@@ -40,28 +38,9 @@ public class ClientInfoService implements IClientInfoService {
 		return clientInfoConverter.convertToDTOs(clientInfoRepository.getClientDetails());
 	}
 
-	/*public List<ClientInfoDTO> getClientDetailsByClient(String clientName) {
-		return clientInfoConverter.convertToDTOs(clientInfoRepository.getClientDetailsByClient(clientName));
-	}*/
-
-	/*public List<String> getClientNames() {
-		return clientInfoRepository.getClientNames();
-	}*/
-
-	/*public List<String> getInterviewerNames() {
-		List<String> interviewerNames = new ArrayList<String>();
-		List<ClientInfo> clients = (List<ClientInfo>) clientInfoRepository.getClientDetails();
-		for (ClientInfo clientInfo : clients) {
-			interviewerNames.add(clientInfo.getInterviewer().getTechnicalRound1().get(0).getName());
-		}
-		return interviewerNames;
-	}*/
-
 	public List<ClientInfoDTO> getClientById(String clientId) {
 		return clientInfoConverter.convertToDTOs(clientInfoRepository.getClientById(clientId));
 	}
-
-	// ---Admin
 
 	public List<UserInfoDTO> fetchAllUsers() {
 		return userInfoConverter.convertToDTOs(clientInfoRepository.fetchAllUsers());

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nisum.employee.ref.domain.ResponseVO;
 import com.nisum.employee.ref.service.IClientInfoService;
-import com.nisum.employee.ref.util.Constants;
 import com.nisum.employee.ref.view.ClientInfoDTO;
 
 @RequestMapping("/clients")
@@ -25,13 +24,6 @@ public class ClientInfoController {
 
 	@Autowired(required = false)
 	private IClientInfoService clientInfoService;
-
-	/*@RequestMapping(value = "/clientNames", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<List<String>> getClients() {
-		List<String> clients = clientInfoService.getClientNames();
-		return new ResponseEntity<List<String>>(clients, HttpStatus.OK);
-	}*/
 
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
@@ -45,26 +37,10 @@ public class ClientInfoController {
 		return new ResponseEntity<List<ClientInfoDTO>>(clients, HttpStatus.OK);
 	}
 
-	/*@RequestMapping(method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<?> getInterviewerNames() {
-		List<String> interviewerNames = clientInfoService.getInterviewerNames();
-		return new ResponseEntity<List<String>>(interviewerNames, HttpStatus.OK);
-	}*/
-
-	/*@RequestMapping(value = "/getClientById", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<?> getClientById(@RequestParam(value = "clientId", required = true) String clientId) {
-		
-		List<ClientInfoDTO> client = clientInfoService.getClientById(clientId);
-		return new ResponseEntity<List<ClientInfoDTO>>(client, HttpStatus.OK);
-		
-	}*/
-
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<?> deleteClient(@RequestParam(value = "clientId", required = true) String clientId) {
+	public ResponseEntity<ResponseVO<String>> deleteClient(@RequestParam(value = "clientId", required = true) String clientId) {
 		
 		clientInfoService.deleteClient(clientId);
 		ResponseVO<String> response = new ResponseVO<String>();

@@ -63,28 +63,6 @@ public class ClientInfoRepositoryTest {
 		}
 	}
 
-	/*@Test
-	public void testGetClientDetailsByClient() 
-	{
-			when(mongoOperations.find(any(Query.class), eq(ClientInfo.class))).thenReturn(Arrays.asList(getClientInfo()));
-			List<ClientInfo> clientInfo = clientInfoRepository.getClientDetailsByClient("Nisum");
-			Assert.assertNotNull(clientInfo);
-			System.out.println("getClientDetailsByClient()--> Name::"+clientInfo.get(0).getClientName());
-	
-	}*/
-
-	/*@Test
-	public final void testGetClientNames() {
-		
-		when(mongoOperations.findAll(ClientInfo.class)).thenReturn(Arrays.asList(getClientInfo()));
-		List<String> cNames = clientInfoRepository.getClientNames();
-		for(String cName : cNames)
-		{
-			System.out.println("clientNames()--->Name::"+cName);
-		}
-		
-	}*/
-
 	@Test
 	public final void testGetClientById() 
 	{
@@ -157,7 +135,6 @@ public class ClientInfoRepositoryTest {
 	}
 	public UserInfo getUsertInfo()
 	{
-		
 		UserInfo userInfo = new UserInfo();
 		userInfo.setClientName("Nisum");
 		userInfo.setDob("1989-01-26");
