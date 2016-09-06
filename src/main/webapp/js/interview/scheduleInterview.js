@@ -80,7 +80,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 		$http.get(URL1).success(function(data, status, headers, config) {
 		$scope.candidate =data[0];
 		//$scope.candidatejc = data[0].jobcodeProfile;
-		var IR_Round='resources/positions?jobcode='+$scope.jobCodeSel;
+		var IR_Round='resources/positions?searchKey=jobcode&searchValue='$scope.jobCodeSel;
 		
 		if($scope.jobCodeSel)
 		{
@@ -134,7 +134,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 	$scope.getJobCodeRound = function(){
 		if($scope.jobCodeSel!==""){
 			$scope.reset();
-			var rounds_URL = 'resources/positions?jobcode='+$scope.jobCodeSel;
+			var rounds_URL = 'resources/positions?searchKey=jobcode&searchValue='$scope.jobCodeSel;
 			$http.get(rounds_URL).success(function(data, status, headers, config) {
 				$scope.position = data[0];
 			}).error(function(data, status, headers, config) {

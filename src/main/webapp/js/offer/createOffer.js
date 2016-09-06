@@ -72,7 +72,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 			});
 		}).catch();
 	
-	var GET_POSTION_DETAILS='resources/searchPositionsBasedOnJobCode?jobcode='+$scope.profile.jobcodeProfile;
+	var GET_POSTION_DETAILS='resources/positions?searchKey=jobcode&searchValue='+$scope.profile.jobcodeProfile;
 	var RELEASE_OFFER='resources/save-offer';
 	
 	$http.get(GET_POSTION_DETAILS).success(function(data2, status, headers, config) {

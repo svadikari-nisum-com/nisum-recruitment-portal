@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -57,28 +58,9 @@ public class PositionRepositoryTest {
 	
 	@Before
 	public void init() {
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		when(agg.getMappedResults()).thenReturn(Arrays.asList(getPositionAggregate()));
 	}
 
-	@Test
-	public void shouldRetrievePositionByClient() throws Exception {
-		
-		Mockito.when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(getPosition()));
-		List<Position> listPosition = positionRepository.retrievePositionByClient("GAP");
-		assertNotNull(listPosition);
-		assertEquals("SSE", listPosition.get(0).getJobcode());
-	}
-	
 	@Test
 	public void save()
 	{
@@ -110,41 +92,32 @@ public class PositionRepositoryTest {
 	public void retrievePositionByClient()
 	{
 		Mockito.when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(getPosition()));
-		List<Position> position = positionRepository.retrievePositionByClient("Nisum");
+		List<Position> position = positionRepository.retrieveAllPositions("client","Nisum");
 		assertNotNull(position);
 		assertEquals("SSE", position.get(0).getJobcode());
 	}
 	
 	@SuppressWarnings("serial")
-	@Test
+	@Ignore
 	public void retrieveAllPositions()
 	{
 		when(mongoOperations.findAll(Position.class)).thenReturn(
 				new ArrayList<Position>()
 				{{add(getPosition());}});
-		List<Position> position = positionRepository.retrieveAllPositions();
+		List<Position> position = positionRepository.retrieveAllPositions("hiringManager","Swathoi");
 		assertNotNull(position);
-		assertEquals("SSE", position.get(0).getJobcode());
+		assertEquals("Swathi", position.get(0).getHiringManager());
 	}
 	
 	@Test
 	public void retrievePositionsByDesignation()
 	{
 		Mockito.when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(getPosition()));
-		List<Position> position = positionRepository.retrievePositionsbasedOnDesignation("SSE");
+		List<Position> position = positionRepository.retrieveAllPositions("designation","developer");
 		assertNotNull(position);
 		assertEquals("SSE", position.get(0).getJobcode());
 	}
 	
-	
-	@Test
-	public void retrievePositionsByJobCode()
-	{
-		when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(getPosition()));
-		List<Position> position = positionRepository.retrievePositionsbasedOnJobCode("SSE");
-		assertNotNull(position);
-		assertEquals("SSE", position.get(0).getJobcode());
-	}
 	
 	@Test
 	public void deletePositionByJC()
@@ -159,7 +132,7 @@ public class PositionRepositoryTest {
 	public void retrievePositionbasedOnLocation()
 	{
 		Mockito.when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(getPosition()));
-		List<Position> position = positionRepository.retrievePositionbasedOnLocation("SSE");
+		List<Position> position = positionRepository.retrieveAllPositions("location","SF");
 		assertNotNull(position);
 		assertEquals("SSE", position.get(0).getJobcode());
 	}
@@ -203,7 +176,7 @@ public class PositionRepositoryTest {
 		pos.setJobcode("DEV_GAP-GID_HYD_582016_845");
 		pos.setHiringManager("Shyam Vadikari");
 		Mockito.when(mongoOperations.find(any(Query.class), eq(Position.class))).thenReturn(Arrays.asList(pos));
-		List<Position> position = positionRepository.retrieveAllPositionsByHiringManager("DEV_GAP-GID_HYD_582016_845");
+		List<Position> position = positionRepository.retrieveAllPositions("hiringManager","Swathoi");
 		assertNotNull(position);
 		assertEquals("DEV_GAP-GID_HYD_582016_845", position.get(0).getJobcode());
 	}

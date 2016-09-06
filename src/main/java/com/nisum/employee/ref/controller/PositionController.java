@@ -51,26 +51,15 @@ public class PositionController {
 	
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<PositionDTO>> retrievePositions(@RequestParam(value = "client", required = false) String client,
-			@RequestParam(value = "designation", required = false) String designation,
-			@RequestParam(value = "hiringManager", required = false) String hiringManager,
-			@RequestParam(value = "jobcode", required = false) String jobcode,
-			@RequestParam(value = "location", required = false) String location) {
+	public ResponseEntity<List<PositionDTO>> retrievePositions(@RequestParam(value = "searchKey", required = false) String searchKey,
+			@RequestParam(value = "searchValue", required = false) String searchValue) {
 		List<PositionDTO> positionsDetails;
-		if (!StringUtils.isEmpty(designation)) {
-			positionsDetails = positionService.retrievePositionsbasedOnDesignation(designation);
-		} else if (!StringUtils.isEmpty(hiringManager)){
-			positionsDetails = positionService.retrieveAllPositionsByHiringManager(hiringManager);
-		} else if (!StringUtils.isEmpty(jobcode)){
-			positionsDetails = positionService.retrievePositionsbasedOnJobCode(jobcode);
-		} else if (!StringUtils.isEmpty(location)){
-			positionsDetails = positionService.retrievePositionbasedOnLocation(location);
-		} else if (!StringUtils.isEmpty(client)){
-			positionsDetails =  positionService.retrievePositionByClient(client);
-		} else {
-			positionsDetails = positionService.retrieveAllPositions();
-		}
-		return new ResponseEntity<List<PositionDTO>>(positionsDetails, HttpStatus.OK);
+		    if ( !(StringUtils.isEmpty(searchKey)) || !(StringUtils.isEmpty(searchValue))){
+		    	 positionsDetails = positionService.retrieveAllPositions(searchKey,searchValue);
+		    } else {
+		    	 positionsDetails = positionService.retrieveAllPositions();
+		    }
+		   return new ResponseEntity<List<PositionDTO>>(positionsDetails, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})

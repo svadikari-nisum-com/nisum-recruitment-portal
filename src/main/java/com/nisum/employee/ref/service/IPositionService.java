@@ -11,20 +11,12 @@ public interface IPositionService {
 
 	public void updatePosition(Position position);
 
-	public List<PositionDTO> retrievePositionByClient(String client);
-
-	public List<PositionDTO> retrieveAllPositions();
-
-	public List<PositionDTO> retrievePositionsbasedOnDesignation(String designation);
-
-	public List<PositionDTO> retrievePositionsbasedOnJobCode(String jobcode);
-
 	public Position deletePositionBasedOnJC(String jobcode);
-
-	public List<PositionDTO> retrievePositionbasedOnLocation(String location);
 
 	public List<PositionAggregate> retrieveAllPositionsAggregate();
 	
-	public List<PositionDTO> retrieveAllPositionsByHiringManager(String hiringManager);
+	List<PositionDTO> retrieveAllPositions(String searchKey, String searchValue);
+	List<PositionDTO> retrieveAllPositions();
+
 	
 }

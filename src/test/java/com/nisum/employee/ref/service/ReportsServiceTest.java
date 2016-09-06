@@ -85,7 +85,7 @@ public class ReportsServiceTest {
 		position.setFunctionalGroup("DEV");
 		position.setNoOfPositions(2);
 		positions.add(position);
-		when(positionService.retrieveAllPositionsByHiringManager(any(String.class))).thenReturn(positions); 
+		when(positionService.retrieveAllPositions(any(String.class),any(String.class))).thenReturn(positions); 
 		List<String> positionsIds = new ArrayList<String>();
 		
 		for(PositionDTO pos : positions){

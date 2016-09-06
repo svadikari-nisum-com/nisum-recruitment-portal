@@ -30,30 +30,19 @@ public class PositionService implements IPositionService{
 	public void updatePosition(Position position) {
 		positionRepository.updatePosition(position);
 	}
+	
 	@Override
-	public List<PositionDTO> retrievePositionByClient(String client) {
-		return positionConverter.convertToDTOs((positionRepository.retrievePositionByClient(client)));
+	public List<PositionDTO> retrieveAllPositions(String searchKey, String searchValue) {
+		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositions(searchKey,searchValue)));
 	}
 	@Override
 	public List<PositionDTO> retrieveAllPositions() {
 		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositions()));
 	}
-	@Override
-	public List<PositionDTO> retrievePositionsbasedOnDesignation(String designation) {
-		return positionConverter.convertToDTOs((positionRepository.retrievePositionsbasedOnDesignation(designation)));
-	}
 	
-	@Override
-	public List<PositionDTO> retrievePositionsbasedOnJobCode(String jobcode) {
-		return positionConverter.convertToDTOs((positionRepository.retrievePositionsbasedOnJobCode(jobcode)));
-	}
 	@Override
 	public Position deletePositionBasedOnJC(String jobcode) {
 		return positionRepository.deletePositionBasedOnJC(jobcode);
-	}
-	@Override
-	public List<PositionDTO> retrievePositionbasedOnLocation(String location) {
-		return positionConverter.convertToDTOs((positionRepository.retrievePositionbasedOnLocation(location)));
 	}
 	
 	@Override
@@ -61,9 +50,4 @@ public class PositionService implements IPositionService{
 		return positionRepository.retrieveAllPositionsAggregate();
 	}
 	
-	@Override
-	public List<PositionDTO> retrieveAllPositionsByHiringManager(String hiringManager) {
-		return positionConverter.convertToDTOs( positionRepository.retrieveAllPositionsByHiringManager(hiringManager));
-	}
-
 }

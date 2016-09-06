@@ -44,7 +44,7 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		var positionURL = "resources/positions";
 		if(typeof isManager !== 'undefined')
 		{
-			positionURL = "resources/positions?hiringManager="+isManager;
+			positionURL = "resources/positions?searchKey=hiringManager&searchValue="+isManager;
 		}
 		
 		return $http.get(positionURL)
@@ -52,20 +52,20 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		.catch(getPositionError);
 	}
 	function getPositionByDesignation(designation){
-		return $http.get('resources/positions?designation='+designation)
+		return $http.get('resources/positions?searchKey=designation&searchValue='+designation)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	
 	function getPositionByJobcode(jobcode){
-		return $http.get('resources/positions?jobcode='+jobcode)
+		return $http.get('resources/positions?searchKey=jobcode&searchValue='+jobcode)
 		.then(function(response) {
 			return data = response.data;
 		})
 		.catch(getPositionError);
 	}
 	function getPositionBylocation(location){
-		return $http.get('resources/positions?location='+location)
+		return $http.get('resources/positions?searchKey=location&searchValue='+location)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}

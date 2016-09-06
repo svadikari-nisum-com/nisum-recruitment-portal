@@ -64,13 +64,13 @@ function offerService($http,$filter,$rootScope, appConstants, $q, $timeout, $log
 		.catch(getPositionError);
 	}
 	function getPositionByDesignation(designation){
-		return $http.get('resources/positions?designation='+designation)
+		return $http.get('resources/positions?searchKey=designation&searchValue='+designation)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	
 	function getPositionByJobcode(jobcode){
-		return $http.get('resources/positions?jobcode='+jobcode)
+		return $http.get('resources/positions?searchKey=jobcode&searchValue='+jobcode)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}

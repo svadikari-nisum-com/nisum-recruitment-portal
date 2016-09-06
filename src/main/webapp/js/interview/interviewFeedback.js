@@ -51,7 +51,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	
 	var profile_url = $http.get('resources/profile?emailId='+$scope.emailId);
 	var interview_URL = $http.get('resources/interview?candiateId='+$scope.emailId);
-	var position_URL = $http.get('resources/positions?jobcode='+$scope.jobcode);
+	var position_URL = $http.get('resources/positions?searchKey=jobcode&searchValue='$scope.jobcode);
 	$scope.info = $rootScope.info;
 	$q.all([profile_url, interview_URL, position_URL]).then(
 			function(response){

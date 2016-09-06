@@ -63,30 +63,6 @@ public class PositionControllerTest {
 	}
 	
 	@Test
-	public void retrievePositionByDesignation() throws Exception {
-		List<PositionDTO> positions = new ArrayList<>();
-		PositionDTO position = new PositionDTO();
-		position.setJobcode("SE");
-		position.setDesignation("Software Engineer");
-		positions.add(position);
-		
-		Mockito.when(
-				(positionService).retrievePositionsbasedOnDesignation(any(String.class)))
-				.thenReturn(positions);
-		mockMvc.perform(get("/positions").param("designation", "Software Engineer")).andExpect(status().isOk());
-	}
-	@Test
-	public void retrievePositionByClient() throws Exception {
-		List<PositionDTO> positions = new ArrayList<>();
-		PositionDTO position = new PositionDTO();
-		position.setClient("GAP");
-		positions.add(position);
-		Mockito.when(
-				(positionService).retrievePositionByClient(any(String.class)))
-				.thenReturn(positions);
-		mockMvc.perform(get("/positions").param("client", "GAP")).andExpect(status().isOk());
-	}
-	@Test
 	public void retrieveAllPositions() throws Exception {
 		List<PositionDTO> positions = new ArrayList<>();
 		PositionDTO position = new PositionDTO();
@@ -94,32 +70,11 @@ public class PositionControllerTest {
 		position.setDesignation("Software Engineer");
 		positions.add(position);
 		Mockito.when(
-				(positionService).retrieveAllPositions())
+				(positionService).retrieveAllPositions("hiringManager","Swathoi"))
 				.thenReturn(positions);
-		mockMvc.perform(get("/positions").param("client", "GAP").param("designation", "Software Engineer")).andExpect(status().isOk());
+		mockMvc.perform(get("/positions").param("searchKey", "GAP").param("searchValue", "Software Engineer")).andExpect(status().isOk());
 	}
-	@Test
-	public void retrievePositionsBasedOnJobCode() throws Exception {
-		PositionDTO positionsDetail = new PositionDTO();
-		List<PositionDTO> positions = new ArrayList<>();
-		positionsDetail.setJobcode("SE");
-		positions.add(positionsDetail);
-		Mockito.when(
-				(positionService).retrievePositionsbasedOnJobCode("SE"))
-				.thenReturn(positions);
-		mockMvc.perform(get("/positions").param("jobcode", "SE")).andExpect(status().isOk());
-	}
-	@Test
-	public void retrievesearchPositionbasedOnLocation() throws Exception {
-		PositionDTO positionsDetail = new PositionDTO();
-		List<PositionDTO> positions = new ArrayList<>();
-		positionsDetail.setLocation("Banglore");
-		positions.add(positionsDetail);
-		Mockito.when(
-				(positionService).retrievePositionbasedOnLocation(any(String.class)))
-				.thenReturn(positions);
-		mockMvc.perform(get("/positions").param("location", "Banglore")).andExpect(status().isOk());
-	}
+	
 	@Test
 	public void retrieveAllPositionsAggregate() throws Exception {
 		PositionAggregate positionAggregate = new PositionAggregate();

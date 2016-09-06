@@ -67,41 +67,23 @@ public class PositionServiceTest {
 		service.updatePosition(position);
 	}
 
+	
 	@Test
-	public void retrievePositionByClient() throws Exception {
-		Mockito.when(positionRepository.retrievePositionByClient(any(String.class))).thenReturn(positions);
-
-		List<PositionDTO> listPosition = service.retrievePositionByClient("GAP");
-
+	public void retrieveAllPositions() {
+		when(positionRepository.retrieveAllPositions(Mockito.anyString(),Mockito.anyString())).thenReturn(positions);
+		List<PositionDTO> listPosition = service.retrieveAllPositions("hiringManager","swathi");
 		assertNotNull(listPosition);
 		assertEquals("SSE", listPosition.get(0).getJobcode());
 	}
 	
-	@Test
-	public void retrieveAllPositions() {
-		when(positionRepository.retrieveAllPositions()).thenReturn(positions);
-		List<PositionDTO> listPosition = service.retrieveAllPositions();
-		assertNotNull(listPosition);
-		assertEquals("Sr. Software Engineer", listPosition.get(0).getDesignation());
-	}
-	
-	@Test
-	public void retrievePositionsByDesignation() {
-		when(positionRepository.retrievePositionsbasedOnDesignation(Mockito.anyString())).thenReturn(positions);
-		List<PositionDTO> listPosition = service.retrievePositionsbasedOnDesignation("SE");
-
-		assertNotNull(listPosition);
-		assertEquals("Sr. Software Engineer", listPosition.get(0).getDesignation());
-	}
-	
-	@Test
+	/*@Test
 	public void retrievePositionsByJobCode() {
 		when(positionRepository.retrievePositionsbasedOnJobCode(Mockito.anyString())).thenReturn(positions);
 		List<PositionDTO> actualPosition = service.retrievePositionsbasedOnJobCode("JSSE");
 
 		assertNotNull(actualPosition);
 		assertEquals("SSE", actualPosition.get(0).getJobcode());
-	}
+	}*/
 	
 	@Test
 	public void deletePositionsByJobCode() {
@@ -110,15 +92,6 @@ public class PositionServiceTest {
 
 		assertNotNull(actualPosition);
 		assertEquals("SSE", actualPosition.getJobcode());
-	}
-	
-	@Test
-	public void retrievePositionsByLocation() {
-		when(positionRepository.retrievePositionbasedOnLocation(Mockito.anyString())).thenReturn(positions);
-		List<PositionDTO> listPosition = service.retrievePositionbasedOnLocation("Hyd");
-
-		assertNotNull(listPosition);
-		assertEquals("Hyderabad", listPosition.get(0).getLocation());
 	}
 	
 	@Test
@@ -136,17 +109,4 @@ public class PositionServiceTest {
 		assertEquals("SSE", positionAggregates.get(0).getDesignation());
 	}
 	
-	@Test
-	public void retrieveAllPositionsByHiringManager() {
-		List<Position> positions = new ArrayList<>();
-		Position position = new Position();
-		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
-		position.setHiringManager("Aliza Zaffar ");
-		positions.add(position);
-		
-		when(positionRepository.retrieveAllPositionsByHiringManager(any(String.class))).thenReturn(positions);
-		List<PositionDTO> allPositions = service.retrieveAllPositionsByHiringManager("Aliza Zaffar ");
-
-		assertNotNull(allPositions);
-	}
 }

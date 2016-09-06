@@ -63,12 +63,12 @@ app.controller('searchProfileCtrl',['$scope', '$http','$q','jobCodeService1','$r
 			paginationCurrentPage: 1,
 			rowTemplate: '<div <div ng-repeat="col in colContainer.renderedColumns track by col.colDef.name"  class="ui-grid-cell" ui-grid-cell><md-tooltip>{{row.entity.jobcodeProfile[0]}}</md-tooltip></div></div>',
 		    columnDefs: [
-		      { field: 'candidateName', displayName:"Name", cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editProfile(row.entity); $event.stopPropagation();" ui-sref="recruitment.viewProfile">{{row.entity.candidateName}} </a>'},
-		      { field: 'emailId', displayName:"Email Id", cellClass: 'ui-grid-align'},
-		      { field: 'designation', displayName:"Role", width: 150, cellClass: 'ui-grid-align'},
-		      { field: 'expYear', displayName:"Experience", width: 100, cellClass: 'ui-grid-align'},
-		      { field: 'hrAssigned', displayName:"Recrutier", width: 200, cellClass: 'ui-grid-align'},
-		      { field: 'schedule', displayName:"Schedule", width: 100, cellClass: 'ui-grid-align',cellTemplate: $scope.interviewTemplate },
+		      { field: 'candidateName', displayName:"Name",width: 100, cellClass: 'ui-grid-align', cellTemplate: '<a style="padding-left: 5px;" ng-click="grid.appScope.editProfile(row.entity); $event.stopPropagation();" ui-sref="recruitment.viewProfile">{{row.entity.candidateName}} </a>'},
+		      { field: 'emailId', displayName:"Email Id",width: 150, cellClass: 'ui-grid-align'},
+		      { field: 'designation', displayName:"Role", width: 100, cellClass: 'ui-grid-align'},
+		      { field: 'expYear', displayName:"Experience", width: 50, cellClass: 'ui-grid-align'},
+		      { field: 'hrAssigned', displayName:"Recrutier", width: 150, cellClass: 'ui-grid-align'},
+		      { field: 'interview', displayName:"Interview", width: 100, cellClass: 'ui-grid-align',cellTemplate: $scope.interviewTemplate },
 		      { field: 'interviewProgress', displayName:"Interview Status", cellClass: 'ui-grid-align'}
 		    ],
 		    onRegisterApi: function( gridApi ) {

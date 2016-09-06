@@ -45,7 +45,7 @@ public class ReportsService {
 		List<OfferDTO> offers;
 		ReportsVO reportsVO = new ReportsVO();
 		List<ReportsVO> reportList = new ArrayList<ReportsVO>();
-		List<PositionDTO> positions = positionService.retrieveAllPositionsByHiringManager(hiringManager);
+		List<PositionDTO> positions = positionService.retrieveAllPositions("hiringManager", hiringManager);
 		
 		for(PositionDTO position : positions){
 			reportsVO = new ReportsVO();
