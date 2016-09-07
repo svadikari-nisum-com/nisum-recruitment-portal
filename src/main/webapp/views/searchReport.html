@@ -9,9 +9,9 @@
 				ng-keypress="myFuncts($event)" style="width: 57%; height: 30px;"
 				theme="select2" id="repManager" ui-select-required
 				ng-disabled="disabled"> <ui-select-match
-				placeholder="Select Report Manager">{{$item}}</ui-select-match>
-			<ui-select-choices repeat="name in reportingMngr| orderBy:'toString()'">
-			{{name}} </ui-select-choices> </ui-select>
+				placeholder="Select Report Manager">{{$item.name}}</ui-select-match>
+			<ui-select-choices repeat="item.emailId as item in reportingMngr| orderBy:'toString()'">
+			{{item.name}} </ui-select-choices> </ui-select>
 		</div>
 		<div class="col-md-4 ">
 			<label class="lbl " for="jobcode" style="width: 30%;"> HR

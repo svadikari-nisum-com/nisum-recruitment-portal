@@ -81,7 +81,7 @@
 		for(var i=0;i<user.roles.length;i++){
 			if(user.roles[i]=="ROLE_MANAGER"){
 				$scope.repManagers.push(user.name);
-				$scope.reportingMngr.push(user.name);			
+				$scope.reportingMngr.push({"emailId":user.emailId,"name":user.name});			
 				
 			}else if(user.roles[i]=="ROLE_HR"){		
 				$scope.hr.push(user.name);

@@ -26,6 +26,9 @@ $cname's strengths:<br>
 <br><br>
 $cname's area of improvements:<br>
 <b>$improvements</b>
+<br><br>
+Next Level:<br>
+<b>$feedbackStatus</b>
 </p>
 <p style="font-size:18px;">Regards,<br>
 $iname</p>

@@ -75,7 +75,7 @@ public class NotificationService implements INotificationService {
 	private static final String RATING_LIST = "ratingList";
 	private static final String IMPROVEMENTS = "improvements";
 	private static final String STRENGTHS = "strengths";
-
+	private static final String FEEDBACK_STATUS = "feedbackStatus";
 	private static final String TRUE = "true";
 	private static final String MAIL_SMTP_PORT = "mail.smtp.port";
 	private static final String MAIL_SMTP_HOST = "mail.smtp.host";
@@ -256,7 +256,7 @@ public class NotificationService implements INotificationService {
 		context.put(STRENGTHS, interviewFeedback.getStrengths());
 		context.put(IMPROVEMENTS, interviewFeedback.getImprovement());
 		context.put(RATING_LIST, interviewFeedback.getRateSkills());
-
+		context.put(FEEDBACK_STATUS, interviewFeedback.getStatus());
 		Template candidateTemplate = getVelocityTemplate(SRC_FEEDBACK_HR_VM);
 
 		StringWriter writer = new StringWriter();

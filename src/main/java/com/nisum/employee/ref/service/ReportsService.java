@@ -45,8 +45,10 @@ public class ReportsService {
 		List<OfferDTO> offers;
 		ReportsVO reportsVO = new ReportsVO();
 		List<ReportsVO> reportList = new ArrayList<ReportsVO>();
-		List<PositionDTO> positions = positionService.retrieveAllPositions("hiringManager", hiringManager);
 		
+		String[] hiringManagers=hiringManager.split(",");
+		for (String  hrmgr : hiringManagers) {
+			List<PositionDTO> positions=positionService.retrieveAllPositions("hiringManager", hrmgr);			
 		for(PositionDTO position : positions){
 			reportsVO = new ReportsVO();
 			reportsVO.setFunctionalGrp(position.getFunctionalGroup());
@@ -81,6 +83,7 @@ public class ReportsService {
 			}
 			
 			reportList.add(reportsVO);
+		}
 		}
 		return reportList;
 	}
