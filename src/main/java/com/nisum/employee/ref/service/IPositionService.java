@@ -2,7 +2,7 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
-import com.nisum.employee.ref.domain.Position;
+
 import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.view.PositionDTO;
 
@@ -11,13 +11,11 @@ public interface IPositionService {
 
 	public void updatePosition(PositionDTO position);
 
-	public Position deletePositionBasedOnJC(String jobcode);
+	public PositionDTO deletePositionBasedOnJC(String jobcode);
 
 	public List<PositionAggregate> retrieveAllPositionsAggregate();
 	
 	List<PositionDTO> retrieveAllPositions(String searchKey, String searchValue);
-	List<PositionDTO> retrieveAllPositions();
-
-
 	
+	List<PositionDTO> retrieveAllPositions();
 }

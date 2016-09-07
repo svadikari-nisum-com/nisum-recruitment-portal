@@ -2,12 +2,12 @@ package com.nisum.employee.ref.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +49,7 @@ public class PositionController {
 	public ResponseEntity<List<PositionDTO>> retrievePositions(@RequestParam(value = "searchKey", required = false) String searchKey,
 			@RequestParam(value = "searchValue", required = false) String searchValue) {
 	 	    List<PositionDTO> positionsDetails;
-		    if (!(StringUtils.isEmpty(searchKey)) || !(StringUtils.isEmpty(searchValue))){
+	    	if (StringUtils.isNotBlank(searchKey) && StringUtils.isNotBlank(searchValue)){
 		    	 positionsDetails = positionService.retrieveAllPositions(searchKey,searchValue);
 		    } else {
 		    	 positionsDetails = positionService.retrieveAllPositions();

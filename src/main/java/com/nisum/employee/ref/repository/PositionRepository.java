@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.repository;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
@@ -58,14 +59,13 @@ public class PositionRepository {
 		update.set("location", position.getLocation());
 		update.set("noOfPositions", position.getNoOfPositions());
 		update.set("client", position.getClient());
-		update.set("lastModifiedDate", new DateTime(new Date()));
+		update.set("lastModifiedDate", java.time.LocalDateTime.now());
 		update.set("hiringManager", position.getHiringManager());
 		update.set("priority", position.getPriority());
 		update.set("interviewer", position.getInterviewer());
 		update.set("jobType", position.getJobType());
 		update.set("functionalGroup", position.getFunctionalGroup());
 		update.set("jobHeader", position.getJobHeader());
-
 		mongoOperations.updateFirst(query, update, Position.class);
 	}
 
@@ -73,14 +73,11 @@ public class PositionRepository {
 		Query query = new Query();
 		query.addCriteria(Criteria.where(searchKey).regex(Pattern.compile(searchValue, Pattern.CASE_INSENSITIVE
 						| Pattern.UNICODE_CASE)));
-		List<Position> positionDatails = mongoOperations.find(query,Position.class);
-		return positionDatails;
+		return mongoOperations.find(query,Position.class);
 	}
 
 	public List<Position> retrieveAllPositions() {
-		List<Position> positionDatails = mongoOperations
-				.findAll(Position.class);
-		return positionDatails;
+		return mongoOperations.findAll(Position.class);
 	}
 
 	public Position deletePositionBasedOnJC(String jobcode) {

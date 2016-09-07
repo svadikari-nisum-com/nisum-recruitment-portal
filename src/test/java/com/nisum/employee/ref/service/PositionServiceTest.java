@@ -77,7 +77,7 @@ public class PositionServiceTest {
 	@Test
 	public void deletePositionsByJobCode() {
 		when(positionRepository.deletePositionBasedOnJC(Mockito.anyString())).thenReturn(position);
-		Position actualPosition = service.deletePositionBasedOnJC("JSSE");
+		PositionDTO actualPosition = service.deletePositionBasedOnJC("JSSE");
 
 		assertNotNull(actualPosition);
 		assertEquals("SSE", actualPosition.getJobcode());

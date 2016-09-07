@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nisum.employee.ref.converter.PositionConverter;
-import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.repository.PositionRepository;
 import com.nisum.employee.ref.view.PositionDTO;
@@ -28,7 +27,7 @@ public class PositionService implements IPositionService{
 	}
 	@Override
 	public void updatePosition(PositionDTO position) {
-		positionRepository.updatePosition(positionConverter.convertToEntity(position));
+		 positionRepository.updatePosition(positionConverter.convertToEntity(position));
 	}
 	
 	@Override
@@ -42,8 +41,8 @@ public class PositionService implements IPositionService{
 	}
 	
 	@Override
-	public Position deletePositionBasedOnJC(String jobcode) {
-		return positionRepository.deletePositionBasedOnJC(jobcode);
+	public PositionDTO deletePositionBasedOnJC(String jobcode) {
+		return positionConverter.convertToDTO(positionRepository.deletePositionBasedOnJC(jobcode));
 	}
 	
 	@Override
