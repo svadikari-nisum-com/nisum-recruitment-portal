@@ -52,7 +52,7 @@ public class InterviewControllerTest {
 		interviewDetails.setCandidateName("swati");
 		interviewDetails.setClientName("Nisum");
 		Mockito.when((interviewDetailsService).scheduleInterview(interviewSchedule)).thenReturn(interviewDetails);
-		mockMvc.perform(post("/interview/schedule").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/interviews/schedule").contentType(MediaType.APPLICATION_JSON)
 				.content(MockTestUtil.convertToJsonFormat(new InterviewSchedule()))).andExpect(status().isOk());
 
 	}
@@ -66,7 +66,7 @@ public class InterviewControllerTest {
 		interviewDetails.setCandidateName("swati");
 		interviewDetails.setClientName("Nisum");
 		Mockito.when((interviewDetailsService).updateInterview(interviewSchedule)).thenReturn(interviewDetails);
-		mockMvc.perform(put("/interview/schedule").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/interviews/schedule").contentType(MediaType.APPLICATION_JSON)
 				.content(MockTestUtil.convertToJsonFormat(new InterviewSchedule()))).andExpect(status().isOk());
 
 	}
@@ -81,7 +81,7 @@ public class InterviewControllerTest {
 		interviewDetails.setCandidateName("swati");
 		interviewDetails.setClientName("Nisum");
 		Mockito.when((interviewDetailsService).saveFeedback(interviewFeedBack)).thenReturn(interviewDetails);
-		mockMvc.perform(post("/interview/feedback").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/interviews/feedback").contentType(MediaType.APPLICATION_JSON)
 				.content(MockTestUtil.convertToJsonFormat(new InterviewSchedule()))).andExpect(status().isOk());
 
 	}
@@ -92,7 +92,7 @@ public class InterviewControllerTest {
 		interviewDetails.setCandidateName("swati");
 		interviewDetails.setClientName("Nisum");
 		Mockito.when((interviewDetailsService).createInterview(interviewDetails)).thenReturn(interviewDetails);
-		mockMvc.perform(post("/interview").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(post("/interviews").contentType(MediaType.APPLICATION_JSON)
 				.content(MockTestUtil.convertToJsonFormat(new InterviewDetails()))).andExpect(status().isOk());
 
 	}
@@ -102,7 +102,7 @@ public class InterviewControllerTest {
 		
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterview("79")).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("interviewerId", "79")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("interviewerId", "79")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -111,7 +111,7 @@ public class InterviewControllerTest {
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByInterviewerAndJobCode("skaranam@gmail.com", "1"))
 				.thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("interviewerEmail", "skaranam@gmail.com").param("jobCode", "1"))
+		mockMvc.perform(get("/interviews").param("interviewerEmail", "skaranam@gmail.com").param("jobCode", "1"))
 				.andExpect(status().isOk());
 	}
 	
@@ -121,7 +121,7 @@ public class InterviewControllerTest {
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByInterviewer("skaranam@gmail.com"))
 				.thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("interviewerEmail", "skaranam@gmail.com")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("interviewerEmail", "skaranam@gmail.com")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -129,7 +129,7 @@ public class InterviewControllerTest {
 		
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByJobCode("NisumDeveloper")).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("jobCode", "NisumDeveloper")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("jobCode", "NisumDeveloper")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -137,7 +137,7 @@ public class InterviewControllerTest {
 		
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByCandidateId("79")).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("candiateId", "79")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("candiateId", "79")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -145,7 +145,7 @@ public class InterviewControllerTest {
 		
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByClient("NISUM")).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("client", "NISUM")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("client", "NISUM")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -153,7 +153,7 @@ public class InterviewControllerTest {
 		
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByProgress("Passed")).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("progress", "Passed")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("progress", "Passed")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -161,7 +161,7 @@ public class InterviewControllerTest {
 		
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewBySkill("JAVA")).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("skill", "JAVA")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("skill", "JAVA")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -169,7 +169,7 @@ public class InterviewControllerTest {
 		
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getInterviewByDesignation("SSE")).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("designation", "SSE")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("designation", "SSE")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -178,7 +178,7 @@ public class InterviewControllerTest {
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		// By InterviewrID
 		Mockito.when((interviewDetailsService).getInterviewByDesignation("799")).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").param("interviewId", "799")).andExpect(status().isOk());
+		mockMvc.perform(get("/interviews").param("interviewId", "799")).andExpect(status().isOk());
 	}
 	
 	@Test
@@ -186,7 +186,7 @@ public class InterviewControllerTest {
 		
 		List<InterviewDetails> checkDetails = getInterviewDetailsObject();
 		Mockito.when((interviewDetailsService).getAll()).thenReturn(checkDetails);
-		mockMvc.perform(get("/interview").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(get("/interviews").contentType(MediaType.APPLICATION_JSON)
 				.content(MockTestUtil.convertToJsonFormat(new InterviewDetails()))).andExpect(status().isOk());
 	}
 
@@ -197,7 +197,7 @@ public class InterviewControllerTest {
 		interviewDetails.setClientName("Nisum");
 		doNothing().when(interviewDetailsService).updateInterviewDetails(interviewDetails);
 
-		mockMvc.perform(put("/interview").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(put("/interviews").contentType(MediaType.APPLICATION_JSON)
 				.content(MockTestUtil.convertToJsonFormat(new InterviewDetails()))).andExpect(status().isOk());
 	}
 	

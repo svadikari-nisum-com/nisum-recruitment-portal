@@ -28,7 +28,7 @@
 		var User_URL = 'resources/user?emailId='+$scope.useremailId;
 		var position_URL = 'resources/positions';
 		var clientNames_URL = 'resources/clients';
-		var InterviewDetailsURL = 'resources/interview';
+		var InterviewDetailsURL = 'resources/interviews';
 		
 		$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
 			$scope.interviewDetails = data;
@@ -56,7 +56,7 @@
 					} else if(_.contains($scope.userRoles, "ROLE_MANAGER")){
 						$scope.clienthidden = false;
 						$scope.positionhidden = false;
-						$http.get('resources/interview?interviewerEmail='+$scope.useremailId).success(function(data, status, headers, config) {
+						$http.get('resources/interviews?interviewerEmail='+$scope.useremailId).success(function(data, status, headers, config) {
 							
 							if(data==undefined || data == null || data.length == 0){
 								$scope.interviewDetails = [];
@@ -76,7 +76,7 @@
 					} else if(_.contains($scope.userRoles, "ROLE_INTERVIEWER")){
 						$scope.clienthidden = true;
 						$scope.positionhidden = true;
-						$http.get('resources/interview?interviewerEmail='+$scope.useremailId).
+						$http.get('resources/interviews?interviewerEmail='+$scope.useremailId).
 						success(function(data, status, headers, config) {
 							if(data==undefined || data == null || data.length == 0){
 								$scope.interviewDetails = [];
@@ -149,7 +149,7 @@
 		}
 		
 		$scope.searchPosition = function(){
-		var InterviewDetailsURL = 'resources/interview?jobCode='+$scope.interview.position;
+		var InterviewDetailsURL = 'resources/interviews?jobCode='+$scope.interview.position;
 		$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
 			$scope.interviewDetails = data;
 		}).error(function(data, status, headers, config) {
@@ -159,7 +159,7 @@
 		};
 		
 		$scope.searchByProgress = function(){
-			var progress_URL = 'resources/interview?progress='+$scope.interview.progress;
+			var progress_URL = 'resources/interviews?progress='+$scope.interview.progress;
 			$http.get(progress_URL).success(function(data, status, headers, config) {
 				$scope.interviewDetails = data;
 			}).error(function(data, status, headers, config) {
@@ -169,7 +169,7 @@
 		}
 		
 		$scope.searchBySkill = function(){
-			var skill_URL = 'resources/interview?skill='+$scope.interview.skill;
+			var skill_URL = 'resources/interviews?skill='+$scope.interview.skill;
 			$http.get(skill_URL).success(function(data, status, headers, config) {
 				$scope.interviewDetails = data;
 			}).error(function(data, status, headers, config) {
@@ -179,7 +179,7 @@
 		}
 		
 		$scope.searchByDesignation = function(){
-			var skill_URL = 'resources/interview?designation='+$scope.interview.designation;
+			var skill_URL = 'resources/interviews?designation='+$scope.interview.designation;
 			$http.get(skill_URL).success(function(data, status, headers, config) {
 				$scope.interviewDetails = data;
 			}).error(function(data, status, headers, config) {

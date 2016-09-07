@@ -13,7 +13,7 @@ function interviewService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 	function getInterviewFeedback(emailId,jobcode){
 		
 		var profile_url = $http.get('resources/profile?emailId='+emailId);
-		var interview_URL = $http.get('resources/interview?interviewerId='+emailId+"_"+jobcode);
+		var interview_URL = $http.get('resources/interviews?interviewerId='+emailId+"_"+jobcode);
 		var position_URL = $http.get('resources/positions?searchKey=jobcode&searchValue='+jobcode);
 		
 		return $q.all([profile_url, interview_URL, position_URL]).then(
@@ -24,13 +24,13 @@ function interviewService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 				});
 	}
 	function submitInterviewFeedback(feedback){
-		return $http.post('resources/interview/feedback',feedback)
+		return $http.post('resources/interviews/feedback',feedback)
 		     .then(feedbackSubmitedSuccess)
 		     .catch(feedbackSubmitederror);
 	}
 	
 	function getInterviewDetailsByCandidateId(candidateId){
-		return $http.get('resources/interview?candiateId='+candidateId)
+		return $http.get('resources/interviews?candiateId='+candidateId)
 		     .then(function(response){
 		    	 return response.data[0];
 		     })
@@ -40,9 +40,9 @@ function interviewService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 	}
 	
 	function createInterview(interviewDetails){
-		return $http.post('resources/interview',interviewDetails);
+		return $http.post('resources/interviews',interviewDetails);
 	}
 	function updateInterview(interviewDetails){
-		return $http.put('resources/interview',interviewDetails);
+		return $http.put('resources/interviews',interviewDetails);
 	}
 }

@@ -34,7 +34,7 @@ app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeo
 				$scope.hideNoInterviewMsg = false;
 			    });
 		} else if(_.contains($scope.userRoles, "ROLE_INTERVIEWER")) {
-			$http.get('resources/interview?interviewerEmail='+$scope.useremailId).success(function(data, status, headers, config) {
+			$http.get('resources/interviews?interviewerEmail='+$scope.useremailId).success(function(data, status, headers, config) {
 				var showScheduleData =[];
 				var today = new Date();
 				var tomorrow = new Date(today);

@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.service.InterviewDetailsService;
 
-@RequestMapping("/interview")
+@RequestMapping("/interviews")
 @Controller
 public class InterviewController {
 	
@@ -30,42 +30,40 @@ public class InterviewController {
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value="/schedule", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> createInterviewSchedule(@RequestBody InterviewSchedule interviewSchedule) throws Exception {
-		InterviewDetails interviewSchedule2 = interviewDetailsService.scheduleInterview(interviewSchedule);
-		return new ResponseEntity<InterviewDetails>(interviewSchedule2, HttpStatus.OK);
+	@ResponseStatus( value = HttpStatus.OK )
+	public void createInterviewSchedule(@RequestBody InterviewSchedule interviewSchedule) throws Exception {
+		
+		interviewDetailsService.scheduleInterview(interviewSchedule);
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value="/schedule", method = RequestMethod.PUT)
-	@ResponseBody
-	public ResponseEntity<?> updateSchedule(@RequestBody InterviewSchedule interviewSchedule) throws Exception {
-		InterviewDetails interviewSchedule2 = interviewDetailsService.updateInterview(interviewSchedule);
-		return new ResponseEntity<InterviewDetails>(interviewSchedule2, HttpStatus.OK);
+	@ResponseStatus( value = HttpStatus.OK )
+	public void updateSchedule(@RequestBody InterviewSchedule interviewSchedule) throws Exception {
+
+		interviewDetailsService.updateInterview(interviewSchedule);
 	}
 
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/feedback", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> saveFeedback(@RequestBody InterviewFeedback interviewFeedback) {
+	@ResponseStatus( value = HttpStatus.OK )
+	public void saveFeedback(@RequestBody InterviewFeedback interviewFeedback) {
 		try {
 			interviewDetailsService.saveFeedback(interviewFeedback);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<InterviewFeedback>(interviewFeedback, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> createInterviewDetails(@RequestBody InterviewDetails interviewDetails) {
+	@ResponseStatus( value = HttpStatus.OK )
+	public void createInterviewDetails(@RequestBody InterviewDetails interviewDetails) {
 		try {
 			interviewDetailsService.createInterview(interviewDetails);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<InterviewDetails>(interviewDetails, HttpStatus.OK);
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
@@ -129,11 +127,11 @@ public class InterviewController {
 	
 	@Secured({"ROLE_ADMIN", "ROLE_HR","ROLE_RECRUITER","ROLE_INTERVIEWER"})
 	@RequestMapping(method = RequestMethod.PUT)
-	@ResponseBody
-	public ResponseEntity<?> updateIntewrviewDetails(@RequestBody InterviewDetails interviewDetails) {
+	@ResponseStatus( value = HttpStatus.OK )
+	public void updateIntewrviewDetails(@RequestBody InterviewDetails interviewDetails) {
+		
 		interviewDetailsService.updateInterviewDetails(interviewDetails);
-		String successmessage = "{\"msg\":\"Profile successfully Updated\"}";
-		return new ResponseEntity<String>(successmessage, HttpStatus.OK);
+		
 	}
 
 }
