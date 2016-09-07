@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class InfoEntityConverter extends TwowayConverter<InfoEntity, InfoEntityDTO> {
 
-	@SuppressWarnings("finally")
 	@Override
 	public InfoEntityDTO convertToDTO(InfoEntity infoEntity) {
 		InfoEntityDTO infoEntityDTO = new InfoEntityDTO();
@@ -30,7 +29,6 @@ public class InfoEntityConverter extends TwowayConverter<InfoEntity, InfoEntityD
 		return infoEntityDTO;
 	}
 
-	@SuppressWarnings("finally")
 	@Override
 	public InfoEntity convertToEntity(InfoEntityDTO infoEntityDTO) {
 		InfoEntity infoEntity = new InfoEntity();

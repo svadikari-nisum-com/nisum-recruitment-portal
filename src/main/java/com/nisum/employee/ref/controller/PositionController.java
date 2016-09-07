@@ -38,10 +38,8 @@ public class PositionController {
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER"})
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<String> updatePosition(@RequestBody PositionDTO position) {
-		positionService.updatePosition(position);
-		String jsonObj="{\"msg\":\"position successfully Updated\"}";
-		return new ResponseEntity<String>(jsonObj, HttpStatus.ACCEPTED);
+	public boolean updatePosition(@RequestBody PositionDTO position) {
+		return positionService.updatePosition(position);
 	}
 	
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})

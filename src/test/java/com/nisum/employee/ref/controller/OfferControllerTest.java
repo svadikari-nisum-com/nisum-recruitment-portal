@@ -65,8 +65,6 @@ public class OfferControllerTest {
 		offers.add(offer);
 		Mockito.when((offerService).getOffers()).thenReturn(offers);
 		mockMvc.perform(get("/offers").param("emailId","rgangadhari@nisum.com")).andExpect(status().isOk());
-		
-		
 	}
 	
 }

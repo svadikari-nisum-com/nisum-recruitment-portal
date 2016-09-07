@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nisum.employee.ref.service.IDesignationService;
-import com.nisum.employee.ref.util.Constants;
 import com.nisum.employee.ref.view.DesignationDTO;
 
 @Component

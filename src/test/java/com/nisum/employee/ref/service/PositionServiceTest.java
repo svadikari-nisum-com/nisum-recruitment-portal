@@ -1,7 +1,6 @@
 package com.nisum.employee.ref.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -62,8 +61,10 @@ public class PositionServiceTest {
 	
 	@Test
 	public void updatePosition() {
-		doNothing().when(positionRepository).updatePosition(position);
-		service.updatePosition(positionConverter.convertToDTO(position));
+		boolean expected = true;
+		when((positionRepository).updatePosition(position)).thenReturn(expected);
+		boolean result = service.updatePosition(positionConverter.convertToDTO(position));
+		assertFalse(result);
 	}
 
 	@Test

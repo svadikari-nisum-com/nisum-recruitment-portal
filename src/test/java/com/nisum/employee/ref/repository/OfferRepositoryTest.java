@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.nisum.employee.ref.domain.Offer;
-import com.nisum.employee.ref.domain.Position;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OfferRepositoryTest {

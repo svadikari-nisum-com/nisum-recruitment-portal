@@ -1,6 +1,5 @@
 package com.nisum.employee.ref.view;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import lombok.Getter;

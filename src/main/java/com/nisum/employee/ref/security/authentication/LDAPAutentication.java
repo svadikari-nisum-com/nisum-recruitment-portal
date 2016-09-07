@@ -10,7 +10,7 @@ public class LDAPAutentication implements IAuthentication {
 	
 	  @Override
 	    public void authenticate(String userName, String password) {
-	    		        String[] parts = userName.split("@");
+	    		        //String[] parts = userName.split("@");
 	        try {
 	        	/*if (!parts[1].equalsIgnoreCase("gmail.com"))
 	        	{

@@ -55,11 +55,13 @@ public class PositionControllerTest {
 	}
 	@Test
 	public void shouldUpdatePosition() throws Exception {
-		doNothing().when(positionService).updatePosition(any(PositionDTO.class));
+		boolean b = true;
+		Mockito.when((positionService).updatePosition(any(PositionDTO.class)))
+		.thenReturn(b);
 		mockMvc.perform(
 				put("/positions").contentType(MediaType.APPLICATION_JSON).
-				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isAccepted());
-
+				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
+       
 	}
 	
 	@Test

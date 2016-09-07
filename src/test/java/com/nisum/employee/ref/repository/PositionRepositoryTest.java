@@ -3,8 +3,7 @@
  */
 package com.nisum.employee.ref.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
@@ -28,7 +27,6 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -79,13 +77,15 @@ public class PositionRepositoryTest {
 	@Test
 	public void updatePosition()
 	{
+		Mockito.when(mongoOperations.findOne(Mockito.any(Query.class),Mockito.eq(Position.class))).thenReturn(getPosition());
 		doAnswer(new Answer<WriteResult>() {
 		    public WriteResult answer(final InvocationOnMock invocation) throws Throwable {
 	            return null ;
 	        }
 		}).when(mongoOperations).updateFirst(any(Query.class), any(Update.class), eq(Position.class));
 		
-		positionRepository.updatePosition(getPosition());
+		boolean res = positionRepository.updatePosition(getPosition());
+		assertFalse(res);
 	}
 	
 	@Test

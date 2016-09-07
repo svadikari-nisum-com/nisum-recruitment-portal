@@ -2,7 +2,6 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
-import com.nisum.employee.ref.domain.InfoEntity;
 import com.nisum.employee.ref.view.InfoEntityDTO;
 
 public interface IAppInfoService {

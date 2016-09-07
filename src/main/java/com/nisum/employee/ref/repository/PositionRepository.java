@@ -1,16 +1,13 @@
 package com.nisum.employee.ref.repository;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
-
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -22,6 +19,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.WriteResult;
 import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
 
@@ -44,7 +42,7 @@ public class PositionRepository {
 		mongoOperations.save(position);
 	}
 
-	public void updatePosition(Position position) {
+	public boolean updatePosition(Position position) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("jobcode").is(position.getJobcode()));
 		query.fields().include("jobcode");
@@ -66,7 +64,8 @@ public class PositionRepository {
 		update.set("jobType", position.getJobType());
 		update.set("functionalGroup", position.getFunctionalGroup());
 		update.set("jobHeader", position.getJobHeader());
-		mongoOperations.updateFirst(query, update, Position.class);
+		WriteResult result = mongoOperations.updateFirst(query, update, Position.class);
+		return result!= null && result.getN()== 1 ? true : false;
 	}
 
 	public List<Position> retrieveAllPositions(String searchKey, String searchValue) {
@@ -94,7 +93,6 @@ public class PositionRepository {
 
 		AggregationResults<PositionAggregate> groupResults = mongoTemplate
 				.aggregate(agg, Position.class, PositionAggregate.class);
-		List<PositionAggregate> result = groupResults.getMappedResults();
-		return result;
+		   return groupResults.getMappedResults();
 	}
 }

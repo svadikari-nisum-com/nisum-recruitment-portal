@@ -9,7 +9,7 @@ import com.nisum.employee.ref.view.PositionDTO;
 public interface IPositionService {
 	public void preparePosition(PositionDTO position);
 
-	public void updatePosition(PositionDTO position);
+	public boolean updatePosition(PositionDTO position);
 
 	public PositionDTO deletePositionBasedOnJC(String jobcode);
 
