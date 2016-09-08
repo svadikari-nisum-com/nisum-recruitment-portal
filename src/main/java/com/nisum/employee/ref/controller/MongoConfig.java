@@ -33,5 +33,10 @@ public class MongoConfig extends AbstractMongoConfiguration{
 	public Mongo mongo() throws Exception {
 		return new MongoClient(mongoClient);
 	}
+	
+	@Override
+    protected String getMappingBasePackage() {
+        return "com.nisum.employee.ref.domain";
+    }
 
 }
