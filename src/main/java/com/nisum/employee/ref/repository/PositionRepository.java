@@ -95,4 +95,12 @@ public class PositionRepository {
 				.aggregate(agg, Position.class, PositionAggregate.class);
 		   return groupResults.getMappedResults();
 	}
+	
+	public void updateProfileStatus(String jobCode, String status) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(jobCode));
+		Position position = mongoOperations.findOne(query, Position.class);
+		position.setStatus(status);
+		mongoOperations.save(position);
+	}
 }

@@ -61,5 +61,13 @@ public class PositionController {
 		List<PositionAggregate> positionsDetail = positionService.retrieveAllPositionsAggregate();
 		return (null == positionsDetail) ? new ResponseEntity<List<PositionAggregate>>(HttpStatus.NOT_FOUND)
 				: new ResponseEntity<List<PositionAggregate>>(positionsDetail, HttpStatus.OK);
-	} 
+	}
+	
+	@Secured({ "ROLE_HR", "ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@RequestMapping(value = "/updateProfileStatus", method = RequestMethod.POST)
+	public ResponseEntity<String> updateProfileStatus(@RequestParam(value = "jobCode") String jobCode,
+			@RequestParam(value = "status") String status) {
+		positionService.updateProfileStatus(jobCode, status);
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
 }

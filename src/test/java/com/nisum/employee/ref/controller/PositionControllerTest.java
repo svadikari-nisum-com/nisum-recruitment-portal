@@ -91,4 +91,14 @@ public class PositionControllerTest {
 				get("/positions/positionsByAggregation").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
 	}
+	
+	@Test
+	public void updateProfileStatus() throws Exception {
+		doNothing().when(positionService).preparePosition(any(PositionDTO.class));
+		mockMvc.perform(
+				post("/positions/updateProfileStatus")
+				.param("jobCode", "SEN_ATS_HYD_1682016_229")
+				.param("status", "Approved").contentType(MediaType.APPLICATION_JSON).
+				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
+	}
 }

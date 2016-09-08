@@ -50,4 +50,9 @@ public class PositionService implements IPositionService{
 		return positionRepository.retrieveAllPositionsAggregate();
 	}
 	
+	@Override
+	public void updateProfileStatus(String jobCode, String status) {
+		positionRepository.updateProfileStatus(jobCode, status);
+	}
+	
 }

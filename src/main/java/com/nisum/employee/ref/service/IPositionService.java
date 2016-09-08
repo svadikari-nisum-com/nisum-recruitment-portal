@@ -18,4 +18,6 @@ public interface IPositionService {
 	List<PositionDTO> retrieveAllPositions(String searchKey, String searchValue);
 	
 	List<PositionDTO> retrieveAllPositions();
+	
+	public void updateProfileStatus(String jobCode, String status);
 }

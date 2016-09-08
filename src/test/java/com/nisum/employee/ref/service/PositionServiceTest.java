@@ -99,4 +99,10 @@ public class PositionServiceTest {
 		assertEquals("SSE", positionAggregates.get(0).getDesignation());
 	}
 	
+	@Test
+	public void updateProfileStatus() {
+		doNothing().when(positionRepository).preparePosition(position);
+		service.updateProfileStatus("SEN_ATS_HYD_1682016_229", "Approved");
+	}
+	
 }
