@@ -2,6 +2,8 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,12 @@ public class PositionService implements IPositionService{
 
 	@Autowired
 	private PositionConverter positionConverter;
-	
+	@Autowired
+	private INotificationService notificationService;
 	
 	@Override
-	public void preparePosition(PositionDTO position) {
+	public void preparePosition(PositionDTO position) throws MessagingException {
+		notificationService.sendpositionCreationMail(position);
 		positionRepository.preparePosition(positionConverter.convertToEntity(position));
 	}
 	@Override
@@ -51,8 +55,8 @@ public class PositionService implements IPositionService{
 	}
 	
 	@Override
-	public void updateProfileStatus(String jobCode, String status) {
-		positionRepository.updateProfileStatus(jobCode, status);
+	public void updatePositionStatus(String jobCode, String status) {
+		positionRepository.updatePositionStatus(jobCode, status);
 	}
 	
 }

@@ -25,7 +25,7 @@ db.Info.insert({"_id":"Locations",value: ["Hyderabad", "Pune", "Bengaluru","SF",
 
 db.Info.insert({"_id":"Skills",value: ["Java", "J2EE","Web Service","Struts", "JQuery","Java Script","Ruby","JPA","JSP","iBatis","Rest WebService","Spring","Hibernate","C","C++","Oracle","MySQL","DB2","TeraData","MongoDB","Neo4J","CouchDB"]});
 
-db.Info.insert({"_id":"UserRoles",value: ["ROLE_HR","ROLE_RECRUITER", "ROLE_MANAGER", "ROLE_USER","ROLE_ADMIN","ROLE_INTERVIEWER"]});
+db.Info.insert({"_id":"UserRoles",value: ["ROLE_HR","ROLE_RECRUITER", "ROLE_MANAGER", "ROLE_USER","ROLE_ADMIN","ROLE_INTERVIEWER","ROLE_LOCATIONHEAD"]});
 
 db.Info.insert({"_id":"expYears",value: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11","12","13","14","15"]});
 

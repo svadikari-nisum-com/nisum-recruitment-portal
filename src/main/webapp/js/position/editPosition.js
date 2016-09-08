@@ -20,7 +20,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 	$scope.info = $rootScope.info;
 	$scope.interviewRounds=[];
 	$scope.pskills = [];
-	
+	$scope.positionStatus=["APPROVED","CLOSED"];	
 	$scope.message = "";
 		
 	$scope.client =[];
@@ -82,9 +82,21 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		});
 		
 	    $scope.updatePositionDetails = function() {
-	    	
-		var position1={};
-		var skills =[];
+	    	var position1={};
+			var skills =[];
+	    	if(_.contains($rootScope.user.roles, "ROLE_LOCATIONHEAD")){
+	    		 position1.jobcode=$scope.position.jobcode;
+	    		 position1.status=$scope.position.status;
+	    		 positionService.updatePositionStatus(position1).then(
+	    				    function(msg){
+	    				    	  $scope.sendNotification(msg,'recruitment/searchPosition');
+	    				    }).catch(function(errorMsg){
+	    				    	$scope.message=errorMsg;
+	    						$scope.cls=appConstants.ERROR_CLASS;
+	    				     });
+		
+	    	}else{
+		
 		if ($scope.position !== undefined) {
 			 angular.forEach($scope.position.primarySkills, function(value, key) {
 				 skills.push(value.toString());
@@ -116,6 +128,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 			     });
 		}
 	}
+	    }
 	$scope.status = {
 			isFirstOpen: true,
 	};

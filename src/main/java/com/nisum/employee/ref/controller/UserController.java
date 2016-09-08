@@ -35,7 +35,7 @@ public class UserController {
 	}
 
 	@Secured({ "ROLE_USER", "ROLE_HR", "ROLE_RECRUITER", "ROLE_ADMIN",
-			"ROLE_MANAGER", "ROLE_INTERVIEWER" })
+			"ROLE_MANAGER", "ROLE_INTERVIEWER","ROLE_LOCATIONHEAD" })
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<UserInfoDTO>> retrieveUsers(
 			@RequestParam(value = "emailId", required = false) String emailId,

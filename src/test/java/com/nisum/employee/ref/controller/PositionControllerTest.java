@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.controller;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -94,9 +95,9 @@ public class PositionControllerTest {
 	
 	@Test
 	public void updateProfileStatus() throws Exception {
-		doNothing().when(positionService).preparePosition(any(PositionDTO.class));
+		doNothing().when(positionService).updatePositionStatus(anyString(), anyString());
 		mockMvc.perform(
-				post("/positions/updateProfileStatus")
+				post("/positions/updatePositionStatus")
 				.param("jobCode", "SEN_ATS_HYD_1682016_229")
 				.param("status", "Approved").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());

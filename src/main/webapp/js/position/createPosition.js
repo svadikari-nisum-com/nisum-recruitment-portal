@@ -51,6 +51,7 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 	$scope.pskills=$rootScope.info.skills;
 	$scope.interview=$scope.info.interviewRounds;
 	$scope.functionalGroups = $scope.info.FunctionalTeam;
+	$scope.locationHeads = [];
 	
 	  $scope.getData = function() {
 		  
@@ -128,6 +129,20 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		});
 	}	
 	$scope.getManagers();
+	$scope.getLocationHeads = function(){
+		
+		
+		$scope.locationHeads = [];
+		userService.getUserByRole("ROLE_LOCATIONHEAD").then(function (data){
+			
+			angular.forEach(data,function(user) {		
+				
+				$scope.locationHeads.push({"emailId":user.emailId,"name":user.name});
+			})
+			
+		});
+	}	
+	$scope.getLocationHeads();
 		/*$scope.names = [];
 		$scope.object = [];
 		$scope.filterNames = [];

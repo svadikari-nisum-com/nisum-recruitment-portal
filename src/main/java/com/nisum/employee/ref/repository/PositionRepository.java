@@ -39,6 +39,7 @@ public class PositionRepository {
 	}
 
 	public void preparePosition(Position position) {
+		position.setStatus("Draft");
 		mongoOperations.save(position);
 	}
 
@@ -96,7 +97,7 @@ public class PositionRepository {
 		   return groupResults.getMappedResults();
 	}
 	
-	public void updateProfileStatus(String jobCode, String status) {
+	public void updatePositionStatus(String jobCode, String status) {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("_id").is(jobCode));
 		Position position = mongoOperations.findOne(query, Position.class);

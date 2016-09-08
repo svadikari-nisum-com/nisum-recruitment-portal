@@ -48,6 +48,7 @@ import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.EnDecryptUtil;
 import com.nisum.employee.ref.view.OfferDTO;
+import com.nisum.employee.ref.view.PositionDTO;
 
 @Service
 public class NotificationService implements INotificationService {
@@ -84,6 +85,10 @@ public class NotificationService implements INotificationService {
 
 	private static final String INTERVIEWERS_NOTAVAILABLE_SUBJECT = "Interviewers not available";
 	private static final String OFFER_LETTER = "Offer Letter";
+	private static final String NEW_POSITION_CREATED="New Position is Created";
+	private static final String CLIENT="client";
+	private static final String NOOFPOSITIONS="noOfPositions";
+	private static final String POSITIONCODE="positionCode";
 
 	@Value("${mail.smtp.auth}")
 	private String smtpAuthRequired;
@@ -120,6 +125,8 @@ public class NotificationService implements INotificationService {
 
 	@Value("${error.mail.to}")
 	private String errors_notifications_to;
+	@Value("${SRC_POSITION_HEAD_VM}")
+	private String SRC_POSITION_HEAD_VM;
 
 	@Autowired
 	IProfileService profileService;
@@ -441,5 +448,34 @@ public class NotificationService implements INotificationService {
 		}catch(Exception ex){
 			throw new ServiceException(ex);
 		}
+	}
+
+	@Override
+	public void sendpositionCreationMail(PositionDTO position) throws MessagingException {
+	
+	VelocityContext context = new VelocityContext();
+		context.put(POSITIONCODE, position.getJobcode());
+		context.put(CLIENT, position.getClient());
+		context.put(NOOFPOSITIONS, position.getNoOfPositions());
+		Template candidateTemplate = getVelocityTemplate(SRC_POSITION_HEAD_VM);
+		StringWriter writer = new StringWriter();
+		candidateTemplate.merge(context, writer);
+
+		Message message = null;
+		try {
+			message = getMessage();
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		if (message != null) {
+			message.setSubject(NEW_POSITION_CREATED);
+			message.setContent(writer.toString(), TEXT_HTML);
+
+//			message.setRecipients(Message.RecipientType.TO,
+//					InternetAddress.parse(position.getLocationHead()));
+			Transport.send(message);
+			
+		}
+		
 	}
 }

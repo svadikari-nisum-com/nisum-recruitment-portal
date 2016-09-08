@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,7 +56,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void savePosition() {
+	public void savePosition() throws MessagingException {
 		doNothing().when(positionRepository).preparePosition(position);
 		service.preparePosition(positionConverter.convertToDTO(position));
 	}
@@ -100,9 +102,9 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void updateProfileStatus() {
+	public void updatePositionStatus() {
 		doNothing().when(positionRepository).preparePosition(position);
-		service.updateProfileStatus("SEN_ATS_HYD_1682016_229", "Approved");
+		service.updatePositionStatus("SEN_ATS_HYD_1682016_229", "Approved");
 	}
 	
 }

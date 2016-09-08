@@ -34,7 +34,7 @@ public class ProfileController {
 	@Autowired
 	private IProfileService profileService;
 	
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER","ROLE_LOCATIONHEAD"})
 	@RequestMapping( method = RequestMethod.GET )
 	public ResponseEntity<List<ProfileDTO>> retrieveProfile(@RequestParam(value = "emailId", required = false) String emailId,@RequestParam(value = "jobcodeProfile", 
 											required = false) String jobcodeProfile,@RequestParam(value = "profilecreatedBy", required = false) String profilecreatedBy) 

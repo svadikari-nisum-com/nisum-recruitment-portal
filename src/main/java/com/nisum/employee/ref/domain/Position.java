@@ -32,6 +32,7 @@ public class Position extends AuditEntity {
 	String salary;
 	String functionalGroup; 
 	String jobHeader;
+	String locationHead;
 	String status;
 
 }

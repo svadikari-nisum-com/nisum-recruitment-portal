@@ -45,7 +45,7 @@ public class UserNotificationController {
 				: new ResponseEntity<List<UserNotificationDTO>>(userInfo, HttpStatus.OK);
 	}
 
-	@Secured({ "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@Secured({ "ROLE_HR","ROLE_RECRUITER", "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_INTERVIEWER","ROLE_LOCATIONHEAD" })
 	@RequestMapping(value = "/getNotificationCount", method = RequestMethod.GET)
 	public ResponseEntity<Long> retrieveNotificationCount(@RequestParam(value = "userId", required = false) String userId) {
 		long userInfo = userNotificationService.getUserNotificationCount(userId);

@@ -2,12 +2,13 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
 
 import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.view.PositionDTO;
 
 public interface IPositionService {
-	public void preparePosition(PositionDTO position);
+	public void preparePosition(PositionDTO position) throws MessagingException;
 
 	public boolean updatePosition(PositionDTO position);
 
@@ -19,5 +20,5 @@ public interface IPositionService {
 	
 	List<PositionDTO> retrieveAllPositions();
 	
-	public void updateProfileStatus(String jobCode, String status);
+	public void updatePositionStatus(String jobCode, String status);
 }
