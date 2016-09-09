@@ -180,4 +180,12 @@ public class PositionRepositoryTest {
 		assertNotNull(position);
 		assertEquals("DEV_GAP-GID_HYD_582016_845", position.get(0).getJobcode());
 	}
+	
+	@Test
+	public void updatePositionStatus() {
+		Position pos = new Position();
+		Mockito.when(mongoOperations.findOne(any(Query.class), eq(Position.class))).thenReturn(pos);
+		Mockito.doNothing().when(mongoOperations).save(Position.class);
+		positionRepository.updatePositionStatus("SEN_ATS_HYD_1682016_229", "Approved");
+	}
 }

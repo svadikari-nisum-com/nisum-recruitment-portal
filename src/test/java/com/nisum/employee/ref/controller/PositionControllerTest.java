@@ -97,7 +97,7 @@ public class PositionControllerTest {
 	public void updateProfileStatus() throws Exception {
 		doNothing().when(positionService).updatePositionStatus(anyString(), anyString());
 		mockMvc.perform(
-				post("/positions/updatePositionStatus")
+				put("/positions/updatePositionStatus")
 				.param("jobCode", "SEN_ATS_HYD_1682016_229")
 				.param("status", "Approved").contentType(MediaType.APPLICATION_JSON).
 				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
