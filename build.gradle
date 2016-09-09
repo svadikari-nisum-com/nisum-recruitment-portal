@@ -40,7 +40,7 @@ sonarqube {
 ext.springVersion = "4.3.2"
 ext.springSecurity = "3.0.5"
 ext.springExceptionHandlerVersion = "2.0.1"
-ext.springDataVersion = "1.9.2"
+ext.springDataVersion = "1.6.1"
 
 List SPRING = [
         "org.springframework.data:spring-data-mongodb:${springDataVersion}.RELEASE",
