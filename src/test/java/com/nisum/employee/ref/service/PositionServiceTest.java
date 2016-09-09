@@ -31,6 +31,9 @@ public class PositionServiceTest {
 
 	@Mock
 	private PositionRepository positionRepository;
+
+	@Mock
+	private NotificationService notificationService;
 	
 	@Spy
 	private PositionConverter positionConverter = new PositionConverter();
@@ -58,6 +61,7 @@ public class PositionServiceTest {
 	@Test
 	public void savePosition() throws MessagingException {
 		doNothing().when(positionRepository).preparePosition(position);
+		notificationService.sendpositionCreationMail(positionConverter.convertToDTO(position));
 		service.preparePosition(positionConverter.convertToDTO(position));
 	
 	}
