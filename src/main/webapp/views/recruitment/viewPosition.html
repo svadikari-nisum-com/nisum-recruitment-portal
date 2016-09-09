@@ -271,9 +271,11 @@
 				<label class="lbl" >Status:</label>
 			</div>
 			<div class="col-md-3">
-				<a href="#" editable-select="position.status"
+				<a href="#" editable-select="position.status" ng-hide="!hasRole('ROLE_LOCATIONHEAD')"
 					e-ng-options="o as o for o in positionStatus" e-required> {{position.status
 					|| "--" }} </a>
+					<div ng-hide="hasRole('ROLE_LOCATIONHEAD')">{{position.status
+					|| "--" }}</div>
 
 			</div>
 			</div>

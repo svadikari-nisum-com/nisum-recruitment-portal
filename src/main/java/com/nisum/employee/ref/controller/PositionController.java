@@ -68,7 +68,7 @@ public class PositionController {
 	@Secured({ "ROLE_LOCATIONHEAD" })
 	@RequestMapping(value = "/updatePositionStatus", method = RequestMethod.PUT)
 	public ResponseEntity<String> updateProfileStatus(@RequestParam(value = "jobCode") String jobCode,
-			@RequestParam(value = "status") String status) {		
+			@RequestParam(value = "status") String status) throws MessagingException {		
 		positionService.updatePositionStatus(jobCode, status);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

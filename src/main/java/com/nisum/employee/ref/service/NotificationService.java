@@ -39,6 +39,7 @@ import org.springframework.stereotype.Service;
 
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
+import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.domain.UserNotification;
@@ -89,6 +90,8 @@ public class NotificationService implements INotificationService {
 	private static final String CLIENT="client";
 	private static final String NOOFPOSITIONS="noOfPositions";
 	private static final String POSITIONCODE="positionCode";
+	private static final String STATUS="status";
+	private static final String POSITION_STATUS_CHANGED="Position Status Changed";
 
 	@Value("${mail.smtp.auth}")
 	private String smtpAuthRequired;
@@ -127,6 +130,8 @@ public class NotificationService implements INotificationService {
 	private String errors_notifications_to;
 	@Value("${SRC_POSITION_HEAD_VM}")
 	private String SRC_POSITION_HEAD_VM;
+	@Value("${SRC_POSITION_STATUS_CHANGE_VM}")
+	private String SRC_POSITION_STATUS_CHANGE_VM;
 
 	@Autowired
 	IProfileService profileService;
@@ -452,11 +457,18 @@ public class NotificationService implements INotificationService {
 
 	@Override
 	public void sendpositionCreationMail(PositionDTO position) throws MessagingException {
-	
+	List<UserInfo> managers=userInfoRepository.retrieveUserById(position.getHiringManager());
+	UserInfo managerInfo=managers.get(0);
+	List<UserInfo> loc_Head=userInfoRepository.retrieveUserById(position.getLocationHead());
+	UserInfo loc_HeadInfo=loc_Head.get(0);
 	VelocityContext context = new VelocityContext();
 		context.put(POSITIONCODE, position.getJobcode());
 		context.put(CLIENT, position.getClient());
 		context.put(NOOFPOSITIONS, position.getNoOfPositions());
+		context.put("functionalGroup", position.getFunctionalGroup());
+		context.put("jobHeader", position.getJobHeader());
+		context.put("locationHead",loc_HeadInfo.getName());
+		context.put("iname",managerInfo.getName());
 		Template candidateTemplate = getVelocityTemplate(SRC_POSITION_HEAD_VM);
 		StringWriter writer = new StringWriter();
 		candidateTemplate.merge(context, writer);
@@ -471,11 +483,43 @@ public class NotificationService implements INotificationService {
 			message.setSubject(NEW_POSITION_CREATED);
 			message.setContent(writer.toString(), TEXT_HTML);
 
-//			message.setRecipients(Message.RecipientType.TO,
-//					InternetAddress.parse(position.getLocationHead()));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(position.getLocationHead()));
 			Transport.send(message);
 			
 		}
 		
+	}
+
+	@Override
+	public void sendpositionStatusChangeMail(Position position)
+			throws MessagingException {
+		List<UserInfo> managers=userInfoRepository.retrieveUserById(position.getHiringManager());
+		UserInfo managerInfo=managers.get(0);
+		List<UserInfo> loc_Head=userInfoRepository.retrieveUserById(position.getLocationHead());
+		UserInfo loc_HeadInfo=loc_Head.get(0);
+		VelocityContext context = new VelocityContext();
+		context.put(POSITIONCODE, position.getJobcode());		
+		context.put(STATUS, position.getStatus());
+		context.put("managerName",managerInfo.getName());
+		context.put("iname",loc_HeadInfo.getName());
+		Template candidateTemplate = getVelocityTemplate(SRC_POSITION_STATUS_CHANGE_VM);
+		StringWriter writer = new StringWriter();
+		candidateTemplate.merge(context, writer);
+
+		Message message = null;
+		try {
+			message = getMessage();
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+		if (message != null) {
+			message.setSubject(POSITION_STATUS_CHANGED);
+			message.setContent(writer.toString(), TEXT_HTML);
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(position.getHiringManager()));
+			Transport.send(message);
+		
+	}
 	}
 }

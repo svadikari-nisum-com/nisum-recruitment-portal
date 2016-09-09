@@ -59,6 +59,7 @@ public class PositionServiceTest {
 	public void savePosition() throws MessagingException {
 		doNothing().when(positionRepository).preparePosition(position);
 		service.preparePosition(positionConverter.convertToDTO(position));
+	
 	}
 	
 	@Test
@@ -102,7 +103,7 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void updatePositionStatus() {
+	public void updatePositionStatus() throws MessagingException {
 		doNothing().when(positionRepository).preparePosition(position);
 		service.updatePositionStatus("SEN_ATS_HYD_1682016_229", "Approved");
 	}
