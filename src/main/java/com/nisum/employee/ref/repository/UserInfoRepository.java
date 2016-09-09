@@ -118,4 +118,23 @@ public class UserInfoRepository{
 		}
 		return null;
 	}
+	
+    public List<UserInfo> getUserInfo(String round,String functionalGroup,String role) {
+		try
+		{
+			Query query = new Query();
+			
+			if(functionalGroup != null){
+				query.addCriteria(Criteria.where("interviewRoundsAllocation.department").is(functionalGroup));
+			}
+			
+			if(role != null && round != null){
+				query.addCriteria(Criteria.where("roles").is(role).and("interviewRoundsAllocation.interviewRounds").is(round));
+				return mongoOperations.find(query, UserInfo.class);
+			}
+		}catch (Exception ex){ 
+			ex.printStackTrace();
+		}
+		return null;
+	}
 }

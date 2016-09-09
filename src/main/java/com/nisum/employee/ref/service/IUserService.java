@@ -2,6 +2,7 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
+import com.nisum.employee.ref.view.InterviewRoundsDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
 public interface IUserService {
@@ -23,4 +24,6 @@ public interface IUserService {
 	List<UserInfoDTO> retrieveUserByRole(String role);
 	
 	List<UserInfoDTO> retrieveUserByRole(String role,String department);
+	
+	List<InterviewRoundsDTO> getInterviewers(String round,String functionalGroup,String role);
 }

@@ -129,4 +129,19 @@ public class UserInfoRepositoryTest {
 		return userInfo;
 	}
 	
+	@Test
+	public final void whenAllArgumentsArePassedThenReturnCorrespondingUsers(){
+		
+		List<String> defualtRoles = new ArrayList<String>();
+		defualtRoles.add("ROLE_INTERVIEWER");
+		UserInfo firstUser = new UserInfo();
+		firstUser.setEmailId("alewis@nisum.com");
+		firstUser.setRoles(defualtRoles);
+		
+		Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(firstUser));
+		List<UserInfo> userInfo = userInfoRepository.getUserInfo("Technical Round 1", "DEV", "ROLE_INTERVIEWER");
+		Assert.assertNotNull(userInfo);
+		Assert.assertEquals("alewis@nisum.com", userInfo.get(0).getEmailId());
+	}
+	
 }

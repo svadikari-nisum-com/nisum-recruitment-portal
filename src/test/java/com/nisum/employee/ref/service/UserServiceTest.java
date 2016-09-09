@@ -19,10 +19,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nisum.employee.ref.converter.UserInfoConverter;
+import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.TimeSlots;
 import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.InterviewRoundsDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,6 +36,9 @@ public class UserServiceTest {
 
 	@Mock
 	private UserInfoRepository userInfoRepository = new UserInfoRepository();
+	
+	@Mock
+	private InterviewDetailsRepository interviewDetailsRepository = new InterviewDetailsRepository();
 	
 	@Spy
 	private UserInfoConverter userInfoConverter = new UserInfoConverter();
@@ -141,5 +147,50 @@ public class UserServiceTest {
 		userInfoDTOs = userService.retrieveUserByRole("1");
 		assertNotNull(userInfoDTOs);
 		assertEquals(userInfoDTOs.get(0).getRoles().get(0), actualUserInfos.get(0).getRoles().get(0));
+	}
+	
+	@Test
+	public void retriveInterviewersAndTheirNoOfSchedledRounds() {
+		
+		actualUserInfos = new ArrayList<>();
+		actualUserInfo = new UserInfo();
+		/*actualUserInfo.setName("Ariel Lewis");
+		actualUserInfo.setEmailId("alewis@nisum.com");
+		//actualUserInfo.setNoOfRoundsScheduled(2);
+		actualUserInfos.add(actualUserInfo);*/
+		
+		actualUserInfo = new UserInfo();
+		actualUserInfo.setName("Vinayak Prabhu");
+		actualUserInfo.setEmailId("vprabhu@nisum.com");
+		//actualUserInfo.setNoOfRoundsScheduled(1);
+		actualUserInfos.add(actualUserInfo);
+		
+		List<InterviewDetails> interviewDetails = new ArrayList<>();
+		InterviewDetails interviewer = new InterviewDetails();
+		interviewer.setCandidateEmail("changra@gmai.com");
+		interviewer.setInterviewerEmail("vprabhu@nisum.com");
+		interviewDetails.add(interviewer);
+		
+		/*interviewer = new InterviewDetails();
+		interviewer.setCandidateEmail("satya@aaa.com");
+		interviewer.setInterviewerEmail("alewis@nisum.com");
+		interviewDetails.add(interviewer);
+		
+		interviewer = new InterviewDetails();
+		interviewer.setCandidateEmail("vkjonnabhatla@gmail.com");
+		interviewer.setInterviewerEmail("alewis@nisum.com");
+		interviewDetails.add(interviewer);*/
+		
+		/*List<String> actualRoles = new ArrayList<String>();
+		actualRoles.add("ROLE_USER");
+		actualUserInfo.setRoles(actualRoles);*/
+		
+		when(userInfoRepository.getUserInfo(any(String.class),any(String.class),any(String.class))).thenReturn(actualUserInfos);
+		
+		when(interviewDetailsRepository.getInterviewByInterviewer(any(String.class))).thenReturn(interviewDetails);
+
+		List<InterviewRoundsDTO> userInfoDTOs = userService.getInterviewers("Technical Round 1",null,"ROLE_INTERVIEWER");
+		assertNotNull(userInfoDTOs);
+		assertEquals(1,userInfoDTOs.get(0).getNoOfRoundsScheduled());
 	}
 }

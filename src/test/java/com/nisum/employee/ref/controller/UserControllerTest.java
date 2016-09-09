@@ -26,6 +26,7 @@ import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.service.UserService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.InterviewRoundsDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -112,4 +113,36 @@ public class UserControllerTest {
 				status().isOk());
 
 	}
+	
+	@Test
+	public void getInterviewersTest() throws Exception {
+		List<InterviewRoundsDTO> interviewers = new ArrayList<InterviewRoundsDTO>();
+		InterviewRoundsDTO interviewerRounds = new InterviewRoundsDTO();
+		interviewerRounds.setEmailId("alewis@nisum.com");
+		interviewerRounds.setName("Ariel Lewis");
+		interviewerRounds.setNoOfRoundsScheduled(2);
+		interviewers.add(interviewerRounds);
+		
+		interviewerRounds = new InterviewRoundsDTO();
+		interviewerRounds.setEmailId("vprabhu@nisum.com");
+		interviewerRounds.setName("Vinayak Prabhu");
+		interviewerRounds.setNoOfRoundsScheduled(1);
+		interviewers.add(interviewerRounds);
+		
+		Mockito.when(userService.getInterviewers(any(String.class), any(String.class), any(String.class)))
+		.thenReturn(interviewers);
+		mockMvc.perform(get("/user/getInterviewers").param("interviewRound", "Technical Round 1")
+				                                    .param("functionalGroup", "DEV")
+				                                    .param("role", "ROLE_INTERVIEWER")).andExpect(status().isOk());
+   }
+	
+	@Test
+	public void interviewersNotFound() throws Exception {
+		//No users found for role ROLE_XXX
+		Mockito.when(userService.getInterviewers(any(String.class), any(String.class), any(String.class)))
+		.thenReturn(null);
+		mockMvc.perform(get("/user/getInterviewers").param("interviewRound", "Technical Round 1")
+				                                    .param("functionalGroup", "DEV")
+				                                    .param("role", "ROLE_XXX")).andExpect(status().isNotFound());
+   }
 }

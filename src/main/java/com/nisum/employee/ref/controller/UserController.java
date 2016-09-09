@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nisum.employee.ref.domain.ResponseVO;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.service.UserService;
+import com.nisum.employee.ref.view.InterviewRoundsDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
 @Controller
@@ -93,4 +94,16 @@ public class UserController {
 		return new ResponseEntity<ResponseVO<UserInfoDTO>>(response,
 				HttpStatus.OK);
 	}
+	
+	@Secured({ "ROLE_HR", "ROLE_RECRUITER","ROLE_MANAGER", "ROLE_INTERVIEWER" })
+	@RequestMapping(value="/getInterviewers",method = RequestMethod.GET)
+	public ResponseEntity<List<InterviewRoundsDTO>> getInterviewers(
+		@RequestParam(value = "interviewRound", required = false) String interviewRound,
+		@RequestParam(value = "functionalGroup", required = false) String functionalGroup,
+		@RequestParam(value = "role", required = false) String role) {
+
+		List<InterviewRoundsDTO> interviewers = userService.getInterviewers(interviewRound, functionalGroup, role);
+		return (null == interviewers) ? new ResponseEntity<List<InterviewRoundsDTO>>(
+			HttpStatus.NOT_FOUND) : new ResponseEntity<List<InterviewRoundsDTO>>(interviewers, HttpStatus.OK);
+   }
 }

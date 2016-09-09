@@ -104,6 +104,20 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 			$log.error(data);
 		});
 	}
+	
+	
+	
+	
+	$scope.getInterviewers = function(round,functionalGroup,role){
+		userService.getInterviewers(round,$scope.position.functionalGroup,role).then(function (data){
+			$scope.usersInfo = data;
+			$scope.interviewerNames = [];
+			angular.forEach(data,function(user){
+				$scope.interviewerNames.push({'name':user.name,"emailId":user.emailId,"count":user.noOfRoundsScheduled});
+			})
+		});
+	}
+	
 	$scope.setRounds = function(round){
 		
 		//Get interview details
@@ -112,24 +126,19 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 		//3.Load user based on functional group and round name
 		if( round == "Hr Round" )
 		{
-			$scope.interviewerNames = $scope.hrNames;
+			$scope.getInterviewers(round,$scope.position.functionalGroup,"ROLE_HR");
 
 		}else if (round == "Manager Round")
 		{
-			$scope.interviewerNames = $scope.managersNames;
+			$scope.getInterviewers(round,$scope.position.functionalGroup,"ROLE_MANAGER");
 		}
 		else 
 		{
 			$scope.interviewerNames = [];
-			userService.getUserByRole(round,$scope.position.functionalGroup).then(function (data){
-				$scope.usersInfo = data;
-				angular.forEach(data,function(user){
-					$scope.interviewerNames.push({'name':user.name,"emailId":user.emailId});
-				})
-			});
+			$scope.getInterviewers(round,$scope.position.functionalGroup,"ROLE_INTERVIEWER");
 		}
 		
-    }	
+    }
 
 	$scope.getJobCodeRound = function(){
 		if($scope.jobCodeSel!==""){
