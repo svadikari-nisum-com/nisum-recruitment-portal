@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,5 +35,6 @@ public class Position extends AuditEntity {
 	String jobHeader;
 	String locationHead;
 	String status;
+	Date positionApprovedDt;
 
 }

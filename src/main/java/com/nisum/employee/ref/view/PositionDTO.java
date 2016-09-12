@@ -1,5 +1,6 @@
 package com.nisum.employee.ref.view;
 
+import java.util.Date;
 import java.util.List;
 
 import lombok.Getter;
@@ -33,4 +34,5 @@ public class PositionDTO extends BaseDTO {
 	private String jobHeader;
 	private String locationHead;	
 	private String status;
+	private Date positionApprovedDt;
 }
