@@ -1,5 +1,12 @@
 <h3 class="heading-name" ng-model="pageName" >{{pageName}}</h3>
 <div class="container" ng-controller="createOfferCtrl">
+<!-- ----------------------------------alert Message--------------------------------------------------------- -->
+	<div ng-class="cls" ng-show="message" align="center"
+		style="width: 850px; position: relative; left: -60; height: 50">
+		<h5 style="margin-top: 2px;">{{message}}</h5>
+	</div>
+	<!-- ----------------------------------alert Message--------------------------------------------------------- -->
+	
 	<form name="form" class="form-horizontal" onvalidate>
 		<div class="panel panel-default">
 			<div class="panel-heading text-center margin-bottom">
@@ -51,7 +58,11 @@
 						<div class="col-md-3">
 							<input class="form-control input-sm" type="text" name="hrManager" ng-change="validateOffer();" 
 								ng-model="candidate.hrManager" class="form-control"
-								ng-disabled="false" placeholder="Select Reporting Manager" required>
+								ng-disabled="false" placeholder="Select Reporting Manager" autocomplete="off"
+								typeahead="manager.name for manager in managers | filter:$viewValue | limitTo:8" required>
+								
+								<!-- <input name="states" id="states" type="text" placeholder="enter a state" 
+								ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control"> -->
 						</div>
 						<label class="lbl col-md-2 col-md-offset-1" style="margin-left:0px"><i
 							class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Project<span
@@ -225,7 +236,7 @@
 			</div>
 		</div>
 		<div align="center">
-			<button type="submit" ng-disabled="isDisableOfferSave" class="btn btn-primary" ng-click="saveOffer()">
+			<button type="submit" ng-disabled="isDisableOfferSave" class="btn btn-primary" ng-click="validateReportingManager();">
 				<span class="glyphicon glyphicon-ok-circle"></span> Save
 			</button>
 			&nbsp;&nbsp;&nbsp;&nbsp;

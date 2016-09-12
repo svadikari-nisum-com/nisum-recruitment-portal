@@ -122,6 +122,29 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 			$scope.isDisableOfferSave = true;
 	};
 	
+	$scope.validateReportingManager = function(){
+		var managersArray = $scope.managers;
+		var value = false;
+		for (index = 0; index < managersArray.length; ++index) {
+			if(managersArray[index].name == $scope.candidate.hrManager){
+				value = true;
+				$scope.saveOffer();
+			}
+		}
+		
+		if(!value){
+			 $scope.message=$scope.candidate.hrManager + "is not a valid manager.";
+			 $scope.candidate.hrManager = undefined;
+			 $scope.cls=appConstants.ERROR_CLASS;
+			 $timeout( function(){ $scope.alHide(); }, 4000);
+		}
+	}
+	
+	$scope.alHide =  function(){
+	    $scope.message = "";
+	    $scope.cls = '';
+	}
+	
 	$scope.validateField = function(data) {
 		if (angular.isUndefined(data) || data === null || data.length == 0  ) {
 			return false;
