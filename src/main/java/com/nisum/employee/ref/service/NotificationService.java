@@ -47,6 +47,7 @@ import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.OfferRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
+import com.nisum.employee.ref.util.Constants;
 import com.nisum.employee.ref.util.EnDecryptUtil;
 import com.nisum.employee.ref.view.OfferDTO;
 import com.nisum.employee.ref.view.PositionDTO;
@@ -123,8 +124,14 @@ public class NotificationService implements INotificationService {
 	@Value("${INTERVIEWERS_NOTAVAILABLE_TEMPLATE}")
 	private String INTERVIEWERS_NOTAVAILABLE_TEMPLATE;
 	
-	@Value("${OFFER_MAIL_BODY_TEMPLATE}")
-	private String OFFER_MAIL_BODY_TEMPLATE;
+	@Value("${OFFER_LETTER_MAIL_BODY_TEMPLATE}")
+	private String OFFER_LETTER_MAIL_BODY_TEMPLATE;
+	
+	@Value("${OFFER_INITIATED_TEMPLATE}")
+	private String OFFER_INITIATED_TEMPLATE;
+	
+	@Value("${CANDIDATE_JOINED_TEMPLATE}")
+	private String CANDIDATE_JOINED_TEMPLATE;
 
 	@Value("${error.mail.to}")
 	private String errors_notifications_to;
@@ -413,7 +420,7 @@ public class NotificationService implements INotificationService {
 		Transport.send(message);
 	}
 	
-	public void sendOfferNotificationMail(OfferDTO offer) throws ServiceException {
+	public void sendOfferLetterNotificationMail(OfferDTO offer) throws ServiceException {
 		
 		try{
 			Message message = getMessage();
@@ -434,7 +441,7 @@ public class NotificationService implements INotificationService {
 			context.put("cname", offer.getCandidateName());
 			context.put("designation", offer.getDesignation());
 			context.put("joiningDate",  dateFormat.format(offer.getJoiningDate()));
-			Template candidateTemplate = getVelocityTemplate(OFFER_MAIL_BODY_TEMPLATE);
+			Template candidateTemplate = getVelocityTemplate(OFFER_LETTER_MAIL_BODY_TEMPLATE);
 			StringWriter writer = new StringWriter();
 			candidateTemplate.merge(context, writer);
 			
@@ -520,6 +527,37 @@ public class NotificationService implements INotificationService {
 					InternetAddress.parse(position.getHiringManager()));
 			Transport.send(message);
 		
+	   }
 	}
+	
+    public void sendOfferNotificationMail(String name,String emailId,String candidateName,String subject) throws ServiceException {
+		
+		try{
+			Message message = getMessage();
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(emailId, true));
+			Multipart multipart = new MimeMultipart();
+			Template candidateTemplate = null;
+			VelocityContext context = new VelocityContext();
+			context.put("name", name);
+			context.put("cname", candidateName);
+			if(subject.equals(Constants.CANDIDATE_JOINED)){
+				candidateTemplate = getVelocityTemplate(CANDIDATE_JOINED_TEMPLATE);
+			}else{
+				candidateTemplate = getVelocityTemplate(OFFER_INITIATED_TEMPLATE);
+			}
+			
+			StringWriter writer = new StringWriter();
+			candidateTemplate.merge(context, writer);
+			
+			BodyPart messageBody = new MimeBodyPart();
+			message.setSubject(subject);
+			messageBody.setContent(writer.toString(), TEXT_HTML);
+			multipart.addBodyPart(messageBody);
+			message.setContent(multipart);
+			Transport.send(message);
+		
+		}catch(Exception ex){
+			throw new ServiceException(ex);
+		}
 	}
 }

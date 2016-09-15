@@ -10,4 +10,7 @@ public class Constants {
 	public static final String designationNotFound = "No Designation found for the value ";
     public static final String FILE_EXT = ".pdf";
     public static final String PDF_CONTENT_TYPE = "	application/pdf";
+    
+    public static final String OFFER_INITIATED = "Offer Initiated";
+    public static final String CANDIDATE_JOINED = "Candidate Joined the Company.";
 }

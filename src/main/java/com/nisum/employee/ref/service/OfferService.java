@@ -13,8 +13,10 @@ import com.nisum.employee.ref.converter.OfferConverter;
 import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.OfferRepository;
+import com.nisum.employee.ref.util.Constants;
 import com.nisum.employee.ref.view.OfferDTO;
 import com.nisum.employee.ref.view.PositionDTO;
+import com.nisum.employee.ref.view.UserInfoDTO;
 
 @Service
 public class OfferService implements IOfferService {
@@ -27,6 +29,9 @@ public class OfferService implements IOfferService {
 
 	@Autowired
 	private GenerateOfferService offerService;
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private INotificationService notificationService;
@@ -38,15 +43,36 @@ public class OfferService implements IOfferService {
 		Offer offerEntity = offerConverter.convertToEntity(offer);
 		offerRepository.saveOffer(offerEntity);
 		offerRepository.updateInterviewDetails(offerEntity);
-		if (offer.getStatus().equals(OfferState.RELEASED.toString())) {
+		if (offer.getStatus().equals(OfferState.INITIATED.toString())) {
 			try {
-				generateOfferLetter(offer);
-				// send offer letter to candidate as part of email notification.
-				notificationService.sendOfferNotificationMail(offer);
+				generateNotification(offer.getReportingManager(),offer.getCandidateName(),Constants.OFFER_INITIATED);
+				generateNotification(offer.getHrManager(),offer.getCandidateName(),Constants.OFFER_INITIATED);
 			} catch (Exception ex) {
 				throw new ServiceException(ex);
 			}
 		}
+		if (offer.getStatus().equals(OfferState.RELEASED.toString())) {
+			try {
+				generateOfferLetter(offer);
+				// send offer letter to candidate as part of email notification.
+				notificationService.sendOfferLetterNotificationMail(offer);
+			} catch (Exception ex) {
+				throw new ServiceException(ex);
+			}
+		}
+		if (offer.getStatus().equals(OfferState.JOINED.toString())) {
+			try {
+				generateNotification(offer.getReportingManager(),offer.getCandidateName(),Constants.CANDIDATE_JOINED);
+			} catch (Exception ex) {
+				throw new ServiceException(ex);
+			}
+		}
+	}
+	
+	@Override
+	public void generateNotification(String name,String candidateName,String subject) throws ServiceException {
+		List<UserInfoDTO> user = userService.retrieveUserByName(name);
+		notificationService.sendOfferNotificationMail(name,user.get(0).getEmailId(),candidateName,subject);
 	}
 
 	@Override
