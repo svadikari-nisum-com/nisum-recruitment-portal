@@ -21,7 +21,7 @@
         element.append($compile(messages)(scope));
     };
 
-    var watche  rFor = function (form, name) {
+    var watche,rFor = function (form, name) {
         return function () {
             if (name && form[name]) {
                 return form[name].$invalid;

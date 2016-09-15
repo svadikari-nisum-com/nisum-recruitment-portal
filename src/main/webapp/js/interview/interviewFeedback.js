@@ -143,7 +143,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	}
 	
 	$scope.status = {
-		    isFirstOpen: true,
+		    isFirstOpen: true
 	};
 	
 	$scope.submit = function(){

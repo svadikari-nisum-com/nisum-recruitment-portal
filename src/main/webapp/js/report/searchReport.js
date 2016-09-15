@@ -136,11 +136,8 @@
 		      { field: 'profilesInHRRound', displayName:"# Positions in HR Round", cellClass: 'ui-grid-align'},
 		      { field: 'offered', displayName:"Offered",  cellClass: 'ui-grid-align'},
 		      { field: 'closed', displayName:"Closed",  cellClass: 'ui-grid-align'},
-		      { field: 'noOfOpenPositions', displayName:"No of Positions", cellClass: 'ui-grid-align'},
-		   
-		     
-		     
-		    ],
+		      { field: 'noOfOpenPositions', displayName:"No of Positions", cellClass: 'ui-grid-align'}
+		    ]
 
 		  };
    

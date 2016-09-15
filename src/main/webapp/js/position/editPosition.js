@@ -130,7 +130,7 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 	}
 	    }
 	$scope.status = {
-			isFirstOpen: true,
+			isFirstOpen: true
 	};
 	
 	

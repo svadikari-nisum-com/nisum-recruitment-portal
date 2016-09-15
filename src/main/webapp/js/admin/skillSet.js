@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50; // always scroll by 50 extra pixels
 }])
-app.controller('skillSet', ['$scope', '$http', '$q', '$timeout', '$filter','$mdDialog', 'appConstants','sharedDataService', 'infoService', '$location', '$anchorScroll', 'infoService', 'appConstants', 'convertArray2Json', 'uiGridConstants',
-    function($scope, $http, $q, $timeout, $filter, $mdDialog, appConstants, sharedDataService, infoService, $location, $anchorScroll, infoService, appConstants, convertArray2Json, uiGridConstants) {
+app.controller('skillSet', ['$scope', '$http', '$q', '$timeout', '$filter','$mdDialog', 'appConstants','sharedDataService', 'infoService', '$location', '$anchorScroll', 'convertArray2Json', 'uiGridConstants',
+    function($scope, $http, $q, $timeout, $filter, $mdDialog, appConstants, sharedDataService, infoService, $location, $anchorScroll, convertArray2Json, uiGridConstants) {
 	
 	$scope.numRows = 10;
 	
