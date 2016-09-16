@@ -124,7 +124,7 @@ public class UserInfoRepository{
 		{
 			Query query = new Query();
 			
-			if(functionalGroup != null){
+			if(functionalGroup != null && !"null".equals(functionalGroup)){
 				query.addCriteria(Criteria.where("interviewRoundsAllocation.department").is(functionalGroup));
 			}
 			

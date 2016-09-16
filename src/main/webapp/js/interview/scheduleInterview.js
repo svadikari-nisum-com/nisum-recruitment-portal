@@ -109,7 +109,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 	
 	
 	$scope.getInterviewers = function(round,functionalGroup,role){
-		userService.getInterviewers(round,$scope.position.functionalGroup,role).then(function (data){
+		userService.getInterviewers(round,functionalGroup,role).then(function (data){
 			$scope.usersInfo = data;
 			$scope.interviewerNames = [];
 			angular.forEach(data,function(user){
@@ -126,11 +126,11 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 		//3.Load user based on functional group and round name
 		if( round == "Hr Round" )
 		{
-			$scope.getInterviewers(round,$scope.position.functionalGroup,"ROLE_HR");
+			$scope.getInterviewers(round,null,"ROLE_HR");
 
 		}else if (round == "Manager Round")
 		{
-			$scope.getInterviewers(round,$scope.position.functionalGroup,"ROLE_MANAGER");
+			$scope.getInterviewers(round,null,"ROLE_MANAGER");
 		}
 		else 
 		{
