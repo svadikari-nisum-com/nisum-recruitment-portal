@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +78,9 @@ public class UserService implements IUserService{
 		List<InterviewDetails> interviewDetails = null;
 		List<InterviewRoundsDTO> interviewerRoundsInfo = new ArrayList<InterviewRoundsDTO>();
 		InterviewRoundsDTO interviewRoundsDTO = null;
+		if("ROLE_HR, ROLE_MANAGER".contains(role)) {
+			round=functionalGroup=StringUtils.EMPTY;
+		}
 		List<UserInfo> interviewers = userInfoRepository.getUserInfo(round,functionalGroup,role);
 		
 		for(UserInfo interviewer : interviewers){

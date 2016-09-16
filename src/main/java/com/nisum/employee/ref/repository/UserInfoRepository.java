@@ -128,14 +128,12 @@ public class UserInfoRepository{
 				query.addCriteria(Criteria.where("interviewRoundsAllocation.department").is(functionalGroup));
 			}
 			if( StringUtils.isNotBlank(role)) {
-				if(role.equals("ROLE_HR") || role.equals("ROLE_MANAGER")) {
 					query.addCriteria(Criteria.where("roles").is(role));
-				} else if(StringUtils.isNotBlank(round)) {
-					query.addCriteria(Criteria.where("roles").is(role).and("interviewRoundsAllocation.interviewRounds").is(round));
-
-				}
-				return mongoOperations.find(query, UserInfo.class);
+			}  
+			if(StringUtils.isNotBlank(round)) {
+				query.addCriteria(Criteria.where("interviewRoundsAllocation.interviewRounds").is(round));
 			}
+			return mongoOperations.find(query, UserInfo.class);
 		}catch (Exception ex){ 
 			ex.printStackTrace();
 		}
