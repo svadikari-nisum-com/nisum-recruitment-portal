@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
+import org.mockito.internal.matchers.Any;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -110,6 +111,18 @@ public class PositionServiceTest {
 	public void updatePositionStatus() throws MessagingException {
 		doNothing().when(positionRepository).preparePosition(position);
 		service.updatePositionStatus("SEN_ATS_HYD_1682016_229", "Approved");
+	}
+	
+	@Test
+	public void retrievePositionByJobCodeTest(){
+		List<Position> positions = new ArrayList<>();
+		Position position = new Position();
+		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
+		position.setLocation("Hyderabad");
+		positions.add(position);
+		when(positionRepository.retrievePositionByJobCode(Mockito.anyString())).thenReturn(position);
+		PositionDTO positionDTO = service.retrievePositionByJobCode("DEV_GAP-GID_HYD_382016_642");
+		assertEquals("Hyderabad", positionDTO.getLocation());
 	}
 	
 }

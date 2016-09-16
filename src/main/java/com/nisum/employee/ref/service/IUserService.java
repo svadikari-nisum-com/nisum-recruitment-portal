@@ -26,4 +26,6 @@ public interface IUserService {
 	List<UserInfoDTO> retrieveUserByRole(String role,String department);
 	
 	List<InterviewRoundsDTO> getInterviewers(String round,String functionalGroup,String role);
+	
+	public List<UserInfoDTO> retrieveUserByRoleAndLocation(String role,String location);
 }

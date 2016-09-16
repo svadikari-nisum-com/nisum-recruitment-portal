@@ -67,4 +67,8 @@ public class PositionService implements IPositionService{
 		positionRepository.updatePositionStatus(jobCode, status);
 	}
 	
+	@Override
+	public PositionDTO retrievePositionByJobCode(String jobCode) {
+		return positionConverter.convertToDTO((positionRepository.retrievePositionByJobCode(jobCode)));
+	}
 }

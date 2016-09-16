@@ -137,4 +137,16 @@ public class UserInfoRepository{
 		}
 		return null;
 	}
+    
+    public List<UserInfo> retrieveUserByRoleAndLocation(String role,String location) {
+		try
+		{
+			Query query = new Query();
+			query.addCriteria(Criteria.where("roles").is(role).and("location").is(location));
+			return mongoOperations.find(query, UserInfo.class);
+		}catch (Exception ex){ 
+			ex.printStackTrace();
+		}
+		return null;
+	}
 }

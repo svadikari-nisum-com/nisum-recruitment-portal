@@ -33,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import com.mongodb.WriteResult;
 import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
+import com.nisum.employee.ref.view.PositionDTO;
 
 /**
  * @author NISUM CONSULTING
@@ -187,5 +188,17 @@ public class PositionRepositoryTest {
 		Mockito.when(mongoOperations.findOne(any(Query.class), eq(Position.class))).thenReturn(pos);
 		Mockito.doNothing().when(mongoOperations).save(Position.class);
 		positionRepository.updatePositionStatus("SEN_ATS_HYD_1682016_229", "Approved");
+	}
+	
+	@Test
+	public void retrievePositionByJobCodeTest(){
+		List<Position> positions = new ArrayList<>();
+		Position position = new Position();
+		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
+		position.setLocation("Hyderabad");
+		positions.add(position);
+		Mockito.when(mongoOperations.findOne(any(Query.class), eq(Position.class))).thenReturn(position);
+		positionRepository.retrievePositionByJobCode("DEV_GAP-GID_HYD_382016_642");
+		assertEquals("Hyderabad", position.getLocation());
 	}
 }

@@ -426,27 +426,27 @@ public class NotificationService implements INotificationService {
 			Message message = getMessage();
 			message.setSubject(OFFER_LETTER);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
-			message.setDescription("Please find the attached Offer details");
+			//message.setDescription("Please find the attached Offer details");
 			//message.setContent(writer.toString(), TEXT_HTML);
 			//message.setContent(mp);
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(offer.getEmailId(), true));
 			
 			BodyPart messageBodyPart = new MimeBodyPart();
 			
-			messageBodyPart.setDescription("This is message body");//TODO We need get template for this message body.
+			//messageBodyPart.setDescription("This is message body");//TODO We need get template for this message body.
 			Multipart multipart = new MimeMultipart();
 			String[] file = offerRepository.getData(offer.getEmailId());
 			
 			VelocityContext context = new VelocityContext();
-			context.put("cname", offer.getCandidateName());
-			context.put("designation", offer.getDesignation());
-			context.put("joiningDate",  dateFormat.format(offer.getJoiningDate()));
+			context.put(Constants.CANDIDATE_NAME, offer.getCandidateName());
+			context.put(Constants.DESIGNATION, offer.getDesignation());
+			context.put(Constants.JOINING_DATE,  dateFormat.format(offer.getJoiningDate()));
 			Template candidateTemplate = getVelocityTemplate(OFFER_LETTER_MAIL_BODY_TEMPLATE);
 			StringWriter writer = new StringWriter();
 			candidateTemplate.merge(context, writer);
 			
 			BodyPart messageBody = new MimeBodyPart();
-			message.setSubject("Offer of Employment");
+			message.setSubject(Constants.OFFER_OF_EMPLOYMENT);
 			messageBody.setContent(writer.toString(), TEXT_HTML);
 			
 			DataSource source = new FileDataSource(file[0]);
@@ -538,8 +538,8 @@ public class NotificationService implements INotificationService {
 			Multipart multipart = new MimeMultipart();
 			Template candidateTemplate = null;
 			VelocityContext context = new VelocityContext();
-			context.put("name", name);
-			context.put("cname", candidateName);
+			context.put(Constants.REPORTING_MANAGER_OR_HR_NAME, name);
+			context.put(Constants.CANDIDATE_NAME, candidateName);
 			if(subject.equals(Constants.CANDIDATE_JOINED)){
 				candidateTemplate = getVelocityTemplate(CANDIDATE_JOINED_TEMPLATE);
 			}else{

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -192,5 +193,21 @@ public class UserServiceTest {
 		List<InterviewRoundsDTO> userInfoDTOs = userService.getInterviewers("Technical Round 1",null,"ROLE_INTERVIEWER");
 		assertNotNull(userInfoDTOs);
 		assertEquals(1,userInfoDTOs.get(0).getNoOfRoundsScheduled());
+	}
+	
+	@Test
+	public void retrieveUserByRoleAndLocationTest(){
+		List<String> users = new ArrayList<String>();
+		users.add("ROLE_HR");
+		UserInfo  userInfo = new UserInfo();
+		userInfo.setRoles(users);
+		userInfo.setEmailId("vjonnabhatla@nisum.com");
+		userInfo.setLocation("Hyderabad");
+		
+		when(userInfoRepository.retrieveUserByRoleAndLocation(any(String.class),any(String.class))).thenReturn(Arrays.asList(userInfo));
+		
+		List<UserInfoDTO> userDTOs = userService.retrieveUserByRoleAndLocation("ROLE_HR", "Hyderabad");
+        assertNotNull(userDTOs);
+        assertEquals("vjonnabhatla@nisum.com", userDTOs.get(0).getEmailId());
 	}
 }

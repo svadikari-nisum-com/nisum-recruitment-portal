@@ -21,4 +21,6 @@ public interface IPositionService {
 	List<PositionDTO> retrieveAllPositions();
 	
 	public void updatePositionStatus(String jobCode, String status) throws MessagingException;
+	
+	public PositionDTO retrievePositionByJobCode(String jobCode);
 }

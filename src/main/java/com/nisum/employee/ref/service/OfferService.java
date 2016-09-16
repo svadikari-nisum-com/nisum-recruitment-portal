@@ -45,8 +45,12 @@ public class OfferService implements IOfferService {
 		offerRepository.updateInterviewDetails(offerEntity);
 		if (offer.getStatus().equals(OfferState.INITIATED.toString())) {
 			try {
-				generateNotification(offer.getReportingManager(),offer.getCandidateName(),Constants.OFFER_INITIATED);
-				generateNotification(offer.getHrManager(),offer.getCandidateName(),Constants.OFFER_INITIATED);
+				   PositionDTO position = positionService.retrievePositionByJobCode(offer.getJobcodeProfile());
+				   List<UserInfoDTO> hrList = userService.retrieveUserByRoleAndLocation(Constants.ROLE_HR, position.getLocation());
+				   for(UserInfoDTO user : hrList){
+					   generateNotification(user.getName(),offer.getCandidateName(),Constants.OFFER_INITIATED);
+				   }
+				   generateNotification(offer.getReportingManager(),offer.getCandidateName(),Constants.OFFER_INITIATED);
 			} catch (Exception ex) {
 				throw new ServiceException(ex);
 			}

@@ -93,4 +93,9 @@ public class UserService implements IUserService{
 		
 		return interviewerRoundsInfo;
 	}
+	
+	@Override
+	public List<UserInfoDTO> retrieveUserByRoleAndLocation(String role,String location) {
+		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByRoleAndLocation(role,location));
+	}
 }

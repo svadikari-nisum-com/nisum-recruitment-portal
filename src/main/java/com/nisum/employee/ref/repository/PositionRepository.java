@@ -108,4 +108,10 @@ public class PositionRepository {
 			}
 		mongoOperations.save(position);
 	}
+	
+	public Position retrievePositionByJobCode(String jobCode) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(jobCode));
+		return mongoOperations.findOne(query,Position.class);
+	}
 }
