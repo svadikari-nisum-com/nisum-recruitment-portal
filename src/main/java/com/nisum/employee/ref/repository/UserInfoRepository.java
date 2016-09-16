@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -123,13 +124,16 @@ public class UserInfoRepository{
 		try
 		{
 			Query query = new Query();
-			
-			if(functionalGroup != null && !"null".equals(functionalGroup)){
+			if(StringUtils.isNotBlank(functionalGroup)){
 				query.addCriteria(Criteria.where("interviewRoundsAllocation.department").is(functionalGroup));
 			}
-			
-			if(role != null && round != null){
-				query.addCriteria(Criteria.where("roles").is(role).and("interviewRoundsAllocation.interviewRounds").is(round));
+			if( StringUtils.isNotBlank(role)) {
+				if(role.equals("ROLE_HR") || role.equals("ROLE_MANAGER")) {
+					query.addCriteria(Criteria.where("roles").is(role));
+				} else if(StringUtils.isNotBlank(round)) {
+					query.addCriteria(Criteria.where("roles").is(role).and("interviewRoundsAllocation.interviewRounds").is(round));
+
+				}
 				return mongoOperations.find(query, UserInfo.class);
 			}
 		}catch (Exception ex){ 

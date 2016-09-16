@@ -126,11 +126,11 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 		//3.Load user based on functional group and round name
 		if( round == "Hr Round" )
 		{
-			$scope.getInterviewers(round,null,"ROLE_HR");
+			$scope.getInterviewers(round,"","ROLE_HR");
 
 		}else if (round == "Manager Round")
 		{
-			$scope.getInterviewers(round,null,"ROLE_MANAGER");
+			$scope.getInterviewers(round,"","ROLE_MANAGER");
 		}
 		else 
 		{
