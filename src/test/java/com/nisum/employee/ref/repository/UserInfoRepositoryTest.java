@@ -131,7 +131,7 @@ public class UserInfoRepositoryTest {
 	}
 	
 	@Test
-	public final void whenAllArgumentsArePassedThenReturnCorrespondingUsers(){
+	public final void getUserInfoForInterviewers(){
 		
 		List<String> defualtRoles = new ArrayList<String>();
 		defualtRoles.add("ROLE_INTERVIEWER");
@@ -145,6 +145,20 @@ public class UserInfoRepositoryTest {
 		Assert.assertEquals("alewis@nisum.com", userInfo.get(0).getEmailId());
 	}
 	
+	@Test
+	public final void getUserInfoForHrsAndManagers(){
+		
+		List<String> defualtRoles = new ArrayList<String>();
+		defualtRoles.add("ROLE_INTERVIEWER");
+		UserInfo firstUser = new UserInfo();
+		firstUser.setEmailId("alewis@nisum.com");
+		firstUser.setRoles(defualtRoles);
+		
+		Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(firstUser));
+		List<UserInfo> userInfo = userInfoRepository.getUserInfo("", "", "ROLE_INTERVIEWER");
+		Assert.assertNotNull(userInfo);
+		Assert.assertEquals("alewis@nisum.com", userInfo.get(0).getEmailId());
+	}
 	
 	 public List<UserInfo> retrieveUserByRoleAndLocation(String role,String location) {
 			try

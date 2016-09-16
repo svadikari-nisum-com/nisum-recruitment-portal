@@ -190,7 +190,7 @@ public class UserServiceTest {
 		
 		when(interviewDetailsRepository.getInterviewByInterviewer(any(String.class))).thenReturn(interviewDetails);
 
-		List<InterviewRoundsDTO> userInfoDTOs = userService.getInterviewers("Technical Round 1",null,"ROLE_INTERVIEWER");
+		List<InterviewRoundsDTO> userInfoDTOs = userService.getInterviewers("","","ROLE_INTERVIEWER");
 		assertNotNull(userInfoDTOs);
 		assertEquals(1,userInfoDTOs.get(0).getNoOfRoundsScheduled());
 	}
