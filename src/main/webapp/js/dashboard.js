@@ -27,19 +27,23 @@ app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeo
 				if(_.contains($scope.userRoles, "ROLE_INTERVIEWER")) {
 					 dashboardService.getScheduleDataInterviewer($scope.useremailId).then(function (data){
 							$scope.showScheduleData = data;
+							if(data == "" || data == null || data == undefined){
+								$scope.hideNoInterviewMsg = false;
+						}
 					 }).error(function(data, status, headers, config) {
 							$log.error(data);
 						})
 				} else {
 					dashboardService.getScheduleData($scope.useremailId).then(function (data){
 						$scope.showScheduleData = data;
+						if(data == "" || data == null || data == undefined){
+							$scope.hideNoInterviewMsg = false;
+					}
 					}).error(function(data, status, headers, config) {
 						$log.error(data);
 					})
 				}
-					if(data == "" || data == null || data == undefined){
-						$scope.hideNoInterviewMsg = false;
-					}
+				
 		}).catch(function(msg){
 		   $log.error(msg);
 		   $scope.hideNoInterviewMsg = false;
