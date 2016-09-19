@@ -262,10 +262,10 @@
 						</div>
 						
 						<div class="col-md-2">
-							<label class="lbl"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Location Head:</label>
+							<label class="lbl"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Location Head<b class="mandatory">*</b>:</label>
 						</div>
 						<div class="col-md-3">
-						<select name="designation" placeholder="Select Designation"
+						<select name="designation" 
 								required ng-model="position.locationHead"
 								ng-options="o.emailId as o.name for o in locationHeads"
 								class="form-control input-sm" id="locationHead">
