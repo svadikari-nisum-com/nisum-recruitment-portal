@@ -4,7 +4,8 @@ angular.module('erApp')
 function dashboardService($http,$filter,$rootScope,$timeout,appConstants,$q) {
 	return {
 		getPositionData : getPositionData,
-		getScheduleData : getScheduleData
+		getScheduleData : getScheduleData,
+		getScheduleDataInterviewer : getScheduleDataInterviewer
 	};
 	
 	function getPositionData(obj){
@@ -13,8 +14,14 @@ function dashboardService($http,$filter,$rootScope,$timeout,appConstants,$q) {
 		.catch(getPositionDataError);
 	}
 	
+	function getScheduleDataInterviewer(emailId){
+		return $http.get('resources/interviews?interviewerEmail='+emailId)
+		.then(getScheduleDataSuccess)
+		.catch(getScheduleDataError);
+	}
+	
 	function getScheduleData(emailId){
-		return $http.get('resources/interviews?emailId='+emailId)
+		return $http.get('resources/interviews')
 		.then(getScheduleDataSuccess)
 		.catch(getScheduleDataError);
 	}
