@@ -2,20 +2,92 @@ plugins {
   id "jacoco"
   id "org.sonarqube" version "2.0.1"
   id "net.saliman.cobertura" version "2.3.2"
+  id "com.eriwen.gradle.js" version "2.14.1"
 }
 defaultTasks 'clean', 'build', 'test'
+repositories 
+{
+	mavenCentral()
+	maven {
+ 		 url "https://plugins.gradle.org/m2/"
+	}
+}
 
 apply plugin: "java"
 apply plugin: "eclipse"
+apply plugin: "js"
 apply plugin: "war"
 
+javascript.source {
+		
+		custom {
+				js 
+				{
+					srcDir 'src/main/webapp/js'
+					include "**/*.js"
+				}
+			   }
+}
+javascript.source.custom.js.files.eachWithIndex { jsFile, idx ->
+    tasks.create(name: "dominifyJs${idx}", type: com.eriwen.gradle.js.tasks.MinifyJsTask) {
+    
+        if (jsFile.getParentFile().getName() != "js") {
+            source = jsFile
+            dest = "${buildDir}/tmp/js/" + jsFile.getParentFile().getName() + "/${jsFile.name}"
 
-repositories {
-    mavenCentral()
-    maven {
-      url "https://plugins.gradle.org/m2/"
+            closure {
+                compilationLevel = 'SIMPLE_OPTIMIZATIONS'
+            }
+        } else {
+            source = jsFile
+            dest = "${buildDir}/tmp/js/${jsFile.name}"
+            closure {
+                compilationLevel = 'SIMPLE_OPTIMIZATIONS'
+            }
+        }
+    }
+ }
+ 
+ task individualJsMinify(dependsOn: tasks.matching 
+ {
+ 	Task task -> task.name.startsWith("dominifyJs") 
+ })
+ 
+war {
+
+   
+    version = '0.1.0'
+    Properties systemProperties = System.getProperties();
+    String executionType = systemProperties.getProperty("spring.profiles.active", "local");
+    if (!executionType.equalsIgnoreCase('local')) {
+        dependsOn 'individualJsMinify'
+        
+        exclude 'js/*'
+        from('src/main/webapp/js') {
+        
+            exclude '**/*.js'
+        }
+		
+		include 'resources/**'
+		include 'static/**'
+		include 'vendor/**'
+		include 'views/**'
+		include 'WEB-INF/**'
+		include 'js/*'     
+		include '*.html' 
+		include '*.htm'
+		
+        from('build/tmp/js') 
+        {
+            include '**/*.js'
+            into 'js/'
+        }
+        
     }
 }
+
+
+
 
 allprojects {
   ext.baseVersion = "0.1"
