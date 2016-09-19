@@ -33,7 +33,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import com.mongodb.WriteResult;
 import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
-import com.nisum.employee.ref.view.PositionDTO;
 
 /**
  * @author NISUM CONSULTING

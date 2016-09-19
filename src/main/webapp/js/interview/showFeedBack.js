@@ -2,7 +2,7 @@ app.controller("showFeedBackCtrl", ['$scope', '$http', '$upload','$filter', '$ti
 	
 	$scope.info = $rootScope.info;
 	$scope.interviewData = {};
-	$scope.roundNames = jobCodeService1.getinterviewRound();
+	$scope.roundNames = jobCodeService1.getpreviousRound();
 	$scope.interviewSetData = [];
 	$scope.interviewFeedbackSetData = [];
 	$scope.emailId = jobCodeService1.getprofileUserId();

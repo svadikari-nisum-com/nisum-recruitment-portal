@@ -103,7 +103,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	
 	$scope.showFeedback = function(obj,obj1) {
 				jobCodeService1.setprofileUserId(obj1);
-				jobCodeService1.setinterviewRound(obj);
+				jobCodeService1.setpreviousRound(obj);
 				location.href='#recruitment/showFeedBack';
 	};
 	
