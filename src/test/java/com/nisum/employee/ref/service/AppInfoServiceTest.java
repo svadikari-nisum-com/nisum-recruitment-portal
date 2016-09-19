@@ -56,7 +56,7 @@ public class AppInfoServiceTest {
 	}
 
 	@Test
-	public void testRetrieveSkills() {
+	public void retrieveSkills() {
 		when(infoRepository.retrieveSkills()).thenReturn(infoEntities);
 		List<InfoEntityDTO> infoEntityList = appInfoService.retrieveSkills();
 		assertNotNull(infoEntityList);
@@ -64,25 +64,25 @@ public class AppInfoServiceTest {
 	}
 
 	@Test
-	public void testPrepareInfo() {
+	public void prepareInfo() {
 		doNothing().when(infoRepository).prepareInfo(infoEntity);
 		appInfoService.prepareInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
-	public void testUpdateInfo() {
+	public void updateInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
 		appInfoService.updateInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
-	public void testUpdateDesigInfo() {
+	public void updateDesigInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
 		appInfoService.updateDesigInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
-	public void testUpdateInterviewRoundsInfo() {
+	public void updateInterviewRoundsInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
 		appInfoService.updateInterviewRoundsInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}

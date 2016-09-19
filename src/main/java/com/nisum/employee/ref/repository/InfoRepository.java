@@ -2,6 +2,7 @@ package com.nisum.employee.ref.repository;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Repository;
@@ -15,8 +16,7 @@ public class InfoRepository {
 	private MongoOperations mongoOperations;
 	
 	public List<InfoEntity> retrieveSkills() {
-		List<InfoEntity> skills = (List<InfoEntity>) mongoOperations.findAll(InfoEntity.class);
-		  return skills;
+		return mongoOperations.findAll(InfoEntity.class);
 	}
 	
 	public void prepareInfo(InfoEntity info) {
