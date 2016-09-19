@@ -87,19 +87,19 @@ public class NotificationServiceTest {
 		String from = "dprasad@nisum.com";
 		
 		List<String> attendees = new ArrayList<>();
-		attendees.add("skaranam@nisum.com");
+		attendees.add("dprasad@nisum.com");
+		attendees.add("nbolla@nisum.com");
 		
 		NotificationMailDTO notificationMail = new NotificationMailDTO();
 		notificationMail.setOrganizer(from);
 		notificationMail.setAttendees(attendees);
 		notificationMail.setSubject("Test Notification Mail :)");
-		notificationMail.setOrganizer("organizer@nisum.com");
+		notificationMail.setOrganizer("dprasad@nisum.com");
 		
 		CalendarDTO calendarDTO = new CalendarDTO();
 		calendarDTO.setLocation("Conference Hall - Hyderabad");
 		calendarDTO.setStartDateTime(LocalDateTime.of(2016, 9, 22, 13, 00));
 		calendarDTO.setEndDateTime(LocalDateTime.of(2016, 9, 22, 17, 00));
-		
 		calendarDTO.setDescription("This is test notification mail");
 		
 		notificationMail.setCalendarDTO(calendarDTO);
