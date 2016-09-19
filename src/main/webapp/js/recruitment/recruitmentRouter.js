@@ -82,4 +82,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     			return authorizationService.permissionCheck(["ROLE_ADMIN","ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER"]);
             }
     	}})
+    .state('recruitment.showFeedBack', {url:'/showFeedBack', views: {'': {templateUrl: 'views/recruitment/showInterviewFeedback.html', controller: 'showFeedBackCtrl'}},
+    	resolve : {
+    		permission: function(authorizationService,$route) {
+    			return authorizationService.permissionCheck(["ROLE_ADMIN","ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER"]);
+            }
+    	}})
 }]);

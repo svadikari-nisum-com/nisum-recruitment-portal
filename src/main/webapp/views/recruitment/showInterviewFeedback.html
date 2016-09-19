@@ -1,0 +1,83 @@
+<div ng-controller="showFeedBackCtrl" align="center">
+
+<div class="panel panel-default" style="width:860px;">
+			<div class="panel-heading" style="height:50px;">
+			<center><h4><span style="color:white;">InterviewFeedBack Details Of - {{interviewData.candidateName}}</span></h4></center>
+			</div>
+  			<div class="panel-body" style="background-color: #F8F8F8 ">
+			<div class="row" style="padding-bottom: 10px;">
+				<div align="left" class="control-group">
+					<div class="col-md-1"></div>
+					<div class="col-md-2">
+						<label class="lbl">Status: 
+						</label>
+					</div>
+					<div class="col-md-3" style="display: inline;">
+						<b>{{interviewFeedbackSetData[0].status}}</b>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="col-md-2" align="left">
+						<label class="lbl">  Round : 
+						</label>
+					</div>
+					<div class="col-md-3">
+						<b>{{interviewSetData[0].roundName}}</b>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row" style="padding-bottom: 10px;">
+				<div align="left" class="control-group">
+					<div class="col-md-1"></div>
+					<div class="col-md-2">
+						<label class="lbl">Duration: 
+						</label>
+					</div>
+					<div class="col-md-3" style="display: inline;">
+						<b>{{interviewFeedbackSetData[0].duration}}</b>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="col-md-2" align="left">
+						<label class="lbl"> Date : 
+						</label>
+					</div>
+					<div class="col-md-3">
+						<b>{{interviewSetData[0].interviewDateTime | date:'medium'}}</b>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row" style="padding-bottom: 10px;">
+				<div align="left" class="control-group">
+					<div class="col-md-1"></div>
+					<div class="col-md-2">
+						<label class="lbl">Type : 
+						</label>
+					</div>
+					<div class="col-md-3" style="display: inline;">
+						<b>{{interviewSetData[0].typeOfInterview}}</b>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<div class="col-md-2" align="left">
+						<label class="lbl"> Additional commants : 
+						</label>
+					</div>
+					<div class="col-md-3">
+						<b>{{interviewFeedbackSetData[0].additionalSkills}}</b>
+					</div>
+				</div>
+			
+			</div>
+			<div class="col-md-6" align="right">
+                 <a href="" class="btn btn-info active" ng-click="backFeedBack()" ng-disabled=""> Back </a>
+            </div>
+			
+</div></div>
+
+</div>

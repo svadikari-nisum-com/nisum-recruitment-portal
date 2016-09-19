@@ -6,6 +6,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.position = {};
 	$scope.feedback = {};
 	$scope.interviewFeedback = {};
+	$scope.interviewFeedbackData = {};
 	$scope.interviewSchedule = {};
 	$scope.ratings=[];
 	$scope.message = "";
@@ -22,9 +23,10 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.interviewFeedback.status="";
 	$scope.previousPage = "";
 	$scope.selectDropDownDisable = false;
+	var interviewDateTime = ""
 	var i = 0;
 	$scope.rating = [1, 2, 3, 4, 5];
-	
+	$scope.showRounds = false;
 	
 	$scope.init = function() {
 		if(jobCodeService1.getjobCode() == undefined || jobCodeService1.getprofileUserId() == undefined) {
@@ -38,21 +40,22 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 		}
 		$scope.jobcode =jobCodeService1.getjobCode();
 		$scope.emailId = jobCodeService1.getprofileUserId();
+		$scope.interviewRoundName =  jobCodeService1.getinterviewRound();
 		if(jobCodeService1.getPreviousPage() != undefined && jobCodeService1.getPreviousPage() != null)
 		{
 			$scope.previousPage = jobCodeService1.getPreviousPage();
 			
 		}
 		
-		
-		
 	}
 	$scope.init();
+	
 	
 	var profile_url = $http.get('resources/profile?emailId='+$scope.emailId);
 	var interview_URL = $http.get('resources/interviews?candiateId='+$scope.emailId);
 	var position_URL = $http.get('resources/positions?searchKey=jobcode&searchValue='+$scope.jobcode);
 	$scope.info = $rootScope.info;
+	$scope.roundListInfo = [];
 	$q.all([profile_url, interview_URL, position_URL]).then(
 			function(response){
 			
@@ -64,54 +67,45 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			})
 				$scope.interviewFeedback.rateSkills =[];
 				$scope.interviewFeedback.rateSkills.push({"skill":"", "rating":""}); 
-				/*for(var i=0; i<$scope.position.primarySkills.length;i++){
-					$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
-				}*/
-				
-				if(_.contains($scope.user.roles,"ROLE_INTERVIEWER") || _.contains($scope.user.roles,"ROLE_MANAGER") || _.contains($scope.user.roles,"ROLE_HR"))
-				{
-					$scope.interviewFeedback.roundName = $scope.interview.rounds[$scope.interview.rounds.length-1].roundName;
-					$scope.selectDropDownDisable = true;
-					var interviewLastRoundInfo = $scope.interview.rounds[$scope.interview.rounds.length-1];
-					if(interviewLastRoundInfo.interviewFeedback != undefined){
-						$scope.disableFields = true;
-						$scope.submitShow = false;
-						$scope.disableSchedule = false;
-						$scope.interviewFeedback = interviewLastRoundInfo.interviewFeedback;
-						$scope.interviewSchedule = interviewLastRoundInfo.interviewSchedule;
-						$scope.interviewFeedback.roundName = interviewLastRoundInfo.interviewFeedback.roundName;
-//						if(new Date($scope.interviewSchedule.interviewDateTime)<=new Date()){	
-//							$scope.disableSubmit = false;
-//						}else{
-//							$scope.disableSubmit = true;
-//						}
-					}else{
-						$scope.interviewFeedback.rateSkills =[];
-						$scope.addSkills();
-						for(i=0; i<$scope.position.primarySkills.length; i++){
-							//$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
-							$scope.interviewFeedback.duration = "";
-							$scope.interviewFeedback.additionalSkills = "";
-							$scope.interviewFeedback.strengths = "";
-							$scope.interviewFeedback.improvement = "";
-							$scope.disableFields = false;
-							$scope.submitShow = true;
-							$scope.interviewSchedule = interviewLastRoundInfo.interviewSchedule;
-						}
-//						if(new Date($scope.interviewSchedule.interviewDateTime)<=new Date()){	
-//							$scope.disableSubmit = false;
-//						}else{
-//							$scope.disableSubmit = true;
-//						}
-					}
-				}
-				
 			
+					$scope.interviewFeedback.roundName = $scope.interviewRoundName;
+					$scope.selectDropDownDisable = true;
+					$scope.showRounds = false;
+					angular.forEach($scope.interview.rounds, function(round){
+					if(round.roundName != $scope.interviewRoundName ) {
+						$scope.roundListInfo.push({"round":round.roundName,"email":round.interviewSchedule.candidateId});
+					}	
+						if(round.interviewFeedback != null ) {
+								$scope.interviewDateTime = round.interviewSchedule.interviewDateTime;
+								$scope.typeOfInterview = round.interviewSchedule.typeOfInterview;
+								$scope.roundName = round.interviewSchedule.roundName;
+							    $scope.showRounds = true;
+							} else {
+							if (round.interviewFeedback == null ) {
+							$scope.interviewDateTime = round.interviewSchedule.interviewDateTime;
+							$scope.typeOfInterview = round.interviewSchedule.typeOfInterview;
+							$scope.roundName = round.interviewSchedule.roundName;
+							}
+						}
+						
+ 					/*angular.forEach($scope.roundListInfo, function(item){ 
+ 						if(item.round == $scope.interviewRoundName &&  _.contains($scope.roundListInfo,item.round) && $scope.interview.rounds.length-1 > 0) {
+ 						  $scope.roundListInfo.pop(item.round);
+ 						}
+ 						})*/
+					})
+					
 			},
 			function(errorMsg) {
 				$log.error("-------"+errorMsg);
 			}
 		);
+	
+	$scope.showFeedback = function(obj,obj1) {
+				jobCodeService1.setprofileUserId(obj1);
+				jobCodeService1.setinterviewRound(obj);
+				location.href='#recruitment/showFeedBack';
+	};
 	
 	$scope.max = 10;
 	$scope.hoveringOver = function(value) {
@@ -149,6 +143,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.submit = function(){
 		blockUI.start("Submitting Feedback...");
 		setTimeout(function () {
+			var sure = true;
 			$scope.interviewFeedback.candidateName = $scope.profile.candidateName;
 			$scope.interviewFeedback.interviewerEmail = $scope.interviewSchedule.emailIdInterviewer;
 			$scope.interviewFeedback.interviewerName = $scope.interviewSchedule.interviewerName;
@@ -156,30 +151,40 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			$scope.interviewFeedback.interviewDateTime = $scope.interviewSchedule.interviewDateTime;
 			$scope.interviewFeedback.typeOfInterview = $scope.interviewSchedule.typeOfInterview;
 			$scope.interviewFeedback.candidateId = $scope.emailId;
-			
+			$scope.interviewFeedback.roundName = $scope.interviewRoundName;
 			profileService.addProfilesStatus($scope.emailId,$scope.interviewFeedback.status);
-		
-			$http.post('resources/interviews/feedback', $scope.interviewFeedback).
-			  success(function(data, status) {
-				  $scope.cls = 'alert  alert-success';
-				  $scope.message = "Feedback Submitted Successfully!";
-				  $timeout( function(){ $scope.alHide(); }, 1200);
-				  if(_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
-				    	 $location.path("#main");
-				    } else if(_.contains($scope.user.roles, "ROLE_HR") || _.contains($scope.user.roles, "ROLE_MANAGER")) { 
-				    	$location.path("recruitment/searchProfile");
-					} else {
-				    	 $location.path("recruitment/interviewManagement");
-				    }
-				  $scope.reset();				  
-				  $log.info("Feedback Submitted Successfully!");
-			  }).
-			  error(function(data, status) {
-				  $scope.cls = 'alert alert-danger alert-error';
-				  $scope.message = "Something Went Wrong! Please Try Again!";
-				  $timeout( function(){ $scope.alHide(); }, 1000);
-				  $log.error("Feedback Submission Failed! --->"+data);
-			  });			
+			
+			if( $scope.interviewFeedback.rateSkills[0].skill  == "" && $scope.interviewFeedback.rateSkills[0].rating == "") {
+				var suresure = $window.confirm('Are you sure you want to submit without rate the skills?');
+				if (!suresure) {
+					sure = false;
+				} 
+			}
+			
+			if(sure) {
+				$http.post('resources/interviews/feedback', $scope.interviewFeedback).
+				  success(function(data, status) {
+					  $scope.cls = 'alert  alert-success';
+					  $scope.message = "Feedback Submitted Successfully!";
+					  $timeout( function(){ $scope.alHide(); }, 1200);
+					  if(_.contains($scope.user.roles,"ROLE_INTERVIEWER")) {
+					    	 $location.path("#main");
+					    } else if(_.contains($scope.user.roles, "ROLE_HR") || _.contains($scope.user.roles, "ROLE_MANAGER")) { 
+					    	$location.path("recruitment/searchProfile");
+						} else {
+					    	 $location.path("recruitment/interviewManagement");
+					    }
+					  $scope.reset();				  
+					  $log.info("Feedback Submitted Successfully!");
+				  }).
+				  error(function(data, status) {
+					  $scope.cls = 'alert alert-danger alert-error';
+					  $scope.message = "Something Went Wrong! Please Try Again!";
+					  $timeout( function(){ $scope.alHide(); }, 1000);
+					  $log.error("Feedback Submission Failed! --->"+data);
+				  });			
+			}
+			
 			blockUI.stop();
 		},1000);
 	}
@@ -229,13 +234,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 	$scope.reset = function(){
 		$scope.interviewFeedback.duration = "";
 		$scope.interviewFeedback.additionalSkills = "";
-		$scope.interviewFeedback.strengths = "";
-		$scope.interviewFeedback.improvement = "";
 		$scope.disableFields = false;
 		$scope.submitShow = true;
 		$scope.interviewSchedule = "";
 	}
-	
+
 	$scope.setfeedbackData = function(roundName){
 		if($scope.interview.rounds!= undefined){
 			if(_.contains($scope.roundList,roundName)){
@@ -250,15 +253,13 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			$scope.disableSchedule = false;
 			$scope.interviewFeedback = round.interviewFeedback;
 			$scope.interviewSchedule = round.interviewSchedule;
-			$scope.interviewFeedback.roundName = round.interviewFeedback.roundName;
+			$scope.interviewFeedback.roundName = $scope.interviewRoundName 
 		}else{
 			$scope.interviewFeedback.rateSkills =[];
 			$scope.addSkills();
-				//$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
+			//$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
 			$scope.interviewFeedback.duration = "";
 			$scope.interviewFeedback.additionalSkills = "";
-			$scope.interviewFeedback.strengths = "";
-			$scope.interviewFeedback.improvement = "";
 			$scope.disableFields = false;
 			$scope.showSubmitButton();
 			$scope.interviewSchedule = round.interviewSchedule;
@@ -270,8 +271,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 			}
 				$scope.interviewFeedback.duration = "";
 				$scope.interviewFeedback.additionalSkills = "";
-				$scope.interviewFeedback.strengths = "";
-				$scope.interviewFeedback.improvement = "";
 				$scope.disableFields = false;
 				$scope.showSubmitButton();
 		} 
@@ -284,20 +283,8 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				$scope.addSkills();
 				$scope.interviewFeedback.duration = "";
 				$scope.interviewFeedback.additionalSkills = "";
-				$scope.interviewFeedback.strengths = "";
-				$scope.interviewFeedback.improvement = "";
 				$scope.disableFields = false;
 				$scope.showSubmitButton();
-				
-				/*for(var i=0; i<$scope.position.primarySkills.length;i++){
-					$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0}); 
-					$scope.interviewFeedback.duration = "";
-					$scope.interviewFeedback.additionalSkills = "";
-					$scope.interviewFeedback.strengths = "";
-					$scope.interviewFeedback.improvement = "";
-					$scope.disableFields = false;
-					$scope.submitShow = true;
-				}*/
 			}
 		}else{
 			$scope.interviewFeedback.rateSkills =[];
@@ -305,8 +292,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 				$scope.interviewFeedback.rateSkills.push({"skill":$scope.position.primarySkills[i], "rating":0});
 				$scope.interviewFeedback.duration = "";
 				$scope.interviewFeedback.additionalSkills = "";
-				$scope.interviewFeedback.strengths = "";
-				$scope.interviewFeedback.improvement = "";
 				$scope.disableFields = false;
 				$scope.submitShow = true;
 			}
