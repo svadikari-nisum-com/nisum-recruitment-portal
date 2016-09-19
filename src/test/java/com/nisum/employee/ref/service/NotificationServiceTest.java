@@ -1,10 +1,12 @@
 package com.nisum.employee.ref.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +21,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.domain.UserNotification;
-import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.CalendarDTO;
+import com.nisum.employee.ref.view.NotificationMailDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -77,6 +80,32 @@ public class NotificationServiceTest {
 		info.add(userInfo);
 		
 		when(userService.retrieveUserByRole("ROLE_HR")).thenReturn(info);
+	}
+	
+	@Ignore
+	public void testNotificationMail() {
+		String from = "dprasad@nisum.com";
+		
+		List<String> attendees = new ArrayList<>();
+		attendees.add("skaranam@nisum.com");
+		
+		NotificationMailDTO notificationMail = new NotificationMailDTO();
+		notificationMail.setOrganizer(from);
+		notificationMail.setAttendees(attendees);
+		notificationMail.setSubject("Test Notification Mail :)");
+		notificationMail.setOrganizer("organizer@nisum.com");
+		
+		CalendarDTO calendarDTO = new CalendarDTO();
+		calendarDTO.setLocation("Conference Hall - Hyderabad");
+		calendarDTO.setStartDateTime(LocalDateTime.of(2016, 9, 22, 13, 00));
+		calendarDTO.setEndDateTime(LocalDateTime.of(2016, 9, 22, 17, 00));
+		
+		calendarDTO.setDescription("This is test notification mail");
+		
+		notificationMail.setCalendarDTO(calendarDTO);
+		
+		boolean sendNotificationMail = notificationService.sendNotificationMail(notificationMail);
+		assertEquals(true, sendNotificationMail);
 	}
 
 }

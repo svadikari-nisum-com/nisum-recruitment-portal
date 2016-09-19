@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,6 +51,8 @@ import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.Constants;
 import com.nisum.employee.ref.util.EnDecryptUtil;
+import com.nisum.employee.ref.view.CalendarDTO;
+import com.nisum.employee.ref.view.NotificationMailDTO;
 import com.nisum.employee.ref.view.OfferDTO;
 import com.nisum.employee.ref.view.PositionDTO;
 
@@ -93,6 +97,8 @@ public class NotificationService implements INotificationService {
 	private static final String POSITIONCODE="positionCode";
 	private static final String STATUS="status";
 	private static final String POSITION_STATUS_CHANGED="Position Status Changed";
+	
+	private static final String DESCRIPTION = "DESCRIPTION";
 
 	@Value("${mail.smtp.auth}")
 	private String smtpAuthRequired;
@@ -132,6 +138,9 @@ public class NotificationService implements INotificationService {
 	
 	@Value("${CANDIDATE_JOINED_TEMPLATE}")
 	private String CANDIDATE_JOINED_TEMPLATE;
+	
+	@Value("${NOTIFICATION_MAIL_TEMPLATE}")
+	private String NOTIFICATION_MAIL_TEMPLATE;
 
 	@Value("${error.mail.to}")
 	private String errors_notifications_to;
@@ -559,5 +568,113 @@ public class NotificationService implements INotificationService {
 		}catch(Exception ex){
 			throw new ServiceException(ex);
 		}
+	}
+    
+    public boolean sendNotificationMail(NotificationMailDTO notificationMailDTO) {
+    	
+    	Message message = null;
+		boolean isMailSent = false;
+		try {
+			message = new MimeMessage(getSession());
+
+			Multipart mp = new MimeMultipart();
+			mp.addBodyPart(buildCalendarPart(notificationMailDTO));
+			mp.addBodyPart(buildHtmlTextPart(notificationMailDTO.getCalendarDTO()));
+			
+			message.setContent(mp);
+			message.setSubject(notificationMailDTO.getSubject());
+			
+//			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("dprasad@nisum.com"));
+			
+			InternetAddress[] address = new InternetAddress[notificationMailDTO.getAttendees().size()];
+			for (int i = 0; i < notificationMailDTO.getAttendees().size(); i++) {
+				address[i] = new InternetAddress(notificationMailDTO.getAttendees().get(i));
+			}
+
+			message.setRecipients(Message.RecipientType.TO, address);
+			
+			Transport.send(message);
+			isMailSent = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return isMailSent;
+    }
+
+	private BodyPart buildCalendarPart(NotificationMailDTO notificationMailDTO) throws MessagingException {
+		BodyPart calendarPart = new MimeBodyPart();
+		
+		CalendarDTO calendarDTO = notificationMailDTO.getCalendarDTO();
+		
+		dateFormatter(calendarDTO.getStartDateTime());
+
+		String calendarContent = "BEGIN:VCALENDAR\n" + "METHOD:REQUEST\n"
+				+ "PRODID: BCP - Meeting\n" + "VERSION:2.0\n"
+				+ "BEGIN:VEVENT\n" + "DTSTAMP:"
+				+ dateFormatter(calendarDTO.getStartDateTime())
+				+ "\n"
+				+ "DTSTART:"
+				+ dateFormatter(calendarDTO.getStartDateTime())
+				+ "\n"
+				+ "DTEND:"
+				+ dateFormatter(calendarDTO.getEndDateTime())
+				+ "\n"
+				+ "SUMMARY:"
+				+ notificationMailDTO.getSubject()
+				+"\n"
+				+ "UID:324\n"
+				+ prepareAttendees(notificationMailDTO.getAttendees())
+				+ "ORGANIZER:MAILTO:"
+				+ notificationMailDTO.getOrganizer()
+				+"\n"
+				+ "LOCATION:"
+				+ calendarDTO.getLocation()
+				+"\n"
+				+ "SEQUENCE:0\n"
+				+ "PRIORITY:5\n"
+				+ "CLASS:PUBLIC\n"
+				+ "STATUS:CONFIRMED\n"
+				+ "TRANSP:OPAQUE\n"
+				+ "BEGIN:VALARM\n"
+				+ "ACTION:DISPLAY\n"
+				+ "DESCRIPTION:REMINDER\n"
+				+ "TRIGGER;RELATED=START:-PT00H15M00S\n"
+				+ "END:VALARM\n"
+				+ "END:VEVENT\n" + "END:VCALENDAR";
+
+		calendarPart.addHeader("Content-Class", "urn:content-classes:calendarmessage");
+		calendarPart.setContent(calendarContent, "text/calendar;method=CANCEL");
+		System.out.println(calendarContent);
+		return calendarPart;
+	}
+	
+	private String dateFormatter(LocalDateTime localDateTime) {
+		return localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm'00'"));
+	}
+	
+	public String prepareAttendees(List<String> attendees) {
+		StringBuilder attendeeBuilder = new StringBuilder();
+		for(String x : attendees) {
+			attendeeBuilder.append("ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE:MAILTO:"+x+"\n");
+		}
+		return attendeeBuilder.toString();
+	}
+	
+	private BodyPart buildHtmlTextPart(CalendarDTO calendarDTO) throws MessagingException {
+		MimeBodyPart messageBody = new MimeBodyPart();
+		
+		if(calendarDTO != null) {
+			VelocityContext context = new VelocityContext();
+			context.put(DESCRIPTION, calendarDTO.getDescription());
+			
+			Template notificationTemplate = null;
+			notificationTemplate = getVelocityTemplate(NOTIFICATION_MAIL_TEMPLATE);
+			StringWriter writer = new StringWriter();
+			notificationTemplate.merge(context, writer);
+			messageBody.setContent(writer.toString(), TEXT_HTML);
+		}
+		
+		return messageBody;
 	}
 }
