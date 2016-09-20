@@ -3,6 +3,7 @@ plugins {
   id "org.sonarqube" version "2.0.1"
   id "net.saliman.cobertura" version "2.3.2"
   id "com.eriwen.gradle.js" version "2.14.1"
+  id "com.eriwen.gradle.css" version "2.14.0"
 }
 defaultTasks 'clean', 'build', 'test'
 repositories 
@@ -16,18 +17,34 @@ repositories
 apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "js"
+apply plugin: "css"
 apply plugin: "war"
 
-javascript.source {
+javascript.source 
+{
+	custom 
+	{
+		js 
+		{
+			srcDir 'src/main/webapp/js'
+			include "**/*.js"
+		}
 		
-		custom {
-				js 
-				{
-					srcDir 'src/main/webapp/js'
-					include "**/*.js"
-				}
-			   }
+	}
 }
+
+css.source
+{
+	custom
+	{
+		css
+		{
+			srcDir 'src/main/webapp/static/css'
+            include '**/*.css'
+		}
+	}
+}
+
 javascript.source.custom.js.files.eachWithIndex { jsFile, idx ->
     tasks.create(name: "dominifyJs${idx}", type: com.eriwen.gradle.js.tasks.MinifyJsTask) {
     
@@ -48,26 +65,58 @@ javascript.source.custom.js.files.eachWithIndex { jsFile, idx ->
     }
  }
  
+ css.source.custom.css.files.eachWithIndex { cssFile, idx ->
+    tasks.create(name: "dominifyCss${idx}", type: com.eriwen.gradle.css.tasks.MinifyCssTask) {
+    
+        if (cssFile.getParentFile().getName() != "css") {
+            source = cssFile
+            dest = "${buildDir}/tmp/css/" + cssFile.getParentFile().getName() + "/${cssFile.name}"
+             println "File Name::${cssFile.name}"
+            closure {
+                compilationLevel = 'SIMPLE_OPTIMIZATIONS'
+            }
+        } else {
+            source = cssFile
+            dest = "${buildDir}/tmp/css/${cssFile.name}"
+            closure {
+                compilationLevel = 'SIMPLE_OPTIMIZATIONS'
+            }
+        }
+    }
+}
+ 
+ 
  task individualJsMinify(dependsOn: tasks.matching 
  {
  	Task task -> task.name.startsWith("dominifyJs") 
  })
+
+ task individualCssMinify(dependsOn: tasks.matching {
+ 	Task task -> task.name.startsWith("dominifyCss") 
+ })
+ 
  
 war {
 
-   
     version = '0.1.0'
     Properties systemProperties = System.getProperties();
     String executionType = systemProperties.getProperty("spring.profiles.active", "local");
     if (!executionType.equalsIgnoreCase('local')) {
-        dependsOn 'individualJsMinify'
+    
+        dependsOn 'individualJsMinify','individualCssMinify'
         
         exclude 'js/*'
+        exclude 'static/css/*'
+        
         from('src/main/webapp/js') {
         
             exclude '**/*.js'
         }
-		
+        from('sr/main/webapp/static/css')
+        {
+        	exclude '**/*.css'
+        }
+        
 		include 'resources/**'
 		include 'static/**'
 		include 'vendor/**'
@@ -83,12 +132,13 @@ war {
             include '**/*.js'
             into 'js/'
         }
-        
+         from('build/tmp/css') 
+        {
+            include '**/*.css'
+            into 'static/css'
+        }
     }
 }
-
-
-
 
 allprojects {
   ext.baseVersion = "0.1"
