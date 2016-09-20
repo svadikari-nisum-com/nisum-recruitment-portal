@@ -315,7 +315,7 @@ public class ReportsService {
 		long minutes = seconds / 60;
 		long hours = minutes / 60;
 		long days = hours / 24;
-		return days + " days " + hours % 24 + " hours " + seconds;
+		return days + " days " + hours % 24 + " hours ";
 	}
 
 }
