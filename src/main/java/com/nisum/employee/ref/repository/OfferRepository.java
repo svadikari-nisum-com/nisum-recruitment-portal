@@ -41,6 +41,7 @@ public class OfferRepository {
 		if (offerOld == null) {
 			mongoOperations.save(offer);
 		} else {
+			offer.setPersisted(Boolean.TRUE);
 			updateOffer(offer);
 		}
 	}
@@ -97,6 +98,7 @@ public class OfferRepository {
 	
 	public void updateOffer(Offer offer) {
 		Query query = new Query();
+		offer.setPersisted(Boolean.TRUE);
 		query.addCriteria(Criteria.where("emailId").is(offer.getEmailId()));
 		query.fields().include("emailId");
 		Update update = new Update();
@@ -113,7 +115,7 @@ public class OfferRepository {
 		update.set("location", offer.getLocation());
 		update.set("offerLetterName", offer.getOfferLetterName());
 		update.set("status", offer.getStatus());
-		update.set("jobcodeProfile", offer.getJobcodeProfile());
+		update.set("jobcodeProfile", offer.getJobcodeProfile());	
 		mongoOperations.updateFirst(query, update, Offer.class);
 	}
 	

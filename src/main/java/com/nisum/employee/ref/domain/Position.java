@@ -14,6 +14,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Position")
 public class Position extends AuditEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	String jobcode;
 	String designation;
@@ -36,5 +40,9 @@ public class Position extends AuditEntity {
 	String locationHead;
 	String status;
 	Date positionApprovedDt;
+	@Override
+	public String getId() {
+		return jobcode;
+	}
 
 }

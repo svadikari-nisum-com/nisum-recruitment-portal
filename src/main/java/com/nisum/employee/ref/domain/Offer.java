@@ -13,6 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "offer")
 public class Offer extends AuditEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String emailId;
 	private String candidateName;
@@ -32,4 +36,8 @@ public class Offer extends AuditEntity {
 	private String mobileNo;
 	private String ctc;
 	private String designation;
+	@Override
+	public String getId() {
+		return emailId;
+	}
 }

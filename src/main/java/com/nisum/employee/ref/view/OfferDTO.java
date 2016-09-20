@@ -33,4 +33,5 @@ public class OfferDTO extends BaseDTO {
 	private String ctc;
 	private String designation;
 
+
 }

@@ -86,7 +86,7 @@ public class ProfileControllerTest {
 	  ProfileDTO profile = new ProfileDTO();
 	  profile.setCandidateName("swathi");
 	  doNothing().when(profileService).createCandidate(profile);
-	  mockMvc.perform(post("/profile").contentType(MediaType.APPLICATION_JSON).content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
+	  mockMvc.perform(post("/profile").contentType(MediaType.APPLICATION_JSON).content(MockTestUtil.convertToJsonFormat(new ProfileDTO()))).andExpect(status().isOk()); 
 
    }
    
@@ -99,7 +99,7 @@ public class ProfileControllerTest {
 	  doNothing().when(profileService).updateCandidate(profile);
 		 mockMvc.perform(
 					put("/profile").contentType(MediaType.APPLICATION_JSON).
-					content(MockTestUtil.convertToJsonFormat(new Profile()))).andExpect(status().isOk()); 
+					content(MockTestUtil.convertToJsonFormat(new ProfileDTO()))).andExpect(status().isOk()); 
    }
    
    @Test

@@ -82,7 +82,7 @@ public class InterviewControllerTest {
 		interviewDetails.setClientName("Nisum");
 		Mockito.when((interviewDetailsService).saveFeedback(interviewFeedBack)).thenReturn(interviewDetails);
 		mockMvc.perform(post("/interviews/feedback").contentType(MediaType.APPLICATION_JSON)
-				.content(MockTestUtil.convertToJsonFormat(new InterviewSchedule()))).andExpect(status().isOk());
+				.content(MockTestUtil.convertToJsonFormat(new InterviewFeedback()))).andExpect(status().isOk());
 
 	}
 

@@ -9,11 +9,18 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
+import org.springframework.data.domain.Persistable;
 
 @Getter
 @Setter
-public  class AuditEntity {
+public abstract  class AuditEntity implements Persistable<String> {
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3134126905704075123L;
+
 	@CreatedDate
 	private DateTime createdDate;
 	
@@ -28,5 +35,14 @@ public  class AuditEntity {
 	
 	@Version
 	private Long version;
+
+	private boolean persisted;
+	
+	public abstract String getId();
+	
+	@Override
+	public boolean isNew() {
+		return !persisted;
+	}
 
 }

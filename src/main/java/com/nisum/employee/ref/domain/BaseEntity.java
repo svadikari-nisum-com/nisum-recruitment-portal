@@ -20,13 +20,13 @@ public abstract class BaseEntity implements Persistable<String> {
 	@LastModifiedDate
 	private Date updateDtm;
 	
-	private boolean isPersisted;
+	private boolean persisted;
 	
 	public abstract String getId();
 	
 	@Override
 	public boolean isNew() {
-		return !isPersisted;
+		return !persisted;
 	}
 
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class ReportsServiceTest {
 	}
 	
 	@Test
-	public void testGetReportByHiringManager() {
+	public void testGetReportByHiringManager() throws ParseException {
 		List<PositionDTO> positions = new ArrayList<>();
 		PositionDTO position = new PositionDTO();
 		position.setHiringManager("Aliza Zaffar ");
@@ -98,9 +99,7 @@ public class ReportsServiceTest {
 		interviewDetails.setPositionId(positionsIds);
 		interviewDetails.setProgress("Hr Round Scheduled");
 		interviewDetailsList.add(interviewDetails);
-		when(interviewDetailsService.getInterviewByJobCode(any(String.class))).thenReturn(interviewDetailsList);
-		
-		
+		when(interviewDetailsService.getInterviewByJobCode(any(String.class))).thenReturn(interviewDetailsList);	   
 		List<OfferDTO> offers = new ArrayList<OfferDTO>();
 		OfferDTO offerDto = new OfferDTO();
 		offerDto.setEmailId("kushal@gmail.com");
@@ -109,7 +108,7 @@ public class ReportsServiceTest {
 		offers.add(offerDto);
 		when(offerService.getOffersByJobcode(any(String.class))).thenReturn(offers);
 		
-		List<ReportsVO> reportsVO = reportsService.getReportByHiringManager("Aliza Zaffar ");
+		List<ReportsVO> reportsVO = reportsService.getReportByHiringManager("Aliza Zaffar ","rgangadhari@nisum.com");
 		
 		assertNotNull(reportsVO);
 	}

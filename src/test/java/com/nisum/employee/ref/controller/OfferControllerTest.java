@@ -6,14 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-
-
-
-
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +20,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.service.OfferService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
@@ -54,7 +45,7 @@ public class OfferControllerTest {
 	    doNothing().when(offerService).saveOffer(any(OfferDTO.class));
 	  	 mockMvc.perform(
 				post("/offers").contentType(MediaType.APPLICATION_JSON).
-				content(MockTestUtil.convertToJsonFormat(new Offer()))).andExpect(status().isOk());
+				content(MockTestUtil.convertToJsonFormat(new OfferDTO()))).andExpect(status().isOk());
 	}
 	
 	@Test

@@ -41,6 +41,6 @@ public class ProfileDTO extends BaseDTO {
 	String skypeId;
 	String status;
 	String interviewProgress;
-	Boolean isPersisted;
+
 
 }
