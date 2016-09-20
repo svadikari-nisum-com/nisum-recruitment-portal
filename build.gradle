@@ -71,6 +71,7 @@ war {
 		include 'resources/**'
 		include 'static/**'
 		include 'vendor/**'
+		include 'lib/**'
 		include 'views/**'
 		include 'WEB-INF/**'
 		include 'js/*'     
