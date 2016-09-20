@@ -72,6 +72,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 					$scope.selectDropDownDisable = true;
 					$scope.showRounds = false;
 					angular.forEach($scope.interview.rounds, function(round){
+						if (jobCodeService1.getinterviewRound() == null || jobCodeService1.getinterviewRound() == undefined) {
+							if(round.interviewSchedule != null && round.interviewFeedback == null) {
+								$scope.interviewRoundName = round.roundName;
+							}
+						}
 					if(round.roundName != $scope.interviewRoundName ) {
 						$scope.roundListInfo.push({"round":round.roundName,"email":round.interviewSchedule.candidateId});
 					}	
@@ -183,6 +188,10 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 					  $timeout( function(){ $scope.alHide(); }, 1000);
 					  $log.error("Feedback Submission Failed! --->"+data);
 				  });			
+			}
+			
+			if($scope.interviewFeedback.status == "no" ) {
+				console.log("bye");
 			}
 			
 			blockUI.stop();
