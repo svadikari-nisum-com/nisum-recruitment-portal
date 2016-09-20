@@ -72,24 +72,31 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 					$scope.selectDropDownDisable = true;
 					$scope.showRounds = false;
 					angular.forEach($scope.interview.rounds, function(round){
-						if (jobCodeService1.getinterviewRound() == null || jobCodeService1.getinterviewRound() == undefined) {
-							if(round.interviewSchedule != null && round.interviewFeedback == null) {
-								$scope.interviewRoundName = round.roundName;
-							}
-						}
-					if(round.roundName != $scope.interviewRoundName ) {
+					if(round.roundName != $scope.interviewRoundName && round.interviewFeedback != null) {
 						$scope.roundListInfo.push({"round":round.roundName,"email":round.interviewSchedule.candidateId});
 					}	
 						if(round.interviewFeedback != null ) {
 								$scope.interviewDateTime = round.interviewSchedule.interviewDateTime;
 								$scope.typeOfInterview = round.interviewSchedule.typeOfInterview;
-								$scope.roundName = round.interviewSchedule.roundName;
-							    $scope.showRounds = true;
+								$scope.interviewRoundName = round.interviewFeedback.roundName;
+								$scope.interviewSchedule = round.interviewSchedule;
+								$scope.interviewFeedback = round.interviewFeedback;
+								if( $scope.interviewFeedback.rateSkills[0].skill  == "" && $scope.interviewFeedback.rateSkills[0].rating == "") {
+									$scope.disableSkills = true;
+								}
+								$scope.showRounds = true;
+								$scope.submitShow = false;
 							} else {
 							if (round.interviewFeedback == null ) {
 							$scope.interviewDateTime = round.interviewSchedule.interviewDateTime;
 							$scope.typeOfInterview = round.interviewSchedule.typeOfInterview;
-							$scope.roundName = round.interviewSchedule.roundName;
+							$scope.interviewRoundName = round.interviewSchedule.roundName;
+							$scope.interviewFeedback.rateSkills =[];
+							$scope.addSkills();
+							$scope.interviewFeedback.duration = "";
+							$scope.interviewFeedback.additionalSkills = "";
+							$scope.showRounds = false;
+							$scope.submitShow = true;
 							}
 						}
 						
@@ -188,10 +195,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 					  $timeout( function(){ $scope.alHide(); }, 1000);
 					  $log.error("Feedback Submission Failed! --->"+data);
 				  });			
-			}
-			
-			if($scope.interviewFeedback.status == "no" ) {
-				console.log("bye");
 			}
 			
 			blockUI.stop();
