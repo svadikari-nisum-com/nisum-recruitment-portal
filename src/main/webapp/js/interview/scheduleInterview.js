@@ -199,6 +199,84 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 		blockUI.stop();
 		},1000);	
 	}
+	
+	
+	$scope.filterInterviewersByCandidateTime = function(newDate){
+		day = $filter('date')(newDate, 'dd/MM/yy');
+		var scheduleDate = newDate; 
+		var toDay = new Date(); 
+		var interviewers = $scope.usersInfo;
+		if(toDay >= scheduleDate){
+	           $scope.hidePrvDateMsg = false;
+	           $scope.interviewerData = {};
+	   		   $scope.data.date = "";
+	   		   $scope.interviewschedule.interviewerName = "";
+	   		   $scope.setRounds($scope.interviewschedule.roundName);
+	           return;
+	    }else{
+	          $scope.hidePrvDateMsg = true;
+	    }
+		selectedDay = $filter('date')(newDate, 'EEEE');
+		$scope.interviewerNames = [];
+		$scope.interviewerData = {};
+		$scope.interviewschedule.interviewerName = "";
+		angular.forEach(interviewers, function(interviewer) {
+			
+			angular.forEach(interviewer.timeSlots, function(timeslot)  {
+				if(timeslot.day == selectedDay) {
+					$scope.interviewerTimeslot = timeslot;
+					var intSchDate = new Date(timeslot.time);
+					// Interviewer Timings
+					var intDate = new Date();
+					var intHours = new Date(timeslot.time).getHours();
+					var intMinutes = new Date(timeslot.time).getMinutes();
+					
+					intDate.setHours(intHours, intMinutes)
+					var time = (timeslot.hour).split('.');
+					var intToDate = new Date();
+					if(time[0]) {
+						intToDate.setHours(intHours + Number(time[0]));
+					}
+					if(time[1]) {
+						intToDate.setMinutes(intMinutes + Number(time[1]));
+					}else{
+						intToDate.setMinutes(intMinutes);
+					}
+					// Candidate Timings
+					var canDate = new Date();
+					var canHours = newDate.getHours();
+					var canMinutes = newDate.getMinutes();
+					canDate.setHours(canHours, canMinutes)
+					
+					// Interviewer From Time
+					var intFromDateTime = new Date(timeslot.fromDate);
+					// Interviewer To Time
+					var intToDateTime = new Date(timeslot.toDate);
+					if(timeslot.isNotAvailable) {
+						if(!(intFromDateTime <= newDate && newDate < intToDateTime)) {
+							if(canDate >= intDate  && canDate < intToDate) {
+								$log.info("Interviewer is available");
+								$scope.interviewerNames.push({'name':interviewer.name,"emailId":interviewer.emailId,"count":interviewer.noOfRoundsScheduled});
+								//$scope.interviewerData = {};
+								//$scope.interviewerData = interviewer;
+							}
+						}
+					}else {
+						if(canDate >= intDate  && canDate < intToDate) {
+							$log.info("Interviewer is available");
+							$scope.interviewerNames.push({'name':interviewer.name,"emailId":interviewer.emailId,"count":interviewer.noOfRoundsScheduled});
+							$scope.interviewerData = {};
+							//$scope.interviewerData = interviewer;
+						}
+					}
+				}
+			});
+		});
+		
+		if($scope.interviewerNames.length <= 0){
+			showTimeslotError();
+		}
+	}
 
 	$scope.onTimeSet = function (newDate, oldDate) {
 		
@@ -288,7 +366,9 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 		//$scope.interviewschedule.interviewerName = "";
 		//$scope.interviewschedule.emailIdInterviewer = "";
 		//$scope.interviewschedule.interviewerMobileNumber = "";	
+		$scope.interviewerData = {};
 		$scope.data.date = "";
+		$scope.setRounds($scope.interviewschedule.roundName);
 	}
 	
 	
@@ -301,7 +381,7 @@ app.controller('scheduleInterviewCtrl',['$scope', '$http', 'jobCodeService1', '$
 			$scope.interviewschedule.interviewerMobileNumber = $scope.interviewerData.mobileNumber;
 			$scope.interviewschedule.skypeId = $scope.interviewerData.skypeId;
 			$scope.sel.selectedLocation = $scope.interviewerData.location;
-			$scope.data.date="";
+			//$scope.data.date="";
 			
 			angular.forEach($scope.interviewerData.timeSlots, function(timeSlot) {
 				if(timeSlot.hour) {

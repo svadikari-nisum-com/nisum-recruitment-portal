@@ -87,7 +87,7 @@ public class UserService implements IUserService{
 			interviewRoundsDTO = new InterviewRoundsDTO();
 			interviewRoundsDTO.setEmailId(interviewer.getEmailId());
 			interviewRoundsDTO.setName(interviewer.getName());
-			
+			interviewRoundsDTO.setTimeSlots(interviewer.getTimeSlots());
 			interviewDetails = interviewDetailsRepository.getInterviewByInterviewer(interviewer.getEmailId());
 			interviewRoundsDTO.setNoOfRoundsScheduled(interviewDetails.size());
 			interviewerRoundsInfo.add(interviewRoundsDTO);
