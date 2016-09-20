@@ -38,7 +38,7 @@ public class DesignationServiceTest {
 	private Designation designation;
 	
 	@Spy
-	private DesignationConverter designationConverter;
+	private DesignationConverter designationConverter = new DesignationConverter();
 
 	@Before
 	public void setUp() throws Exception {

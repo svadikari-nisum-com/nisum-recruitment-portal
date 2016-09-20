@@ -42,10 +42,10 @@ public class ClientInfoServiceTest {
 	private ClientInfo clientInfo;
 	
 	@Spy
-	private ClientInfoConverter clientInfoConverter;
+	private ClientInfoConverter clientInfoConverter = new ClientInfoConverter();
 	
 	@Spy
-	private UserInfoConverter userInfoConverter;
+	private UserInfoConverter userInfoConverter = new UserInfoConverter();
 
 	@Before
 	public void setUp() throws Exception {

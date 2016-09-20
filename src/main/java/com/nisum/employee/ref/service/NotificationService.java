@@ -56,7 +56,10 @@ import com.nisum.employee.ref.view.NotificationMailDTO;
 import com.nisum.employee.ref.view.OfferDTO;
 import com.nisum.employee.ref.view.PositionDTO;
 
+import lombok.Setter;
+
 @Service
+@Setter
 public class NotificationService implements INotificationService {
 
 	private static final String DD_MMM_YYYY_HH_MM = "dd-MMM-yyyy HH:mm";
@@ -467,6 +470,7 @@ public class NotificationService implements INotificationService {
 			Transport.send(message);
 		
 		}catch(Exception ex){
+			ex.printStackTrace();
 			throw new ServiceException(ex);
 		}
 	}

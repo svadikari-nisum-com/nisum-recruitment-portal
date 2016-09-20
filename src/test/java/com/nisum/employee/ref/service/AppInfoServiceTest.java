@@ -37,7 +37,7 @@ public class AppInfoServiceTest {
 	private InfoEntity infoEntity;
 	
 	@Spy
-	private InfoEntityConverter infoEntityConverter;
+	private InfoEntityConverter infoEntityConverter = new InfoEntityConverter();
 
 	@Before
 	public void setUp() throws Exception {
