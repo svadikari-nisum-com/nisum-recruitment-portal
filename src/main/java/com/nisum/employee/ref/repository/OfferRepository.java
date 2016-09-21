@@ -22,6 +22,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Offer;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.util.Constants;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class OfferRepository {
 	}
 
 	public void saveResumeInBucket(MultipartFile multipartFile,
-			String candidateId) {
+			String candidateId) throws ServiceException {
 		DBObject metaData = new BasicDBObject();
 		metaData.put("candidateId", candidateId);
 		try {
@@ -62,12 +63,12 @@ public class OfferRepository {
 			gridFSInputFile.saveChunks();
 			gridFSInputFile.save();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ServiceException(e);
 		}
 	}
 	
 	
-	public void saveOfferInBucket(ByteArrayOutputStream output,String candidateName,String emailId) {
+	public void saveOfferInBucket(ByteArrayOutputStream output,String candidateName,String emailId) throws ServiceException {
 		DBObject metaData = new BasicDBObject();
 		metaData.put("candidateName", candidateName);
 		metaData.put("candidateid", emailId);
@@ -80,7 +81,7 @@ public class OfferRepository {
 			gridFSInputFile.saveChunks();
 			gridFSInputFile.save();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ServiceException(e);
 		}
 	}
 

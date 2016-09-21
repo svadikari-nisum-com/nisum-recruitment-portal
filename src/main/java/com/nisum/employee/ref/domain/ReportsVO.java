@@ -14,8 +14,8 @@ public class ReportsVO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	List<Profile> profiles;
-	List<InterviewDetails> interviewDetails;
+	private List<Profile> profiles;
+	private List<InterviewDetails> interviewDetails;
 	private int noOfOpenPositions;
 	private int profilesInTechnicalRound1;
 	private int profilesInTechnicalRound2;

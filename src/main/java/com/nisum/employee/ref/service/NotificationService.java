@@ -30,6 +30,9 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -39,6 +42,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.nisum.employee.ref.controller.ExceptionAdviceController;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.domain.Position;
@@ -56,10 +60,9 @@ import com.nisum.employee.ref.view.NotificationMailDTO;
 import com.nisum.employee.ref.view.OfferDTO;
 import com.nisum.employee.ref.view.PositionDTO;
 
-import lombok.Setter;
-
 @Service
 @Setter
+@Slf4j
 public class NotificationService implements INotificationService {
 
 	private static final String DD_MMM_YYYY_HH_MM = "dd-MMM-yyyy HH:mm";
@@ -183,7 +186,7 @@ public class NotificationService implements INotificationService {
 			userNotification.setRead("No");
 			userNotificationService.createNotification(userNotification);
 		} catch (Exception e) {
-			System.out.println(e);
+			log.error(e.getMessage(),e);
 		}
 
 		String to = interviewSchedule.getCandidateId();
@@ -297,7 +300,7 @@ public class NotificationService implements INotificationService {
 		try {
 			message = getMessage();
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(),e);
 		}
 		if (message != null) {
 			message.setSubject(FEEDBACK_SUBMITTED_FOR
@@ -372,7 +375,7 @@ public class NotificationService implements INotificationService {
 		try {
 			convertedDate = formatter.parse(dateTime.substring(0, 24));
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(),e);
 		}
 		return FORMATTER.format(convertedDate);
 	}
@@ -396,7 +399,7 @@ public class NotificationService implements INotificationService {
 			message.setContent(writer.toString(), TEXT_HTML);
 			Transport.send(message);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.error(ex.getMessage(),ex);
 		}
 	}
 
@@ -497,7 +500,7 @@ public class NotificationService implements INotificationService {
 		try {
 			message = getMessage();
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(),e);
 		}
 		if (message != null) {
 			message.setSubject(NEW_POSITION_CREATED);
@@ -531,7 +534,7 @@ public class NotificationService implements INotificationService {
 		try {
 			message = getMessage();
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(),e);
 		}
 		if (message != null) {
 			message.setSubject(POSITION_STATUS_CHANGED);
@@ -600,7 +603,7 @@ public class NotificationService implements INotificationService {
 			Transport.send(message);
 			isMailSent = true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(e.getMessage(),e);
 		}
 		
 		return isMailSent;

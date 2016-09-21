@@ -86,7 +86,7 @@ public class OfferService implements IOfferService {
 
 	@Override
 	public void saveResumeInBucket(MultipartFile multipartFile,
-			String candidateId) {
+			String candidateId) throws ServiceException {
 		offerRepository.saveResumeInBucket(multipartFile, candidateId);
 	}
 
