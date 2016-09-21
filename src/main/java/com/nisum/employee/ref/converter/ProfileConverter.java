@@ -23,7 +23,7 @@ public class ProfileConverter extends TwowayConverter<Profile, ProfileDTO> {
 		try {
 			BeanUtils.copyProperties(profileDTO, profile);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return profileDTO;
 		}
 		return profileDTO;
@@ -35,7 +35,7 @@ public class ProfileConverter extends TwowayConverter<Profile, ProfileDTO> {
 		try {
 			BeanUtils.copyProperties(profile, profileDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return profile;
 		}
 		return profile;

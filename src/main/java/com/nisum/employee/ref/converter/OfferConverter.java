@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,7 @@ import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.view.OfferDTO;
 
 @Component
+@Slf4j
 public class OfferConverter extends TwowayConverter<Offer, OfferDTO> {
 
 	@Override
@@ -20,6 +23,7 @@ public class OfferConverter extends TwowayConverter<Offer, OfferDTO> {
 			BeanUtils.copyProperties(offerDTO, offer);
 			
 		} catch (IllegalAccessException | InvocationTargetException e) {
+			log.error(e.getMessage(),e);
 			return offerDTO;
 		}
 		return offerDTO;
@@ -31,6 +35,7 @@ public class OfferConverter extends TwowayConverter<Offer, OfferDTO> {
 		try {
 			BeanUtils.copyProperties(offer, offerDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
+			log.error(e.getMessage(),e);
 			return offer;
 		}
 		return offer;

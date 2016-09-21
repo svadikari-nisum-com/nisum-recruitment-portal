@@ -23,7 +23,7 @@ public class DesignationConverter extends TwowayConverter<Designation, Designati
 			BeanUtils.copyProperties(designationDTO, designation);
 			designationDTO.setSkills(designation.getSkills());
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return designationDTO;
 		}
 		return designationDTO;
@@ -36,7 +36,7 @@ public class DesignationConverter extends TwowayConverter<Designation, Designati
 			BeanUtils.copyProperties(designation, designationDTO);
 			designation.setSkills(designationDTO.getSkills());
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return designation;
 		} 
 		return designation;

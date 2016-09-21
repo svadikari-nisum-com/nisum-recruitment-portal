@@ -30,7 +30,7 @@ public class TimeSlotConverter extends TwowayConverter<TimeSlots, TimeSlotDTO> {
 		try {
 			BeanUtils.copyProperties(userInfoDTO, userInfo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return userInfoDTO;
 		}
 		return userInfoDTO;
@@ -42,7 +42,7 @@ public class TimeSlotConverter extends TwowayConverter<TimeSlots, TimeSlotDTO> {
 		try {
 			BeanUtils.copyProperties(userInfo, userInfoDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return userInfo;
 		}
 		return userInfo;

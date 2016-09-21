@@ -50,7 +50,7 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 			}
 			clientInfoDTO.setInterviewers(interviewerDTO);
 		} catch ( Exception  e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return clientInfoDTO;
 		}
 		return clientInfoDTO;
@@ -91,7 +91,7 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 			
 			
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return clientInfo;
 		}
 		return clientInfo;
@@ -112,7 +112,7 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 				roundUserDTO.setSkillSet(roundUser.getSkillSet());
 				roundUsers.add(roundUserDTO);
 			} catch (Exception e) {
-				log.error(e.getMessage());
+				log.error(e.getMessage(),e);
 			}
 		});
 		return roundUsers;
@@ -127,7 +127,7 @@ public class ClientInfoConverter extends TwowayConverter<ClientInfo, ClientInfoD
 				roundUserDTO.setSkillSet(roundUserDTO.getSkillSet());
 				roundUsers.add(roundUser);
 			} catch (Exception e) {
-				log.error(e.getMessage());
+				log.error(e.getMessage(),e);
 			}
 		});
 		return roundUsers;

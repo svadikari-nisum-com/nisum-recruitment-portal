@@ -30,7 +30,7 @@ public class PositionConverter extends TwowayConverter<Position, PositionDTO> {
 		try {
 			BeanUtils.copyProperties(positionDTO, Position);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return positionDTO;
 		}
 		return positionDTO;
@@ -42,7 +42,7 @@ public class PositionConverter extends TwowayConverter<Position, PositionDTO> {
 		try {
 			BeanUtils.copyProperties(position, positionDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return position;
 		}
 		return position;

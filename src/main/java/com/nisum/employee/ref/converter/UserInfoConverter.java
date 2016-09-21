@@ -42,7 +42,7 @@ public class UserInfoConverter extends TwowayConverter<UserInfo, UserInfoDTO> {
 						BeanUtils.copyProperties(timeSlotDTO, timeSlot);
 						timeSlotDTOs.add(timeSlotDTO);
 					} catch (Exception e) {
-						log.error(e.getMessage());
+						log.error(e.getMessage(),e);
 					}
 				});
 				userInfoDTO.setTimeSlots(timeSlotDTOs);
@@ -60,7 +60,7 @@ public class UserInfoConverter extends TwowayConverter<UserInfo, UserInfoDTO> {
 						interviewRoundsAllocation.add(interviewRoundsAllocationDTO);
 					}catch(Exception e)
 					{
-						log.error(e.getMessage());
+						log.error(e.getMessage(),e);
 					}
 					
 				});
@@ -69,7 +69,7 @@ public class UserInfoConverter extends TwowayConverter<UserInfo, UserInfoDTO> {
 			
 			
 		} catch (Exception  e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return userInfoDTO;
 		}
 		return userInfoDTO;
@@ -88,7 +88,7 @@ public class UserInfoConverter extends TwowayConverter<UserInfo, UserInfoDTO> {
 						BeanUtils.copyProperties(timeSlot, timeSlotDTO);
 						timeSlots.add(timeSlot);
 					} catch (Exception e) {
-						log.error(e.getMessage());
+						log.error(e.getMessage(),e);
 					}
 				});
 				
@@ -106,7 +106,7 @@ public class UserInfoConverter extends TwowayConverter<UserInfo, UserInfoDTO> {
 						interviewRoundsAllocations.add(interviewRoundsAllocation);
 					}catch(Exception e)
 					{
-						log.error(e.getMessage());
+						log.error(e.getMessage(),e);
 					}
 					
 				});
@@ -115,7 +115,7 @@ public class UserInfoConverter extends TwowayConverter<UserInfo, UserInfoDTO> {
 			}
 				
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return userInfo;
 		}
 		return userInfo;
