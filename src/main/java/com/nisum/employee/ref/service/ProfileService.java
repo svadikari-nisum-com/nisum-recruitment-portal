@@ -50,6 +50,12 @@ public class ProfileService implements IProfileService{
 	public void updateCandidate(ProfileDTO candidate) {
 		profileRepository.updateCandidate(profileConverter.convertToEntity(candidate));
 	}
+	
+	@Override
+	public void deleteCandidate(String emailId){
+		profileRepository.deleteCandidate(emailId);
+	}
+	
 	public void updateCandidateStatus(String email,String status){
 		profileRepository.updateCandidateStatus(email, status);
 	}
@@ -95,6 +101,4 @@ public class ProfileService implements IProfileService{
 		
 		return profileRepository.getData( emailId);
 	}
-	
-	
 }

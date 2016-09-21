@@ -69,6 +69,12 @@ public class ProfileController {
 			profileService.updateCandidate(candidate);
 			return new ResponseEntity<ProfileDTO>(candidate, HttpStatus.OK);
 	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(method = RequestMethod.DELETE)
+	public void deleteProfile(@RequestParam(value = "emailId", required = true) String emailId) throws Exception {
+		profileService.deleteCandidate(emailId);
+	}
 
 	@ResponseStatus(HttpStatus.OK)
 //	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})

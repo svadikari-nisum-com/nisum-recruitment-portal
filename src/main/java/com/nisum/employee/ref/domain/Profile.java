@@ -44,6 +44,7 @@ public class Profile extends BaseEntity{
 	String skypeId;
 	String status;
 	String interviewProgress;
+	Boolean active;
 	
 	@Override
 	public String getId() {

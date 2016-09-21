@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -101,6 +102,15 @@ public class ProfileServiceTest {
 
 		doNothing().when(profileRepository).updateCandidate(Mockito.any(Profile.class));
 		profileService.updateCandidate(profileConverter.convertToDTO(candidate));
+	}
+	
+	@Test
+	public void deleteCandidate() {
+		String emailId="skaranam@nisum.com";
+		doNothing().when(profileRepository).updateCandidate(Mockito.any(Profile.class));
+		ProfileDTO profiledto = new ProfileDTO();		
+		profiledto.setActive(true);
+		profileService.deleteCandidate(emailId);
 	}
 
 	@Test

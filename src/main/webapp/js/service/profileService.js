@@ -8,7 +8,8 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 		updateProfiles : updateProfiles,
 		getProfileById : getProfileById,
 		getProfiles : getProfiles,
-		addProfilesStatus : addProfilesStatus
+		addProfilesStatus : addProfilesStatus,
+		deleteProfile : deleteProfile
 	};
 	
 	function getProfileByCreateremailId(emailId){
@@ -19,6 +20,12 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 	
 	function getProfiles(){
 		return $http.get('resources/profile')
+			 .then(getProlilesData)
+			 .catch(sendErrorprofileMsg);
+	}
+	
+	function deleteProfile(emailId){
+		return $http.delete('resources/profile?emailId='+emailId)
 			 .then(getProlilesData)
 			 .catch(sendErrorprofileMsg);
 	}

@@ -29,6 +29,7 @@ public interface IProfileService {
 	String[] getResume(String emailId) throws Exception;
 	
 	List<GridFSDBFile> getFileData(String emailId) throws Exception;
-	
+
+	void deleteCandidate(String emailId); 
 	
 }

@@ -35,14 +35,31 @@ public class ProfileRepository {
 	private MongoDbFactory dbFactory;
 
 	public void createCandidate(Profile candidate) {
-		mongoOperations.save(candidate);
+		mongoOperations.save(createProfile(candidate));
 	}
 
+	public Profile createProfile(Profile candidate) {
+		//Profile profile = new Profile();
+		candidate.setActive(true);
+		return candidate;
+	}
+	
 	public void updateCandidate(Profile candidate) {
 		candidate.setPersisted(true);
 		mongoOperations.save(candidate);
 	}
-
+   
+	public void deleteCandidate(String emailId) {
+		Query updateQuery = new Query();
+		updateQuery.addCriteria(Criteria.where("emailId").is(emailId));
+		Profile oldProfile = mongoOperations.findOne(updateQuery, Profile.class);
+		if (oldProfile != null) {
+			Update update = new Update();
+			update.set("active",false);
+			mongoOperations.updateFirst(updateQuery, update, Profile.class);
+		}
+	}
+	
 	public void updateCandidateStatus(String email, String status) {
 		Query query = new Query(Criteria.where("_id").is(email));
 		Update update = new Update().set("status", status);

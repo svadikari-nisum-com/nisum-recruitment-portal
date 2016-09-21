@@ -70,6 +70,7 @@ public class InterviewDetailsServiceTest {
 		interviewFeedback.setDuration("30");
 		interviewFeedback.setInterviewerName("interview_name");
 		interviewFeedback.setInterviewerEmail("inter@nisum.com");
+		interviewFeedback.setStatus("no");
 
 		interviewSchedule = new InterviewSchedule();
 		interviewSchedule.setCandidateId("can001");

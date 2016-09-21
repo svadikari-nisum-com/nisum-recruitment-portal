@@ -74,6 +74,7 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 					angular.forEach($scope.interview.rounds, function(round){
 					if(round.roundName != $scope.interviewRoundName && round.interviewFeedback != null) {
 						$scope.roundListInfo.push({"round":round.roundName,"email":round.interviewSchedule.candidateId});
+						$scope.showRounds = true;
 					}	
 						if(round.interviewFeedback != null ) {
 								$scope.interviewDateTime = round.interviewSchedule.interviewDateTime;
@@ -84,7 +85,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 								if( $scope.interviewFeedback.rateSkills[0].skill  == "" && $scope.interviewFeedback.rateSkills[0].rating == "") {
 									$scope.disableSkills = true;
 								}
-								$scope.showRounds = true;
 								$scope.submitShow = false;
 							} else {
 							if (round.interviewFeedback == null ) {
@@ -95,7 +95,6 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 							$scope.addSkills();
 							$scope.interviewFeedback.duration = "";
 							$scope.interviewFeedback.additionalSkills = "";
-							$scope.showRounds = false;
 							$scope.submitShow = true;
 							}
 						}
@@ -195,6 +194,10 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 					  $timeout( function(){ $scope.alHide(); }, 1000);
 					  $log.error("Feedback Submission Failed! --->"+data);
 				  });			
+			}
+			
+			if($scope.interviewFeedback.status == "No") {
+				profileService.deleteProfile($scope.emailId);
 			}
 			
 			blockUI.stop();
