@@ -249,7 +249,7 @@ public class NotificationServiceTest {
 		notificationService.setSmtpAuthRequired("true");
 		notificationService.setHost("smtp.gmail.com");	
 		notificationService.setPort("587");
-		notificationService.setPassword("1*ÒÄ$\u0007ôÇ¯\u000EæS¶º¢¿\u0192\u00A0$²\u000F\u0014¶\u001B");
+		notificationService.setPassword("1*Ã’Ã„$Ã´Ã‡Â¯Ã¦SÂ¶ÂºÂ¢Â¿ÂƒÂ $Â²Â¶");
 		notificationService.setUsername("nisumportal@gmail.com");
 		notificationService.setFrom("nisumportal@gmail.com");
 		notificationService.setSRC_CANDIDATE_VM("candidate.vm");
