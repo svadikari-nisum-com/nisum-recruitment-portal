@@ -14,7 +14,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Transport;
 
 import org.junit.Before;

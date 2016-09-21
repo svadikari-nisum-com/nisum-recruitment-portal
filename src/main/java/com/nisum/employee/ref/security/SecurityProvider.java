@@ -2,8 +2,6 @@ package com.nisum.employee.ref.security;
 
 import java.util.List;
 
-import lombok.Setter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -14,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.nisum.employee.ref.security.authentication.IAuthentication;
 import com.nisum.employee.ref.security.authorization.IAuthorization;
+
+import lombok.Setter;
 
 
 public class SecurityProvider extends AbstractUserDetailsAuthenticationProvider  {

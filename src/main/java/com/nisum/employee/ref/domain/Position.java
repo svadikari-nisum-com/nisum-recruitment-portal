@@ -3,11 +3,11 @@ package com.nisum.employee.ref.domain;
 import java.util.ArrayList;
 import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

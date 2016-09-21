@@ -26,7 +26,6 @@ import com.nisum.employee.ref.domain.ClientInfo;
 import com.nisum.employee.ref.domain.Interviewer;
 import com.nisum.employee.ref.domain.RoundUser;
 import com.nisum.employee.ref.domain.UserInfo;
-import com.nisum.employee.ref.repository.ClientInfoRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientInfoRepositoryTest {

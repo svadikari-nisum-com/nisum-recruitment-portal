@@ -3,9 +3,9 @@ package com.nisum.employee.ref.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import lombok.Getter;
-
 import com.nisum.employee.ref.exception.ServiceException;
+
+import lombok.Getter;
 
 @Getter
 public class CTCCalculator {

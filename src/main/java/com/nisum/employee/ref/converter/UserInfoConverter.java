@@ -7,8 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Component;
@@ -19,6 +17,8 @@ import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.view.InterviewRoundsAllocationDTO;
 import com.nisum.employee.ref.view.TimeSlotDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author NISUM CONSULTING

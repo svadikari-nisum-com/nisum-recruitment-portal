@@ -5,8 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.service.IProfileService;
 import com.nisum.employee.ref.view.ProfileDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RequestMapping("/profile")
 @Slf4j

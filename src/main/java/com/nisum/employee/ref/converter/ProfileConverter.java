@@ -4,13 +4,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.view.ProfileDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j

@@ -7,13 +7,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.view.PositionDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author NISUM CONSULTING

@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -23,6 +23,8 @@ import com.mongodb.gridfs.GridFSInputFile;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.util.Constants;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
