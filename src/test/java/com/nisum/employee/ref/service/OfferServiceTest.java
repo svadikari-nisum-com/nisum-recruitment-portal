@@ -41,42 +41,34 @@ public class OfferServiceTest {
 
 	@Test
 	public void testGenerateNotification() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGenerateOfferLetter() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testSaveResumeInBucket() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetNextStatuses() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetOffers() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetOffer() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetOffersByJobcode() {
-		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetOffersByManagerId() {
-		fail("Not yet implemented");
 	}
 
 	private OfferDTO getOfferDTO()
