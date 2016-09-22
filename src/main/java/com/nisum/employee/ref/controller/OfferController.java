@@ -40,7 +40,7 @@ public class OfferController {
 	@Secured({ "ROLE_ADMIN", "ROLE_USER", "ROLE_HR", "ROLE_RECRUITER", "ROLE_MANAGER", "ROLE_INTERVIEWER" })
 	@RequestMapping(value = "{candidateId}/upload-offer-letter", method = RequestMethod.POST)
 	public ResponseEntity<String> uploadOfferLetter(HttpServletRequest request, @RequestParam(value = "file") MultipartFile multipartFile,
-			@PathVariable("candidateId") String candidateId) throws Exception {
+			@PathVariable("candidateId") String candidateId) throws ServiceException {
 		offerService.saveResumeInBucket(multipartFile, candidateId);
 		return new ResponseEntity<String>("Resume Uploaded Successfully", HttpStatus.OK);
 	}
@@ -48,7 +48,7 @@ public class OfferController {
 	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_RECRUITER" })
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<OfferDTO>> getOffers(@RequestParam(value = "managerEmail", required = false) String managerEmail)
-			throws Exception {
+			throws ServiceException {
 		List<OfferDTO> li_offerDTO = null;
 		if (!StringUtils.isEmpty(managerEmail)) {
 			li_offerDTO = offerService.getOffersByManagerId(managerEmail);
@@ -60,13 +60,13 @@ public class OfferController {
 
 	@Secured({ "ROLE_ADMIN", "ROLE_HR", "ROLE_MANAGER", "ROLE_RECRUITER" })
 	@RequestMapping(value = "/{emailId}", method = RequestMethod.GET)
-	public ResponseEntity<OfferDTO> getOffer(@PathVariable("emailId") String emailId) throws Exception {
+	public ResponseEntity<OfferDTO> getOffer(@PathVariable("emailId") String emailId) throws ServiceException {
 		return new ResponseEntity<OfferDTO>(offerService.getOffer(emailId), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/nextStatuses", method = RequestMethod.GET)
 	public ResponseEntity<List<OfferState>> getNextStatuses(@RequestParam(value = "currentStatus", required = false) String currentStatus)
-			throws Exception {
+			throws ServiceException {
 		List<OfferState> offerStatuses = offerService.getNextStatuses(currentStatus);
 		return new ResponseEntity<List<OfferState>>(offerStatuses, HttpStatus.OK);
 	}

@@ -34,7 +34,7 @@ public class ProfileService implements IProfileService{
 
 
 	@Override
-	public void createCandidate(ProfileDTO candidate) throws Exception {
+	public void createCandidate(ProfileDTO candidate) throws ServiceException {
 		List<Profile> profiles = (profileRepository.retrieveCandidateDetails(candidate.getEmailId()));
 		for(Profile profile : profiles){
 			if(profile.getEmailId().equals(candidate.getEmailId())){
@@ -93,12 +93,12 @@ public class ProfileService implements IProfileService{
 		profileRepository.saveResumeInBucket(multipartFile, candidateId);
 	}
 	@Override
-	public String[] getResume(String emailId) throws Exception {
+	public String[] getResume(String emailId) throws ServiceException {
 		return profileRepository.getResume(emailId);
 	}
 	
 	@Override
-	public List<GridFSDBFile> getFileData(String emailId) throws Exception {
+	public List<GridFSDBFile> getFileData(String emailId) throws ServiceException {
 		
 		return profileRepository.getData( emailId);
 	}

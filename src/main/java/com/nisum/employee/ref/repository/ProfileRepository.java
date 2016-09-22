@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -18,13 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.exception.ServiceException;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
@@ -160,37 +161,40 @@ public class ProfileRepository {
 	 * }
 	 */
 
-	public String[] getResume(String emailId) throws Exception {
+	public String[] getResume(String emailId) throws ServiceException {
 		/*
 		 * GridFsOperations gridOperations = mongoConfig.gridFsTemplate();
 		 * List<GridFSDBFile> resume = gridOperations.find(new
 		 * Query().addCriteria(Criteria.where("metadata.candidateId")
 		 * .is(emailId)));
 		 */
-
-		GridFS gridFS = new GridFS(dbFactory.getDb(), "resume");
-		List<GridFSDBFile> resume = gridFS.find(new Query().addCriteria(
-				Criteria.where("metadata.candidateId").is(emailId))
-				.getQueryObject());
-
-		File temp = null;
-		if (resume.get(0).getFilename().contains(".pdf".toLowerCase())) {
-			temp = File.createTempFile(resume.get(0).getFilename(),
-					".pdf".toLowerCase());
-		} else if (resume.get(0).getFilename().contains(".doc")) {
-			temp = File.createTempFile(resume.get(0).getFilename(), ".doc");
-		} else if (resume.get(0).getFilename().contains(".docx")) {
-			temp = File.createTempFile(resume.get(0).getFilename(), ".docx");
-		} else {
-			log.info("Invalid File Type!");
-		}
-
-		if (temp != null) {
-			String tempPath = temp.getAbsolutePath();
-			resume.get(0).writeTo(tempPath);
-			return new String[] { tempPath, resume.get(0).getFilename() };
-		}
-		return new String[] {};
+        try{
+			GridFS gridFS = new GridFS(dbFactory.getDb(), "resume");
+			List<GridFSDBFile> resume = gridFS.find(new Query().addCriteria(
+					Criteria.where("metadata.candidateId").is(emailId))
+					.getQueryObject());
+	
+			File temp = null;
+			if (resume.get(0).getFilename().contains(".pdf".toLowerCase())) {
+				temp = File.createTempFile(resume.get(0).getFilename(),
+						".pdf".toLowerCase());
+			} else if (resume.get(0).getFilename().contains(".doc")) {
+				temp = File.createTempFile(resume.get(0).getFilename(), ".doc");
+			} else if (resume.get(0).getFilename().contains(".docx")) {
+				temp = File.createTempFile(resume.get(0).getFilename(), ".docx");
+			} else {
+				log.info("Invalid File Type!");
+			}
+	
+			if (temp != null) {
+				String tempPath = temp.getAbsolutePath();
+				resume.get(0).writeTo(tempPath);
+				return new String[] { tempPath, resume.get(0).getFilename() };
+			}
+			return new String[] {};
+        }catch(IOException ex){
+        	throw new ServiceException(ex);
+        }
 	}
 
 	/*
@@ -203,13 +207,16 @@ public class ProfileRepository {
 	 * return (List<GridFSDBFile>) resume; }
 	 */
 
-	public List<GridFSDBFile> getData(String emailId) throws Exception {
-
-		GridFS gridFS = new GridFS(dbFactory.getDb(), "resume");
-		List<GridFSDBFile> file = gridFS.find(new Query().addCriteria(
-				Criteria.where("metadata.candidateId").is(emailId))
-				.getQueryObject());
-		return (List<GridFSDBFile>) file;
+	public List<GridFSDBFile> getData(String emailId) throws ServiceException {
+        try{
+			GridFS gridFS = new GridFS(dbFactory.getDb(), "resume");
+			List<GridFSDBFile> file = gridFS.find(new Query().addCriteria(
+					Criteria.where("metadata.candidateId").is(emailId))
+					.getQueryObject());
+			return (List<GridFSDBFile>) file;
+        }catch(MongoException ex){
+        	throw new ServiceException(ex);
+        }
 	}
 
 }

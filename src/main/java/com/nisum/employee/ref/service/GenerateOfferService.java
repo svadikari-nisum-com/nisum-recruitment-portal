@@ -111,7 +111,7 @@ public class GenerateOfferService
 		return Velocity.getTemplate("templates/" + templetName);
 	}
     
-    private static VelocityContext getVelocityContext(OfferDTO offer) throws NumberFormatException, Exception {
+    private static VelocityContext getVelocityContext(OfferDTO offer) throws NumberFormatException, ServiceException {
 		VelocityContext context = new VelocityContext();
 		CTCCalculator calc = new CTCCalculator(Long.parseLong(offer.getCtc()));
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");

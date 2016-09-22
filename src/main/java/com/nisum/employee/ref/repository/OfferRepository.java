@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -24,8 +26,6 @@ import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.util.Constants;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
@@ -122,24 +122,29 @@ public class OfferRepository {
 		mongoOperations.updateFirst(query, update, Offer.class);
 	}
 	
-	public String[] getData(String emailId) throws Exception {
-		GridFS gridFS = new GridFS(dbFactory.getDb(), "offerletter");
-		List<GridFSDBFile> file = gridFS.find(new Query().addCriteria(Criteria.where("metadata.candidateid")
-				.is(emailId)).getQueryObject());
+	public String[] getData(String emailId) throws ServiceException {
 		
-		File temp = null;
-		if (file.get(0).getFilename().contains(Constants.FILE_EXT.toString().toLowerCase())) {
-			temp = File.createTempFile(file.get(0).getFilename(), Constants.FILE_EXT.toString().toLowerCase());
-		}else {
-			log.info("Invalid File Type!");
+		try{
+			GridFS gridFS = new GridFS(dbFactory.getDb(), "offerletter");
+			List<GridFSDBFile> file = gridFS.find(new Query().addCriteria(Criteria.where("metadata.candidateid")
+					.is(emailId)).getQueryObject());
+			
+			File temp = null;
+			if (file.get(0).getFilename().contains(Constants.FILE_EXT.toString().toLowerCase())) {
+				temp = File.createTempFile(file.get(0).getFilename(), Constants.FILE_EXT.toString().toLowerCase());
+			}else {
+				log.info("Invalid File Type!");
+			}
+			
+			if (temp != null) {
+				String tempPath = temp.getAbsolutePath();
+				file.get(0).writeTo(tempPath);
+				return new String[] { tempPath, file.get(0).getFilename() };
+			} 
+			return new String[] {};
+		}catch(IOException ex){
+			throw new ServiceException(ex);
 		}
-		
-		if (temp != null) {
-			String tempPath = temp.getAbsolutePath();
-			file.get(0).writeTo(tempPath);
-			return new String[] { tempPath, file.get(0).getFilename() };
-		} 
-		return new String[] {};
 	}
 	
 	public List<Offer> getOffersByJobcode(String jobcode) {

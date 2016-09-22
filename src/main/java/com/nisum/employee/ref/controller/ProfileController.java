@@ -1,9 +1,12 @@
 package com.nisum.employee.ref.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +24,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSDBFile;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.service.IProfileService;
 import com.nisum.employee.ref.view.ProfileDTO;
-
-import lombok.extern.slf4j.Slf4j;
 
 @RequestMapping("/profile")
 @Slf4j
@@ -56,7 +58,7 @@ public class ProfileController {
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping( method = RequestMethod.POST )
 	@ResponseBody
-	public ResponseEntity<ProfileDTO> registerUser(@RequestBody ProfileDTO candidate) throws Exception{
+	public ResponseEntity<ProfileDTO> registerUser(@RequestBody ProfileDTO candidate) throws ServiceException{
 			 profileService.createCandidate(candidate);
 			 return new ResponseEntity<ProfileDTO>(candidate,(candidate.hasErrors() ? HttpStatus.BAD_REQUEST : HttpStatus.OK));
 	}
@@ -72,7 +74,7 @@ public class ProfileController {
 	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(method = RequestMethod.DELETE)
-	public void deleteProfile(@RequestParam(value = "emailId", required = true) String emailId) throws Exception {
+	public void deleteProfile(@RequestParam(value = "emailId", required = true) String emailId) throws ServiceException {
 		profileService.deleteCandidate(emailId);
 	}
 
@@ -80,7 +82,7 @@ public class ProfileController {
 //	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/status", method = RequestMethod.PUT)
 	public ResponseEntity<String> updateProfileStatus(@RequestParam(value = "emailId", required = true) String emailId,
-			@RequestParam(value = "status", required = true) String status) throws Exception {
+			@RequestParam(value = "status", required = true) String status) throws ServiceException {
 		profileService.updateCandidateStatus(emailId, status);
 		return new ResponseEntity<String>("Status Updated Successfully", HttpStatus.OK);
 	}
@@ -89,7 +91,7 @@ public class ProfileController {
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping( value = "/file", method = RequestMethod.POST)
-	public ResponseEntity<String> uploadResume(HttpServletRequest request, Model model, @RequestParam(value = "file") MultipartFile multipartFile, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
+	public ResponseEntity<String> uploadResume(HttpServletRequest request, Model model, @RequestParam(value = "file") MultipartFile multipartFile, @RequestParam(value = "candidateId", required = true) String candidateId) throws ServiceException {
 		profileService.saveResume(multipartFile, candidateId);
 		return new ResponseEntity<String>("Resume Uploaded Successfully", HttpStatus.OK);
 	}
@@ -98,7 +100,7 @@ public class ProfileController {
 	@ResponseStatus(HttpStatus.OK)
 	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping( value = "/file", method = RequestMethod.GET)
-	public void downloadFile(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "candidateId", required = true) String candidateId) throws Exception {
+	public void downloadFile(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "candidateId", required = true) String candidateId) throws IOException,ServiceException  {
 		List<GridFSDBFile> files = profileService.getFileData(candidateId);
 		GridFSDBFile file = files.get(0);
 		if (file != null) {

@@ -10,7 +10,7 @@ import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.view.ProfileDTO;
 
 public interface IProfileService {
-	void createCandidate(ProfileDTO candidate) throws Exception;
+	void createCandidate(ProfileDTO candidate) throws ServiceException;
 
 	void updateCandidate(ProfileDTO candidate);
 	void updateCandidateStatus(String email,String status);
@@ -27,9 +27,9 @@ public interface IProfileService {
 
 	void saveResume(MultipartFile multipartFile, String candidateId) throws ServiceException;
 
-	String[] getResume(String emailId) throws Exception;
+	String[] getResume(String emailId) throws ServiceException;
 	
-	List<GridFSDBFile> getFileData(String emailId) throws Exception;
+	List<GridFSDBFile> getFileData(String emailId) throws ServiceException;
 
 	void deleteCandidate(String emailId); 
 	

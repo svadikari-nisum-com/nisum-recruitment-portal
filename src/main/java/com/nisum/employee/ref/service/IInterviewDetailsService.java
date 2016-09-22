@@ -7,11 +7,12 @@ import javax.mail.MessagingException;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
+import com.nisum.employee.ref.exception.ServiceException;
 
 public interface IInterviewDetailsService {
 	InterviewDetails  saveFeedback(InterviewFeedback interviewFeedback) throws MessagingException;
 	
-	InterviewDetails  scheduleInterview(InterviewSchedule interviewSchedule) throws Exception;
+	InterviewDetails  scheduleInterview(InterviewSchedule interviewSchedule) throws ServiceException;
 	
 	List<InterviewDetails> getInterview(String interviewerId);
 	

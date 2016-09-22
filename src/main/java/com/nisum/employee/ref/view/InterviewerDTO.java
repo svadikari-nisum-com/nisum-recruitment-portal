@@ -13,8 +13,8 @@ public class InterviewerDTO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	List<RoundUserDTO> technicalRound1;
-	List<RoundUserDTO> technicalRound2;
-	List<RoundUserDTO> hrRound;
-	List<RoundUserDTO> managerRound;
+	private List<RoundUserDTO> technicalRound1;
+	private List<RoundUserDTO> technicalRound2;
+	private List<RoundUserDTO> hrRound;
+	private List<RoundUserDTO> managerRound;
 }

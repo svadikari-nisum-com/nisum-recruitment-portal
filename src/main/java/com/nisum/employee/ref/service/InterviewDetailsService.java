@@ -12,6 +12,7 @@ import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
 import com.nisum.employee.ref.domain.Round;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.view.ProfileDTO;
 
@@ -42,7 +43,7 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 	}
 
 	@Override
-	public InterviewDetails scheduleInterview(InterviewSchedule interviewSchedule) throws Exception {
+	public InterviewDetails scheduleInterview(InterviewSchedule interviewSchedule) throws ServiceException {
 		InterviewDetails interviewDetails = null;
 		InterviewDetails interviewDetails2 = interviewDetailsRepository
 				.getInterviewDetailsById(interviewSchedule.getCandidateId());
@@ -57,7 +58,7 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 		return interviewDetails;
 	}
 
-	public InterviewDetails updateInterview(InterviewSchedule interviewSchedule) throws Exception {
+	public InterviewDetails updateInterview(InterviewSchedule interviewSchedule) throws ServiceException {
 		InterviewDetails interviewDetails = null;
 		InterviewDetails interviewDetails2 = interviewDetailsRepository
 				.getInterviewDetailsById(interviewSchedule.getCandidateId());

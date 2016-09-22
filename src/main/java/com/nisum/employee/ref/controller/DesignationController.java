@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.service.IDesignationService;
 import com.nisum.employee.ref.view.DesignationDTO;
 
@@ -35,7 +36,7 @@ public class DesignationController {
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping( method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<String> saveDesignation(@RequestBody DesignationDTO designation) throws Exception {
+	public ResponseEntity<String> saveDesignation(@RequestBody DesignationDTO designation) throws ServiceException {
 		designationService.prepareDesignation(designation);
 		return new ResponseEntity<String>( "{\"msg\":\"Created\"}" , HttpStatus.OK);
 	}
@@ -43,7 +44,7 @@ public class DesignationController {
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping( method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<String> updateDesignation(@RequestBody DesignationDTO designation) throws Exception {
+	public ResponseEntity<String> updateDesignation(@RequestBody DesignationDTO designation) throws ServiceException {
 		designationService.updateDesignation(designation);
 		return new ResponseEntity<String>( "{\"msg\":\"Updated\"}" , HttpStatus.OK);
 	}
@@ -51,7 +52,7 @@ public class DesignationController {
 	@Secured({ "ROLE_ADMIN" })
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<String> deleteDesignation(@PathVariable("id") String designation) throws Exception {	
+	public ResponseEntity<String> deleteDesignation(@PathVariable("id") String designation) throws ServiceException {	
 		designationService.deleteDesignation(designation);
 		return new ResponseEntity<String>("{\"msg\":\"Deleted\"}", HttpStatus.OK);
 	}

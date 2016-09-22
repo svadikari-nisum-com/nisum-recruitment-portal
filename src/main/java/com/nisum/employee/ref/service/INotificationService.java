@@ -11,7 +11,7 @@ import com.nisum.employee.ref.view.PositionDTO;
 
 public interface INotificationService {
 	void sendFeedbackMail(InterviewFeedback interviewFeedback) throws MessagingException;
-	String sendScheduleMail(InterviewSchedule interviewSchedule, String mobileNo, String altMobileNo, String skypeId) throws Exception;
+	String sendScheduleMail(InterviewSchedule interviewSchedule, String mobileNo, String altMobileNo, String skypeId) throws ServiceException;
 	void sendOfferLetterNotificationMail(OfferDTO offer) throws ServiceException;
 	void sendpositionCreationMail(PositionDTO position) throws MessagingException;
 	void sendpositionStatusChangeMail(Position position) throws MessagingException;

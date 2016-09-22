@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.service.InterviewDetailsService;
 
 @RequestMapping("/interviews")
@@ -31,14 +32,14 @@ public class InterviewController {
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value="/schedule", method = RequestMethod.POST)
 	@ResponseStatus( value = HttpStatus.OK )
-	public void createInterviewSchedule(@RequestBody InterviewSchedule interviewSchedule) throws Exception {
+	public void createInterviewSchedule(@RequestBody InterviewSchedule interviewSchedule) throws ServiceException {
 		interviewDetailsService.scheduleInterview(interviewSchedule);
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value="/schedule", method = RequestMethod.PUT)
 	@ResponseStatus( value = HttpStatus.OK )
-	public void updateSchedule(@RequestBody InterviewSchedule interviewSchedule) throws Exception {
+	public void updateSchedule(@RequestBody InterviewSchedule interviewSchedule) throws ServiceException {
 
 		interviewDetailsService.updateInterview(interviewSchedule);
 	}
@@ -53,7 +54,7 @@ public class InterviewController {
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus( value = HttpStatus.OK )
-	public void createInterviewDetails(@RequestBody InterviewDetails interviewDetails) throws Exception{
+	public void createInterviewDetails(@RequestBody InterviewDetails interviewDetails) throws ServiceException{
 			interviewDetailsService.createInterview(interviewDetails);
 	}
 	

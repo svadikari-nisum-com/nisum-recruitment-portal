@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.service.IAppInfoService;
 import com.nisum.employee.ref.view.InfoEntityDTO;
 
@@ -41,7 +42,7 @@ public class InfoController {
 	@Secured({"ROLE_ADMIN","ROLE_HR"})
 	@RequestMapping(method = RequestMethod.DELETE)
 	@ResponseBody
-	public void deleteInfo(@RequestBody InfoEntityDTO info) throws Exception {
+	public void deleteInfo(@RequestBody InfoEntityDTO info) throws ServiceException {
 		infoService.updateDesigInfo(info);
 	}
 }

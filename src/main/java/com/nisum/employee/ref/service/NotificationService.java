@@ -173,7 +173,7 @@ public class NotificationService implements INotificationService {
 	@Override
 	public String sendScheduleMail(InterviewSchedule interviewSchedule,
 			String mobileNo, String altMobileNo, String skypeId)
-			throws Exception {
+			throws ServiceException {
 
 		try {
 			// Update UserNotification
@@ -235,38 +235,42 @@ public class NotificationService implements INotificationService {
 		// ----------- End Interviewer Config -----------
 
 		// --- Set Interviewer Email Content ---
-		Message msgInterviewer = new MimeMessage(session);
-		msgInterviewer.setFrom(new InternetAddress(from));
-		msgInterviewer.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(toInterviewer));
-		msgInterviewer.setSubject(APP_NAME + YOU_NEED_TO_TAKE_INTERVIEW_OF
-				+ interviewSchedule.getCandidateName());
-		BodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent(writer2.toString(), TEXT_HTML);
-		Multipart multipart = new MimeMultipart();
-		multipart.addBodyPart(messageBodyPart);
-		messageBodyPart = new MimeBodyPart();
-		String[] resume = profileService.getResume(interviewSchedule
-				.getCandidateId());
-		DataSource source = new FileDataSource(resume[0]);
-		messageBodyPart.setDataHandler(new DataHandler(source));
-		messageBodyPart.setFileName(interviewSchedule.getCandidateName() + "_"+ resume[1]);
-		multipart.addBodyPart(messageBodyPart);
-		msgInterviewer.setContent(multipart);
-
-		// --- Set Candidate Content ---
-		Message message = getMessage();
-		message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse(to));
-		message.setSubject(APP_NAME + YOUR_INTERVIEW_FOR
-				+ interviewSchedule.getRoundName() + " Is Sheduled.");
-		message.setContent(writer.toString(), TEXT_HTML);
-
-		// --- Send Mails ---
-		Transport.send(msgInterviewer);
-		Transport.send(message);
-
-		return "Mails Sent Successfully!";
+		try{
+			Message msgInterviewer = new MimeMessage(session);
+			msgInterviewer.setFrom(new InternetAddress(from));
+			msgInterviewer.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(toInterviewer));
+			msgInterviewer.setSubject(APP_NAME + YOU_NEED_TO_TAKE_INTERVIEW_OF
+					+ interviewSchedule.getCandidateName());
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setContent(writer2.toString(), TEXT_HTML);
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(messageBodyPart);
+			messageBodyPart = new MimeBodyPart();
+			String[] resume = profileService.getResume(interviewSchedule
+					.getCandidateId());
+			DataSource source = new FileDataSource(resume[0]);
+			messageBodyPart.setDataHandler(new DataHandler(source));
+			messageBodyPart.setFileName(interviewSchedule.getCandidateName() + "_"+ resume[1]);
+			multipart.addBodyPart(messageBodyPart);
+			msgInterviewer.setContent(multipart);
+	
+			// --- Set Candidate Content ---
+			Message message = getMessage();
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(to));
+			message.setSubject(APP_NAME + YOUR_INTERVIEW_FOR
+					+ interviewSchedule.getRoundName() + " Is Sheduled.");
+			message.setContent(writer.toString(), TEXT_HTML);
+	
+			// --- Send Mails ---
+			Transport.send(msgInterviewer);
+			Transport.send(message);
+			return "Mails Sent Successfully!";
+		}catch(Exception ex){
+			throw new ServiceException(ex);
+		}
+		
 	}
 
 	@Override
@@ -473,7 +477,7 @@ public class NotificationService implements INotificationService {
 			Transport.send(message);
 		
 		}catch(Exception ex){
-			ex.printStackTrace();
+			log.error(ex.getMessage(),ex);
 			throw new ServiceException(ex);
 		}
 	}
@@ -573,6 +577,7 @@ public class NotificationService implements INotificationService {
 			Transport.send(message);
 		
 		}catch(Exception ex){
+			log.error(ex.getMessage(),ex);
 			throw new ServiceException(ex);
 		}
 	}
