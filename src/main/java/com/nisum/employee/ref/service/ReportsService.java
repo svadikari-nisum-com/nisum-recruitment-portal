@@ -60,253 +60,248 @@ public class ReportsService {
 		SimpleDateFormat sdf = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		String[] hiringManagers = hiringManager.split(",");
-		try {
-			for (String hrmgr : hiringManagers) {
-				List<PositionDTO> positions = positionService
-						.retrieveAllPositions("hiringManager", hrmgr);
-				for (PositionDTO position : positions) {
-					reportsVO = new ReportsVO();
-					reportsVO.setPositionId(position.getJobcode());
-					reportsVO.setFunctionalGrp(position.getFunctionalGroup());
-					reportsVO.setNoOfOpenPositions(position.getNoOfPositions());
 
-					List<Profile> profiles = profileRepository
-							.retrieveProfileByJobCode(position.getJobcode());
-				
-					if (recruiterEmail != null&&!recruiterEmail.isEmpty()) {
-						profiles = profileRepository
-								.retrieveProfileByRecruiterAndJobcode(recruiterEmail,position.getJobcode());
-						
+		for (String hrmgr : hiringManagers) {
+			List<PositionDTO> positions = positionService.retrieveAllPositions(
+					"hiringManager", hrmgr);
+			for (PositionDTO position : positions) {
+				reportsVO = new ReportsVO();
+				reportsVO.setPositionId(position.getJobcode());
+				reportsVO.setFunctionalGrp(position.getFunctionalGroup());
+				reportsVO.setNoOfOpenPositions(position.getNoOfPositions());
+
+				List<Profile> profiles = profileRepository
+						.retrieveProfileByJobCode(position.getJobcode());
+
+				if (recruiterEmail != null && !recruiterEmail.isEmpty()) {
+					profiles = profileRepository
+							.retrieveProfileByRecruiterAndJobcode(
+									recruiterEmail, position.getJobcode());
+
+				}
+
+				long prof_totalDiff = 0;
+				for (Profile profile : profiles) {
+					if (position.getPositionApprovedDt() != null
+							&& profile.getCreateDtm() != null) {
+						prof_totalDiff = prof_totalDiff
+								+ (profile.getCreateDtm().getTime() - position
+										.getPositionApprovedDt().getTime());
+					}
+				}
+
+				long prof_avgTime = prof_totalDiff
+						/ position.getNoOfPositions();
+				reportsVO
+						.setAvgProfileTime(convertMilliSecondsToMinutes(prof_avgTime));
+
+				listOfInteviewDetails = interviewDetailsService
+						.getInterviewByJobCode(position.getJobcode());
+				long round1_totalDiff = 0;
+				long round2_totalDiff = 0;
+				long hrRound_totalDiff = 0;
+				long offered_totDiff = 0;
+				long closed_totDiff = 0;
+				for (InterviewDetails interviewDetails : listOfInteviewDetails) {
+					if (interviewDetails.getProgress().contains(
+							"Technical Round 1")) {
+						reportsVO.setProfilesInTechnicalRound1(reportsVO
+								.getProfilesInTechnicalRound1() + 1);
+					} else if (interviewDetails.getProgress().contains(
+							"Technical Round 2")) {
+						reportsVO.setProfilesInTechnicalRound2(reportsVO
+								.getProfilesInTechnicalRound2() + 1);
+					} else if (interviewDetails.getProgress().contains(
+							"Manager Round")) {
+						reportsVO.setProfilesInManagerRound(reportsVO
+								.getProfilesInManagerRound() + 1);
+					} else if (interviewDetails.getProgress().contains(
+							"Hr Round")) {
+						reportsVO.setProfilesInHRRound(reportsVO
+								.getProfilesInHRRound() + 1);
 					}
 
-					long prof_totalDiff = 0;
-					for (Profile profile : profiles) {
-						if (position.getPositionApprovedDt() != null
-								&& profile.getCreateDtm() != null) {
-							prof_totalDiff = prof_totalDiff
-									+ (profile.getCreateDtm().getTime() - position
-											.getPositionApprovedDt().getTime());
-						}
+					List<Profile> candidateProfiles = profileRepository
+							.retrieveCandidateDetails(interviewDetails
+									.getCandidateEmail());
+					Profile candidateProfile = null;
+					if (!candidateProfiles.isEmpty()) {
+						candidateProfile = candidateProfiles.get(0);
 					}
+					List<Round> rounds = interviewDetails.getRounds();
+					if (rounds != null) {
+						Date interviewDt_round1 = null;
+						Date interviewDt_round2 = null;
+						Date interviewDt_hr = null;
+						for (Round round : rounds) {
 
-					long prof_avgTime = prof_totalDiff
-							/ position.getNoOfPositions();
-					reportsVO
-							.setAvgProfileTime(convertMilliSecondsToMinutes(prof_avgTime));
+							if (round.getRoundName()
+									.equals("Technical Round 1")) {
+								if (candidateProfile.getCreateDtm() != null
+										&& round.getInterviewSchedule()
+												.getInterviewDateTime() != null) {
 
-					listOfInteviewDetails = interviewDetailsService
-							.getInterviewByJobCode(position.getJobcode());
-					long round1_totalDiff = 0;
-					long round2_totalDiff = 0;
-					long hrRound_totalDiff = 0;
-					long offered_totDiff = 0;
-					long closed_totDiff = 0;
-					for (InterviewDetails interviewDetails : listOfInteviewDetails) {
-						if (interviewDetails.getProgress().contains(
-								"Technical Round 1")) {
-							reportsVO.setProfilesInTechnicalRound1(reportsVO
-									.getProfilesInTechnicalRound1() + 1);
-						} else if (interviewDetails.getProgress().contains(
-								"Technical Round 2")) {
-							reportsVO.setProfilesInTechnicalRound2(reportsVO
-									.getProfilesInTechnicalRound2() + 1);
-						} else if (interviewDetails.getProgress().contains(
-								"Manager Round")) {
-							reportsVO.setProfilesInManagerRound(reportsVO
-									.getProfilesInManagerRound() + 1);
-						} else if (interviewDetails.getProgress().contains(
-								"Hr Round")) {
-							reportsVO.setProfilesInHRRound(reportsVO
-									.getProfilesInHRRound() + 1);
-						}
+									interviewDt_round1 = sdf.parse(round
+											.getInterviewSchedule()
+											.getInterviewDateTime());
+									if (candidateProfile.getCreateDtm() != null) {
+										round1_totalDiff = round1_totalDiff
+												+ (interviewDt_round1.getTime() - candidateProfile
+														.getCreateDtm()
+														.getTime());
+									}
+								}
 
-						List<Profile> candidateProfiles = profileRepository
-								.retrieveCandidateDetails(interviewDetails
-										.getCandidateEmail());
-						Profile candidateProfile = null;
-						if (!candidateProfiles.isEmpty()) {
-							candidateProfile = candidateProfiles.get(0);
-						}
-						List<Round> rounds = interviewDetails.getRounds();
-						if (rounds != null) {
-							Date interviewDt_round1 = null;
-							Date interviewDt_round2 = null;
-							Date interviewDt_hr = null;
-							for (Round round : rounds) {
+							}
 
-								if (round.getRoundName().equals(
-										"Technical Round 1")) {
-									if (candidateProfile.getCreateDtm() != null
-											&& round.getInterviewSchedule()
-													.getInterviewDateTime() != null) {
+							if (round.getRoundName()
+									.equals("Technical Round 2")) {
 
-										interviewDt_round1 = sdf.parse(round
-												.getInterviewSchedule()
-												.getInterviewDateTime());
-										if (candidateProfile.getCreateDtm() != null) {
-											round1_totalDiff = round1_totalDiff
-													+ (interviewDt_round1
-															.getTime() - candidateProfile
-															.getCreateDtm()
-															.getTime());
-										}
+								if (round.getInterviewSchedule()
+										.getInterviewDateTime() != null) {
+
+									interviewDt_round2 = sdf.parse(round
+											.getInterviewSchedule()
+											.getInterviewDateTime());
+									if (interviewDt_round1 != null) {
+										round2_totalDiff = round2_totalDiff
+												+ (interviewDt_round2.getTime() - interviewDt_round1
+														.getTime());
 									}
 
 								}
 
-								if (round.getRoundName().equals(
-										"Technical Round 2")) {
+							}
+							if (round.getRoundName().equals("Hr Round")) {
 
-									if (round.getInterviewSchedule()
-											.getInterviewDateTime() != null) {
+								if (round.getInterviewSchedule()
+										.getInterviewDateTime() != null) {
 
-										interviewDt_round2 = sdf.parse(round
-												.getInterviewSchedule()
-												.getInterviewDateTime());
-										if (interviewDt_round1 != null) {
-											round2_totalDiff = round2_totalDiff
-													+ (interviewDt_round2
-															.getTime() - interviewDt_round1
-															.getTime());
-										}
+									interviewDt_hr = sdf.parse(round
+											.getInterviewSchedule()
+											.getInterviewDateTime());
 
+									if (interviewDt_round2 != null) {
+										hrRound_totalDiff = hrRound_totalDiff
+												+ (interviewDt_hr.getTime() - interviewDt_round2
+														.getTime());
 									}
 
 								}
-								if (round.getRoundName().equals("Hr Round")) {
 
-									if (round.getInterviewSchedule()
-											.getInterviewDateTime() != null) {
+								Offer offer = offerRepository
+										.getOffer(interviewDetails
+												.getCandidateEmail());
+								DateTime offer_Dt = null;
+								if (offer != null) {
+									if (offer.getStatus().equalsIgnoreCase(
+											OfferState.APPROVED.name())
+											|| offer.getStatus()
+													.equalsIgnoreCase(
+															OfferState.RELEASED
+																	.name())
+											|| offer.getStatus()
+													.equalsIgnoreCase(
+															OfferState.ACCEPTED
+																	.name())
+											|| offer.getStatus()
+													.equalsIgnoreCase(
+															OfferState.JOINED
+																	.name())) {
+										offer_Dt = offer.getCreatedDate();
+										offered_totDiff = offered_totDiff
+												+ (offer.getCreatedDate()
+														.getMillis() - interviewDt_hr
+														.getTime());
 
-										interviewDt_hr = sdf.parse(round
-												.getInterviewSchedule()
-												.getInterviewDateTime());
-
-										if (interviewDt_round2 != null) {
-											hrRound_totalDiff = hrRound_totalDiff
-													+ (interviewDt_hr.getTime() - interviewDt_round2
-															.getTime());
+									}
+									if (offer.getStatus().equalsIgnoreCase(
+											OfferState.CLOSED.name())) {
+										if (offer_Dt != null) {
+											closed_totDiff = closed_totDiff
+													+ (offer.getLastModifiedDate()
+															.getMillis() - offer_Dt
+															.getMillis());
 										}
 
 									}
 
-									Offer offer = offerRepository
-											.getOffer(interviewDetails
-													.getCandidateEmail());
-									DateTime offer_Dt = null;
-									if (offer != null) {
-										if (offer.getStatus().equalsIgnoreCase(
-												OfferState.APPROVED.name())
-												|| offer.getStatus()
-														.equalsIgnoreCase(
-																OfferState.RELEASED
-																		.name())
-												|| offer.getStatus()
-														.equalsIgnoreCase(
-																OfferState.ACCEPTED
-																		.name())
-												|| offer.getStatus()
-														.equalsIgnoreCase(
-																OfferState.JOINED
-																		.name())) {
-											offer_Dt = offer.getCreatedDate();
-											offered_totDiff = offered_totDiff
-													+ (offer.getCreatedDate()
-															.getMillis() - interviewDt_hr
-															.getTime());
-
-										}
-										if (offer.getStatus().equalsIgnoreCase(
-												OfferState.CLOSED.name())) {
-											if (offer_Dt != null) {
-												closed_totDiff = closed_totDiff
-														+ (offer.getLastModifiedDate()
-																.getMillis() - offer_Dt
-																.getMillis());
-											}
-
-										}
-
-									}
 								}
 							}
 						}
-
 					}
 
-					if (round1_totalDiff != 0) {
-						long round1_avgTime = round1_totalDiff
-								/ listOfInteviewDetails.size();
-						reportsVO
-								.setAvgRound1Time(convertMilliSecondsToMinutes(round1_avgTime));
-					} else {
-						reportsVO.setAvgRound1Time("0 days 0 hours");
-					}
-
-					if (round2_totalDiff != 0) {
-						long round2_avgTime = round2_totalDiff
-								/ listOfInteviewDetails.size();
-
-						reportsVO
-								.setAvgRound2Time(convertMilliSecondsToMinutes(round2_avgTime));
-					} else {
-						reportsVO.setAvgRound2Time("0 days 0 hours");
-					}
-					if (hrRound_totalDiff != 0) {
-
-						long hrRound_avgTime = hrRound_totalDiff
-								/ listOfInteviewDetails.size();
-
-						reportsVO
-								.setAvgHRRoundTime(convertMilliSecondsToMinutes(hrRound_avgTime));
-					} else {
-						reportsVO.setAvgHRRoundTime("0 days 0 hours");
-					}
-					if (offered_totDiff != 0) {
-						long offered_avgTime = offered_totDiff
-								/ listOfInteviewDetails.size();
-
-						reportsVO
-								.setAvgTimeOffered(convertMilliSecondsToMinutes(offered_avgTime));
-					} else {
-						reportsVO.setAvgTimeOffered("0 days 0 hours");
-					}
-					if (closed_totDiff != 0) {
-						long closed_avgTime = closed_totDiff
-								/ listOfInteviewDetails.size();
-
-						reportsVO
-								.setAvgTimeClosed(convertMilliSecondsToMinutes(closed_avgTime));
-					} else {
-						reportsVO.setAvgTimeClosed("0 days 0 hours");
-					}
-
-					offers = offerService.getOffersByJobcode(position
-							.getJobcode());
-					for (OfferDTO offerDetails : offers) {
-						if (offerDetails.getStatus().equalsIgnoreCase(
-								OfferState.APPROVED.name())
-								|| offerDetails.getStatus().equalsIgnoreCase(
-										OfferState.RELEASED.name())
-								|| offerDetails.getStatus().equalsIgnoreCase(
-										OfferState.ACCEPTED.name())
-								|| offerDetails.getStatus().equalsIgnoreCase(
-										OfferState.JOINED.name())) {
-							reportsVO.setOffered(reportsVO.getOffered() + 1);
-						}
-						if (offerDetails.getStatus().equalsIgnoreCase(
-								OfferState.CLOSED.name())) {
-							reportsVO.setClosed(reportsVO.getClosed() + 1);
-						}
-					}
-
-					reportList.add(reportsVO);
 				}
+
+				if (round1_totalDiff != 0) {
+					long round1_avgTime = round1_totalDiff
+							/ listOfInteviewDetails.size();
+					reportsVO
+							.setAvgRound1Time(convertMilliSecondsToMinutes(round1_avgTime));
+				} else {
+					reportsVO.setAvgRound1Time("0 days 0 hours");
+				}
+
+				if (round2_totalDiff != 0) {
+					long round2_avgTime = round2_totalDiff
+							/ listOfInteviewDetails.size();
+
+					reportsVO
+							.setAvgRound2Time(convertMilliSecondsToMinutes(round2_avgTime));
+				} else {
+					reportsVO.setAvgRound2Time("0 days 0 hours");
+				}
+				if (hrRound_totalDiff != 0) {
+
+					long hrRound_avgTime = hrRound_totalDiff
+							/ listOfInteviewDetails.size();
+
+					reportsVO
+							.setAvgHRRoundTime(convertMilliSecondsToMinutes(hrRound_avgTime));
+				} else {
+					reportsVO.setAvgHRRoundTime("0 days 0 hours");
+				}
+				if (offered_totDiff != 0) {
+					long offered_avgTime = offered_totDiff
+							/ listOfInteviewDetails.size();
+
+					reportsVO
+							.setAvgTimeOffered(convertMilliSecondsToMinutes(offered_avgTime));
+				} else {
+					reportsVO.setAvgTimeOffered("0 days 0 hours");
+				}
+				if (closed_totDiff != 0) {
+					long closed_avgTime = closed_totDiff
+							/ listOfInteviewDetails.size();
+
+					reportsVO
+							.setAvgTimeClosed(convertMilliSecondsToMinutes(closed_avgTime));
+				} else {
+					reportsVO.setAvgTimeClosed("0 days 0 hours");
+				}
+
+				offers = offerService.getOffersByJobcode(position.getJobcode());
+				for (OfferDTO offerDetails : offers) {
+					if (offerDetails.getStatus().equalsIgnoreCase(
+							OfferState.APPROVED.name())
+							|| offerDetails.getStatus().equalsIgnoreCase(
+									OfferState.RELEASED.name())
+							|| offerDetails.getStatus().equalsIgnoreCase(
+									OfferState.ACCEPTED.name())
+							|| offerDetails.getStatus().equalsIgnoreCase(
+									OfferState.JOINED.name())) {
+						reportsVO.setOffered(reportsVO.getOffered() + 1);
+					}
+					if (offerDetails.getStatus().equalsIgnoreCase(
+							OfferState.CLOSED.name())) {
+						reportsVO.setClosed(reportsVO.getClosed() + 1);
+					}
+				}
+
+				reportList.add(reportsVO);
 			}
-		} catch (Exception e) {
-			System.out.println("exce==="+e.getMessage());
-			e.printStackTrace();
 		}
+
 		return reportList;
 	}
 
