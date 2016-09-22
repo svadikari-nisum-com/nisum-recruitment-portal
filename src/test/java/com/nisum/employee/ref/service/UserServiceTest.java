@@ -25,6 +25,7 @@ import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewRoundsAllocation;
 import com.nisum.employee.ref.domain.TimeSlots;
 import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
@@ -168,7 +169,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void retriveInterviewersAndTheirNoOfSchedledRounds() {
+	public void retriveInterviewersAndTheirNoOfSchedledRounds() throws ServiceException {
 		
 		actualUserInfos = new ArrayList<>();
 		actualUserInfo = new UserInfo();
@@ -213,7 +214,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void retrieveUserByRoleAndLocationTest(){
+	public void retrieveUserByRoleAndLocationTest() throws ServiceException{
 		List<String> users = new ArrayList<String>();
 		users.add("ROLE_HR");
 		UserInfo  userInfo = new UserInfo();

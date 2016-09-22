@@ -20,6 +20,7 @@ import com.nisum.employee.ref.common.OfferState;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.ReportsVO;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.PositionRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
@@ -78,7 +79,7 @@ public class ReportsServiceTest {
 	}
 	
 	@Test
-	public void testGetReportByHiringManager() throws ParseException {
+	public void testGetReportByHiringManager() throws ParseException, ServiceException {
 		List<PositionDTO> positions = new ArrayList<>();
 		PositionDTO position = new PositionDTO();
 		position.setHiringManager("Aliza Zaffar ");

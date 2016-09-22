@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.nisum.employee.ref.domain.ResponseVO;
 import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.service.UserService;
 import com.nisum.employee.ref.view.InterviewRoundsDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
@@ -43,7 +44,7 @@ public class UserController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "clientName", required = false) String clientName,
 			@RequestParam(value = "clientRole", required = false) String clientRole,
-			@RequestParam(value = "functionalGroup", required = false) String functionalGroup) {
+			@RequestParam(value = "functionalGroup", required = false) String functionalGroup) throws ServiceException{
 
 		List<UserInfoDTO> userInfos = null;
 		if (emailId != null) {
@@ -100,7 +101,7 @@ public class UserController {
 	public ResponseEntity<List<InterviewRoundsDTO>> getInterviewers(
 		@RequestParam(value = "interviewRound", required = false) String interviewRound,
 		@RequestParam(value = "functionalGroup", required = false) String functionalGroup,
-		@RequestParam(value = "role", required = false) String role) {
+		@RequestParam(value = "role", required = false) String role) throws ServiceException{
 
 		List<InterviewRoundsDTO> interviewers = userService.getInterviewers(interviewRound, functionalGroup, role);
 		return (null == interviewers) ? new ResponseEntity<List<InterviewRoundsDTO>>(

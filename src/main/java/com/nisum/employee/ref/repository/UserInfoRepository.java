@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.exception.ServiceException;
 
 @Repository
 public class UserInfoRepository{
@@ -107,7 +108,7 @@ public class UserInfoRepository{
 		}
 		return mongoOperations.find(query, UserInfo.class);
 	}
-	public List<UserInfo> retrieveUserByRole(String round,String department) {
+	public List<UserInfo> retrieveUserByRole(String round,String department) throws ServiceException {
 		
 		try
 		{
@@ -115,12 +116,11 @@ public class UserInfoRepository{
 		query.addCriteria(Criteria.where("roles").is("ROLE_INTERVIEWER").and("interviewRoundsAllocation.department").is(department).and("interviewRoundsAllocation.interviewRounds").is(round));
 		return mongoOperations.find(query, UserInfo.class);
 		}catch (Exception ex){ 
-			ex.printStackTrace();
+			throw new ServiceException(ex);
 		}
-		return null;
 	}
 	
-    public List<UserInfo> getUserInfo(String round,String functionalGroup,String role) {
+    public List<UserInfo> getUserInfo(String round,String functionalGroup,String role) throws ServiceException {
 		try
 		{
 			Query query = new Query();
@@ -135,20 +135,18 @@ public class UserInfoRepository{
 			}
 			return mongoOperations.find(query, UserInfo.class);
 		}catch (Exception ex){ 
-			ex.printStackTrace();
+			throw new ServiceException(ex);
 		}
-		return null;
 	}
     
-    public List<UserInfo> retrieveUserByRoleAndLocation(String role,String location) {
+    public List<UserInfo> retrieveUserByRoleAndLocation(String role,String location) throws ServiceException {
 		try
 		{
 			Query query = new Query();
 			query.addCriteria(Criteria.where("roles").is(role).and("location").is(location));
 			return mongoOperations.find(query, UserInfo.class);
 		}catch (Exception ex){ 
-			ex.printStackTrace();
+			throw new ServiceException(ex);
 		}
-		return null;
 	}
 }

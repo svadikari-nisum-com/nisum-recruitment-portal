@@ -22,6 +22,7 @@ import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.nisum.employee.ref.domain.Profile;
+import com.nisum.employee.ref.exception.ServiceException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -126,7 +127,7 @@ public class ProfileRepository {
 	}
 
 	public void saveResumeInBucket(MultipartFile multipartFile,
-			String candidateId) {
+			String candidateId) throws ServiceException {
 		DBObject metaData = new BasicDBObject();
 		metaData.put("candidateId", candidateId);
 
@@ -140,7 +141,7 @@ public class ProfileRepository {
 			gridFSInputFile.saveChunks();
 			gridFSInputFile.save();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ServiceException(e);
 		}
 	}
 

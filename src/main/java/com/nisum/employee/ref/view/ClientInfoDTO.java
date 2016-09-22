@@ -10,8 +10,8 @@ public class ClientInfoDTO extends BaseDTO {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	String clientId;
-	String clientName;
-	String locations;
-	InterviewerDTO interviewers;
+	private String clientId;
+	private String clientName;
+	private String locations;
+	private InterviewerDTO interviewers;
 }

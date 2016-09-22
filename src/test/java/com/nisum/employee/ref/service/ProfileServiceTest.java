@@ -1,7 +1,6 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -31,6 +30,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.converter.ProfileConverter;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Profile;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
@@ -167,7 +167,7 @@ public class ProfileServiceTest {
 	 * Test case not yet implemented completely.
 	 */
 	@Ignore
-	public void testSaveResume() throws IOException {
+	public void testSaveResume() throws ServiceException,IOException {
 		FileInputStream inputFile = new FileInputStream("D:/WorkDocuments/resume.txt");
 		MockMultipartFile file = new MockMultipartFile("file", "resume", "multipart/form-data", inputFile);
 

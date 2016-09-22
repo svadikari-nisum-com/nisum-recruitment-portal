@@ -12,6 +12,7 @@ import com.nisum.employee.ref.common.ErrorCodes;
 import com.nisum.employee.ref.converter.ProfileConverter;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Profile;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.view.ProfileDTO;
@@ -88,7 +89,7 @@ public class ProfileService implements IProfileService{
 		return profileRepository.deleteProfileBasedOnEmailId(emailId);
 	}
 	@Override
-	public void saveResume(MultipartFile multipartFile, String candidateId) {
+	public void saveResume(MultipartFile multipartFile, String candidateId) throws ServiceException{
 		profileRepository.saveResumeInBucket(multipartFile, candidateId);
 	}
 	@Override

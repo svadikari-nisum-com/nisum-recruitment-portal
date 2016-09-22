@@ -22,7 +22,7 @@ public class UserNotificationConverter extends TwowayConverter<UserNotification,
 		try {
 			BeanUtils.copyProperties(userNotificationDTO, userNotification);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return userNotificationDTO;
 		}
 		return userNotificationDTO;
@@ -34,7 +34,7 @@ public class UserNotificationConverter extends TwowayConverter<UserNotification,
 		try {
 			BeanUtils.copyProperties(userNotification, userNotificationDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return userNotification;
 		}
 		return userNotification;

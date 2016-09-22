@@ -92,7 +92,7 @@ public class OfferService implements IOfferService {
 
 	public List<OfferState> getNextStatuses(String currentStatus) {
 		if (StringUtils.isEmpty(currentStatus)){
-			currentStatus = OfferState.NOTINITIATED.name();
+			return OfferState.getState(OfferState.NOTINITIATED.name()).next();
 		}
 		return OfferState.getState(currentStatus).next();
 	}

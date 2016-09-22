@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.domain.Profile;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.view.ProfileDTO;
 
 public interface IProfileService {
@@ -24,7 +25,7 @@ public interface IProfileService {
 
 	Profile deleteProfileBasedOnEmailId(String emailId);
 
-	void saveResume(MultipartFile multipartFile, String candidateId);
+	void saveResume(MultipartFile multipartFile, String candidateId) throws ServiceException;
 
 	String[] getResume(String emailId) throws Exception;
 	

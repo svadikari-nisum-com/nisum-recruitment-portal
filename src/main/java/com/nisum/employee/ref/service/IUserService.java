@@ -2,6 +2,7 @@ package com.nisum.employee.ref.service;
 
 import java.util.List;
 
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.view.InterviewRoundsDTO;
 import com.nisum.employee.ref.view.UserInfoDTO;
 
@@ -23,9 +24,9 @@ public interface IUserService {
 	
 	List<UserInfoDTO> retrieveUserByRole(String role);
 	
-	List<UserInfoDTO> retrieveUserByRole(String role,String department);
+	List<UserInfoDTO> retrieveUserByRole(String role,String department) throws ServiceException;
 	
-	List<InterviewRoundsDTO> getInterviewers(String round,String functionalGroup,String role);
+	List<InterviewRoundsDTO> getInterviewers(String round,String functionalGroup,String role) throws ServiceException;
 	
-	public List<UserInfoDTO> retrieveUserByRoleAndLocation(String role,String location);
+	public List<UserInfoDTO> retrieveUserByRoleAndLocation(String role,String location) throws ServiceException;
 }

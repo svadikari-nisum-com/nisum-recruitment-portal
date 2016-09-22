@@ -21,6 +21,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.WriteResult;
 import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.exception.ServiceException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserInfoRepositoryTest {
@@ -131,7 +132,7 @@ public class UserInfoRepositoryTest {
 	}
 	
 	@Test
-	public final void getUserInfoForInterviewers(){
+	public final void getUserInfoForInterviewers() throws ServiceException{
 		
 		List<String> defualtRoles = new ArrayList<String>();
 		defualtRoles.add("ROLE_INTERVIEWER");
@@ -146,7 +147,7 @@ public class UserInfoRepositoryTest {
 	}
 	
 	@Test
-	public final void getUserInfoForHrsAndManagers(){
+	public final void getUserInfoForHrsAndManagers() throws ServiceException{
 		
 		List<String> defualtRoles = new ArrayList<String>();
 		defualtRoles.add("ROLE_INTERVIEWER");
@@ -173,7 +174,7 @@ public class UserInfoRepositoryTest {
 		}
 	 
 	 @Test
-		public final void retrieveUserByRoleAndLocationTest(){
+		public final void retrieveUserByRoleAndLocationTest() throws ServiceException{
 			
 			List<String> defualtRoles = new ArrayList<String>();
 			defualtRoles.add("ROLE_HR");

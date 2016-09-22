@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.nisum.employee.ref.converter.UserInfoConverter;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
 import com.nisum.employee.ref.util.InterviewerRoundInfoComparator;
@@ -69,12 +70,12 @@ public class UserService implements IUserService{
 		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByRole(role));
 	}
 	@Override
-	public List<UserInfoDTO> retrieveUserByRole(String round,String department) {
+	public List<UserInfoDTO> retrieveUserByRole(String round,String department) throws ServiceException {
 		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByRole(round,department));
 	}
 	
 	@Override
-	public List<InterviewRoundsDTO> getInterviewers(String round,String functionalGroup,String role) {
+	public List<InterviewRoundsDTO> getInterviewers(String round,String functionalGroup,String role) throws ServiceException {
 		List<InterviewDetails> interviewDetails = null;
 		List<InterviewRoundsDTO> interviewerRoundsInfo = new ArrayList<InterviewRoundsDTO>();
 		InterviewRoundsDTO interviewRoundsDTO = null;
@@ -99,7 +100,7 @@ public class UserService implements IUserService{
 	}
 	
 	@Override
-	public List<UserInfoDTO> retrieveUserByRoleAndLocation(String role,String location) {
+	public List<UserInfoDTO> retrieveUserByRoleAndLocation(String role,String location) throws ServiceException {
 		return userInfoConverter.convertToDTOs(userInfoRepository.retrieveUserByRoleAndLocation(role,location));
 	}
 }
