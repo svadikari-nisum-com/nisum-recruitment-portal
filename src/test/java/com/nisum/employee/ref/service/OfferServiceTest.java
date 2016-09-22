@@ -1,16 +1,19 @@
 package com.nisum.employee.ref.service;
 
 import java.util.Arrays;
+import java.util.List;
 
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nisum.employee.ref.common.OfferState;
 import com.nisum.employee.ref.converter.OfferConverter;
 import com.nisum.employee.ref.domain.Offer;
 import com.nisum.employee.ref.exception.ServiceException;
@@ -78,18 +81,18 @@ public class OfferServiceTest {
 		offerService.generateOfferLetter(getOfferDTO());
 	}
 
-	/*@Ignore
-	public void testSaveResumeInBucket() {
+	@Test
+	public void testSaveResumeInBucket() throws ServiceException {
 		
 		Mockito.doNothing().when(offerRepository).saveResumeInBucket(Mockito.anyObject(),Mockito.anyString());
-		offerService.saveResumeInBucket((MultipartFile) new Object(), "Naga");
-	}*/
+		offerService.saveResumeInBucket(getMultipartFile(), "Naga");
+	}
 
 	@Test
 	public void testGetNextStatuses() {
 		
-		
-		offerService.getNextStatuses("Initiated");
+		List<OfferState> states = offerService.getNextStatuses("Initiated");
+		Assert.assertNotNull(states);
 	}
 
 	@Test
@@ -97,15 +100,21 @@ public class OfferServiceTest {
 		
 		Mockito.when(offerRepository.getOffers()).thenReturn(Arrays.asList(getOffer()));
 		Mockito.when(offerConverter.convertToDTOs(Arrays.asList(getOffer()))).thenReturn(Arrays.asList(getOfferDTO()));
-		offerService.getOffers();
+		List<OfferDTO> offerDTO = offerService.getOffers();
 		
+		Assert.assertNotNull(offerDTO);
+		Assert.assertTrue(null, offerDTO.get(0).getCandidateName().equals("Naga"));
 	}
 
 	@Test
 	public void testGetOffer() {
 		
+		Mockito.when(offerRepository.getOffer(Mockito.anyString())).thenReturn(getOffer());
 		Mockito.when(offerConverter.convertToDTO(getOffer())).thenReturn(getOfferDTO());
-		offerService.getOffer("nbolla@nisum.com");
+		OfferDTO offerDTO = offerService.getOffer("nbolla@nisum.com");
+		Assert.assertNotNull(offerDTO);
+		Assert.assertTrue(null, offerDTO.getCandidateName().equals("Naga"));
+		
 	}
 
 	@Test
@@ -148,5 +157,10 @@ public class OfferServiceTest {
 		offer.setReportingManager("Bolla");
 		
 		return offer;
+	}
+	public MultipartFile getMultipartFile()
+	{
+		MultipartFile multipartFile = new MockMultipartFile("Naga.txt", "Hi Heloo".getBytes());
+		return multipartFile;
 	}
 }
