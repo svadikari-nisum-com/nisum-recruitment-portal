@@ -30,18 +30,18 @@ app.controller("dashboardCtrl", ['$scope', '$http', '$upload','$filter', '$timeo
 							if(data == "" || data == null || data == undefined){
 								$scope.hideNoInterviewMsg = false;
 						}
-					 }).error(function(data, status, headers, config) {
+					 }).catch(function(data, status, headers, config) {
 							$log.error(data);
-						})
+						});
 				} else {
 					dashboardService.getScheduleData($scope.useremailId).then(function (data){
 						$scope.showScheduleData = data;
 						if(data == "" || data == null || data == undefined){
 							$scope.hideNoInterviewMsg = false;
 					}
-					}).error(function(data, status, headers, config) {
+					}).catch(function(data, status, headers, config) {
 						$log.error(data);
-					})
+					});
 				}
 				
 		}).catch(function(msg){
