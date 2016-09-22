@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,9 +29,12 @@ public class OfferServiceTest {
 	@Mock
 	private OfferRepository offerRepository;
 
-	@Mock
-	private OfferConverter offerConverter;
+	@Spy
+	private OfferConverter offerConverter = new OfferConverter();
 
+	@Mock
+	private OfferConverter offerConverters;
+	
 	@Mock
 	private GenerateOfferService generateOfferService;
 	
@@ -54,7 +58,9 @@ public class OfferServiceTest {
 		UserInfoDTO userInfoDTO = new UserInfoDTO();
 		userInfoDTO.setName("Naga");
 		
-		Mockito.when(offerConverter.convertToEntity(getOfferDTO())).thenReturn(getOffer());
+		Offer offer = offerConverter.convertToEntity(getOfferDTO());
+		
+		Mockito.when(offerConverters.convertToEntity(Mockito.anyObject())).thenReturn(offer);
 		Mockito.doNothing().when(offerRepository).saveOffer(getOffer());
 		Mockito.doNothing().when(offerRepository).updateInterviewDetails(getOffer());
 		Mockito.when(positionService.retrievePositionByJobCode(Mockito.anyString())).thenReturn(position);
@@ -99,9 +105,9 @@ public class OfferServiceTest {
 	public void testGetOffers() {
 		
 		Mockito.when(offerRepository.getOffers()).thenReturn(Arrays.asList(getOffer()));
-		Mockito.when(offerConverter.convertToDTOs(Arrays.asList(getOffer()))).thenReturn(Arrays.asList(getOfferDTO()));
+		List<OfferDTO> offerDTOs = offerConverter.convertToDTOs(Arrays.asList(getOffer()));
+		Mockito.when(offerConverters.convertToDTOs(Arrays.asList(getOffer()))).thenReturn(offerDTOs);
 		List<OfferDTO> offerDTO = offerService.getOffers();
-		
 		Assert.assertNotNull(offerDTO);
 		Assert.assertTrue(null, offerDTO.get(0).getCandidateName().equals("Naga"));
 	}
@@ -110,7 +116,8 @@ public class OfferServiceTest {
 	public void testGetOffer() {
 		
 		Mockito.when(offerRepository.getOffer(Mockito.anyString())).thenReturn(getOffer());
-		Mockito.when(offerConverter.convertToDTO(getOffer())).thenReturn(getOfferDTO());
+		OfferDTO dto = offerConverter.convertToDTO(getOffer());
+		Mockito.when(offerConverters.convertToDTO(Mockito.anyObject())).thenReturn(dto);
 		OfferDTO offerDTO = offerService.getOffer("nbolla@nisum.com");
 		Assert.assertNotNull(offerDTO);
 		Assert.assertTrue(null, offerDTO.getCandidateName().equals("Naga"));
@@ -121,7 +128,8 @@ public class OfferServiceTest {
 	public void testGetOffersByJobcode() {
 		
 		Mockito.when(offerRepository.getOffersByJobcode("Naga")).thenReturn(Arrays.asList(getOffer()));
-		Mockito.when(offerConverter.convertToDTOs(Arrays.asList(getOffer()))).thenReturn(Arrays.asList(getOfferDTO()));
+		List<OfferDTO> offerDTOs = offerConverter.convertToDTOs(Arrays.asList(getOffer()));
+		Mockito.when(offerConverters.convertToDTOs(Arrays.asList(getOffer()))).thenReturn(offerDTOs);
 		offerService.getOffersByJobcode("Naga");
 	}
 
@@ -132,7 +140,7 @@ public class OfferServiceTest {
 		position.setJobcode("Naga");
 		Mockito.when(positionService.retrieveAllPositions()).thenReturn(Arrays.asList(position));
 		Mockito.when(offerRepository.getOffersByJobcode("Naga")).thenReturn(Arrays.asList(getOffer()));
-		Mockito.when(offerConverter.convertToDTOs(Arrays.asList(getOffer()))).thenReturn(Arrays.asList(getOfferDTO()));
+		Mockito.when(offerConverters.convertToDTOs(Arrays.asList(getOffer()))).thenReturn(Arrays.asList(getOfferDTO()));
 		offerService.getOffersByManagerId("Naga");
 		
 	}

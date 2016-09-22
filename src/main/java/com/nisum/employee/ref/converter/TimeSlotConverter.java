@@ -48,10 +48,10 @@ public class TimeSlotConverter extends TwowayConverter<TimeSlots, TimeSlotDTO> {
 		return userInfo;
 	}
 
-	public List<TimeSlotDTO> convertToDTOs(List<TimeSlots> userInfos) {
+	/*public List<TimeSlotDTO> convertToDTOs(List<TimeSlots> userInfos) {
 		List<TimeSlotDTO> dtos = new ArrayList<>();
 		userInfos.stream()
 				.forEach(userInfo -> dtos.add(convertToDTO(userInfo)));
 		return dtos;
-	}
+	}*/
 }
