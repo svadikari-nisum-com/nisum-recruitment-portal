@@ -1,11 +1,13 @@
+<!doctype html>
 <html lang="en" ng-app="erApp" ng-controller="appCtrl">
 <head>
 <meta charset="utf-8">
 <link rel="shortcut icon" type="image/x-icon" href="static/images/nisum_favicon.ico" />
-<title>{{title}}</title>
+<title ng-bind="title">Nisum Technologies - Recruitment Portal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
+<link href="lib/angular-material-design/css/angular-material.min.css" rel="stylesheet">
 <link rel="stylesheet" href="lib/utility/css/select2.css">
 <link rel="stylesheet" href="lib/utility/css/selectize.default.css">
 <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,9 +26,12 @@
 <link href="static/css/style.css" rel="stylesheet">
 <link href="static/css/dashboard.css" rel="stylesheet">
 <link href="lib/angular/css/animation.css" rel="stylesheet">
-
+<link href="lib/angular-ui-grid/ui-grid.min.css" rel="stylesheet">
+  
 
 <script src="lib/angular/js/angular.min.js"></script>
+<script src="lib/angular/js/angular-animate.js"></script>
+
 <script src="lib/utility/js/jquery-1.11.2.min.js"></script>
 <script src="lib/angular/js/angular-file-upload-shim.min.js"></script>
 <script src="lib/angular/js/angular-file-upload.js"></script>
@@ -49,15 +54,17 @@
 <script src="lib/angular/js/ng-grid.debug.js"></script>
 
 <script src="lib/angular/js/angular-route.js"></script>
-<script src="lib/material design/js/material.js"></script>
-<script src="lib/material design/js/material.min.js"></script>
+<script src="lib/angular-material-design/js/angular-aria.min.js"></script>
+<script src="lib/angular-material-design/js/angular-material.min.js"></script>
+
 <script src="lib/angular/js/ng-notify.min.js"></script>
 
 <script src="lib/angular/js/highcharts-ng.js"></script>
 <script src="lib/angular/js/highcharts-ng.min.js"></script>
 <script src="lib/angular/js/highcharts.js"></script>
 <script src="js/customeDirctives/dataGrid.js"></script>
-
+<script src= "lib/utility/js/angular-fcsa-number.js"></script>
+<script src="lib/angular-ui-grid/ui-grid.min.js"></script>
 <script type="text/javascript" src="http://platform.linkedin.com/in.js">
 api_key: 75bm8w66omcy7b
 //onLoad: onLinkedInLoad
@@ -73,7 +80,7 @@ lang: en_US
 		<!------------------------------------------------------ keep header here ---------------------------------------------->
 		<div ng-include="'header.html'"></div>
 		<!------------------------------------------------------ --------------------------------------------------------------->
-								<center style="margin-top: 10%">
+								<center style="padding-top: 10%">
 									<div ui-view></div>
 								</center>
 		<!------------------------------------------------------ keep footer here ---------------------------------------------->
@@ -95,6 +102,7 @@ lang: en_US
 	<script type="text/javascript" src="js/interview/scheduleInterview.js"></script>
 	<script type="text/javascript" src="js/user/editUser.js"></script>
 	<script type="text/javascript" src="js/report/viewReport.js"></script>
+	<script type="text/javascript" src="js/report/searchReport.js"></script>
 	<script type="text/javascript" src="js/admin/client.js"></script>
 	<script type="text/javascript" src="js/report/viewReport.js"></script>
 	<script type="text/javascript" src="js/report/highChat.js"></script>
@@ -113,7 +121,7 @@ lang: en_US
 	
 	<script type="text/javascript" src="js/controller/appController.js"></script>
 	<script type="text/javascript" src="js/controller/userController.js"></script>
-	<script type="text/javascript" src="js/notification.js"></script>
+	<!-- <script type="text/javascript" src="js/notification.js"></script> -->
 	<script type="text/javascript" src="js/dashboard.js"></script>
 	
 	<script type="text/javascript" src="js/service/appConstantInfoService.js"></script>
@@ -127,6 +135,7 @@ lang: en_US
 	<script type="text/javascript" src="js/service/interviewServices.js"></script>
 	<script type="text/javascript" src="js/service/designationService.js"></script>
 	<script type="text/javascript" src="js/interview/showInterview.js"></script>
+	<script type="text/javascript" src="js/interview/showFeedBack.js"></script>
 	<script type="text/javascript" src="js/offer/offer.js"></script>
 	<script type="text/javascript" src="js/offer/createOffer.js"></script>
 	<script type="text/javascript" src="js/offer/offerService.js"></script>

@@ -11,20 +11,29 @@ import lombok.Setter;
 @Getter
 @Setter
 @Document(collection = "InterviewDetails")
-public class InterviewDetails  {
+public class InterviewDetails  extends BaseEntity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
-	String interviewerId;
-	String candidateName;
-	List<String> positionId;
-	String currentPositionId;
-	List<String> candidateSkills;
-	String candidateEmail;
-	String interviewerEmail;
-	String clientName;
-	String progress;
-	String designation;
-	String hrAssigned;
-	List <Round> rounds;
+	private String interviewerId;
+	private String candidateName;
+	private List<String> positionId;
+	private String currentPositionId;
+	private List<String> candidateSkills;
+	private String candidateEmail;
+	private String interviewerEmail;
+	private String clientName;
+	private String progress;
+	private String designation;
+	private String hrAssigned;
+	private List<Round> rounds;
+	
+	@Override
+	public String getId() {
+		return interviewerId;
+	}
 
 }

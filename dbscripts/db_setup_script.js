@@ -25,7 +25,7 @@ db.Info.insert({"_id":"Locations",value: ["Hyderabad", "Pune", "Bengaluru","SF",
 
 db.Info.insert({"_id":"Skills",value: ["Java", "J2EE","Web Service","Struts", "JQuery","Java Script","Ruby","JPA","JSP","iBatis","Rest WebService","Spring","Hibernate","C","C++","Oracle","MySQL","DB2","TeraData","MongoDB","Neo4J","CouchDB"]});
 
-db.Info.insert({"_id":"UserRoles",value: ["ROLE_HR", "ROLE_MANAGER", "ROLE_USER","ROLE_ADMIN","ROLE_INTERVIEWER"]});
+db.Info.insert({"_id":"UserRoles",value: ["ROLE_HR","ROLE_RECRUITER", "ROLE_MANAGER", "ROLE_USER","ROLE_ADMIN","ROLE_INTERVIEWER","ROLE_LOCATIONHEAD"]});
 
 db.Info.insert({"_id":"expYears",value: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11","12","13","14","15"]});
 
@@ -45,8 +45,10 @@ db.Info.insert({"_id":"interviewDuration",value:["15", "30", "45", "60"]});
 db.Info.insert({"_id":"progress",value:["15", "30", "45", "60"]});
 db.Info.insert({"_id":"Priority",value:["Low", "Medium", "High"]});
 db.Info.insert({"_id":"salary",value:[ "$6000 - $7000", "$7000 - $9000","$9000 - $10000", "$10000- $12000"]});
-db.Info.insert({"_id":"jobType",value:["Full Time", "Part Time"]});
-db.Info.insert({"_id":"status",value:["Selected", "Rejected", "Hold"]});
+db.Info.insert({"_id":"jobType",value:["Full Time", "Part Time", "Independent Contractor", "Temporary Worker"]});
+db.Info.insert({"_id":"status",value:["Approved", "Rejected","Hold"]});
+db.Info.insert({"_id":"FunctionalTeam",value:["DEV", "QA", "SUPPORT","NOC"]});
+db.Info.insert({"_id":"feedbackStatus",value:["Yes", "No"]});
 
 // DEVELOPER User data
 db.UserInfo.insert({"_id":"prawate@nisum.com",'name':"Pradeep Rawate","mobileNumber":"+918087810808","dob":"",location:"Pune",skypeId:"prawate",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"2"},{day:"Friday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});

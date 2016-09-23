@@ -1,5 +1,13 @@
 package com.nisum.employee.ref.repository;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,6 +83,19 @@ public class OfferRepositoryTest {
 	{
 		MultipartFile multipartFile = new MockMultipartFile("Naga.txt", "Hi Heloo".getBytes());
 		return multipartFile;
+	}
+	
+	@Test
+	public void getOffersByJobcode()
+	{
+		Offer offer = new Offer();
+		offer.setClient("GAP GID");
+		offer.setEmailId("satya@aaa.com");
+		offer.setJobcodeProfile("DEV_GAP-GID_HYD_382016_642");
+		Mockito.when(mongoOperations.find(any(Query.class), eq(Offer.class))).thenReturn(Arrays.asList(offer));
+		List<Offer> offers = offerRepository.getOffersByJobcode("DEV_GAP-GID_HYD_382016_642");
+		assertNotNull(offers);
+		assertEquals("DEV_GAP-GID_HYD_382016_642", offers.get(0).getJobcodeProfile());
 	}
 
 }

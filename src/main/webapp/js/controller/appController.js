@@ -10,10 +10,11 @@ angular.module('erApp')
 	$scope.title = appConstants.APP_TITLE;
 	$scope.header = appConstants.APP_HEARER;
 	$scope.copy_right = appConstants.APP_COPY_RIGHT;
+	$scope.date = new Date();
 	
 	userService.getUserById(sessionStorage.userId).then(setUser).catch(errorMsg);
 	infoService.getInfo();
-	
+	$scope.profile_picture = sessionStorage.profile_picture;
 	function setUser(data){
 		$scope.user = data[0];
 		$rootScope.user = data[0];
@@ -23,14 +24,15 @@ angular.module('erApp')
 		if(message != null && message.indexOf("404") > -1) {
 			message = " User with given argument is not found";
 		}
-		console.log("message--->"+message);
 	}
 	$scope.hasRole = function(role) {
-	var roleArray = role.split(',');
-	for (i = 0; i< $scope.user.roles.length;i++){
-			for(j=0;j< roleArray.length; j++){
-				if($rootScope.user.roles[i] == roleArray[j]){
-					return true;
+		var roleArray = role.split(',');
+		if($scope.user.roles) {
+			for (i = 0; i< $scope.user.roles.length;i++){
+				for(j=0;j< roleArray.length; j++){
+					if($rootScope.user.roles[i] == roleArray[j]){
+						return true;
+					}
 				}
 			}
 		}
@@ -38,15 +40,7 @@ angular.module('erApp')
 	};
 	
 	$scope.hasNotRole = function(role) {
-		var roleArray = role.split(','); 
-		for (i = 0; i< $scope.user.roles.length;i++){
-			for(j=0;j< roleArray.length; j++){
-				if($rootScope.user.roles[i] == roleArray[j]){
-					return false;
-				}
-			}
-		}
-		return true;
+		return !$scope.hasRole(role);
 	};
 	
 	$scope.sendNotification = function(msg,path){

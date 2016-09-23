@@ -9,4 +9,7 @@ public class TimeSlots {
 	String day;
 	String time;
 	String hour;
+	Boolean isNotAvailable = false;
+	String fromDate;
+	String toDate;
 }

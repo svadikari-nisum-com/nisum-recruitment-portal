@@ -15,8 +15,7 @@ public class InfoRepository {
 	private MongoOperations mongoOperations;
 	
 	public List<InfoEntity> retrieveSkills() {
-		List<InfoEntity> skills = (List<InfoEntity>) mongoOperations.findAll(InfoEntity.class);
-		  return skills;
+		return mongoOperations.findAll(InfoEntity.class);
 	}
 	
 	public void prepareInfo(InfoEntity info) {

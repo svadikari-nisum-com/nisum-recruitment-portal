@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.repository;
 
 import static org.mockito.Matchers.any;
+
 import static org.mockito.Matchers.eq;
 
 import java.util.Arrays;
@@ -24,6 +25,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.DB;
 import com.mongodb.DBObject;
+import com.mongodb.WriteResult;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
@@ -85,15 +87,13 @@ public class ProfileRepositoryTest {
 	        }
 		}).when(gridFS).find(Mockito.any(DBObject.class));*/
 		
-		
-		
 	}
 
 
 	@Test
 	public final void testPrepareCandidate() {
 		Mockito.doNothing().when(mongoOperations).save(Profile.class);
-		profileRepository.prepareCandidate(getProfile());
+		profileRepository.createCandidate(getProfile());
 	}
 
 	@Test
@@ -108,6 +108,24 @@ public class ProfileRepositoryTest {
 		profileRepository.updateCandidateStatus("nbolla@nisum.com", "A");
 	}
 
+	@Test
+	public final void deleteCandidate() {
+		String emailId="skara@nisum.com";
+		Profile profile = new Profile();
+		profile.setEmailId(emailId);
+		profile.setActive(true);
+		Mockito.when(mongoOperations.findOne(Mockito.any(Query.class),Mockito.eq(Profile.class))).thenReturn(profile);
+		Mockito.doAnswer( new Answer<WriteResult>() {
+			@Override
+			public WriteResult answer(final InvocationOnMock invocation) throws Throwable
+			{
+				return null;
+			}
+		}).when(mongoOperations).updateFirst(Mockito.any(Query.class), Mockito.any(Update.class), Mockito.eq(Profile.class));
+		
+		profileRepository.deleteCandidate(emailId);
+	}
+	
 	@Test
 	public final void testRetrieveCandidateDetails() {
 		Mockito.when(mongoOperations.find(Mockito.any(Query.class), Mockito.eq(Profile.class))).thenReturn(Arrays.asList(getProfile()));
@@ -135,7 +153,7 @@ public class ProfileRepositoryTest {
 
 	@Test
 	public final void testRetrieveAllProfiles() {
-		Mockito.when(mongoOperations.findAll(Profile.class)).thenReturn(Arrays.asList(getProfile()));
+		Mockito.when(mongoOperations.find(any(Query.class), eq(Profile.class))).thenReturn(Arrays.asList(getProfile()));
 		List<Profile> profile = profileRepository.retrieveAllProfiles();
 		Assert.assertNotNull(profile);
 		Assert.assertSame("SE", profile.get(0).getDesignation());

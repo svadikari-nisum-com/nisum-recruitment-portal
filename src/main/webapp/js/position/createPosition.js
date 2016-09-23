@@ -12,13 +12,14 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
    
 	$scope.position.primarySkills = {};
 	$scope.position.interviewRounds = {};
-	$scope.position.interviewRounds = ['Technical Round 1','Technical Round 2','Hr Round','Manager Round'];
+	//$scope.position.interviewRounds = ['Technical Round 1','Technical Round 2','Manager Round', 'Hr Round'];
 	$scope.position.designation = "";
 	$scope.position.minExpYear = "";
 	$scope.position.maxExpYear = "";
 	$scope.position.location = "";
 	$scope.position.client = "";
 	$scope.position.hiringManager = "";
+	$scope.position.functionalGroup = "";
 	$scope.position.priority = "";
 	$scope.position.jobType = "";
 	$scope.position.salary = "";
@@ -27,7 +28,8 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 	$scope.position.noOfPositions = "";
 	
 	$scope.enableDisbleButton = true;
-
+	$scope.emailId ="";
+	$scope.roles = [];
 	$scope.message = "";
 	$scope.info = $rootScope.info;
 	$scope.pskills = [];
@@ -43,9 +45,14 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 	$scope.managers = [];
 	$scope.minExpYear=[];
 	$scope.maxExpYear=[];
-	
+	$scope.recruitmentData = [];
+	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
+
 	$scope.pskills=$rootScope.info.skills;
-	$scope.interview=$rootScope.info.interviewRounds;
+	$scope.interview=$scope.info.interviewRounds;
+	$scope.functionalGroups = $scope.info.FunctionalTeam;
+	$scope.locationHeads = [];
+	
 	  $scope.getData = function() {
 		  
 		  $scope.deg  =_.find($scope.designations,function(obj){
@@ -59,6 +66,23 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 			$scope.position.minExpYear = $scope.deg.minExpYear;
 			$scope.position.maxExpYear = $scope.deg.maxExpYear;
 		};
+		$scope.validate =  function(){
+			$scope.alHide();		
+		    if(parseInt($scope.position.maxExpYear)<parseInt($scope.position.minExpYear)){		    	
+			    $scope.cls=appConstants.ERROR_CLASS;
+			    $scope.position.maxExpYear="";
+			    $timeout( function(){ $scope.alHide(); }, 5000);
+		    }
+		}	
+		$scope.validateMinExp =  function(){
+			$scope.alHide();		
+		    if(parseInt($scope.position.maxExpYear)<parseInt($scope.position.minExpYear)){		    	
+			    $scope.cls=appConstants.ERROR_CLASS;
+			    $scope.position.minExpYear="";
+			    $timeout( function(){ $scope.alHide(); }, 5000);
+		    }
+		}
+		
 	designationService.getDesignation().then(function(data){
 		$scope.designations=data;
 		angular.forEach($scope.designations,function(deg){
@@ -70,7 +94,6 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		angular.forEach($scope.designations,function(deg){
 			$scope.maxExpYear.push(deg.maxExpYear);
 		})
-		console.log(angular.toJson($scope.designation1));
 	}).catch(function(msg){
 		$scope.message=msg;
 		 $scope.cls=appConstants.ERROR_CLASS;
@@ -83,8 +106,44 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 					$scope.client.push(cl.clientName);
 				})
 			  });
-	$scope.getInterviewers = function(ClientName){
-		$scope.names = [];
+	 /*userService.getCurrentUser().then(function (data){
+    angular.forEach(data,function(userrs){
+       $scope.emailId  = userrs.emailId;
+       $scope.roles = userrs.roles[0];
+    })
+});*/
+	$scope.getManagers = function(){
+		
+		
+		$scope.managers = [];
+		userService.getUserByRole("ROLE_MANAGER").then(function (data){
+			
+			angular.forEach(data,function(user) {
+				if(user.emailId == sessionStorage.userId ) {
+			          $scope.position.hiringManager = user.emailId;
+		           }
+				
+				$scope.managers.push({"emailId":user.emailId,"name":user.name});
+			})
+			
+		});
+	}	
+	$scope.getManagers();
+	$scope.getLocationHeads = function(){
+		
+		
+		$scope.locationHeads = [];
+		userService.getUserByRole("ROLE_LOCATIONHEAD").then(function (data){
+			
+			angular.forEach(data,function(user) {		
+				
+				$scope.locationHeads.push({"emailId":user.emailId,"name":user.name});
+			})
+			
+		});
+	}	
+	$scope.getLocationHeads();
+		/*$scope.names = [];
 		$scope.object = [];
 		$scope.filterNames = [];
 		clientService.getClientByName(ClientName)
@@ -110,11 +169,19 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 				$scope.managers.push(user.name);
 			})
 			
-		  });
+		  });*/
 
 		
-	}
-	
+	userService.getUserByRole("ROLE_RECRUITER").then(function (data){
+		    angular.forEach(data,function(userr) {
+			           if(userr.emailId == sessionStorage.userId) {
+				          $scope.position.interviewer = userr.name;
+			           }
+			           $scope.recruitmentData.push(userr.name);
+		    })
+	}).catch(function(message) {
+	   $log.error(message)
+   });
     $scope.loadRounds = function(query) {
     	$scope.interview=$scope.info.interviewRounds;
 		return $scope.interview; 
@@ -129,6 +196,7 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		if ($scope.position !== undefined) {
 
 			$scope.position.jobcode = $scope.setJobCode($scope.position.designation,$scope.position.client,$scope.position.location);
+			
 			
 			positionService.createPosition($scope.position)
 				.then(successMsg)
@@ -171,4 +239,11 @@ app.controller("createPositionCtrl", ['$scope', '$http', '$upload','$filter', '$
 		 */
 		}
 	});
+	
+	document.querySelector('#numberOfPositions').addEventListener('input', function(){
+	    var num = this.value.match(/^\d+$/);
+	    if (num === null) {
+	        this.value = "";
+	    }
+	}, false)
 }]);

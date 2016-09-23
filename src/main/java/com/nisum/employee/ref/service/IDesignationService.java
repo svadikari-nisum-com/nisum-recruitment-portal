@@ -1,12 +1,12 @@
 package com.nisum.employee.ref.service;
 
-import java.util.List; 
+import java.util.List;
 
-import com.nisum.employee.ref.domain.Designation;;
+import com.nisum.employee.ref.view.DesignationDTO;;
 
 public interface IDesignationService {
-	List<Designation> retrieveDesignations();
-	void prepareDesignation(Designation designation);
-	void updateDesignation(Designation designation);
+	List<DesignationDTO> retrieveDesignations();
+	void prepareDesignation(DesignationDTO designation);
+	void updateDesignation(DesignationDTO designation);
 	void deleteDesignation(String designation);
 }

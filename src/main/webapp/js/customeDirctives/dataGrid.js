@@ -140,7 +140,7 @@ angular.module('components', [])
 		  };
 
 		  $scope.nextPage = function() {
-		    if ($scope.currentPage < $scope.pageCount()) {
+		    if ($scope.currentPage > $scope.pageCount()) {
 		      $scope.currentPage++;
 		    }
 		  };

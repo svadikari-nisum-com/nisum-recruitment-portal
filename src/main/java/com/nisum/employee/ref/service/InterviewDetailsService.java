@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
-import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.Round;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
+import com.nisum.employee.ref.view.ProfileDTO;
 
 @Service
 public class InterviewDetailsService implements IInterviewDetailsService {
@@ -42,13 +43,14 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 	}
 
 	@Override
-	public InterviewDetails scheduleInterview(InterviewSchedule interviewSchedule) throws Exception {
+	public InterviewDetails scheduleInterview(InterviewSchedule interviewSchedule) throws ServiceException {
 		InterviewDetails interviewDetails = null;
 		InterviewDetails interviewDetails2 = interviewDetailsRepository
 				.getInterviewDetailsById(interviewSchedule.getCandidateId());
 		interviewDetails = enrichInterviewDetails(interviewDetails2, interviewSchedule);
+		interviewDetails.setInterviewerEmail(interviewSchedule.getEmailIdInterviewer());
 		interviewDetailsRepository.scheduleInterview(interviewDetails);
-		List<Profile> pro = profileService.retrieveCandidateDetails(interviewSchedule.getCandidateId());
+		List<ProfileDTO> pro = profileService.retrieveCandidateDetails(interviewSchedule.getCandidateId());
 		String mobileNo = pro.get(0).getMobileNo();
 		String altMobileNo = pro.get(0).getAltmobileNo();
 		String skypeId = pro.get(0).getSkypeId();
@@ -56,13 +58,14 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 		return interviewDetails;
 	}
 
-	public InterviewDetails scheduleInterview1(InterviewSchedule interviewSchedule) throws Exception {
+	public InterviewDetails updateInterview(InterviewSchedule interviewSchedule) throws ServiceException {
 		InterviewDetails interviewDetails = null;
 		InterviewDetails interviewDetails2 = interviewDetailsRepository
 				.getInterviewDetailsById(interviewSchedule.getCandidateId());
 		interviewDetails = enrichInterviewDetailsUpdate(interviewDetails2, interviewSchedule);
+		interviewDetails.setInterviewerEmail(interviewSchedule.getEmailIdInterviewer());
 		interviewDetailsRepository.scheduleInterview(interviewDetails);
-		List<Profile> pro = profileService.retrieveCandidateDetails(interviewSchedule.getCandidateId());
+		List<ProfileDTO> pro = profileService.retrieveCandidateDetails(interviewSchedule.getCandidateId());
 		String mobileNo = pro.get(0).getMobileNo();
 		String altMobileNo = pro.get(0).getAltmobileNo();
 		String skypeId = pro.get(0).getSkypeId();
@@ -83,6 +86,7 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 		rounds1.add(i, new Round(interviewSchedule.getRoundName(), interviewSchedule, null));
 		interviewDetails2.setRounds(rounds1);
 		interviewDetails2.setCurrentPositionId(interviewSchedule.getJobcode());
+		interviewDetails2.setProgress(interviewSchedule.getRoundName() +  "  Rescheduled");
 		return interviewDetails2;
 	}
 
@@ -186,7 +190,11 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 			interviewDetails2.setCandidateEmail(interviewFeedback.getCandidateId());
 			interviewDetails2.setInterviewerEmail(interviewFeedback.getInterviewerEmail());
 			// interviewDetails2.setInterviewerId(interviewFeedback.getCandidateId()+"_"+interviewFeedback.getJobcode());
-			interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Feedback Submitted");
+			if (interviewFeedback.getStatus().equals("No")) {
+				interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Rejected");
+			} else {
+				interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Feedback Submitted");
+			}
 			interviewDetails2.setRounds(rounds);
 		} else {
 			int size = interviewDetails2.getRounds().size();
@@ -197,7 +205,11 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 			interviewDetails2.setCandidateEmail(interviewFeedback.getCandidateId());
 			interviewDetails2.setInterviewerEmail(interviewFeedback.getInterviewerEmail());
 			// interviewDetails2.setInterviewerId(interviewFeedback.getCandidateId()+"_"+interviewFeedback.getJobcode());
-			interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Feedback Submitted");
+			if (interviewFeedback.getStatus().equals("No")) {
+				interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Rejected");
+			} else { 
+				interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Feedback Submitted");
+			}
 			interviewDetails2.setRounds(rounds);
 		}
 		return interviewDetails2;

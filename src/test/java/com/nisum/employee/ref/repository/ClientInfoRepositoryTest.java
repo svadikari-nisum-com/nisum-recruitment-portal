@@ -26,7 +26,6 @@ import com.nisum.employee.ref.domain.ClientInfo;
 import com.nisum.employee.ref.domain.Interviewer;
 import com.nisum.employee.ref.domain.RoundUser;
 import com.nisum.employee.ref.domain.UserInfo;
-import com.nisum.employee.ref.repository.ClientInfoRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ClientInfoRepositoryTest {
@@ -61,28 +60,6 @@ public class ClientInfoRepositoryTest {
 			System.out.println("Id::"+cInfo.getClientId()+"::Name::"+cInfo.getClientName());
 			Assert.assertNotNull(cInfo.getClientId());
 		}
-	}
-
-	@Test
-	public void testGetClientDetailsByClient() 
-	{
-			when(mongoOperations.find(any(Query.class), eq(ClientInfo.class))).thenReturn(Arrays.asList(getClientInfo()));
-			List<ClientInfo> clientInfo = clientInfoRepository.getClientDetailsByClient("Nisum");
-			Assert.assertNotNull(clientInfo);
-			System.out.println("getClientDetailsByClient()--> Name::"+clientInfo.get(0).getClientName());
-	
-	}
-
-	@Test
-	public final void testGetClientNames() {
-		
-		when(mongoOperations.findAll(ClientInfo.class)).thenReturn(Arrays.asList(getClientInfo()));
-		List<String> cNames = clientInfoRepository.getClientNames();
-		for(String cName : cNames)
-		{
-			System.out.println("clientNames()--->Name::"+cName);
-		}
-		
 	}
 
 	@Test
@@ -151,13 +128,12 @@ public class ClientInfoRepositoryTest {
 		Interviewer interviewer = new Interviewer();
 		interviewer.setTechnicalRound1(Arrays.asList(roundUser));
 		
-		cInfo.setInterviewers(interviewer);
+		cInfo.setInterviewer(interviewer);
 		
 		return cInfo;
 	}
 	public UserInfo getUsertInfo()
 	{
-		
 		UserInfo userInfo = new UserInfo();
 		userInfo.setClientName("Nisum");
 		userInfo.setDob("1989-01-26");

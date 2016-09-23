@@ -8,7 +8,8 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 		updateProfiles : updateProfiles,
 		getProfileById : getProfileById,
 		getProfiles : getProfiles,
-		addProfilesStatus : addProfilesStatus
+		addProfilesStatus : addProfilesStatus,
+		deleteProfile : deleteProfile
 	};
 	
 	function getProfileByCreateremailId(emailId){
@@ -23,6 +24,12 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 			 .catch(sendErrorprofileMsg);
 	}
 	
+	function deleteProfile(emailId){
+		return $http.delete('resources/profile?emailId='+emailId)
+			 .then(getProlilesData)
+			 .catch(sendErrorprofileMsg);
+	}
+	
 	function addProfiles(profile){
 		return $http.post('resources/profile', profile)
 		.then(createProfileSuccess)
@@ -30,7 +37,7 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 	}
 	
 	function addProfilesStatus(emailId,status){
-		return $http.post('resources/status?emailId='+emailId+'&status='+status)
+		return $http.put('resources/profile/status?emailId='+emailId+'&status='+status)
 		
 	}
 	
@@ -50,12 +57,13 @@ function profileService($http,$filter,$rootScope,appConstants,$q) {
 		return response.data;
 	}
 	
-	function sendCreateErrorprofileMsg(msg){
-		return $q.reject("Failed To Create Profile As Candidate Already Exists!");
+	function sendCreateErrorprofileMsg(response){
+		var showContent = response.data.errors[0].desc;
+		return $q.reject(showContent);
 	}
 	
 	function sendErrorprofileMsg(msg){
-		return $q.reject("Failed To Get Profile!"+msg);
+		return $q.reject("Profile Updation failed");
 	}
 	
 	function createProfileSuccess(response){

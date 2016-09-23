@@ -1,4 +1,4 @@
-	app.controller('interviewManagementCtrl',['$scope', '$http','$q', '$window','jobCodeService1', '$log', '$rootScope', function($scope, $http, $q, $window,jobCodeService1, $log, $rootScope) {
+	app.controller('interviewManagementCtrl',['$scope', '$http','$q', '$state','jobCodeService1','offerService', '$log', '$rootScope', function($scope, $http, $q, $state,jobCodeService1,offerService, $log, $rootScope) {
 		$scope.interview = {};
 		$scope.positionDisable = true;
 		$scope.searchDisable = true;
@@ -14,7 +14,7 @@
 		$scope.roleManagerDetails = [];
 		$scope.positions = [];
 		$scope.userRoles = [];
-		$scope.interviewData = {};
+		//$scope.interviewData = {};
 		$scope.interviewermail = [];
 		$scope.userclient = "";
 		$scope.useremailId = sessionStorage.userId;
@@ -22,10 +22,13 @@
 		$scope.info = $rootScope.info;
 		$scope.advancedHide = true;
 		
+		$scope.sortType     = 'name';
+		$scope.sortReverse  = false; 
+		
 		var User_URL = 'resources/user?emailId='+$scope.useremailId;
-		var position_URL = 'resources/position';
-		var clientNames_URL = 'resources/clientNames';
-		var InterviewDetailsURL = 'resources/getInterviewByParam';
+		var position_URL = 'resources/positions';
+		var clientNames_URL = 'resources/clients';
+		var InterviewDetailsURL = 'resources/interviews';
 		
 		$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
 			$scope.interviewDetails = data;
@@ -42,7 +45,7 @@
 			$http.get(User_URL).success(function(data, status, headers, config) {
 				$scope.userclient = data[0].clientName
 				$scope.userRoles = data[0].roles;
-					if(_.contains($scope.userRoles, "ROLE_HR") || _.contains($scope.userRoles, "ROLE_ADMIN")){
+					if(_.contains($scope.userRoles, "ROLE_HR") || _.contains($scope.userRoles, "ROLE_RECRUITER") || _.contains($scope.userRoles, "ROLE_ADMIN")){
 						$scope.clienthidden = false;
 						$scope.positionhidden = false;
 						$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
@@ -53,22 +56,34 @@
 					} else if(_.contains($scope.userRoles, "ROLE_MANAGER")){
 						$scope.clienthidden = false;
 						$scope.positionhidden = false;
-						$http.get('resources/getInterviewByParam?client='+$scope.userclient).success(function(data, status, headers, config) {
-							$scope.interviewDetails = data;
+						$http.get('resources/interviews?interviewerEmail='+$scope.useremailId).success(function(data, status, headers, config) {
+							
+							if(data==undefined || data == null || data.length == 0){
+								$scope.interviewDetails = [];
+								$scope.tableHide = true;
+								$scope.hideNoDataMessage = false;
+							}else
+							{
+								$scope.interviewDetails = data;
+							}
+							
 						}).error(function(data, status, headers, config) {
 							$log.error(data);
 						})
+						
+						
+						
 					} else if(_.contains($scope.userRoles, "ROLE_INTERVIEWER")){
 						$scope.clienthidden = true;
 						$scope.positionhidden = true;
-						$http.get('resources/getInterviewByInterviewer?interviewerEmail='+$scope.useremailId).
+						$http.get('resources/interviews?interviewerEmail='+$scope.useremailId).
 						success(function(data, status, headers, config) {
 							if(data==undefined || data == null || data.length == 0){
 								$scope.interviewDetails = [];
 								$scope.tableHide = true;
 								$scope.hideNoDataMessage = false;
 							}else{
-								$scope.interviewData = data;
+								//$scope.interviewData = data;
 								$scope.interviewDetails = data;
 								//console.log(angular.toJson($scope.interviewDetails));
 								
@@ -134,7 +149,7 @@
 		}
 		
 		$scope.searchPosition = function(){
-		var InterviewDetailsURL = 'resources/getInterviewByParam?jobCode='+$scope.interview.position;
+		var InterviewDetailsURL = 'resources/interviews?jobCode='+$scope.interview.position;
 		$http.get(InterviewDetailsURL).success(function(data, status, headers, config) {
 			$scope.interviewDetails = data;
 		}).error(function(data, status, headers, config) {
@@ -144,7 +159,7 @@
 		};
 		
 		$scope.searchByProgress = function(){
-			var progress_URL = 'resources/getInterviewByParam?progress='+$scope.interview.progress;
+			var progress_URL = 'resources/interviews?progress='+$scope.interview.progress;
 			$http.get(progress_URL).success(function(data, status, headers, config) {
 				$scope.interviewDetails = data;
 			}).error(function(data, status, headers, config) {
@@ -154,7 +169,7 @@
 		}
 		
 		$scope.searchBySkill = function(){
-			var skill_URL = 'resources/getInterviewByParam?skill='+$scope.interview.skill;
+			var skill_URL = 'resources/interviews?skill='+$scope.interview.skill;
 			$http.get(skill_URL).success(function(data, status, headers, config) {
 				$scope.interviewDetails = data;
 			}).error(function(data, status, headers, config) {
@@ -164,7 +179,7 @@
 		}
 		
 		$scope.searchByDesignation = function(){
-			var skill_URL = 'resources/getInterviewByParam?designation='+$scope.interview.designation;
+			var skill_URL = 'resources/interviews?designation='+$scope.interview.designation;
 			$http.get(skill_URL).success(function(data, status, headers, config) {
 				$scope.interviewDetails = data;
 			}).error(function(data, status, headers, config) {
@@ -176,20 +191,26 @@
 		$scope.feedback = function(positionId, candidateEmail) {
 			jobCodeService1.setprofileUserId(candidateEmail);
 			jobCodeService1.setjobCode(positionId);
+			jobCodeService1.setPreviousPage("recruitment.interviewManagement");
 			location.href='#recruitment/interviewFeedback';
 		};
 		$scope.schedule = function(positionId, candidateEmail) {
 			jobCodeService1.setprofileUserId(candidateEmail);
 			jobCodeService1.setjobCode(positionId);
+			jobCodeService1.setPreviousPage("recruitment.interviewManagement");
 			
 			location.href='#recruitment/scheduleInterview';
 		};
 		$scope.disableFeedback = function(rounds) {
-			if(rounds == null){
-				return true;
-			}else{
+			
+			if(angular.isDefined(rounds) && rounds != null && rounds[rounds.length-1].interviewSchedule.emailIdInterviewer == $scope.useremailId)
+			{
 				return false;
+			}else
+			{
+				return true;
 			}
+			
 		}
 		
 		$scope.advancedSearch = function(){
@@ -199,4 +220,15 @@
 				$scope.advancedHide = true;
 			}
 		}
+		$scope.selectCandidate = function(item,index) {
+			
+			 $http.get('resources/profile?emailId='+item.candidateEmail).success(function(data, status, headers, config) {
+					
+				offerService.setData(data[0]);
+				$state.go("recruitment.createOffer");
+			  })
+			
+			
+		}
+		
 	}]);

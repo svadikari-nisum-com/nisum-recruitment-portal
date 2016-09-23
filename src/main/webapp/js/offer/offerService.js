@@ -15,15 +15,28 @@ function offerService($http,$filter,$rootScope, appConstants, $q, $timeout, $log
 		getPositionByDesignation : getPositionByDesignation,
 		getPositionByJobcode : getPositionByJobcode,
 		getPositionBylocation : getPositionBylocation,
-		getClients : getClients
+		getClients : getClients,
+		getNextStatuses : getNextStatuses
 	};
 	
+	function getNextStatuses(status){
+		return $http.get('resources/offers/nextStatuses?currentStatus='+status)
+		.then(getStatusSuccess)
+		.catch(getStatusError);
+	}
+	
+	function getStatusSuccess(response){
+		return response.data;
+	}
+	
+	function getStatusError(response){
+		return "Failed To Get Status! Response";
+	}
 	function addPosition(positionObj){
 		return $http.post('resources/position', positionObj)
 		.then(createPositionSuccess)
 		.catch(createPositionError);
 	}
-	
 	function createPositionSuccess(response){
 		return response.data.jobcode + " Position Created Successfully!";
 	}
@@ -46,18 +59,18 @@ function offerService($http,$filter,$rootScope, appConstants, $q, $timeout, $log
 	}
 	
 	function getPosition(){
-		return $http.get('resources/position')
+		return $http.get('resources/positions')
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	function getPositionByDesignation(designation){
-		return $http.get('resources/position?designation='+designation)
+		return $http.get('resources/positions?searchKey=designation&searchValue='+designation)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	
 	function getPositionByJobcode(jobcode){
-		return $http.get('resources/searchPositionsBasedOnJobCode?jobcode='+jobcode)
+		return $http.get('resources/positions?searchKey=jobcode&searchValue='+jobcode)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}

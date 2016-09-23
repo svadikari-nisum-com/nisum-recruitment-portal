@@ -1,6 +1,9 @@
 package com.nisum.employee.ref.controller;
 
 
+import java.text.ParseException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +23,13 @@ public class ReportsController {
 	@Autowired
 	private ReportsService reportsService;
 	
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_MANAGER","ROLE_INTERVIEWER"})
-	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public ResponseEntity<?> getData(@RequestParam(value = "jobcodeProfile", required = true) String jobcodeProfile) {
-		ReportsVO profileDetails = reportsService.getDataByJobCode(jobcodeProfile);
-		return (null == profileDetails) ? new ResponseEntity<String>("profiles are not found", HttpStatus.NOT_FOUND)
-				: new ResponseEntity<ReportsVO>(profileDetails, HttpStatus.OK);
+	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER"})
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<?> getReportData(@RequestParam(value = "hiringManager", required = false) String hiringManager,
+			@RequestParam(value = "recruiter", required = false) String recruiterEmail) throws ParseException {
+		
+		List<ReportsVO> reportList = reportsService.getReportByHiringManager(hiringManager,recruiterEmail);
+		return (null == reportList) ? new ResponseEntity<String>("Reports are not found", HttpStatus.NOT_FOUND)
+				: new ResponseEntity<List<ReportsVO>>(reportList, HttpStatus.OK);
 	}
 }

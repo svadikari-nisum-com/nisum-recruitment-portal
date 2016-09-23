@@ -4,7 +4,7 @@
 		data-target="#menu-content"></i>
 	<div class="menu-list">
 		<ul id="menu-content" ng-repeat="t in tabs"
-			class="menu-content collapse out">
+			class="menu-content collapse out" ng-if="hasRole(t.roles)">
 			<li ng-class="{active: isActive(t.route)}" ui-sref="{{t.route}}" active="t.active">{{t.heading}} <a
 				data-toggle="tab"></a></li>
 		</ul>

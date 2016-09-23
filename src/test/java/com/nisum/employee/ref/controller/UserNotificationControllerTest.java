@@ -18,9 +18,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.domain.UserNotification;
 import com.nisum.employee.ref.service.UserNotificationService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.UserNotificationDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserNotificationControllerTest {
@@ -39,8 +39,8 @@ public class UserNotificationControllerTest {
    
    @Test
    public void shouldRetrieveNotification() throws Exception {
-	   List<UserNotification> userInfoList = new ArrayList<>();
-	   UserNotification userNotification = new UserNotification();
+	   List<UserNotificationDTO> userInfoList = new ArrayList<>();
+	   UserNotificationDTO userNotification = new UserNotificationDTO();
 	   userNotification.setPk("1");
 	   userNotification.setRead("");
 	   userNotification.setUserId("1");
@@ -59,8 +59,8 @@ public class UserNotificationControllerTest {
    }
    @Test
    public void shouldRetrieveNoNotification() throws Exception {
-	   List<UserNotification> userInfoList = new ArrayList<>();
-	   UserNotification userNotification = new UserNotification();
+	   List<UserNotificationDTO> userInfoList = new ArrayList<>();
+	   UserNotificationDTO userNotification = new UserNotificationDTO();
 	   userNotification.setPk("1");
 	   userNotification.setRead("");
 	   userNotification.setUserId("1");

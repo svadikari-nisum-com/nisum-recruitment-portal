@@ -8,6 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class InterviewSchedule extends AuditEntity{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String roundName;
 	String interviewerName;
 	String jobcode;
@@ -21,5 +25,9 @@ public class InterviewSchedule extends AuditEntity{
 	String candidateId;
 	String candidateName;
 	ArrayList<String> candidateSkills;
+	@Override
+	public String getId() {
+		return candidateId;
+	}
 	
 }

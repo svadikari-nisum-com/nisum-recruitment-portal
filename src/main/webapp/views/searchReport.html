@@ -1,0 +1,119 @@
+<h2 class="heading-name">Report Management</h2>
+<br>
+<div ng-controller="searchReportCntrl" class="searchposition-container">
+	<div class="row" style="margin-top: 3%; margin-left: 10px">
+		<div class="col-md-4">
+			<label class="lbl " for="jobcoade" style="width: 34%;">
+				Reporting Manager</label>
+			<ui-select multiple ng-model="report.repManager"
+				ng-keypress="myFuncts($event)" style="width: 57%; height: 30px;"
+				theme="select2" id="repManager" ui-select-required
+				ng-disabled="disabled" ng-change="loadReportingManagers()"> <ui-select-match
+				placeholder="Select Report Manager">{{$item.name}}</ui-select-match>
+			<ui-select-choices repeat="item.emailId as item in reportingMngr| orderBy:'toString()'">
+			{{item.name}} </ui-select-choices> </ui-select>
+		</div>
+<!-- 		<div class="col-md-4 "> -->
+<!-- 			<label class="lbl " for="jobcode" style="width: 30%;"> HR -->
+<!-- 				Manager</label> -->
+<!-- 			<ui-select multiple ng-model="report.hrManager" -->
+<!-- 				ng-keypress="myFunct($event)" style="width: 57%; height: 30px;" -->
+<!-- 				name="name" theme="select2" id="skills" ui-select-required -->
+<!-- 				ng-disabled="disabled"> <ui-select-match -->
+<!-- 				placeholder="Select HR Manager">{{$item}}</ui-select-match> <ui-select-choices -->
+<!-- 								repeat="name in hr | orderBy:'toString()'"> -->
+<!-- 			{{name}} </ui-select-choices> </ui-select> -->
+<!-- 		</div> -->
+	
+
+		<div class="col-md-4">
+			<label class="lbl " for="jobcode" style="width: 30%; " ng-hide="disableRecruiter">
+				Recruiter</label>
+			<ui-select multiple ng-model="report.recruiter"
+				ng-keypress="myFunct($event)" style="width: 57%; height: 30px;"
+				theme="select2" id="recruiter" ui-select-required
+				ng-hide="disableRecruiter"> <ui-select-match
+				placeholder="Select Recruiter..">{{$item.name}}</ui-select-match> <ui-select-choices
+				repeat="item.emailId as item  in recruiters| orderBy:'toString()'">
+			{{item.name}} </ui-select-choices> </ui-select>
+		</div>
+
+	</div>
+<!-- 	<div class="row" style="margin-top: 3%; margin-left: 10px"> -->
+<!-- 		<div class="col-md-4"> -->
+<!-- 			<label class="lbl " for="jobcode" style="width: 34%;"> -->
+<!-- 				Functional Group</label> -->
+<!-- 			<ui-select multiple ng-model="report.functionalGroup" -->
+<!-- 				ng-keypress="myFunct($event)" style="width: 57%; height: 30px;" -->
+<!-- 				theme="select2" id="functionalGroup" ui-select-required -->
+<!-- 				ng-disabled="disabled"> <ui-select-match -->
+<!-- 				placeholder="Select Division..">{{$item}}</ui-select-match> <ui-select-choices -->
+<!-- 				repeat="name in functionalGroups| orderBy:'toString()'"> -->
+<!-- 			{{name}} </ui-select-choices> </ui-select> -->
+<!-- 		</div> -->
+<!-- 		<div class="col-md-4"> -->
+<!-- 			<label class="lbl " for="jobcode" style="width: 30%;">Position -->
+<!-- 				Status</label> -->
+<!-- 			<ui-select multiple ng-model="report.status" -->
+<!-- 				ng-keypress="myFunct($event)" style="width: 57%; height: 30px;" -->
+<!-- 				theme="select2" id="posStatus" ui-select-required -->
+<!-- 				ng-disabled="disabled"> <ui-select-match -->
+<!-- 				placeholder="Select Status..">{{$item}}</ui-select-match> <ui-select-choices -->
+<!-- 				repeat="name in positionStatus| orderBy:'toString()'"> -->
+<!-- 			{{name}} </ui-select-choices> </ui-select> -->
+<!-- 		</div> -->
+
+<!-- 	</div> -->
+	<div class="row" style="margin-top: 3%; margin-left: 10px">
+		<div class="col-md-12">
+			<a href="" style="margin-left: -35px" id=""
+				ng-disabled="searchDisable" class="btn btn-info active"
+				ng-hide="positionhidden" ng-click="searchReport()"
+				ng-disabled="report.$invalid">Search <span
+				class="glyphicon glyphicon-search"></span>
+			</a>
+		</div>
+	</div>
+	<div  ui-grid="gridOptions"
+		 ui-grid-pagination>
+		<div class="no-rows" ng-if="!gridOptions.data.length" >
+			<div class="msg">
+				<span>No Reports Exists</span>
+			</div>
+		</div>
+
+		<div>
+<!-- 			<span class="grid-tot-rec">Total Records : -->
+<!-- 				{{gridOptions.totalItems}}</span> -->
+<!-- 			<div class="text-center pull-right ui-gri-pager" -->
+<!-- 				ng-show="gridOptions.totalItems > numRows"> -->
+<!-- 				<pagination class="pagination-sm" -->
+<!-- 					total-items="gridOptions.totalItems" -->
+<!-- 					items-per-page="gridOptions.paginationPageSize" -->
+<!-- 					ng-model="gridOptions.paginationCurrentPage"></pagination> -->
+<!-- 			</div> -->
+		</div>
+	</div>
+	<br>
+
+		<div  ui-grid="avgDataGrid"
+		 ui-grid-pagination>
+		<div class="no-rows" ng-if="!gridOptions.data.length" >
+			<div class="msg">
+				<span>No Reports Exists</span>
+			</div>
+		</div>
+
+		<div>
+			<span class="grid-tot-rec">Total Records :
+				{{gridOptions.totalItems}}</span>
+			<div class="text-center pull-right ui-gri-pager"
+				ng-show="gridOptions.totalItems > numRows">
+				<pagination class="pagination-sm"
+					total-items="gridOptions.totalItems"
+					items-per-page="gridOptions.paginationPageSize"
+					ng-model="gridOptions.paginationCurrentPage"></pagination>
+			</div>
+		</div>
+	</div>
+</div>

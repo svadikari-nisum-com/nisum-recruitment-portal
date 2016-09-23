@@ -77,4 +77,13 @@
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 	</bean>
 	
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>messages</value>
+		</property>
+	</bean>
+	<bean id="messageSourceAccessor" class="org.springframework.context.support.MessageSourceAccessor">
+		<constructor-arg ref="messageSource"/>
+	</bean>
 </beans>

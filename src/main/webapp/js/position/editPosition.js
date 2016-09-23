@@ -1,5 +1,5 @@
-app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService1','$q','$timeout','$rootScope','$location', '$log','ngNotify','clientService','appConstants','positionService','userService', 'designationService',
-                                      function($scope, $state, $http,jobCodeService1,$q,$timeout, $rootScope, $location,$log,ngNotify,clientService,appConstants,positionService,userService, designationService) {
+app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService1','$q','$timeout','$rootScope','$filter','$location', '$log','ngNotify','clientService','appConstants','positionService','userService', 'designationService',
+                                      function($scope, $state, $http,jobCodeService1,$q,$timeout, $rootScope, $filter, $location,$log,ngNotify,clientService,appConstants,positionService,userService, designationService) {
 		
 	$scope.hideRounds= true;
 	$scope.hideSkills = true;
@@ -15,16 +15,19 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 	$scope.minExpYear=[];
 	$scope.maxExpYear=[];
 	$scope.interviewers=[];
-	
+	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
 	
 	$scope.info = $rootScope.info;
 	$scope.interviewRounds=[];
 	$scope.pskills = [];
-	
+	$scope.positionStatus=["APPROVED","CLOSED"];	
 	$scope.message = "";
 		
 	$scope.client =[];
 	
+	$scope.functionalGroups = $scope.info.FunctionalTeam;
+	
+	$scope.positionEmailId = "";
 	$scope.init = function() {
 		if(jobCodeService1.getjobCode() == undefined) {
 			$state.go("recruitment.searchPosition");
@@ -44,29 +47,31 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 					 )}).catch(function(msg){
 						 $log.error(msg);
 					 });
-	
-	userService.getUsers()
-	.then(function(data){
+	userService.getUsers().then(function(data){
 		$scope.users = data;
 		angular.forEach($scope.users,function(user){
 			if(user.roles.indexOf("ROLE_MANAGER") >= 0 )
-			$scope.managers.push(user.name);
+			$scope.managers.push({"emailId":user.emailId,"name":user.name});
 		})
-		
 		angular.forEach($scope.users,function(user){
-			if(user.roles.indexOf("ROLE_INTERVIEWER") >= 0 )
+			if(user.roles.indexOf("ROLE_RECRUITER") >= 0 )
 			$scope.interviewers.push(user.name);
 		})
-		
-	  });
-			
-	    positionService.getPositionByJobcode($scope.jobcode).then(function(data){
-	    	$scope.position =data;
+		positionService.getPositionByJobcode($scope.jobcode).then(function(data){
+	    	$scope.position = data[0];
+	    	/*$scope.positionHiringManagerEmailId = $scope.position.hiringManager;
+	    	$scope.position.hiringManager = $scope.managers.filter(function (manager) { return manager.emailId == $scope.position.hiringManager })[0].name;
+	    	$scope.positionHiringManagerName = $scope.position.hiringManager;*/
 			$scope.enableDisableButton = false;
 	    }).catch(function(msg){
 	    	$log.error(msg); 
-	    })
+		})
 		
+	  }).catch(function(msg){
+		  console.log("not getting");
+	    	$log.error(msg); 
+	    });
+
 	    ngNotify.config({
 		    theme: 'pure',
 		    position: 'top',
@@ -77,10 +82,21 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		});
 		
 	    $scope.updatePositionDetails = function() {
-	    	
-	    alert($scope.position.salary);
-		/*var position1={};
-		var skills =[];
+	    	var position1={};
+			var skills =[];
+	    	if(_.contains($rootScope.user.roles, "ROLE_LOCATIONHEAD")){
+	    		 position1.jobcode=$scope.position.jobcode;
+	    		 position1.status=$scope.position.status;
+	    		 positionService.updatePositionStatus(position1).then(
+	    				    function(msg){
+	    				    	  $scope.sendNotification(msg,'recruitment/searchPosition');
+	    				    }).catch(function(errorMsg){
+	    				    	$scope.message=errorMsg;
+	    						$scope.cls=appConstants.ERROR_CLASS;
+	    				     });
+		
+	    	}else{
+		
 		if ($scope.position !== undefined) {
 			 angular.forEach($scope.position.primarySkills, function(value, key) {
 				 skills.push(value.toString());
@@ -88,7 +104,8 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 			 $scope.position.primarySkills = skills;
 		     position1.jobcode=$scope.position.jobcode;
 		     position1.designation=$scope.position.designation;
-		     position1.experienceRequired=$scope.position.experienceRequired;
+		     position1.minExpYear=$scope.position.minExpYear;
+		     position1.maxExpYear=$scope.position.maxExpYear;
 		     position1.primarySkills=$scope.position.primarySkills;
 		     position1.secondarySkills=$scope.position.secondarySkills;
 		     position1.jobProfile=$scope.position.jobProfile;
@@ -100,7 +117,8 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 		     position1.priority = $scope.position.priority;
 		     position1.interviewer = $scope.position.interviewer;
 		     position1.jobType = $scope.position.jobType;
-		     position1.salary = $scope.position.salary;
+		     position1.functionalGroup = $scope.position.functionalGroup;
+		     position1.jobHeader = $scope.position.jobHeader;
 		     positionService.updatePosition(position1).then(
 			    function(msg){
 			    	  $scope.sendNotification(msg,'recruitment/searchPosition');
@@ -108,10 +126,11 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 			    	$scope.message=errorMsg;
 					$scope.cls=appConstants.ERROR_CLASS;
 			     });
-		}*/
+		}
 	}
+	    }
 	$scope.status = {
-			isFirstOpen: true,
+			isFirstOpen: true
 	};
 	
 	
@@ -156,7 +175,11 @@ app.controller("editPositionCtrl",   ['$scope','$state', '$http','jobCodeService
 	    $scope.message = "";
 	    $scope.cls = '';
 	}
-	
+	$scope.setHiringManager = function (){
+		
+		var selected = $filter('filter')($scope.managers, {emailId: $scope.position.hiringManager});
+	    return ($scope.position.hiringManager && selected.length) ? selected[0].name : 'Not set';
+	}
 	$scope.getData = function() {
 	    $scope.deg  =_.find($scope.designations,function(obj){
 			return obj.designation == $scope.position.designation; 

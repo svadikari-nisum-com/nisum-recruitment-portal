@@ -1,6 +1,6 @@
 package com.nisum.employee.ref.domain;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +14,5 @@ import lombok.Setter;
 public class RoundUser {
 	String name;
 	String emailId;
-	ArrayList<String> skillSet;
+	List<String> skillSet;
 }

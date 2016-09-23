@@ -2,6 +2,7 @@ package com.nisum.employee.ref.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,57 +14,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nisum.employee.ref.domain.ClientInfo;
 import com.nisum.employee.ref.domain.ResponseVO;
 import com.nisum.employee.ref.service.IClientInfoService;
-import com.nisum.employee.ref.util.Constants;
+import com.nisum.employee.ref.view.ClientInfoDTO;
 
+@RequestMapping("/clients")
 @Controller
 public class ClientInfoController {
 
 	@Autowired(required = false)
 	private IClientInfoService clientInfoService;
 
-	@RequestMapping(value = "/clientNames", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<?> getClients() {
-		List<String> clients = clientInfoService.getClientNames();
-		return new ResponseEntity<List<String>>(clients, HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/clientInfo", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<?> getClientInfo(@RequestParam(value = "clientName", required = false) String clientName) {
-		List<ClientInfo> clients = null;
-		if (clientName != null && !clientName.isEmpty()) {
-			clients = clientInfoService.getClientDetailsByClient(clientName);
+	public ResponseEntity<List<ClientInfoDTO>> getClientInfo(@RequestParam(value = "clientId", required = false) String clientId) {
+		List<ClientInfoDTO> clients = null;
+		if (StringUtils.isNotEmpty(clientId)) {
+			clients = clientInfoService.getClientById(clientId);
 		} else {
 			clients = clientInfoService.getClientDetails();
 		}
-		return !clients.isEmpty() ? new ResponseEntity<List<ClientInfo>>(clients, HttpStatus.OK)
-				: new ResponseEntity<String>(Constants.clientNotFound, HttpStatus.NOT_FOUND);
-	}
-
-	@RequestMapping(value = "/interviewerNames", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<?> getInterviewerNames() {
-		List<String> interviewerNames = clientInfoService.getInterviewerNames();
-		return new ResponseEntity<List<String>>(interviewerNames, HttpStatus.OK);
-	}
-
-	@RequestMapping(value = "/getClientById", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<?> getClientById(@RequestParam(value = "clientId", required = true) String clientId) {
-		
-		List<ClientInfo> client = clientInfoService.getClientById(clientId);
-		return new ResponseEntity<List<ClientInfo>>(client, HttpStatus.OK);
-		
+		return new ResponseEntity<List<ClientInfoDTO>>(clients, HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/clientInfo", method = RequestMethod.DELETE)
+	@RequestMapping(method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<?> deleteClient(@RequestParam(value = "clientId", required = true) String clientId) {
+	public ResponseEntity<ResponseVO<String>> deleteClient(@RequestParam(value = "clientId", required = true) String clientId) {
 		
 		clientInfoService.deleteClient(clientId);
 		ResponseVO<String> response = new ResponseVO<String>();
@@ -72,18 +49,18 @@ public class ClientInfoController {
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/clientInfo", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> createClient(@RequestBody ClientInfo clientInfo) {
-		clientInfoService.createClient(clientInfo);
-		return new ResponseEntity<ClientInfo>(clientInfo, HttpStatus.OK);
+	public ResponseEntity<ClientInfoDTO> createClient(@RequestBody ClientInfoDTO clientInfoDTO) {
+		clientInfoService.createClient(clientInfoDTO);
+		return new ResponseEntity<ClientInfoDTO>(clientInfoDTO,clientInfoDTO.hasErrors()?HttpStatus.BAD_REQUEST: HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/clientInfo", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<String> updateClient(@RequestBody ClientInfo clientInfo) {
-		clientInfoService.updateClient(clientInfo);
+	public ResponseEntity<String> updateClient(@RequestBody ClientInfoDTO clientInfoDTO) {
+		clientInfoService.updateClient(clientInfoDTO);
 		return new ResponseEntity<String>("{\"msg\":\"Client Updated Successfully\"}", HttpStatus.ACCEPTED);
 	}
 }

@@ -1,6 +1,5 @@
 package com.nisum.employee.ref.view;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -14,18 +13,20 @@ public class UserInfoDTO extends BaseDTO{
 	 */
 	private static final long serialVersionUID = -4222813386609824870L;
 	
-	String emailId;
-	String name;
-	String dob;
-	String doj;
-	String clientName;
-	String projectName;
-	String location;
-	List<String> roles;
-	ArrayList<String> skills;
-	String mobileNumber;
-	String skypeId;
-	List<String> categories;
-	List<TimeSlotDTO> timeSlots;
-	Boolean isNotAvailable = false;
+	private String emailId;
+	private String name;
+	private String dob;
+	private String doj;
+	private String clientName;
+	private String projectName;
+	private String location;
+	private List<String> roles;
+	private List<String> skills;
+	private String mobileNumber;
+	private String skypeId;
+	private List<String> categories;
+	private List<InterviewRoundsAllocationDTO> interviewRoundsAllocation;
+	private List<TimeSlotDTO> timeSlots;
+	private Boolean isNotAvailable = false;
+	private Boolean active;
 }

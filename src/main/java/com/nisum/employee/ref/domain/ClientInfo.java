@@ -1,11 +1,11 @@
 package com.nisum.employee.ref.domain;
 
+import org.springframework.data.annotation.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import org.springframework.data.annotation.Id;
 
 @Setter
 @Getter
@@ -16,5 +16,5 @@ public class ClientInfo {
 	String clientId;
 	String clientName;
 	String locations;
-	Interviewer interviewers;
+	Interviewer interviewer;
 }

@@ -161,13 +161,12 @@
 				<div class="control-group">
 					<div class="col-md-2">
 						<label class="lbl" for="passportNo"><i
-							class="glyphicon glyphicon-earphone"></i>&nbsp;&nbsp;Skype ID: <b
-							class="mandatory-field">*</b></label>
+							class="glyphicon glyphicon-earphone"></i>&nbsp;&nbsp;Skype ID:</label>
 					</div>
 					<div class="col-md-3">
 						<input type="text" name="skypeId" class="form-control"
 							id="skypeID" ng-model="candidate.skypeId"
-							placeholder="Enter Skype Id..." required>
+							placeholder="Enter Skype Id...">
 					</div>
 				</div>
 			</div>
@@ -295,7 +294,7 @@
 							class="glyphicon glyphicon-book"></i>&nbsp;&nbsp;Skills<b
 							class="mandatory-field">*</b></label>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-3" id="crskills">
 						<ui-select multiple ng-model="sk.primarySkills"
 							ng-keypress="myFunct($event)"
 							name="pskilss" theme="select2" id="skills" ui-select-required
@@ -317,7 +316,7 @@
 					<div class="col-md-1"></div>
 					<div class="col-md-2">
 						<label class="lbl" for="Designation"> <i
-							class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Designation<b
+							class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Role<b
 							class="mandatory-field">*</b>
 						</label>
 					</div>
@@ -359,7 +358,8 @@
 					</div>
 					<div class="col-md-3">
 						<select name="referredBy" ng-model="candidate.hrAssigned"
-							ng-options="o as o for o in recruitmentData | orderBy:'toString()'"
+							
+							ng-options="o.emailId as o.name for o in recruitmentData"
 							class="form-control input-sm" id="referredBy" required
 							>
 							<option value='' disabled="disabled">Select Value</option>
@@ -376,8 +376,8 @@
 				<div class="control-group">
 					<div class="col-md-2">
 						<label class="lbl" for="jobcode"><i
-							class="glyphicon glyphicon-barcode"></i>&nbsp;&nbsp;Select
-							Jobcode<b class="mandatory-field">*</b></label>
+							class="glyphicon glyphicon-barcode"></i>&nbsp;&nbsp;
+							Job code<b class="mandatory-field">*</b></label>
 					</div>
 					<div class="col-md-3">
 						<ui-select multiple ng-model="sk.jobcodeProfile" id="jobcode"

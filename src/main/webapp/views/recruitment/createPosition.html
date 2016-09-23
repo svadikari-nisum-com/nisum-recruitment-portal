@@ -15,7 +15,7 @@
 						<div class="col-md-1"></div>
 						<div class="col-md-2">
 							<label class="lbl" for="Designations"> <i
-								class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Designation<b class="mandatory">*</b>
+								class="glyphicon glyphicon-briefcase"></i>&nbsp;&nbsp;Role<b class="mandatory">*</b>
 							</label>
 						</div>
 						<div class="col-md-3">
@@ -38,7 +38,7 @@
 							<select name="client" placeholder="Select Client"
 								ng-model="position.client"
 								ng-options="o as o for o in client | orderBy:'toString()'"
-								ng-change="getInterviewers(position.client)"
+								
 								class="form-control input-sm" id="client" required>
 								<option value='' disabled="disabled">Select Client</option>
 							</select>
@@ -57,7 +57,7 @@
 						</div>
 						<div class="col-md-1 col-xs-4">
 							<select name="minExpYear" id="minExpYear"
-								ng-change="toggleProDisable()" ng-model="position.minExpYear"
+								ng-change="toggleProDisable();validateMinExp();" ng-model="position.minExpYear"
 								ng-options="o as o for o in info.expYears"
 								class="form-control input-sm" required  style="color: graytext;width: 125%">
 								<option value='' disabled="disabled">Min</option>
@@ -65,7 +65,7 @@
 						</div>
 						<div class="col-md-1 col-xs-4">
 							<select name="maxExpYear" id="maxExpYear"
-								ng-change="toggleProDisable()" ng-model="position.maxExpYear"
+								ng-change="toggleProDisable();validate();" ng-model="position.maxExpYear"
 								ng-options="o as o for o in info.expYears"
 								class="form-control input-sm" required  style="color: graytext;width: 125%">
 								<option value='' disabled="disabled">Max</option>
@@ -103,7 +103,7 @@
 						<div class="col-md-3">
 							<ui-select multiple ng-model="position.primarySkills"
 								ng-keypress="myFunct($event)" name='sk.primarySkills'
-								id="skills" ui-select-required theme="select2"
+								id="skills" style="width: 230px;" ui-select-required theme="select2"
 								ng-disabled="disabled"> <ui-select-match
 								placeholder="Select skill...">{{$item}}</ui-select-match> <ui-select-choices
 								repeat="skill in pskills | orderBy:'toString()' | filter:$select.search">
@@ -136,7 +136,7 @@
 						</div>
 						<div class="col-md-3">
 							<ui-select multiple ng-keypress="myFunct($event)"
-								ng-model="position.interviewRounds" name="ir.interviewRounds"
+								ng-model="position.interviewRounds" style="width: 230px;" name="ir.interviewRounds"
 								id="irounds" ui-select-required theme="select2"
 								ng-disabled="disabled"> <ui-select-match
 								placeholder="Select Rounds..">{{$item}}</ui-select-match> <ui-select-choices
@@ -153,7 +153,7 @@
 						<div class="col-md-3">
 							<select name="designation" placeholder="Select Designation"
 								required ng-model="position.hiringManager"
-								ng-options="o as o for o in managers"
+								ng-options="o.emailId as o.name for o in managers"
 								class="form-control input-sm" id="hiringManager">
 								<option value='' disabled="disabled">Select Hiring
 									Manager</option>
@@ -188,7 +188,7 @@
 						<div class="col-md-3">
 							<select name="designation" placeholder="Select interviewer"
 								ng-model="position.interviewer"
-								ng-options="o as o for o in filterNames | orderBy:'toString()'"
+								ng-options="o as o for o in recruitmentData | orderBy:'toString()'"
 								class="form-control input-sm" id="designation">
 								<option value='' disabled="disabled">Select Point Of
 									Contact</option>
@@ -213,7 +213,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="control-group">
+					<!-- <div class="control-group">
 						<div class="col-md-2">
 							<label class="lbl" for="Salary"> <i
 								class="glyphicon glyphicon-tree-conifer"></i>&nbsp;&nbsp;Salary
@@ -227,7 +227,24 @@
 								<option value='' disabled="disabled">Select Salary</option>
 							</select>
 						</div>
+					</div> -->
+					
+					<div class="control-group">
+						<div class="col-md-2">
+							<label class="lbl" > <i
+								class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Functional Org.<b class="mandatory">*</b>
+							</label>
+						</div>
+						<div class="col-md-3">
+							<select name="designation" placeholder="Select Designation"
+								required ng-model="position.functionalGroup"
+								ng-options="o as o for o in functionalGroups"
+								class="form-control input-sm" >
+								<option value='' disabled="disabled">Select Division</option>
+							</select>
+						</div>
 					</div>
+					
 				</div>
 				
 				<div class="row">
@@ -241,8 +258,39 @@
 							<input type="number" id="numberOfPositions" name="numberOfPosition"
 								aa-field="numberOfPositions" class="form-control input-sm"
 								ng-model="position.noOfPositions"
-								placeholder="Enter Number Of Position">
+								placeholder="Enter Number Of Position" min="0">
 						</div>
+						
+						<div class="col-md-2">
+							<label class="lbl"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Location Head<b class="mandatory">*</b>:</label>
+						</div>
+						<div class="col-md-3">
+						<select name="designation" 
+								required ng-model="position.locationHead"
+								ng-options="o.emailId as o.name for o in locationHeads"
+								class="form-control input-sm" id="locationHead">
+								<option value='' disabled="disabled">Select Location Head</option>
+							</select>
+						</div>
+						
+					</div>
+				</div>
+							<div class="row">
+					<div class="control-group">
+						<div class="col-md-1"></div>
+						<div class="col-md-2">
+							<label class="lbl" for="jobDescription"> <i
+								class="glyphicon icon-comment"></i>&nbsp;&nbsp;Job Header<b class="mandatory">*</b>
+							</label>
+						</div>
+						<div class="col-md-8">
+								<input type="text" cols="50" rows="5" name="jobHeader" id="jobHeader"
+								ng-model="position.jobHeader" class="form-control" my-maxlength="10" maxlength="100"
+								placeholder="Enter Job Header"
+								style="width: 100%" required
+								data-errormessage-value-missing="Add some text">
+						</div>
+
 					</div>
 				</div>
 				
@@ -256,7 +304,7 @@
 						</div>
 						<div class="col-md-8">
 							<textarea cols="50" rows="5" name="jobProfile" id="jobProfile"
-								ng-model="position.jobProfile" my-maxlength="10"
+								ng-model="position.jobProfile" class="form-control" my-maxlength="10"
 								placeholder="Enter Job Description"
 								style="height: 100px; width: 100%" required
 								data-errormessage-value-missing="Add some text"></textarea>

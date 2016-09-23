@@ -2855,3 +2855,100 @@ table.fc-border-separate {
 	width: 45px;
   height: 33px;
 }
+
+.ui-grid-conf {
+  width: 85%;
+  height: 80%;
+  text-align: center;
+}
+.ui-grid-align {
+    text-align: left;
+}
+
+.no-rows {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.no-rows .msg {
+  opacity: 1;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 60%;
+  height: 50%;
+  line-height: 200%;
+  text-align: center;
+  font-size: 20px;
+  display: table;
+  color: red;
+}
+
+.no-rows .msg span {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.ui-gri-pager {
+	margin: 30px 0 0 0;
+}
+
+.des-width {
+	width: 72%;
+}
+.grid-width-medium {
+	width: 50%;
+}
+
+.grid-tot-rec {
+	float: left;
+    margin-top: 30px;
+}
+
+.ml5p {
+	margin-left: 5%;
+}
+
+.ml10p {
+	margin-left: 10%;
+}
+
+.searchprof-grid {
+  width: 95%;
+}
+
+#crskills input {
+	width: auto !important;
+}
+
+.text-wrap {
+	text-overflow: ellipsis;
+	width: 187px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.timeslots-time {
+	height: auto !important;
+	padding: 0;
+}
+
+.logo-sub  {
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+	margin: 0 0 0 8px;
+}
+
+.logo-login {
+	float: left;
+    position: relative;
+    top: 30px;
+    font-size: 25px;
+    left: 20px;
+}
+
+.main-logo {
+	float: left;
+}

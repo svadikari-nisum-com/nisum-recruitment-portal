@@ -227,7 +227,7 @@
 			<div class="col-md-1"></div>
 			<div class="col-md-2">
 				<label class="lbl" for="Plocation"><i
-					class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;Designation*
+					class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;Role*
 				</label>
 			</div>
 			<div class="col-md-3">
@@ -262,15 +262,14 @@
 			</div>
 			<div class="col-md-3">
 				<a href="#" editable-select="candidate.hrAssigned"
-					e-ng-options="o as o for o in recruitmentData">{{
-					candidate.hrAssigned || "--" }}</a>
+					e-ng-options="o.emailId as o.name for o in recruitmentData">{{ setHRAssigned() }}</a>
 			</div>
 		</div>
 
 		<div class="control-group">
 			<div class="col-md-2">
 				<label class="lbl" for="jobcode"><i
-					class="glyphicon glyphicon-barcode"></i>&nbsp;&nbsp;Select Jobcode</label>
+					class="glyphicon glyphicon-barcode"></i>&nbsp;&nbsp; Job code</label>
 			</div>
 			<div class="col-md-3">
 				<a href="" ng-hide="hidejobcode" ng-click="jobcodes()"><i>
@@ -316,7 +315,7 @@
 	</div>
 	</accordion-group> <br>
 	<center>
-		<div ng-show="hasRole('ROLE_ADMIN,ROLE_HR')">
+		<div ng-show="hasRole('ROLE_RECRUITER')">
 			<table ng-hide="tableHide" id="interview" style="left: 0px;"
 				border="2">
 				<tr>
@@ -343,7 +342,7 @@
 					<td>
 						<button style="background-color: #F8F8F8; border: 0px;" href=""
 							id="" class="interview-feedback"
-							ng-disabled="disableFeedback(item.rounds)"
+							ng-disabled="disableFeedback(item.rounds) && hasNotRole('ROLE_HR,ROLE_RECRUITER')"
 							ng-click="feedback(item.currentPositionId,item.candidateEmail)">
 							<span class="glyphicon glyphicon-envelope"
 								style="position: relative; top: 1px;"></span>

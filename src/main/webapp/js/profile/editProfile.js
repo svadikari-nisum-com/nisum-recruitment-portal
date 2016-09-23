@@ -61,18 +61,23 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	
 	$scope.init();
 	
-	var interview_URL = 'resources/getInterview?interviewerId='+$scope.emailId+"_"+$scope.jobCode;
+	var interview_URL = 'resources/interviews?interviewerId='+$scope.emailId+"_"+$scope.jobCode;
 	var URL = 'resources/profile?emailId='+$scope.emailId;
-	var InterviewDetails_URL = 'resources/getInterviewByParam?candiateId='+$scope.emailId;
-	
+	var InterviewDetails_URL = 'resources/interviews?candiateId='+$scope.emailId;
+	var deferred = $q.defer();
 	$http.get('resources/user').success(function(data, status, headers, config) {
 		$scope.userData = data;
 		angular.forEach($scope.userData, function(userr){
-			if(_.contains(userr.roles, "ROLE_HR")){
-				$scope.recruitmentData.push(userr.name);
+			
+			if(_.contains(userr.roles, "ROLE_RECRUITER")){
+				
+				$scope.recruitmentData.push({'name':userr.name,"emailId":userr.emailId});
+				
 			}
 		})
+		deferred.resolve();
 	}).error(function(data, status, headers, config) {
+		deferred.resolve();
 		$log.error(status)
 	});
 	
@@ -89,8 +94,12 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 		    isFirstDisabled: false
 		  };
 	
+	deferred.promise.then(function(){
+	
 	$http.get(URL).success(function(data, status, headers, config) {
 		$scope.candidate =data[0];
+		//$scope.candidate.hrAssigned = $scope.recruitmentData.filter(function (person) { return person.emailId == $scope.candidate.hrAssigned })[0].name;
+		
 		positionService.getPositionByDesignation($scope.candidate.designation).then(function(data){
 			$scope.positionData = data;
 			 angular.forEach($scope.positionData, function(jobcodeProfile){
@@ -106,7 +115,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 			$scope.posobj = data2;
 			$scope.interviewClient = data2.client;
 			$scope.rounds = data2.interviewRounds;
-			clientService.getClientByName($scope.interviewClient).then(function(data3){
+			/*clientService.getClientByName($scope.interviewClient).then(function(data3){
 				$scope.interviewers = data3[0].interviewers;
 		        angular.forEach($scope.interviewers, function(interviewer) {
 		        $scope.interviewerNames.push(interviewer.name);
@@ -114,7 +123,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 			}).catch(function(msg){
 				$log.error("Failed!! ---> "+msg);
 			})
-			
+			*/
 			var rounds =[];	
 			angular.forEach(data.interviewRounds, function(value, key) {
 				 rounds.push(value.toString());
@@ -126,7 +135,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	}).error(function(data, status, headers, config) {
 		$log.error("Failed!! ---> "+data);
 	});	
-	
+	});
 	$scope.editCandidate = function() {
 		$scope.enableDisableButton = false;
         $scope.disableEditButton = true;
@@ -161,6 +170,7 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	    	$scope.updateInterview.positionId = $scope.candidate.jobcodeProfile;
 	    	$scope.updateInterview.designation = $scope.candidate.designation;
 	    	$scope.updateInterview.hrAssigned	=	 $scope.candidate.hrAssigned;
+	    	//$scope.candidate.hrAssigned = $scope.recruitmentData.filter(function (person) { return person.name == $scope.candidate.hrAssigned })[0].emailId;
 	        interviewService.updateInterview($scope.updateInterview);
 		}
 	}
@@ -305,26 +315,40 @@ app.controller('editProfileCtrl',['$scope', '$state', '$http', '$window','jobCod
 	$scope.feedback = function(positionId, candidateEmail) {
 		jobCodeService1.setprofileUserId(candidateEmail);
 		jobCodeService1.setjobCode(positionId);
+		jobCodeService1.setPreviousPage("recruitment.viewProfile");
 		location.href='#recruitment/interviewFeedback';
 	};
 	$scope.schedule = function(positionId, candidateEmail) {
 		jobCodeService1.setprofileUserId(candidateEmail);
 		jobCodeService1.setjobCode(positionId);
+		jobCodeService1.setPreviousPage("recruitment.viewProfile");
 		location.href='#recruitment/scheduleInterview';
 	};
 	$scope.gotoAnchor = function() {
 	       var newHash = 'top';
-	       console.log("hash...." + $location.hash());
 	       if ($location.hash() !== newHash) {
 	         $location.hash('top');
 	       } else {
 	         $anchorScroll();
 	       }
 	};
-	
+	$scope.disableFeedback = function(rounds) {
+		if(angular.isDefined(rounds) && rounds != null && rounds[rounds.length-1].interviewSchedule.emailIdInterviewer == sessionStorage.userId)
+		{
+			return false;
+		}else
+		{
+			return true;
+		}
+	}
+	$scope.setHRAssigned = function (){
+		
+		var selected = $filter('filter')($scope.recruitmentData, {emailId: $scope.candidate.hrAssigned});
+	    return ($scope.candidate.hrAssigned && selected.length) ? selected[0].name : 'Not set';
+	}
 	
 	$scope.download = function(){
-		$http.get('resources/fileDownload?candidateId='+$scope.emailId, {responseType: 'arraybuffer'})
+		$http.get('resources/profile/file?candidateId='+$scope.emailId, {responseType: 'arraybuffer'})
 	       .then(function (response) {
 	    	   var data = response.data;
 	    	    $scope.headers = response.headers();

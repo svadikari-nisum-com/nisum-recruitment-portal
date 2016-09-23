@@ -14,46 +14,45 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.nisum.employee.ref.domain.Designation;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.service.IDesignationService;
-import com.nisum.employee.ref.util.Constants;
+import com.nisum.employee.ref.view.DesignationDTO;
 
 @Component
 @Controller
+@RequestMapping(value = "/designations")
 public class DesignationController {
 
 	@Autowired
 	private IDesignationService designationService;
 
-	@RequestMapping(value = "/design", method = RequestMethod.GET)
-	public ResponseEntity<?> retrieveDesignation() {
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<DesignationDTO>> retrieveDesignation() {
 
-		List<Designation> designation = designationService.retrieveDesignations();
-		return (null == designation)
-				? new ResponseEntity<String>(Constants.designationNotFound, HttpStatus.NOT_FOUND)
-				: new ResponseEntity<List<Designation>>(designation, HttpStatus.OK);
+		List<DesignationDTO> designation = designationService.retrieveDesignations();
+		return  new ResponseEntity<List<DesignationDTO>>(designation, HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/design", method = RequestMethod.POST)
+	@RequestMapping( method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<?> saveDesignation(@RequestBody Designation designation) throws Exception {
+	public ResponseEntity<String> saveDesignation(@RequestBody DesignationDTO designation) throws ServiceException {
 		designationService.prepareDesignation(designation);
 		return new ResponseEntity<String>( "{\"msg\":\"Created\"}" , HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/design", method = RequestMethod.PUT)
+	@RequestMapping( method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<?> updateDesignation(@RequestBody Designation designation) throws Exception {
+	public ResponseEntity<String> updateDesignation(@RequestBody DesignationDTO designation) throws ServiceException {
 		designationService.updateDesignation(designation);
 		return new ResponseEntity<String>( "{\"msg\":\"Updated\"}" , HttpStatus.OK);
 	}
 
 	@Secured({ "ROLE_ADMIN" })
-	@RequestMapping(value = "/design/{designation}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<?> deleteDesignation(@PathVariable("designation") String designation) throws Exception {
+	public ResponseEntity<String> deleteDesignation(@PathVariable("id") String designation) throws ServiceException {	
 		designationService.deleteDesignation(designation);
 		return new ResponseEntity<String>("{\"msg\":\"Deleted\"}", HttpStatus.OK);
 	}

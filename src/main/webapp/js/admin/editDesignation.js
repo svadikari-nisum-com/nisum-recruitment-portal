@@ -1,8 +1,8 @@
 app.run(['$anchorScroll', function($anchorScroll) {
     $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
 }])
-app.controller('editDesignationCtrl',['$scope','$rootScope', '$http','$q', '$window', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1',
-                                      function($scope,$rootScope, $http, $q, $window, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1) {
+app.controller('editDesignationCtrl',['$scope','$rootScope', '$http','$q', '$timeout','$filter','$log','appConstants','infoService','$location','$anchorScroll','designationService','jobCodeService1',
+                                      function($scope,$rootScope, $http, $q, $timeout,$filter,$log,appConstants,infoService,$location,$anchorScroll,designationService,jobCodeService1) {
 	
 	$scope.designation= {};
 	$scope.designation1={};
@@ -54,7 +54,6 @@ app.controller('editDesignationCtrl',['$scope','$rootScope', '$http','$q', '$win
 	}
 	$scope.gotoAnchor = function() {
 	       var newHash = 'top';
-	       console.log("hash...." + $location.hash());
 	       if ($location.hash() !== newHash) {
 	         $location.hash('top');
 	       } else {
@@ -62,7 +61,7 @@ app.controller('editDesignationCtrl',['$scope','$rootScope', '$http','$q', '$win
 	       }
 	};
 	$scope.validate =  function(data){
-	    if(data<$scope.deg.minExpYear){
+	    if(parseInt(data)<parseInt($scope.deg.minExpYear)){
 	    	$scope.message="maxExpYear should be gretter than minExpYear";
 		    $scope.cls=appConstants.ERROR_CLASS;
 		    data="";
@@ -71,7 +70,7 @@ app.controller('editDesignationCtrl',['$scope','$rootScope', '$http','$q', '$win
 	    }
 	}
 	$scope.validate1 =  function(data){
-	    if(data>$scope.deg.maxExpYear){
+	    if(parseInt(data)>parseInt($scope.deg.maxExpYear)){
 	    	$scope.message="maxExpYear should be gretter than minExpYear";
 		    $scope.cls=appConstants.ERROR_CLASS;
 		    data="";

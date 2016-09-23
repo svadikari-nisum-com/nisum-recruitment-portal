@@ -1,6 +1,5 @@
 package com.nisum.employee.ref.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -26,30 +25,12 @@ public class ClientInfoRepository {
 		return mongoOperations.findAll(ClientInfo.class);
 	}
 
-	public List<ClientInfo> getClientDetailsByClient(String clientName) {
-		Query query = new Query();
-		query.addCriteria(Criteria.where(Constants.clientName)
-				.regex(Pattern.compile(clientName, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
-		return mongoOperations.find(query, ClientInfo.class);
-	}
-
-	public List<String> getClientNames() {
-		List<String> clientNames = new ArrayList<String>();
-		List<ClientInfo> clients = mongoOperations.findAll(ClientInfo.class);
-		for (ClientInfo clientInfo : clients) {
-			clientNames.add(clientInfo.getClientName());
-		}
-		return clientNames;
-	}
-
 	public List<ClientInfo> getClientById(String clientId) {
 		Query query = new Query();
 		query.addCriteria(
 				Criteria.where(_ID).regex(Pattern.compile(clientId, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)));
 		return mongoOperations.find(query, ClientInfo.class);
 	}
-
-	// ---Admin
 
 	public List<UserInfo> fetchAllUsers() {
 		List<UserInfo> allUsers = mongoOperations.findAll(UserInfo.class);
@@ -67,8 +48,6 @@ public class ClientInfoRepository {
 	}
 
 	public void updateClient(ClientInfo clientInfo) {
-		//Query query = new Query();
-		//query.addCriteria(Criteria.where(_ID).regex(clientInfo.getClientId()));
 		mongoOperations.save(clientInfo, Constants.clientInfo);
 	}
 }

@@ -1,5 +1,5 @@
-app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$log', '$rootScope','appConstants','userService',
-                               function($scope, $http, $q, $window, $timeout, $log, $rootScope,appConstants, userService) {
+app.controller('editUserCtrl',['$scope', '$http','$q', '$timeout', '$log', '$rootScope','appConstants','userService',
+                               function($scope, $http, $q, $timeout, $log, $rootScope,appConstants, userService) {
 	
 	$scope.info = $rootScope.info;
 	$scope.user = $rootScope.user;
@@ -7,6 +7,7 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 	$scope.calendar = false;
 	$scope.hideCal = true;
 	$scope.hideDetails = true;
+	$scope.isDisableUserSave = true;
 	$scope.days = [
 	   			"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
 	   	];
@@ -22,18 +23,21 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 	$scope.successHide = true;
 	
 	$scope.update = function(){
+		$scope.user.emailId=sessionStorage.userId;
 		data = userService.updateUser($scope.user).then(function(msg){
 			$scope.sendNotification(msg,'/viewUser');
 		}).catch(function(msg){
 			$scope.message=msg;
 			$scope.cls=appConstants.ERROR_CLASS;
 		});
-		console.log("----> "+ data);
+		$scope.isDisableUserSave = true;
 	}
 		
 	$scope.openCal = function(){
 		$scope.calendar = true;
 		$scope.hideCal = false;
+		$scope.maxDate = new Date();
+		$scope.minDate = new Date().setFullYear(new Date().getFullYear() - 100);
 	}
 	
 	$scope.closeCal = function(){
@@ -51,7 +55,8 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 
 	  $scope.dateOptions = {
 	    formatYear: 'yy',
-	    startingDay: 1
+	    startingDay: 1,
+	    showWeeks: false
 	  };
 
 	$scope.disabled = function(date, mode) {
@@ -85,4 +90,30 @@ app.controller('editUserCtrl',['$scope', '$http','$q', '$window', '$timeout', '$
 			return "Enter valid SkypeId..";
 	};
 
+	$scope.validateText = function(data) {
+		if (angular.isUndefined(data) || data === null || data.length == 0  ) {
+			
+			return "Please enter valid data";
+		} else
+			return true;
+	};
+
+	$scope.validateField = function(data) {
+		if (angular.isUndefined(data) || data === null || data.length == 0  ) {
+			
+			return false;
+		} else
+			return true;
+	};
+	
+	$scope.validateProfile = function() {
+		
+		if (!angular.isUndefined($scope.user) && $scope.validateField($scope.user.name) && $scope.validateField($scope.user.dob) && $scope.validateField($scope.user.mobileNumber) ) {
+			
+			$scope.isDisableUserSave = false;
+		} else
+			$scope.isDisableUserSave = true;
+	};
+	
+	
 }]);

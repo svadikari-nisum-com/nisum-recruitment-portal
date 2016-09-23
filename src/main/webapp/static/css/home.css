@@ -521,3 +521,23 @@ ul {
 .mandatory{
 	color: red;
 }
+
+.edit-timeslot {
+	border-collapse: collapse;
+	background-color: white;
+}
+
+.edit-timeslot td, .edit-timeslot tr {
+	text-align: center;
+	font-size: 0.93em;
+	width: 120px;
+}
+
+.edit-timeslot th {
+	font-size-adjust: inherit;
+	text-align: center;
+}
+
+.tsTable td,  tsTable tr{
+	width: 0;
+}

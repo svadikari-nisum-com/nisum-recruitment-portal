@@ -29,9 +29,6 @@ public class DesignationRepository {
 			Query updateQuery = new Query();
 			updateQuery.addCriteria(Criteria.where("designation").is(designation.getDesignation()));
 			
-			//Designation designation1 = mongoOperations.findOne(updateQuery, Designation.class);
-			//designation1.equals(designation) ;
-			
 			Update update = new Update();
 			update.set("skills", designation.getSkills());
 			update.set("minExpYear", designation.getMinExpYear());

@@ -37,22 +37,23 @@ border-bottom: 4px solid #CD5C5C;}
 			<span class="icon-bar" style="background: white;"></span> <span class="icon-bar" style="background: white;"></span>
 		</button>
 
-		<span><a href="#main"><img class="navbar-brand"
-				src="static/images/nisum_logo_sky.png" alt="Nisum Technologies"
-				width="150" height="60" style="padding: 0px; margin-left: 7%"
-				title="Nisum Technologies" /></a>
-			<h1
-				style="font-size: 20px; font-size: 19px;color: white;margin-left: 13px;">Recruitment
-				Portal</h1></span>
+		<div>
+		
+			<object class="" id="logo" type="image/svg+xml" data="static/images/logo_test.svg" height="65px">
+              Nisum Recruitment Portal
+            </object>
+			<h3 class="logo-sub">Recruitment Portal</h3> 
+		
+		</div>
 	</div>
-	<div class=" navbar-collaspe collaspe navbar-responsive-collaspe" ng-controller="headerCtrl">
+	<div class=" navbar-collaspe collaspe navbar-responsive-collaspe" >
 		<ul class="nav nav-tabs nav-header">
-			<li class="active"><a data-toggle="tab" href="#main"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_USER,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')">
+			<li ng-class="{active: getActiveTab() == 'Dashboard'}"><a data-toggle="tab" href="#main" ng-click="setActiveTab('Dashboard')"
+				>
 <!-- 				<i class="glyphicon glyphicon-home"></i> -->
 				<span id="Dashboard">&nbsp;&nbsp;Dashboard</span></a></li>
-			<li><a data-toggle="tab" href="#recruitment/searchProfile" data-target="#recruitment"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')" ng-click="alHide()">
+			<li ng-class="{active: getActiveTab() == 'Recruitment'}"><a data-toggle="tab" ng-href="{{hasRole('ROLE_INTERVIEWER')? '#recruitment/interviewManagement' : '#recruitment/searchProfile'}}" data-target="#recruitment" ng-click="setActiveTab('Recruitment')"
+				ng-show="!hasRole('ROLE_USER,ROLE_INTERVIEWER')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-phone-alt"></i> -->
 				<span>&nbsp;&nbsp;Recruitment</span></a></li>		
 			<!-- <li><a data-toggle="tab" href="#searchPosition"
@@ -64,78 +65,42 @@ border-bottom: 4px solid #CD5C5C;}
 			<li><a data-toggle="tab" href="#interviewManagement"
 				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')" ng-click="alHide()"><i
 					class="glyphicon glyphicon-phone-alt"></i><span>&nbsp;&nbsp;Interview</span></a></li> -->
-			<li><a data-toggle="tab" href="#offer"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')">
+			<li ng-class="{active: getActiveTab() == 'Offer'}"><a data-toggle="tab" href="#offer" ng-click="setActiveTab('Offer')"
+				ng-show="hasRole('ROLE_MANAGER,ROLE_HR,ROLE_RECRUITER')">
 <!-- 				<i class="glyphicon glyphicon-gift"></i> -->
 				<span>&nbsp;&nbsp;Offer</span></a></li>
-			<li><a data-toggle="tab" href="#report"
-				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_INTERVIEWER')" ng-click="alHide()">
+			<li ng-class="{active: getActiveTab() == 'Reports'}"><a data-toggle="tab" href="#searchReport" ng-click="setActiveTab('Reports')"
+				ng-show="hasRole('ROLE_ADMIN,ROLE_MANAGER,ROLE_HR,ROLE_RECRUITER')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-list-alt"></i> -->
 				<span>&nbsp;&nbsp;Reports</span></a></li>
-			<li><a data-toggle="tab" href="#admin/users" data-target="#admin"
-				ng-show="hasRole('ROLE_ADMIN')" ng-click="alHide()">
+			<li ng-class="{active: getActiveTab() == 'Admin'}"><a data-toggle="tab" ng-href="{{hasRole('ROLE_ADMIN')? '#admin/users' : '#admin/skillSet'}}" data-target="#admin" ng-click="setActiveTab('Admin')"
+				ng-show="hasRole('ROLE_ADMIN,ROLE_HR,ROLE_HR,ROLE_RECRUITER')" ng-click="alHide()">
 <!-- 				<i class="glyphicon glyphicon-user"></i> -->
 					<span>&nbsp;&nbsp;Admin</span></a></li>
 			<li class="dropdown pull-right"><a href=""
 				class="dropdown-toggle" data-toggle="dropdown"
 				style="text-decoration: none; color: white;" ng-click="alHide()">
-				<i class="glyphicon glyphicon-user"></i>
-				&nbsp;{{user.name}}&nbsp;<span
+				<img class="img img-circle " src="{{profile_picture}}" class="img-circle" width="25" height="25" >
+				&nbsp;{{user.name}}&nbsp;<!-- <span
 					class="badge badge-default"
 					style="background-color: #FB5557; position: relative; top: -10px;">
-						{{count}} </span><b class="caret"></b></a>
+						{{count}} </span> --><b class="caret"></b></a>
 				<ul class="dropdown-menu pull-right">
-					<li><a href="#viewUser" ng-click="alHide()"><i
-							class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Profile</a></li>
+					<li><a href="#viewUser" ng-click="alHide(); setActiveTab('Profile')" >
+						<img class="img img-circle " src="{{profile_picture}}" class="img-circle" width="25" height="25" >
+						&nbsp;&nbsp;Profile</a>
+					</li>
 					<li><a id="logout" href="logout.html" ng-click="alHide()"><i
 							class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Logout</a></li>
-					<li class="divider"></li>
+ <!-- 					<li class="divider"></li> 
 					<li><a href="" data-toggle="modal" data-target="#myModal"><i
 							class="icon-bell"></i>&nbsp;&nbsp;Notification <span
 							class="badge badge-default"
 							style="background-color: #FB5557; font-size: 9px; position: relative; top: -7px;">
-								{{count}} </span> </a></li>
+								{{count}} </span> </a></li> -->
 				</ul></li>
 		</ul>
 	</div>
 
 </div>
 
-<div class="modal fade" id="myModal" role="dialog">
-	<div class="modal-dialog" ng-controller="headerCtrl">
-
-		Modal content
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Notifications</h4>
-			</div>
-			<div class="modal-body">
-				<h4 style="position: relative; left: 20px;" ng-hide="hideUnread">Unread
-					Notifications:</h4>
-				<table style="position: relative; left: 20px;">
-					<tr ng-repeat="obj in notificationData">
-						<td
-							style="padding-right: 50px; padding-bottom: 10px; background-color: white;">&#42;
-							<b>{{obj.message}}</b>
-						</td>
-						<td style="background-color: white;"><a href=""
-							ng-click="readNotification(obj, $index)"><i
-								style="color: red; position: relative; top: -3px;"
-								class="glyphicon glyphicon-remove"></i></a></td>
-					</tr>
-				</table>
-				<h4 style="position: relative; left: 20px;" ng-hide="hideRead">Read
-					Notifications:</h4>
-				<ul>
-					<li style="list-style-type: square;"
-						ng-repeat="obj in notificationReadData">{{obj.message}}</li>
-				</ul>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-
-	</div>
-</div>

@@ -1,16 +1,28 @@
-app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeService1','$filter', '$log','positionService','appConstants',
-                                     function($scope, $http, $q, $window,jobCodeService1,$filter, $log,positionService,appConstants) {
+app.controller('searchPositionCtrl',['$scope', '$http','$q','jobCodeService1','$filter', '$log','positionService','appConstants', 'uiGridConstants',
+                                     function($scope, $http, $q, jobCodeService1,$filter, $log,positionService,appConstants, uiGridConstants) {
 
 	$scope.approveBtnDisable = true;
 	$scope.errorHide = true;
 	$scope.data = {};
 	$scope.message = "";
+	$scope.numRows = 10;
 	
 	$scope.title = "Search";
+	$scope.managerId = undefined;
 	
-	positionService.getPosition().then(function(data){
-		 $scope.position=data;
-		 console.log(angular.toJson($scope.position));
+	if($scope.hasRole('ROLE_MANAGER'))
+	{
+		$scope.managerId = $scope.user.emailId;
+	}
+	
+	positionService.getPosition($scope.managerId).then(function(data){
+		$scope.position=data;
+		
+		$scope.gridOptions.data = data;
+		$scope.gridOptions.totalItems = data.length;
+		$scope.gridOptions.paginationPageSize = $scope.numRows;
+		$scope.gridOptions.minRowsToShow = data.length < $scope.numRows ? data.length : $scope.numRows;
+
 	}).catch(function(msg){
    	  $log.error("Failed To Load Data! ---> "+msg);
    	  $scope.errorHide = false;
@@ -56,7 +68,7 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
 		  };
 
 		  $scope.nextPage = function() {
-		    if ($scope.currentPage < $scope.pageCount()) {
+		    if ($scope.currentPage > $scope.pageCount()) {
 		      $scope.currentPage++;
 		    }
 		  };
@@ -101,6 +113,50 @@ app.controller('searchPositionCtrl',['$scope', '$http','$q', '$window','jobCodeS
 		$scope.message = error.message;
 	  }
 	
+	$scope.gridOptions = {
+	    enableSorting: true,
+	    enableColumnMenus: false,
+		enablePaginationControls: false,
+		enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
+		paginationCurrentPage: 1,
+	    columnDefs: [
+	      { field: 'jobcode', displayName:"Job code", cellClass: 'ui-grid-align', cellTemplate: '<div class="text-wrap"><a style="padding-left: 5px;" ng-click="grid.appScope.editPosition(row.entity.jobcode); $event.stopPropagation();">{{row.entity.jobcode}}<md-tooltip>  {{row.entity.jobcode}} </md-tooltip> </a></div>'},
+	      { field: 'designation', displayName:"Role", cellClass: 'ui-grid-align'},
+	      { field: 'minExpYear', displayName:"Min-Exp", width: 100, cellClass: 'ui-grid-align'},
+	      { field: 'maxExpYear', displayName:"Max-Exp", width: 100, cellClass: 'ui-grid-align'},
+	      { field: 'location', displayName:"Location", cellClass: 'ui-grid-align'},
+	      { field: 'client', displayName:"Client", cellClass: 'ui-grid-align'}
+	    ],
+	    onRegisterApi: function( gridApi ) {
+	    	$scope.gridApi = gridApi;
+ 	        $scope.gridApi.grid.registerRowsProcessor($scope.singleFilter, 200);
+	    }
+	  };
+	
+	$scope.searchFilter = function() {
+		$scope.gridApi.grid.refresh();
+	};
+
+	$scope.singleFilter = function(renderableRows) {
+		var searchValue = "";
+		if($scope.filterValue){
+			searchValue = $scope.filterValue.toUpperCase()
+		}
+	    var matcher = new RegExp(searchValue);
+	    renderableRows.forEach(function(row) {
+	        var match = false;
+	        ['jobcode'].forEach(function(field) {
+	            if (row.entity[field] && row.entity[field].toUpperCase().match(matcher)) {
+	                match = true;
+	            }
+	        });
+	        if (!match) {
+	            row.visible = false;
+	        }
+	    });
+	    return renderableRows;
+	};
 	
 	
 }]);

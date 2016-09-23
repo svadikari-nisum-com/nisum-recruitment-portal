@@ -8,11 +8,14 @@ function userService($http,$rootScope,appConstants,$q) {
 		getUserById : getUserDetailsById,
 		getUserDetailsByName : getUserDetailsByName,
 		updateUser : updateUserDetails,
-		getUserDetailsByClientName : getUserDetailsByClientName
+		getUserDetailsByClientName : getUserDetailsByClientName,
+		getUserByRole : getUserByRole,
+		deleteUser:deleteUser,
+		getInterviewers : getInterviewers
+		
 	};
 	
 	function getCurrentUserDetails(){
-		console.log('getCurrentUserDetails sessionStorage.userId--->'+angular.toJson(sessionStorage.userId));
 		return getUserDetailsById(sessionStorage.userId);
 	}
 	
@@ -44,11 +47,39 @@ function userService($http,$rootScope,appConstants,$q) {
 			        })
 			         .catch(sendGetUserError);
 	}
+	function getUserByRole(role,functionalGroup){
+		
+		if(functionalGroup)
+		{
+			return $http.get('resources/user?clientRole='+role+'&functionalGroup='+functionalGroup)
+	        .then(function(response){
+	        	return data = response.data;
+	        })
+	         .catch(sendGetUserError);
+			
+		}else
+		{
+			return $http.get('resources/user?clientRole='+role)
+	        .then(function(response){
+	        	return data = response.data;
+	        })
+	         .catch(sendGetUserError);
+		}
+		
+	}
+	
+    function getInterviewers(interviewRound,functionalGroup,role){
+		
+		return $http.get('resources/user/getInterviewers?role='+role+'&functionalGroup='+functionalGroup+'&interviewRound='+interviewRound)
+        .then(function(response){
+        	return data = response.data;
+        })
+         .catch(sendGetUserError);
+	}
 	
 	function addUserDetails(user){
 		return $http.post('resources/user',user)
 			        .then(function(response){
-			        	console.log("User successfully add"+angular.toJson(response.config.data));
 			        	return "User successfully add";
 			        })
 			        .catch(function(response){ console.log("Error while adding User"); return "Error while adding User";});
@@ -57,7 +88,11 @@ function userService($http,$rootScope,appConstants,$q) {
 	function getUsers(response) {
 		return response.data;
 	}
-	
+	function deleteUser(user){
+		return $http.delete('resources/user?userId='+user.emailId)
+		  .then(userUpdateSuccessMsg)
+	        .catch(sendUpdateUserError);
+	}
 	function sendGetUserError(response) {
 	     return $q.reject('Error retrieving user. status: ' + response.status );
 	}
@@ -81,7 +116,12 @@ function userService($http,$rootScope,appConstants,$q) {
 		user.emailId = sessionStorage.userId;
 
 		user.roles = [];
+		
+		//User is not existed. That means new user is logged into the application.
+		//If the user is new user then we need to set default Role as "ROLE_USER"
 
+		data = [{"roles":["ROLE_USER"]}];
+	
 		user.roles[0] = "ROLE_USER";
 
 		user.name = "Profile";

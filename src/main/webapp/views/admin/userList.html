@@ -1,11 +1,11 @@
 <center>
 	<div class="ui-widget control-group">
-		<div  style="width: 650px; position: relative; left: -60; height:50" ng-class="adminCls" ng-show="message" align="center">
-			{{message}}</div>
-		<!--<div id="users">	
+		<div  style="width: 650px; position: relative; left: -60; height:50" ng-class="adminCls" ng-show="message" align="center">{{message}}</div>
+		
+		<!-- <div id="users">	
 			<datagrid column-header='col' attributes='att' obj='myData' editfun='editUser(val)' search-enable='true' array-attributes='att1'></datagrid>	
 		</div>
-		-->
+		
 		 <table id="users" style="margin-left: -10%" class="usersTable" >
 			<tr>
 				<th>Name</th>
@@ -24,6 +24,23 @@
 					class="glyphicon glyphicon-edit"></a></td>
 			</tr>
 			<br>
-		</table> 
+		</table>  -->
+		
+		<div id="userlist_grid" ui-grid="gridOptions" class="ui-grid-conf" ui-grid-pagination>
+			<div class="no-rows" ng-if="!gridOptions.data.length">
+				<div class="msg">
+					<span>No Positions Exists</span>
+				</div>
+			</div>
+			
+			<div>
+				<span class="grid-tot-rec">Total Records : {{gridOptions.totalItems}}</span>
+				<div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
+					<pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
+			        	ng-model="gridOptions.paginationCurrentPage"></pagination>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 </center>

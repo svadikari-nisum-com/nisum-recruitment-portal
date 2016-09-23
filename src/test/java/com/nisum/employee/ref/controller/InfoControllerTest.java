@@ -2,14 +2,10 @@ package com.nisum.employee.ref.controller;
 
 
 import static org.mockito.Mockito.doNothing;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
-
 
 import java.util.ArrayList;
 
@@ -28,6 +24,7 @@ import com.nisum.employee.ref.domain.InfoEntity;
 import com.nisum.employee.ref.service.IAppInfoService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
 import com.nisum.employee.ref.util.MockTestUtil;
+import com.nisum.employee.ref.view.InfoEntityDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InfoControllerTest {
@@ -45,18 +42,18 @@ public class InfoControllerTest {
 			      .setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
    }
    @Test
-   public void testRetrieveInfo() throws Exception {
+   public void retrieveInfo() throws Exception {
 	    InfoEntity infoEntity = new InfoEntity();
 	    infoEntity.setKey("1");
-	    ArrayList<InfoEntity> infoList = new ArrayList<>();
+	    ArrayList<InfoEntityDTO> infoList = new ArrayList<>();
 		Mockito.when((infoService).retrieveSkills()).thenReturn(infoList);
 			mockMvc.perform(
 					get("/info").contentType(MediaType.APPLICATION_JSON).
 					content(MockTestUtil.convertToJsonFormat(new InfoEntity()))).andExpect(status().isOk());
    }
    @Test
-   public void testUpdateInfo() throws Exception {
-	    InfoEntity infoEntity = new InfoEntity();
+   public void updateInfo() throws Exception {
+	   InfoEntityDTO infoEntity = new InfoEntityDTO();
 	    infoEntity.setKey("1");
 		  doNothing().when(infoService).updateInfo(infoEntity);
 			mockMvc.perform(
@@ -64,8 +61,8 @@ public class InfoControllerTest {
 					content(MockTestUtil.convertToJsonFormat(new InfoEntity()))).andExpect(status().isOk());
    }
    @Test
-   public void testDeleteInfo() throws Exception {
-	    InfoEntity infoEntity = new InfoEntity();
+   public void deleteInfo() throws Exception {
+	   InfoEntityDTO infoEntity = new InfoEntityDTO();
 	    infoEntity.setKey("1");
 		  doNothing().when(infoService).updateDesigInfo(infoEntity);
 			mockMvc.perform(

@@ -15,11 +15,13 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.WriteResult;
 import com.nisum.employee.ref.domain.UserInfo;
+import com.nisum.employee.ref.exception.ServiceException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserInfoRepositoryTest {
@@ -43,7 +45,7 @@ public class UserInfoRepositoryTest {
 
 	@Test
 	public final void testRetrieveUser() {
-		Mockito.when(mongoOperations.findAll(UserInfo.class)).thenReturn(Arrays.asList(getUserInfo()));
+		Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(getUserInfo()));
 		List<UserInfo> userInfo = userInfoRepository.retrieveUser();
 		
 		Assert.assertNotNull(userInfo);
@@ -89,7 +91,20 @@ public class UserInfoRepositoryTest {
 		
 		userInfoRepository.updateUser(getUserInfo());
 	}
-
+	@Test
+	public final void deleteUser() {
+		String emailId="rgangadhari@nisum.com";
+		Mockito.when(mongoOperations.findOne(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(getUserInfo());
+		Mockito.doAnswer( new Answer<WriteResult>() {
+			@Override
+			public WriteResult answer(final InvocationOnMock invocation) throws Throwable
+			{
+				return null;
+			}
+		}).when(mongoOperations).updateFirst(Mockito.any(Query.class), Mockito.any(Update.class), Mockito.eq(UserInfo.class));
+		
+		userInfoRepository.deleteUser(emailId);
+	}
 	@Test
 	public final void testRetrieveUserByClient() {
 		Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(getUserInfo()));
@@ -116,4 +131,62 @@ public class UserInfoRepositoryTest {
 		return userInfo;
 	}
 	
+	@Test
+	public final void getUserInfoForInterviewers() throws ServiceException{
+		
+		List<String> defualtRoles = new ArrayList<String>();
+		defualtRoles.add("ROLE_INTERVIEWER");
+		UserInfo firstUser = new UserInfo();
+		firstUser.setEmailId("alewis@nisum.com");
+		firstUser.setRoles(defualtRoles);
+		
+		Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(firstUser));
+		List<UserInfo> userInfo = userInfoRepository.getUserInfo("Technical Round 1", "DEV", "ROLE_INTERVIEWER");
+		Assert.assertNotNull(userInfo);
+		Assert.assertEquals("alewis@nisum.com", userInfo.get(0).getEmailId());
+	}
+	
+	@Test
+	public final void getUserInfoForHrsAndManagers() throws ServiceException{
+		
+		List<String> defualtRoles = new ArrayList<String>();
+		defualtRoles.add("ROLE_INTERVIEWER");
+		UserInfo firstUser = new UserInfo();
+		firstUser.setEmailId("alewis@nisum.com");
+		firstUser.setRoles(defualtRoles);
+		
+		Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(firstUser));
+		List<UserInfo> userInfo = userInfoRepository.getUserInfo("", "", "ROLE_INTERVIEWER");
+		Assert.assertNotNull(userInfo);
+		Assert.assertEquals("alewis@nisum.com", userInfo.get(0).getEmailId());
+	}
+	
+	 public List<UserInfo> retrieveUserByRoleAndLocation(String role,String location) {
+			try
+			{
+				Query query = new Query();
+				query.addCriteria(Criteria.where("roles").is(role).and("location").is(location));
+				return mongoOperations.find(query, UserInfo.class);
+			}catch (Exception ex){ 
+				ex.printStackTrace();
+			}
+			return null;
+		}
+	 
+	 @Test
+		public final void retrieveUserByRoleAndLocationTest() throws ServiceException{
+			
+			List<String> defualtRoles = new ArrayList<String>();
+			defualtRoles.add("ROLE_HR");
+			UserInfo firstUser = new UserInfo();
+			firstUser.setEmailId("vjonnabhatla@nisum.com");
+			firstUser.setRoles(defualtRoles);
+			firstUser.setLocation("Hyderabad");
+			
+			Mockito.when(mongoOperations.find(Mockito.any(Query.class),Mockito.eq(UserInfo.class))).thenReturn(Arrays.asList(firstUser));
+			List<UserInfo> userInfo = userInfoRepository.retrieveUserByRoleAndLocation("ROLE_HR", "Hyderabad");
+			Assert.assertNotNull(userInfo);
+			Assert.assertEquals("vjonnabhatla@nisum.com", userInfo.get(0).getEmailId());
+		}
+	 
 }

@@ -2,7 +2,6 @@ package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -18,16 +17,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.nisum.employee.ref.converter.ProfileConverter;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
-import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.Round;
 import com.nisum.employee.ref.repository.InterviewDetailsRepository;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
+import com.nisum.employee.ref.view.ProfileDTO;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InterviewDetailsServiceTest {
@@ -40,6 +41,10 @@ public class InterviewDetailsServiceTest {
 
 	@Mock
 	private INotificationService notificationService;
+	
+	@Spy
+	private ProfileConverter profileConverter = new ProfileConverter();
+
 
 	@Mock
 	private ProfileService profileService;
@@ -48,7 +53,7 @@ public class InterviewDetailsServiceTest {
 	private InterviewSchedule interviewSchedule;
 	private InterviewDetails interviewDetails;
 
-	private List<Profile> profiles;
+	private List<ProfileDTO> profiles;
 	private List<InterviewDetails> interviewDetailList;
 
 	@Before
@@ -65,6 +70,7 @@ public class InterviewDetailsServiceTest {
 		interviewFeedback.setDuration("30");
 		interviewFeedback.setInterviewerName("interview_name");
 		interviewFeedback.setInterviewerEmail("inter@nisum.com");
+		interviewFeedback.setStatus("no");
 
 		interviewSchedule = new InterviewSchedule();
 		interviewSchedule.setCandidateId("can001");
@@ -89,7 +95,7 @@ public class InterviewDetailsServiceTest {
 		interviewDetails.setRounds(rounds);
 
 		profiles = new ArrayList<>();
-		Profile profile = new Profile();
+		ProfileDTO profile = new ProfileDTO();
 		profile.setCandidateName("can_name");
 		profile.setAddress("Hyderabad");
 		profile.setEmailId("can_email@gmail.com");
@@ -156,7 +162,7 @@ public class InterviewDetailsServiceTest {
 		when(notificationService.sendScheduleMail(any(InterviewSchedule.class), anyString(), anyString(), anyString()))
 				.thenReturn("");
 
-		InterviewDetails actualInterviewDetails = interviewDetailsService.scheduleInterview1(interviewSchedule);
+		InterviewDetails actualInterviewDetails = interviewDetailsService.updateInterview(interviewSchedule);
 		assertNotNull(actualInterviewDetails);
 		assertEquals("can_name", actualInterviewDetails.getCandidateName());
 	}

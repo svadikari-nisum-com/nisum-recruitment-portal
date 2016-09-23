@@ -19,7 +19,6 @@ function getInformationFromCache(){
 	
 	var infoFromCache = dataCache.get('info');
 	if (infoFromCache) {
-	    console.log('returning application info from cache');
 	    deferred.resolve(infoFromCache);
 	} else {
 		 var getInfor = getInformation();
@@ -33,8 +32,6 @@ function getInformationFromCache(){
 }
 
 function getInformation(){
-	console.log('gathering new info data from backend');
-
 	return $http.get('resources/info')
 		.then(getInfoData)
 		.catch(sendGetInfoError);
@@ -58,6 +55,8 @@ function getInfoData(response) {
 		info.jobType = $filter('filter')(data,{key:'jobType'})[0].value;
 		info.salary = $filter('filter')(data,{key:'salary'})[0].value;
 		info.status = $filter('filter')(data,{key:'status'})[0].value;
+		info.FunctionalTeam = $filter('filter')(data,{key:'FunctionalTeam'})[0].value;
+		info.feedbackStatus=$filter('filter')(data,{key:'feedbackStatus'})[0].value;
 		$rootScope.info = info;
 		return info;
  }
@@ -66,7 +65,7 @@ function deleteInformation(info){
 	return $http.put('resources/info',info)
 			.then(function(response){
 				deleteInfoFromCache();
-				return response.config.data.key +" has been successfully removed";
+				return response.config.data.key + " has been successfully removed";
 			})
 			.catch(
 				function(response) { 
@@ -78,7 +77,7 @@ function updateInformation(info){
 	return $http.put('resources/info',info)
 			.then(function(response){
 				deleteInfoFromCache();
-				return info.key+" successfully updated";
+				return info.key +" successfully updated";
 			})
 			.catch(
 					function(response) { return "error while deleting "+ response.config.data.key +" information"}

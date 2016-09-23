@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SequenceException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-	private String errMsg;
+	private final String errMsg;
 
 	public SequenceException(String errMsg) {
 		this.errMsg = errMsg;

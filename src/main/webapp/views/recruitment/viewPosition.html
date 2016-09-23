@@ -16,7 +16,7 @@
 			<div class="col-md-1"></div>
 			<div class="col-md-2">
 				<label class="lbl" for="designation"><i
-					class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Designation*:</label>
+					class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Role*:</label>
 			</div>
 			<div class="col-md-3">
 				<a href="#" editable-select="position.designation"
@@ -162,8 +162,7 @@
 			</div>
 			<div class="col-md-3">
 				<a href="#" editable-select="position.hiringManager"
-					e-ng-options="o as o for o in managers" e-required> {{
-					position.hiringManager}} </a>
+					e-ng-options="o.emailId as o.name for o in managers " e-required> {{setHiringManager()}} </a>
 
 			</div>
 		</div>
@@ -214,7 +213,7 @@
 			</div>
 		</div>
 
-		<div class="control-group">
+		<!-- <div class="control-group">
 			<div class="col-md-2">
 				<label class="lbl" for="Salary"><i
 					class="glyphicon glyphicon-tree-conifer"></i>&nbsp;&nbsp;Salary*:</label>
@@ -225,7 +224,21 @@
 					position.salary}} </a>
 
 			</div>
+		</div> -->
+		
+		<div class="control-group">
+			<div class="col-md-2">
+				<label class="lbl" ><i
+					class="glyphicon glyphicon-cog"></i>&nbsp;&nbsp;Functional Org:</label>
+			</div>
+			<div class="col-md-3">
+				<a href="#" editable-select="position.functionalGroup"
+					e-ng-options="o as o for o in functionalGroups" e-required> {{
+					position.functionalGroup}} </a>
+
+			</div>
 		</div>
+		
 	</div>
 	<div class="row" align="left">
 		<div class="col-md-1"></div>
@@ -239,17 +252,43 @@
 					|| "--" }}</a>
 			</div>
 		</div>
+		<div class="control-group">
+			<div class="col-md-2">
+				<label class="lbl" for="jobHeader"><i
+					class="glyphicon glyphicon-comment"></i>&nbsp;&nbsp;Job Header:</label>
+			</div>
+			<div class="col-md-3">
+				<a href="#" editable-text="position.jobHeader">{{position.jobHeader
+					|| "--" }}</a>
+			</div>
+		</div>
+		
 	</div>
+	<div class="row" align="left">
+		<div class="col-md-1"></div>
+		<div class="control-group">
+			<div class="col-md-2">
+				<label class="lbl" >Status:</label>
+			</div>
+			<div class="col-md-3">
+				<a href="#" editable-select="position.status" ng-hide="!hasRole('ROLE_LOCATIONHEAD')"
+					e-ng-options="o as o for o in positionStatus" e-required> {{position.status
+					|| "--" }} </a>
+					<div ng-hide="hasRole('ROLE_LOCATIONHEAD')">{{position.status
+					|| "--" }}</div>
+
+			</div>
+			</div>
+			</div>
 	</accordion-group> </accordion>
-</div>
 <div align="center">
-	<a class="btn btn-info active" ng-click="updatePositionDetails()"
-		ng-disabled="hasNotRole('ROLE_ADMIN,ROLE_HR')"> <span
+	<a class="btn btn-info active" ng-click="updatePositionDetails()"> <span
 		class="glyphicon glyphicon-ok"></span> Update
 	</a>&nbsp;&nbsp;&nbsp;&nbsp; <a ui-sref="recruitment.searchPosition"
 		class="btn btn-info active"> <span
 		class="glyphicon glyphicon-remove"></span> Cancel
 	</a>
+</div>
 </div>
 <br>
 <br>

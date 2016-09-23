@@ -9,11 +9,12 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		getPositionByDesignation : getPositionByDesignation,
 		getPositionByJobcode : getPositionByJobcode,
 		getPositionBylocation : getPositionBylocation,
-		getClients : getClients
+		getClients : getClients,
+		updatePositionStatus:updatePositionStatus
 	};
 	
 	function addPosition(positionObj){
-		return $http.post('resources/position', positionObj)
+		return $http.post('resources/positions', positionObj)
 		.then(createPositionSuccess)
 		.catch(createPositionError);
 	}
@@ -27,7 +28,12 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 	}
 	
 	function updatePosition(positionObj){
-		return $http.put('resources/position', positionObj)
+		return $http.put('resources/positions', positionObj)
+		.then(updatePositionSuccess)
+		.catch(updatePositionError);
+	}
+	function updatePositionStatus(positionObj){
+		return $http.put('resources/positions/updatePositionStatus?jobCode='+positionObj.jobcode+'&status='+positionObj.status)
 		.then(updatePositionSuccess)
 		.catch(updatePositionError);
 	}
@@ -39,24 +45,33 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		return "Failed To update Position! Response Status: " + response.status;
 	}
 	
-	function getPosition(){
-		return $http.get('resources/position')
+	function getPosition(isManager){
+		
+		var positionURL = "resources/positions";
+		if(typeof isManager !== 'undefined')
+		{
+			positionURL = "resources/positions?searchKey=hiringManager&searchValue="+isManager;
+		}
+		
+		return $http.get(positionURL)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	function getPositionByDesignation(designation){
-		return $http.get('resources/position?designation='+designation)
+		return $http.get('resources/positions?searchKey=designation&searchValue='+designation)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
 	
 	function getPositionByJobcode(jobcode){
-		return $http.get('resources/searchPositionsBasedOnJobCode?jobcode='+jobcode)
-		.then(getPositionSuccess)
+		return $http.get('resources/positions?searchKey=jobcode&searchValue='+jobcode)
+		.then(function(response) {
+			return data = response.data;
+		})
 		.catch(getPositionError);
 	}
 	function getPositionBylocation(location){
-		return $http.get('resources/searchPositionBasedOnLocation?location='+location)
+		return $http.get('resources/positions?searchKey=location&searchValue='+location)
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}

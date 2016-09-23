@@ -1,5 +1,5 @@
-app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blockUI', '$timeout','$rootScope','$log','profileService','positionService','userService', 'interviewService','designationService','appConstants', 
-									function($scope, $http, $upload , $window, blockUI, $timeout,$rootScope, $log,profileService,positionService,userService, interviewService,designationService,appConstants) {
+app.controller("createProfileCtrl", ['$scope', '$http','$upload', 'blockUI', '$timeout','$rootScope','$log','profileService','positionService','userService', 'interviewService','designationService','appConstants', 
+									function($scope, $http, $upload , blockUI, $timeout,$rootScope, $log,profileService,positionService,userService, interviewService,designationService,appConstants) {
 	$scope.successHide2 = true;
 	$scope.errorHide2 = true;
 	$scope.candidate = {};
@@ -33,16 +33,33 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 	$scope.pskills=$scope.info.skills;
 	$scope.designations={};
 	
-	userService.getUsers().then(function(data) {
+	/*userService.getUsers().then(function(data) {
 			$scope.userData = data;
 			angular.forEach($scope.userData, function(userr){
-				if(_.contains(userr.roles, "ROLE_HR")){
+				if(_.contains(userr.roles, "ROLE_RECRUITER")){
 					$scope.recruitmentData.push(userr.name);
 				}
 			});
 	}).catch(function(message) {
 		$log.error(message)
-	});
+	});*/
+	/*userService.getCurrentUser().then(function (data){
+	    angular.forEach(data,function(userrs){
+	       $scope.emailId  = userrs.emailId;
+	       $scope.roles = userrs.roles[0];
+	    })
+	});*/
+	userService.getUserByRole("ROLE_RECRUITER").then(function (data){
+		    angular.forEach(data,function(userr) {
+			        if(userr.emailId ==  sessionStorage.userId) {
+				       $scope.candidate.hrAssigned = userr.emailId;
+			        }
+			       // $scope.recruitmentData.push(userr.name);
+			        $scope.recruitmentData.push({'name':userr.name,"emailId":userr.emailId});
+		    })
+	 }).catch(function(message) {
+	   $log.error(message)
+     });
 	
 	$scope.jobCodeSl = function(){
 		positionService.getPositionByDesignation($scope.candidate.designation).then(function(data){
@@ -78,7 +95,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 						 $scope.candidate.status = "Initialized";
 				}
 				if($scope.candidate.altmobileNo !== undefined){
-					$scope.candidate.altmobileNo = $scope.countryCode+$scope.candidate.altmobileNo;
+					$scope.candidate.altmobileNo = $scope.candidate.altmobileNo;
 				}
 				else
 					{
@@ -86,7 +103,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 					}
 		    	$scope.candidate.profilecreatedBy = sessionStorage.userId;
 		    	$scope.candidate.plocation = $scope.selection.pLocation;
-		    	$scope.candidate.mobileNo = $scope.countryCode+$scope.candidate.mobileNo;
+		    	$scope.candidate.mobileNo =$scope.candidate.mobileNo;
 		    	$scope.candidate.primarySkills=$scope.sk.primarySkills;
 		    	$scope.candidate.profileTimeStamp = timeStamp;
 		    	$scope.candidate.interviewSet = false;
@@ -138,7 +155,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload','$window', 'blo
 	            for (var i = 0; i < files.length; i++) {
 	                var file = files[0];
 	                $upload.upload({
-	                    url: 'resources/fileUpload',
+	                    url: 'resources/profile/file',
 	                    file: file,
 	                    params: {
 	                        candidateId: $scope.candidate.emailId

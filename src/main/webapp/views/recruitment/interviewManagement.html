@@ -2,11 +2,11 @@
 <h2 class="heading-name">Interview Management</h2>
 <br>
 <br>
-<div class="searchposition-container">
+<div class="searchposition-container" ng-hide = "hasRole('ROLE_INTERVIEWER')">
 	<form id="integerForm" role="form" action="#"
 		name="interviewManagement" onvalidate>
 		
-		<div class="row" style="margin-top: 10px">
+		<div class="row" style="margin-top: 10px" >
 			<div class="col-md-1"></div>
 			<div class="col-md-3">
 				<ui-select ng-model="interview.client" ng-change="loadPositions()"
@@ -27,7 +27,7 @@
 				{{position}} </ui-select-choices> </ui-select>
 			</div>
 			<div class="col-md-2">
-				<a style="position: relative; top: 10px; left: 0px;" href=""
+				<a style="position: relative; top: 10px; left: 0px;" href="" ng-hide="clienthidden"
 					ng-click="advancedSearch()"><small>Advanced Search</small></a>
 			</div>
 			<div class="col-md-2">
@@ -71,16 +71,35 @@
 		</div>
 		</div>
 		<br>
-		<div ng-hide="hideNoDataMessage"
+		
+	</form>
+	<div ng-hide="hideNoDataMessage"
 			style="font-size: large; color: navy;">
 			<b>{{noDataMessage}}</b>
 		</div>
-	</form>
 </div>
 <br>
-<div class="searchposition-container"
+<div  class="searchposition-container" ng-hide = "tableHide"
 	style="padding-top: 20px; padding-bottom: 20px; background-color: #f5f5f5">
-	<table ng-hide="tableHide" id="interview">
+    
+    <div class="row" ng-hide = "hasNotRole('ROLE_INTERVIEWER') ">
+    	
+    	<div class="col-md-4"></div>
+    	<div class="col-md-3">
+    		 <form>
+			    <div class="form-group">
+			      <div class="input-group">
+			        <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+			        <input type="text" class="form-control" placeholder="Search Interviews" ng-model="searchInterviews">
+			      </div>      
+			    </div>
+			  </form>
+    	</div>
+    
+    </div>
+    
+	<table ng-hide="tableHide" id="interview"  class = "table table-striped">
+		<thead>
 		<tr>
 			<th>Name</th>
 			<th>Email ID</th>
@@ -90,30 +109,47 @@
 			<th>Feedback</th>
 			<th>Status</th>
 		</tr>
-		<tr ng-repeat="item in interviewDetails">
+		</thead>
+		<tbody>
+		<tr ng-repeat="item in interviewDetails | orderBy:sortType:sortReverse | filter: { candidateName : searchInterviews} ">
+		
 			<td>{{item.candidateName}}</td>
-			<td>{{item.candidateEmail}}</td>
+			<td >{{item.candidateEmail}}</td>
 			<td><i ng-repeat="skills in item.candidateSkills">{{skills}}{{$last
 					? '' : ', '}}</i></td>
-			<td ng-hide="hasRole('ROLE_INTERVIEWER,ROLE_ADMIN')"><i
-				ng-repeat="jobcode in item.positionId">{{jobcode}}{{$last ? ''
-					: ', '}}</i></td>
-			<td ng-hide="!(hasRole('ROLE_INTERVIEWER,ROLE_ADMIN'))">{{item.currentPositionId}}</td>
-			<td><a href="" id="" class="interview-schedule"
-				ng-click="schedule(item.positionId,item.candidateEmail,item.currentPositionId)">
+			<td ng-hide="hasRole('ROLE_INTERVIEWER')"><i
+				ng-repeat="jobcode in item.positionId">{{jobcode}}{{$last ? '' :
+					', '}}</i></td>
+			<td ng-hide="!(hasRole('ROLE_INTERVIEWER'))">{{item.currentPositionId}}</td>
+			<td>
+				<button
+					style="background-color: #F8F8F8; color: #337ab7; border: 0px;"
+					href="" id="" class="interview-schedule"
+					ng-disabled="hasNotRole('ROLE_RECRUITER')"
+					ng-click="schedule(item.positionId,item.candidateEmail,item.currentPositionId)">
 					<span class="glyphicon glyphicon-plus"
-					style="position: relative; top: 1px;" />
-			</a></td>
+						style="position: relative; top: 1px;" />
+				</button>
+			</td>
 			<td>
 				<button style="background-color: #F8F8F8; border: 0px;" href=""
 					id="" class="interview-feedback"
-					ng-disabled="disableFeedback(item.rounds)"
+					ng-disabled="disableFeedback(item.rounds) && hasNotRole('ROLE_HR,ROLE_RECRUITER')"
 					ng-click="feedback(item.currentPositionId,item.candidateEmail)">
 					<span class="glyphicon glyphicon-envelope"
 						style="position: relative; top: 1px;"></span>
 				</button>
 			</td>
-			<td style="font-weight: bold">{{item.progress}}</td>
+			<td style="font-weight: bold">
+				<span ng-if="item.rounds[item.rounds.length-1].roundName == 'Hr Round' && item.rounds[item.rounds.length-1].interviewFeedback.status == 'Yes' && hasRole('ROLE_HR,ROLE_RECRUITER')"> 
+					<a style="padding-left: 5px;cursor: pointer" ng-click="selectCandidate(item,$index);" >Initialize offer 
+						<md-tooltip md-direction="right"> Create / Update Offer</md-tooltip></a>
+				</span>
+				<span ng-if="item.rounds[item.rounds.length-1].roundName != 'Hr Round' || item.rounds[item.rounds.length-1].interviewFeedback.status != 'Yes'  || hasNotRole('ROLE_HR,ROLE_RECRUITER')"> 
+					{{item.progress}}
+					</span>
+			</td>
 		</tr>
+		</tbody>
 	</table>
 </div>
