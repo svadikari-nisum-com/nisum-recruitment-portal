@@ -4,7 +4,8 @@ angular.module('erApp')
 function dashboardService($http,$filter,$rootScope,$timeout,appConstants,$q) {
 	return {
 		getPositionData : getPositionData,
-		getScheduleData : getScheduleData
+		getScheduleData : getScheduleData,
+		getScheduleDataInterviewer : getScheduleDataInterviewer
 	};
 	
 	function getPositionData(obj){
@@ -13,7 +14,13 @@ function dashboardService($http,$filter,$rootScope,$timeout,appConstants,$q) {
 		.catch(getPositionDataError);
 	}
 	
-	function getScheduleData(obj){
+	function getScheduleDataInterviewer(emailId){
+		return $http.get('resources/interviews?interviewerEmail='+emailId)
+		.then(getScheduleDataSuccess)
+		.catch(getScheduleDataError);
+	}
+	
+	function getScheduleData(emailId){
 		return $http.get('resources/interviews')
 		.then(getScheduleDataSuccess)
 		.catch(getScheduleDataError);
@@ -36,8 +43,8 @@ function dashboardService($http,$filter,$rootScope,$timeout,appConstants,$q) {
 		angular.forEach(data, function(obj){
 			angular.forEach(obj.rounds, function(obj2){
 				var dbDate = new Date(obj2.interviewSchedule.interviewDateTime);
-				if(dbDate >= today && tomorrow >= dbDate){
-					showScheduleData.push({"cname":obj.candidateName, "round":obj2.interviewSchedule.roundName, "date":dbDate, "interviewId":obj.interviewerId});
+				if(obj2.interviewSchedule != null && obj2.interviewFeedback == null ){
+				showScheduleData.push({"cname":obj.candidateName,"currentPositionId":obj.currentPositionId,"email":obj.candidateEmail, "round":obj2.interviewSchedule.roundName, "date":dbDate, "interviewId":obj.interviewerId,"interviewerEmail":obj.interviewerEmail});
 				}
 			})
 		});

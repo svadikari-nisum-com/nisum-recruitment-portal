@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -22,7 +22,10 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 import com.nisum.employee.ref.domain.InterviewDetails;
 import com.nisum.employee.ref.domain.Offer;
+import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.util.Constants;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository
@@ -41,12 +44,13 @@ public class OfferRepository {
 		if (offerOld == null) {
 			mongoOperations.save(offer);
 		} else {
+			offer.setPersisted(Boolean.TRUE);
 			updateOffer(offer);
 		}
 	}
 
 	public void saveResumeInBucket(MultipartFile multipartFile,
-			String candidateId) {
+			String candidateId) throws ServiceException {
 		DBObject metaData = new BasicDBObject();
 		metaData.put("candidateId", candidateId);
 		try {
@@ -59,12 +63,12 @@ public class OfferRepository {
 			gridFSInputFile.saveChunks();
 			gridFSInputFile.save();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ServiceException(e);
 		}
 	}
 	
 	
-	public void saveOfferInBucket(ByteArrayOutputStream output,String candidateName,String emailId) {
+	public void saveOfferInBucket(ByteArrayOutputStream output,String candidateName,String emailId) throws ServiceException {
 		DBObject metaData = new BasicDBObject();
 		metaData.put("candidateName", candidateName);
 		metaData.put("candidateid", emailId);
@@ -77,7 +81,7 @@ public class OfferRepository {
 			gridFSInputFile.saveChunks();
 			gridFSInputFile.save();
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ServiceException(e);
 		}
 	}
 
@@ -97,6 +101,7 @@ public class OfferRepository {
 	
 	public void updateOffer(Offer offer) {
 		Query query = new Query();
+		offer.setPersisted(Boolean.TRUE);
 		query.addCriteria(Criteria.where("emailId").is(offer.getEmailId()));
 		query.fields().include("emailId");
 		Update update = new Update();
@@ -113,7 +118,7 @@ public class OfferRepository {
 		update.set("location", offer.getLocation());
 		update.set("offerLetterName", offer.getOfferLetterName());
 		update.set("status", offer.getStatus());
-		update.set("jobcodeProfile", offer.getJobcodeProfile());
+		update.set("jobcodeProfile", offer.getJobcodeProfile());	
 		mongoOperations.updateFirst(query, update, Offer.class);
 	}
 	

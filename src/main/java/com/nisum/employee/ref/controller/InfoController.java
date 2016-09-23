@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.nisum.employee.ref.service.IAppInfoService;
 import com.nisum.employee.ref.view.InfoEntityDTO;
 
-@Component
+
 @Controller
 @RequestMapping(value="/info")
 public class InfoController {
@@ -25,32 +24,24 @@ public class InfoController {
 	private IAppInfoService infoService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<?> retrieveInfo() {
-		
+	public ResponseEntity<List<InfoEntityDTO>> retrieveInfo() {
 		List<InfoEntityDTO> info = infoService.retrieveSkills();
-		
-        return (null == info) ? new ResponseEntity<String>("No infos found for the value ", HttpStatus.NOT_FOUND) : new ResponseEntity <List<InfoEntityDTO>>(info, HttpStatus.OK);
+        return new ResponseEntity <List<InfoEntityDTO>>(info, HttpStatus.OK);
 	}
 	
 
 	@Secured({"ROLE_ADMIN","ROLE_HR"})
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<?> updateInfo(@RequestBody InfoEntityDTO info) throws Exception {
+	public void updateInfo(@RequestBody InfoEntityDTO info) {
 		infoService.updateInfo(info);
-		String jsonObj="{\"msg\":\"Updated\"}";
-		return new ResponseEntity<String>(jsonObj,
-				HttpStatus.OK);
 	}
 	
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR"})
 	@RequestMapping(method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<?> deleteInfo(@RequestBody InfoEntityDTO info) throws Exception {
+	public void deleteInfo(@RequestBody InfoEntityDTO info) throws Exception {
 		infoService.updateDesigInfo(info);
-		String jsonObj="{\"msg\":\"Updated\"}";
-		return new ResponseEntity<String>(jsonObj,
-				HttpStatus.OK);
 	}
 }

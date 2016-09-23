@@ -1,6 +1,7 @@
 package com.nisum.employee.ref.view;
 
 import java.util.ArrayList;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +42,7 @@ public class ProfileDTO extends BaseDTO {
 	String skypeId;
 	String status;
 	String interviewProgress;
-	Boolean isPersisted;
+	Boolean active;
+
 
 }

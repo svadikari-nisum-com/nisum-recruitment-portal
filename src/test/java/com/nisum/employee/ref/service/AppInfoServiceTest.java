@@ -1,7 +1,6 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -37,7 +36,7 @@ public class AppInfoServiceTest {
 	private InfoEntity infoEntity;
 	
 	@Spy
-	private InfoEntityConverter infoEntityConverter;
+	private InfoEntityConverter infoEntityConverter = new InfoEntityConverter();
 
 	@Before
 	public void setUp() throws Exception {
@@ -56,7 +55,7 @@ public class AppInfoServiceTest {
 	}
 
 	@Test
-	public void testRetrieveSkills() {
+	public void retrieveSkills() {
 		when(infoRepository.retrieveSkills()).thenReturn(infoEntities);
 		List<InfoEntityDTO> infoEntityList = appInfoService.retrieveSkills();
 		assertNotNull(infoEntityList);
@@ -64,25 +63,25 @@ public class AppInfoServiceTest {
 	}
 
 	@Test
-	public void testPrepareInfo() {
+	public void prepareInfo() {
 		doNothing().when(infoRepository).prepareInfo(infoEntity);
 		appInfoService.prepareInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
-	public void testUpdateInfo() {
+	public void updateInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
 		appInfoService.updateInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
-	public void testUpdateDesigInfo() {
+	public void updateDesigInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
 		appInfoService.updateDesigInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}
 
 	@Test
-	public void testUpdateInterviewRoundsInfo() {
+	public void updateInterviewRoundsInfo() {
 		doNothing().when(infoRepository).updateInfo(infoEntity);
 		appInfoService.updateInterviewRoundsInfo(infoEntityConverter.convertToDTO(getInfoEntity()));
 	}

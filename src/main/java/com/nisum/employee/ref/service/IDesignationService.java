@@ -1,6 +1,6 @@
 package com.nisum.employee.ref.service;
 
-import java.util.List; 
+import java.util.List;
 
 import com.nisum.employee.ref.view.DesignationDTO;;
 

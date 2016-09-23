@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -113,6 +114,38 @@ public class UserInfoRepository{
 		Query query = new Query();
 		query.addCriteria(Criteria.where("roles").is("ROLE_INTERVIEWER").and("interviewRoundsAllocation.department").is(department).and("interviewRoundsAllocation.interviewRounds").is(round));
 		return mongoOperations.find(query, UserInfo.class);
+		}catch (Exception ex){ 
+			ex.printStackTrace();
+		}
+		return null;
+	}
+	
+    public List<UserInfo> getUserInfo(String round,String functionalGroup,String role) {
+		try
+		{
+			Query query = new Query();
+			if(StringUtils.isNotBlank(functionalGroup)){
+				query.addCriteria(Criteria.where("interviewRoundsAllocation.department").is(functionalGroup));
+			}
+			if( StringUtils.isNotBlank(role)) {
+					query.addCriteria(Criteria.where("roles").is(role));
+			}  
+			if(StringUtils.isNotBlank(round)) {
+				query.addCriteria(Criteria.where("interviewRoundsAllocation.interviewRounds").is(round));
+			}
+			return mongoOperations.find(query, UserInfo.class);
+		}catch (Exception ex){ 
+			ex.printStackTrace();
+		}
+		return null;
+	}
+    
+    public List<UserInfo> retrieveUserByRoleAndLocation(String role,String location) {
+		try
+		{
+			Query query = new Query();
+			query.addCriteria(Criteria.where("roles").is(role).and("location").is(location));
+			return mongoOperations.find(query, UserInfo.class);
 		}catch (Exception ex){ 
 			ex.printStackTrace();
 		}

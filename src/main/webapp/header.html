@@ -46,7 +46,7 @@ border-bottom: 4px solid #CD5C5C;}
 		
 		</div>
 	</div>
-	<div class=" navbar-collaspe collaspe navbar-responsive-collaspe" ng-controller="headerCtrl">
+	<div class=" navbar-collaspe collaspe navbar-responsive-collaspe" >
 		<ul class="nav nav-tabs nav-header">
 			<li ng-class="{active: getActiveTab() == 'Dashboard'}"><a data-toggle="tab" href="#main" ng-click="setActiveTab('Dashboard')"
 				>
@@ -104,41 +104,3 @@ border-bottom: 4px solid #CD5C5C;}
 
 </div>
 
-<div class="modal fade" id="myModal" role="dialog">
-	<div class="modal-dialog" ng-controller="headerCtrl">
-
-		Modal content
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Notifications</h4>
-			</div>
-			<div class="modal-body">
-				<h4 style="position: relative; left: 20px;" ng-hide="hideUnread">Unread
-					Notifications:</h4>
-				<table style="position: relative; left: 20px;">
-					<tr ng-repeat="obj in notificationData">
-						<td
-							style="padding-right: 50px; padding-bottom: 10px; background-color: white;">&#42;
-							<b>{{obj.message}}</b>
-						</td>
-						<td style="background-color: white;"><a href=""
-							ng-click="readNotification(obj, $index)"><i
-								style="color: red; position: relative; top: -3px;"
-								class="glyphicon glyphicon-remove"></i></a></td>
-					</tr>
-				</table>
-				<h4 style="position: relative; left: 20px;" ng-hide="hideRead">Read
-					Notifications:</h4>
-				<ul>
-					<li style="list-style-type: square;"
-						ng-repeat="obj in notificationReadData">{{obj.message}}</li>
-				</ul>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-
-	</div>
-</div>

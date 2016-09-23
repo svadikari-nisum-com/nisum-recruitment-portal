@@ -2,14 +2,10 @@ package com.nisum.employee.ref.controller;
 
 
 import static org.mockito.Mockito.doNothing;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
-
 
 import java.util.ArrayList;
 
@@ -46,7 +42,7 @@ public class InfoControllerTest {
 			      .setHandlerExceptionResolvers(ExceptionHandlerAdviceUtil.createExceptionResolver()).build();
    }
    @Test
-   public void testRetrieveInfo() throws Exception {
+   public void retrieveInfo() throws Exception {
 	    InfoEntity infoEntity = new InfoEntity();
 	    infoEntity.setKey("1");
 	    ArrayList<InfoEntityDTO> infoList = new ArrayList<>();
@@ -56,7 +52,7 @@ public class InfoControllerTest {
 					content(MockTestUtil.convertToJsonFormat(new InfoEntity()))).andExpect(status().isOk());
    }
    @Test
-   public void testUpdateInfo() throws Exception {
+   public void updateInfo() throws Exception {
 	   InfoEntityDTO infoEntity = new InfoEntityDTO();
 	    infoEntity.setKey("1");
 		  doNothing().when(infoService).updateInfo(infoEntity);
@@ -65,7 +61,7 @@ public class InfoControllerTest {
 					content(MockTestUtil.convertToJsonFormat(new InfoEntity()))).andExpect(status().isOk());
    }
    @Test
-   public void testDeleteInfo() throws Exception {
+   public void deleteInfo() throws Exception {
 	   InfoEntityDTO infoEntity = new InfoEntityDTO();
 	    infoEntity.setKey("1");
 		  doNothing().when(infoService).updateDesigInfo(infoEntity);

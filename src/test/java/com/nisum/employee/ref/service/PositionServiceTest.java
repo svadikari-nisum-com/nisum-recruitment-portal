@@ -1,11 +1,15 @@
 package com.nisum.employee.ref.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +33,9 @@ public class PositionServiceTest {
 
 	@Mock
 	private PositionRepository positionRepository;
+
+	@Mock
+	private NotificationService notificationService;
 	
 	@Spy
 	private PositionConverter positionConverter = new PositionConverter();
@@ -54,9 +61,11 @@ public class PositionServiceTest {
 	}
 	
 	@Test
-	public void savePosition() {
+	public void savePosition() throws MessagingException {
 		doNothing().when(positionRepository).preparePosition(position);
+		notificationService.sendpositionCreationMail(positionConverter.convertToDTO(position));
 		service.preparePosition(positionConverter.convertToDTO(position));
+	
 	}
 	
 	@Test
@@ -97,6 +106,24 @@ public class PositionServiceTest {
 
 		assertNotNull(positionAggregates);
 		assertEquals("SSE", positionAggregates.get(0).getDesignation());
+	}
+	
+	@Test
+	public void updatePositionStatus() throws MessagingException {
+		doNothing().when(positionRepository).preparePosition(position);
+		service.updatePositionStatus("SEN_ATS_HYD_1682016_229", "Approved");
+	}
+	
+	@Test
+	public void retrievePositionByJobCodeTest(){
+		List<Position> positions = new ArrayList<>();
+		Position position = new Position();
+		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
+		position.setLocation("Hyderabad");
+		positions.add(position);
+		when(positionRepository.retrievePositionByJobCode(Mockito.anyString())).thenReturn(position);
+		PositionDTO positionDTO = service.retrievePositionByJobCode("DEV_GAP-GID_HYD_382016_642");
+		assertEquals("Hyderabad", positionDTO.getLocation());
 	}
 	
 }

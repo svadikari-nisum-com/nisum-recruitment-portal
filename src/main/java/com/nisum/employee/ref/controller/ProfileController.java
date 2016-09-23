@@ -5,8 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +24,8 @@ import com.mongodb.gridfs.GridFSDBFile;
 import com.nisum.employee.ref.service.IProfileService;
 import com.nisum.employee.ref.view.ProfileDTO;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RequestMapping("/profile")
 @Slf4j
 @Controller
@@ -34,7 +34,7 @@ public class ProfileController {
 	@Autowired
 	private IProfileService profileService;
 	
-	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({"ROLE_ADMIN","ROLE_USER","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER","ROLE_LOCATIONHEAD"})
 	@RequestMapping( method = RequestMethod.GET )
 	public ResponseEntity<List<ProfileDTO>> retrieveProfile(@RequestParam(value = "emailId", required = false) String emailId,@RequestParam(value = "jobcodeProfile", 
 											required = false) String jobcodeProfile,@RequestParam(value = "profilecreatedBy", required = false) String profilecreatedBy) 
@@ -68,6 +68,12 @@ public class ProfileController {
 		
 			profileService.updateCandidate(candidate);
 			return new ResponseEntity<ProfileDTO>(candidate, HttpStatus.OK);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(method = RequestMethod.DELETE)
+	public void deleteProfile(@RequestParam(value = "emailId", required = true) String emailId) throws Exception {
+		profileService.deleteCandidate(emailId);
 	}
 
 	@ResponseStatus(HttpStatus.OK)

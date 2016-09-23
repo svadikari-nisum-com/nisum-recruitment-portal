@@ -4,13 +4,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.view.ProfileDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
@@ -23,7 +23,7 @@ public class ProfileConverter extends TwowayConverter<Profile, ProfileDTO> {
 		try {
 			BeanUtils.copyProperties(profileDTO, profile);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return profileDTO;
 		}
 		return profileDTO;
@@ -35,7 +35,7 @@ public class ProfileConverter extends TwowayConverter<Profile, ProfileDTO> {
 		try {
 			BeanUtils.copyProperties(profile, profileDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return profile;
 		}
 		return profile;

@@ -3,6 +3,7 @@ angular.module('erApp')
 		   var clientId;
 		   var clientName;
 		   var interviewRound;
+		   var previousRound;
 		   var profileUserId;
 		   	var jobCode;
 			var designation;
@@ -28,6 +29,12 @@ angular.module('erApp')
 		        },
 		        getinterviewRound: function() {
 		        	return interviewRound;
+		     },
+		     setpreviousRound: function(code) {
+		    	 previousRound=code;
+		        },
+		        getpreviousRound: function() {
+		        	return previousRound;
 		     },
 		     	setclientId: function(code) {
 		       	 clientId=code;

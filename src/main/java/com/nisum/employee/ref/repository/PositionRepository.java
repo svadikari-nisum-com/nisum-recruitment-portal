@@ -5,6 +5,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.newA
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.sort;
 
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -39,6 +40,7 @@ public class PositionRepository {
 	}
 
 	public void preparePosition(Position position) {
+		position.setStatus("Draft");
 		mongoOperations.save(position);
 	}
 
@@ -94,5 +96,22 @@ public class PositionRepository {
 		AggregationResults<PositionAggregate> groupResults = mongoTemplate
 				.aggregate(agg, Position.class, PositionAggregate.class);
 		   return groupResults.getMappedResults();
+	}
+	
+	public void updatePositionStatus(String jobCode, String status) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(jobCode));
+		Position position = mongoOperations.findOne(query, Position.class);
+		position.setStatus(status);
+		if(status.equals("APPROVED")){
+			position.setPositionApprovedDt(new Date());
+			}
+		mongoOperations.save(position);
+	}
+	
+	public Position retrievePositionByJobCode(String jobCode) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("_id").is(jobCode));
+		return mongoOperations.findOne(query,Position.class);
 	}
 }

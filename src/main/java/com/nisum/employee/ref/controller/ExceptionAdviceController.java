@@ -4,8 +4,6 @@ import java.util.concurrent.ExecutionException;
 
 import javax.mail.MessagingException;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.nisum.employee.ref.common.ErrorCodes;
 import com.nisum.employee.ref.service.NotificationService;
 import com.nisum.employee.ref.view.BaseDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @ControllerAdvice
 @Slf4j

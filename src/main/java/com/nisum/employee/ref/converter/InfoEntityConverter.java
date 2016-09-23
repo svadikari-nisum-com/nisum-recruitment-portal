@@ -23,7 +23,7 @@ public class InfoEntityConverter extends TwowayConverter<InfoEntity, InfoEntityD
 			BeanUtils.copyProperties(infoEntityDTO, infoEntity);
 			infoEntityDTO.setValue(infoEntity.getValue());
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return infoEntityDTO;
 		} 
 		return infoEntityDTO;
@@ -36,7 +36,7 @@ public class InfoEntityConverter extends TwowayConverter<InfoEntity, InfoEntityD
 			BeanUtils.copyProperties(infoEntity, infoEntityDTO);
 			infoEntity.setValue(infoEntityDTO.getValue());
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return infoEntity;
 		}
 		return infoEntity;

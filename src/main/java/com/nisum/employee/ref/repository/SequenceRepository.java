@@ -1,7 +1,5 @@
 package com.nisum.employee.ref.repository;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -12,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.nisum.employee.ref.domain.SequenceId;
 import com.nisum.employee.ref.service.SequenceException;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Repository

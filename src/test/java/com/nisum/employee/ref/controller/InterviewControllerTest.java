@@ -1,9 +1,8 @@
 package com.nisum.employee.ref.controller;
 
 import static org.mockito.Mockito.doNothing;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -82,7 +81,7 @@ public class InterviewControllerTest {
 		interviewDetails.setClientName("Nisum");
 		Mockito.when((interviewDetailsService).saveFeedback(interviewFeedBack)).thenReturn(interviewDetails);
 		mockMvc.perform(post("/interviews/feedback").contentType(MediaType.APPLICATION_JSON)
-				.content(MockTestUtil.convertToJsonFormat(new InterviewSchedule()))).andExpect(status().isOk());
+				.content(MockTestUtil.convertToJsonFormat(new InterviewFeedback()))).andExpect(status().isOk());
 
 	}
 

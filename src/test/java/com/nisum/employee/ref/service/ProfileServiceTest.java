@@ -103,6 +103,15 @@ public class ProfileServiceTest {
 		doNothing().when(profileRepository).updateCandidate(Mockito.any(Profile.class));
 		profileService.updateCandidate(profileConverter.convertToDTO(candidate));
 	}
+	
+	@Test
+	public void deleteCandidate() {
+		String emailId="skaranam@nisum.com";
+		doNothing().when(profileRepository).updateCandidate(Mockito.any(Profile.class));
+		ProfileDTO profiledto = new ProfileDTO();		
+		profiledto.setActive(true);
+		profileService.deleteCandidate(emailId);
+	}
 
 	@Test
 	public void testUpdateCandidateStatus() {

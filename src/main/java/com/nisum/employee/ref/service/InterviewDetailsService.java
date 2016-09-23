@@ -1,7 +1,6 @@
 package com.nisum.employee.ref.service;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -190,7 +189,11 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 			interviewDetails2.setCandidateEmail(interviewFeedback.getCandidateId());
 			interviewDetails2.setInterviewerEmail(interviewFeedback.getInterviewerEmail());
 			// interviewDetails2.setInterviewerId(interviewFeedback.getCandidateId()+"_"+interviewFeedback.getJobcode());
-			interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Feedback Submitted");
+			if (interviewFeedback.getStatus().equals("No")) {
+				interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Rejected");
+			} else {
+				interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Feedback Submitted");
+			}
 			interviewDetails2.setRounds(rounds);
 		} else {
 			int size = interviewDetails2.getRounds().size();
@@ -201,7 +204,11 @@ public class InterviewDetailsService implements IInterviewDetailsService {
 			interviewDetails2.setCandidateEmail(interviewFeedback.getCandidateId());
 			interviewDetails2.setInterviewerEmail(interviewFeedback.getInterviewerEmail());
 			// interviewDetails2.setInterviewerId(interviewFeedback.getCandidateId()+"_"+interviewFeedback.getJobcode());
-			interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Feedback Submitted");
+			if (interviewFeedback.getStatus().equals("No")) {
+				interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Rejected");
+			} else { 
+				interviewDetails2.setProgress(interviewFeedback.getRoundName() + " Feedback Submitted");
+			}
 			interviewDetails2.setRounds(rounds);
 		}
 		return interviewDetails2;

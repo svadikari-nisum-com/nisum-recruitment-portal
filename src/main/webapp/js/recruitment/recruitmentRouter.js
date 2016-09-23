@@ -4,14 +4,14 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 	.state('recruitment', {url:'/recruitment', views: {'': {templateUrl: 'views/recruitment/recruitment.html', controller: 'recruitmentCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN","ROLE_LOCATIONHEAD"]);
     		}
     	}
     })
     .state('recruitment.searchProfile', {url:'/searchProfile', views: {'': {templateUrl: 'views/recruitment/searchProfile.html', controller: 'searchProfileCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN","ROLE_USER"]);
+    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN","ROLE_USER","ROLE_LOCATIONHEAD"]);
     		}
     	}
     })
@@ -32,7 +32,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     .state('recruitment.searchPosition', {url:'/searchPosition', views: {'': {templateUrl: 'views/recruitment/searchPosition.html', controller: 'searchPositionCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_MANAGER","ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_MANAGER","ROLE_ADMIN","ROLE_LOCATIONHEAD"]);
             }
     	}
     })
@@ -46,14 +46,14 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     .state('recruitment.viewPosition', {url:'/viewPosition', views: {'': {templateUrl: 'views/recruitment/viewPosition.html', controller: 'editPositionCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_MANAGER","ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_MANAGER","ROLE_ADMIN","ROLE_LOCATIONHEAD"]);
             }
     	}
     })
     .state('recruitment.interviewManagement', {url:'/interviewManagement', views: {'': {templateUrl: 'views/recruitment/interviewManagement.html', controller: 'interviewManagementCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN"]);
+    			return authorizationService.permissionCheck(["ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN","ROLE_LOCATIONHEAD"]);
     		}
     	}
     })
@@ -77,6 +77,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             }
     	}})
     .state('recruitment.showInterview', {url:'/showInterview', views: {'': {templateUrl: 'views/recruitment/showInterview.html', controller: 'showInterviewCtrl'}},
+    	resolve : {
+    		permission: function(authorizationService,$route) {
+    			return authorizationService.permissionCheck(["ROLE_ADMIN","ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER"]);
+            }
+    	}})
+    .state('recruitment.showFeedBack', {url:'/showFeedBack', views: {'': {templateUrl: 'views/recruitment/showInterviewFeedback.html', controller: 'showFeedBackCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
     			return authorizationService.permissionCheck(["ROLE_ADMIN","ROLE_HR", "ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER"]);

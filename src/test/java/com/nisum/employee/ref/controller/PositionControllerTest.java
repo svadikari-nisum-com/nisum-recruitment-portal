@@ -1,9 +1,10 @@
 package com.nisum.employee.ref.controller;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,7 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.PositionAggregate;
 import com.nisum.employee.ref.service.PositionService;
 import com.nisum.employee.ref.util.ExceptionHandlerAdviceUtil;
@@ -50,7 +50,7 @@ public class PositionControllerTest {
 		doNothing().when(positionService).preparePosition(any(PositionDTO.class));
 		mockMvc.perform(
 				post("/positions").contentType(MediaType.APPLICATION_JSON).
-				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
+				content(MockTestUtil.convertToJsonFormat(new PositionDTO()))).andExpect(status().isOk());
 
 	}
 	@Test
@@ -60,7 +60,7 @@ public class PositionControllerTest {
 		.thenReturn(b);
 		mockMvc.perform(
 				put("/positions").contentType(MediaType.APPLICATION_JSON).
-				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
+				content(MockTestUtil.convertToJsonFormat(new PositionDTO()))).andExpect(status().isOk());
        
 	}
 	
@@ -88,7 +88,16 @@ public class PositionControllerTest {
 				(positionService).retrieveAllPositionsAggregate())
 				.thenReturn(positions);
 		mockMvc.perform(
-				get("/positions/positionsByAggregation").contentType(MediaType.APPLICATION_JSON).
-				content(MockTestUtil.convertToJsonFormat(new Position()))).andExpect(status().isOk());
+				get("/positions/positionsByAggregation")).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void updateProfileStatus() throws Exception {
+		doNothing().when(positionService).updatePositionStatus(anyString(), anyString());
+		mockMvc.perform(
+				put("/positions/updatePositionStatus")
+				.param("jobCode", "SEN_ATS_HYD_1682016_229")
+				.param("status", "Approved").contentType(MediaType.APPLICATION_JSON).
+				content(MockTestUtil.convertToJsonFormat(new PositionDTO()))).andExpect(status().isOk());
 	}
 }

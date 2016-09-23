@@ -2,6 +2,8 @@ package com.nisum.employee.ref.controller;
 
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +32,7 @@ public class PositionController {
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER"})
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<PositionDTO> createPosition(@RequestBody PositionDTO position) {
+	public ResponseEntity<PositionDTO> createPosition(@RequestBody PositionDTO position) throws MessagingException {
 		positionService.preparePosition(position);
 		return new ResponseEntity<PositionDTO>(position, HttpStatus.OK);
 	}
@@ -42,7 +44,7 @@ public class PositionController {
 		return positionService.updatePosition(position);
 	}
 	
-	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER"})
+	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER","ROLE_LOCATIONHEAD"})
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<PositionDTO>> retrievePositions(@RequestParam(value = "searchKey", required = false) String searchKey,
 			@RequestParam(value = "searchValue", required = false) String searchValue) {
@@ -61,5 +63,13 @@ public class PositionController {
 		List<PositionAggregate> positionsDetail = positionService.retrieveAllPositionsAggregate();
 		return (null == positionsDetail) ? new ResponseEntity<List<PositionAggregate>>(HttpStatus.NOT_FOUND)
 				: new ResponseEntity<List<PositionAggregate>>(positionsDetail, HttpStatus.OK);
-	} 
+	}
+	
+	@Secured({ "ROLE_LOCATIONHEAD" })
+	@RequestMapping(value = "/updatePositionStatus", method = RequestMethod.PUT)
+	public ResponseEntity<String> updateProfileStatus(@RequestParam(value = "jobCode") String jobCode,
+			@RequestParam(value = "status") String status) throws MessagingException {		
+		positionService.updatePositionStatus(jobCode, status);
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
 }

@@ -7,13 +7,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.nisum.employee.ref.domain.TimeSlots;
 import com.nisum.employee.ref.view.TimeSlotDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author NISUM CONSULTING
@@ -30,7 +30,7 @@ public class TimeSlotConverter extends TwowayConverter<TimeSlots, TimeSlotDTO> {
 		try {
 			BeanUtils.copyProperties(userInfoDTO, userInfo);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return userInfoDTO;
 		}
 		return userInfoDTO;
@@ -42,7 +42,7 @@ public class TimeSlotConverter extends TwowayConverter<TimeSlots, TimeSlotDTO> {
 		try {
 			BeanUtils.copyProperties(userInfo, userInfoDTO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			log.error(e.getMessage());
+			log.error(e.getMessage(),e);
 			return userInfo;
 		}
 		return userInfo;

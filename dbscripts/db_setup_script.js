@@ -25,7 +25,7 @@ db.Info.insert({"_id":"Locations",value: ["Hyderabad", "Pune", "Bengaluru","SF",
 
 db.Info.insert({"_id":"Skills",value: ["Java", "J2EE","Web Service","Struts", "JQuery","Java Script","Ruby","JPA","JSP","iBatis","Rest WebService","Spring","Hibernate","C","C++","Oracle","MySQL","DB2","TeraData","MongoDB","Neo4J","CouchDB"]});
 
-db.Info.insert({"_id":"UserRoles",value: ["ROLE_HR","ROLE_RECRUITER", "ROLE_MANAGER", "ROLE_USER","ROLE_ADMIN","ROLE_INTERVIEWER"]});
+db.Info.insert({"_id":"UserRoles",value: ["ROLE_HR","ROLE_RECRUITER", "ROLE_MANAGER", "ROLE_USER","ROLE_ADMIN","ROLE_INTERVIEWER","ROLE_LOCATIONHEAD"]});
 
 db.Info.insert({"_id":"expYears",value: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11","12","13","14","15"]});
 
@@ -51,20 +51,10 @@ db.Info.insert({"_id":"FunctionalTeam",value:["DEV", "QA", "SUPPORT","NOC"]});
 db.Info.insert({"_id":"feedbackStatus",value:["Yes", "No"]});
 
 // DEVELOPER User data
-db.UserInfo.insert({"_id":"prawate@nisum.com",'name':"Pradeep Rawate","mobileNumber":"+918087810808","dob":"",location:"Pune",skypeId:"prawate",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"2"},{day:"Friday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"dmishra@nisum.com",'name':"Deepanker Mishra","mobileNumber":"+919282828388","dob":"",location:"SF",skypeId:"dmishra",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"2"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"vprabhu@nisum.com",'name':"Vinayak Prabhu","mobileNumber":"+919923838883","dob":"",location:"SF",skypeId:"vprabhu",roles:["ROLE_ADMIN", "ROLE_HR"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"smadarpalle@nisum.com",'name':"Shandesh Madarpalle","mobileNumber":"+919929388882","dob":"",location:"SF",skypeId:"smadarpalle",roles:["ROLE_ADMIN", "ROLE_MANAGER"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"1"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"sgaikwad@nisum.com",'name':"Swapnil Gaikwad","mobileNumber":"+919929388882","dob":"",location:"SF",skypeId:"sgaikwad",roles:["ROLE_ADMIN","ROLE_INTERVIEWER"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"1"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"asahai@nisum.com",'name':"Abhijeet Sahai","mobileNumber":"+919923838883","dob":"",location:"SF",skypeId:"asahai",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"pdokhale@nisum.com",'name':"Pooja Dokhale","mobileNumber":"+919923838883","dob":"",location:"SF",skypeId:"pooja",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"rgund@nisum.com",'name':"Ruturaj Gund","mobileNumber":"+919923838883","dob":"",location:"SF",skypeId:"rgund",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"svadikari@nisum.com",'name':"Shyam Vadikari","mobileNumber":"+919999999999","dob":"",location:"SF",skypeId:"abcde",roles:["ROLE_ADMIN", "ROLE_MANAGER","ROLE_HR","ROLE_INTERVIEWER"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"1"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
+db.UserInfo.insert({"_id":"svadikari@nisum.com",'name':"Shyam Vadikari","mobileNumber":"+919999999999","dob":"",location:"SF",skypeId:"abcde",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"1"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
 //User data
 db.UserInfo.insert({"_id":"mkasam@nisum.com",'name':"Mallikarjun Kasam","mobileNumber":"","dob":"",location:"SF",skypeId:"mkasam",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"gdevi@nisum.com",'name':"Gayathri Devi","mobileNumber":"","dob":"",location:"SF",skypeId:"",roles:["ROLE_ADMIN"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"alewis@nisum.com",'name':"Ariel Lewis","mobileNumber":"","dob":"",location:"SF",skypeId:"",roles:["ROLE_HR"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
-db.UserInfo.insert({"_id":"azaffar@nisum.com",'name':"Aliza Zaffar ","mobileNumber":"","dob":"",location:"SF",skypeId:"",roles:["ROLE_HR"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
+db.UserInfo.insert({"_id":"gdevi@nisum.com",'name':"Gayathri Devi","mobileNumber":"","dob":"",location:"SF",skypeId:"",roles:["ROLE_HR"],isNotAvailable:false,timeSlots:[{day:"Wednesday",time:"2015-06-17T09:35:24.899Z",hour:"3"},{day:"Monday",time:"2015-06-17T09:35:24.899Z",hour:"1"}]});
 
 
 

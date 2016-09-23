@@ -3,7 +3,9 @@
  */
 package com.nisum.employee.ref.repository;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
@@ -179,5 +181,25 @@ public class PositionRepositoryTest {
 		List<Position> position = positionRepository.retrieveAllPositions("hiringManager","Swathoi");
 		assertNotNull(position);
 		assertEquals("DEV_GAP-GID_HYD_582016_845", position.get(0).getJobcode());
+	}
+	
+	@Test
+	public void updatePositionStatus() {
+		Position pos = new Position();
+		Mockito.when(mongoOperations.findOne(any(Query.class), eq(Position.class))).thenReturn(pos);
+		Mockito.doNothing().when(mongoOperations).save(Position.class);
+		positionRepository.updatePositionStatus("SEN_ATS_HYD_1682016_229", "Approved");
+	}
+	
+	@Test
+	public void retrievePositionByJobCodeTest(){
+		List<Position> positions = new ArrayList<>();
+		Position position = new Position();
+		position.setJobcode("DEV_GAP-GID_HYD_382016_642");
+		position.setLocation("Hyderabad");
+		positions.add(position);
+		Mockito.when(mongoOperations.findOne(any(Query.class), eq(Position.class))).thenReturn(position);
+		positionRepository.retrievePositionByJobCode("DEV_GAP-GID_HYD_382016_642");
+		assertEquals("Hyderabad", position.getLocation());
 	}
 }

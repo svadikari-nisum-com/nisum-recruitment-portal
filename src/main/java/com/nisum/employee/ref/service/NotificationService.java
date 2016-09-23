@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,6 +30,9 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -37,8 +42,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.nisum.employee.ref.controller.ExceptionAdviceController;
 import com.nisum.employee.ref.domain.InterviewFeedback;
 import com.nisum.employee.ref.domain.InterviewSchedule;
+import com.nisum.employee.ref.domain.Position;
 import com.nisum.employee.ref.domain.Profile;
 import com.nisum.employee.ref.domain.UserInfo;
 import com.nisum.employee.ref.domain.UserNotification;
@@ -46,10 +53,16 @@ import com.nisum.employee.ref.exception.ServiceException;
 import com.nisum.employee.ref.repository.OfferRepository;
 import com.nisum.employee.ref.repository.ProfileRepository;
 import com.nisum.employee.ref.repository.UserInfoRepository;
+import com.nisum.employee.ref.util.Constants;
 import com.nisum.employee.ref.util.EnDecryptUtil;
+import com.nisum.employee.ref.view.CalendarDTO;
+import com.nisum.employee.ref.view.NotificationMailDTO;
 import com.nisum.employee.ref.view.OfferDTO;
+import com.nisum.employee.ref.view.PositionDTO;
 
 @Service
+@Setter
+@Slf4j
 public class NotificationService implements INotificationService {
 
 	private static final String DD_MMM_YYYY_HH_MM = "dd-MMM-yyyy HH:mm";
@@ -84,6 +97,14 @@ public class NotificationService implements INotificationService {
 
 	private static final String INTERVIEWERS_NOTAVAILABLE_SUBJECT = "Interviewers not available";
 	private static final String OFFER_LETTER = "Offer Letter";
+	private static final String NEW_POSITION_CREATED="New Position is Created";
+	private static final String CLIENT="client";
+	private static final String NOOFPOSITIONS="noOfPositions";
+	private static final String POSITIONCODE="positionCode";
+	private static final String STATUS="status";
+	private static final String POSITION_STATUS_CHANGED="Position Status Changed";
+	
+	private static final String DESCRIPTION = "DESCRIPTION";
 
 	@Value("${mail.smtp.auth}")
 	private String smtpAuthRequired;
@@ -115,11 +136,24 @@ public class NotificationService implements INotificationService {
 	@Value("${INTERVIEWERS_NOTAVAILABLE_TEMPLATE}")
 	private String INTERVIEWERS_NOTAVAILABLE_TEMPLATE;
 	
-	@Value("${OFFER_MAIL_BODY_TEMPLATE}")
-	private String OFFER_MAIL_BODY_TEMPLATE;
+	@Value("${OFFER_LETTER_MAIL_BODY_TEMPLATE}")
+	private String OFFER_LETTER_MAIL_BODY_TEMPLATE;
+	
+	@Value("${OFFER_INITIATED_TEMPLATE}")
+	private String OFFER_INITIATED_TEMPLATE;
+	
+	@Value("${CANDIDATE_JOINED_TEMPLATE}")
+	private String CANDIDATE_JOINED_TEMPLATE;
+	
+	@Value("${NOTIFICATION_MAIL_TEMPLATE}")
+	private String NOTIFICATION_MAIL_TEMPLATE;
 
 	@Value("${error.mail.to}")
 	private String errors_notifications_to;
+	@Value("${SRC_POSITION_HEAD_VM}")
+	private String SRC_POSITION_HEAD_VM;
+	@Value("${SRC_POSITION_STATUS_CHANGE_VM}")
+	private String SRC_POSITION_STATUS_CHANGE_VM;
 
 	@Autowired
 	IProfileService profileService;
@@ -152,7 +186,7 @@ public class NotificationService implements INotificationService {
 			userNotification.setRead("No");
 			userNotificationService.createNotification(userNotification);
 		} catch (Exception e) {
-			System.out.println(e);
+			log.error(e.getMessage(),e);
 		}
 
 		String to = interviewSchedule.getCandidateId();
@@ -266,7 +300,7 @@ public class NotificationService implements INotificationService {
 		try {
 			message = getMessage();
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(),e);
 		}
 		if (message != null) {
 			message.setSubject(FEEDBACK_SUBMITTED_FOR
@@ -341,7 +375,7 @@ public class NotificationService implements INotificationService {
 		try {
 			convertedDate = formatter.parse(dateTime.substring(0, 24));
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.error(e.getMessage(),e);
 		}
 		return FORMATTER.format(convertedDate);
 	}
@@ -365,7 +399,7 @@ public class NotificationService implements INotificationService {
 			message.setContent(writer.toString(), TEXT_HTML);
 			Transport.send(message);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.error(ex.getMessage(),ex);
 		}
 	}
 
@@ -401,33 +435,33 @@ public class NotificationService implements INotificationService {
 		Transport.send(message);
 	}
 	
-	public void sendOfferNotificationMail(OfferDTO offer) throws ServiceException {
+	public void sendOfferLetterNotificationMail(OfferDTO offer) throws ServiceException {
 		
 		try{
 			Message message = getMessage();
 			message.setSubject(OFFER_LETTER);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
-			message.setDescription("Please find the attached Offer details");
+			//message.setDescription("Please find the attached Offer details");
 			//message.setContent(writer.toString(), TEXT_HTML);
 			//message.setContent(mp);
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(offer.getEmailId(), true));
 			
 			BodyPart messageBodyPart = new MimeBodyPart();
 			
-			messageBodyPart.setDescription("This is message body");//TODO We need get template for this message body.
+			//messageBodyPart.setDescription("This is message body");//TODO We need get template for this message body.
 			Multipart multipart = new MimeMultipart();
 			String[] file = offerRepository.getData(offer.getEmailId());
 			
 			VelocityContext context = new VelocityContext();
-			context.put("cname", offer.getCandidateName());
-			context.put("designation", offer.getDesignation());
-			context.put("joiningDate",  dateFormat.format(offer.getJoiningDate()));
-			Template candidateTemplate = getVelocityTemplate(OFFER_MAIL_BODY_TEMPLATE);
+			context.put(Constants.CANDIDATE_NAME, offer.getCandidateName());
+			context.put(Constants.DESIGNATION, offer.getDesignation());
+			context.put(Constants.JOINING_DATE,  dateFormat.format(offer.getJoiningDate()));
+			Template candidateTemplate = getVelocityTemplate(OFFER_LETTER_MAIL_BODY_TEMPLATE);
 			StringWriter writer = new StringWriter();
 			candidateTemplate.merge(context, writer);
 			
 			BodyPart messageBody = new MimeBodyPart();
-			message.setSubject("Offer of Employment");
+			message.setSubject(Constants.OFFER_OF_EMPLOYMENT);
 			messageBody.setContent(writer.toString(), TEXT_HTML);
 			
 			DataSource source = new FileDataSource(file[0]);
@@ -439,7 +473,215 @@ public class NotificationService implements INotificationService {
 			Transport.send(message);
 		
 		}catch(Exception ex){
+			ex.printStackTrace();
 			throw new ServiceException(ex);
 		}
+	}
+
+	@Override
+	public void sendpositionCreationMail(PositionDTO position) throws MessagingException {
+	List<UserInfo> managers=userInfoRepository.retrieveUserById(position.getHiringManager());
+	UserInfo managerInfo=managers.get(0);
+	List<UserInfo> loc_Head=userInfoRepository.retrieveUserById(position.getLocationHead());
+	UserInfo loc_HeadInfo=loc_Head.get(0);
+	VelocityContext context = new VelocityContext();
+		context.put(POSITIONCODE, position.getJobcode());
+		context.put(CLIENT, position.getClient());
+		context.put(NOOFPOSITIONS, position.getNoOfPositions());
+		context.put("functionalGroup", position.getFunctionalGroup());
+		context.put("jobHeader", position.getJobHeader());
+		context.put("locationHead",loc_HeadInfo.getName());
+		context.put("iname",managerInfo.getName());
+		Template candidateTemplate = getVelocityTemplate(SRC_POSITION_HEAD_VM);
+		StringWriter writer = new StringWriter();
+		candidateTemplate.merge(context, writer);
+
+		Message message = null;
+		try {
+			message = getMessage();
+		} catch (ServiceException e) {
+			log.error(e.getMessage(),e);
+		}
+		if (message != null) {
+			message.setSubject(NEW_POSITION_CREATED);
+			message.setContent(writer.toString(), TEXT_HTML);
+
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(position.getLocationHead()));
+			Transport.send(message);
+			
+		}
+		
+	}
+
+	@Override
+	public void sendpositionStatusChangeMail(Position position)
+			throws MessagingException {
+		List<UserInfo> managers=userInfoRepository.retrieveUserById(position.getHiringManager());
+		UserInfo managerInfo=managers.get(0);
+		List<UserInfo> loc_Head=userInfoRepository.retrieveUserById(position.getLocationHead());
+		UserInfo loc_HeadInfo=loc_Head.get(0);
+		VelocityContext context = new VelocityContext();
+		context.put(POSITIONCODE, position.getJobcode());		
+		context.put(STATUS, position.getStatus());
+		context.put("managerName",managerInfo.getName());
+		context.put("iname",loc_HeadInfo.getName());
+		Template candidateTemplate = getVelocityTemplate(SRC_POSITION_STATUS_CHANGE_VM);
+		StringWriter writer = new StringWriter();
+		candidateTemplate.merge(context, writer);
+
+		Message message = null;
+		try {
+			message = getMessage();
+		} catch (ServiceException e) {
+			log.error(e.getMessage(),e);
+		}
+		if (message != null) {
+			message.setSubject(POSITION_STATUS_CHANGED);
+			message.setContent(writer.toString(), TEXT_HTML);
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(position.getHiringManager()));
+			Transport.send(message);
+		
+	   }
+	}
+	
+    public void sendOfferNotificationMail(String name,String emailId,String candidateName,String subject) throws ServiceException {
+		
+		try{
+			Message message = getMessage();
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(emailId, true));
+			Multipart multipart = new MimeMultipart();
+			Template candidateTemplate = null;
+			VelocityContext context = new VelocityContext();
+			context.put(Constants.REPORTING_MANAGER_OR_HR_NAME, name);
+			context.put(Constants.CANDIDATE_NAME, candidateName);
+			if(subject.equals(Constants.CANDIDATE_JOINED)){
+				candidateTemplate = getVelocityTemplate(CANDIDATE_JOINED_TEMPLATE);
+			}else{
+				candidateTemplate = getVelocityTemplate(OFFER_INITIATED_TEMPLATE);
+			}
+			
+			StringWriter writer = new StringWriter();
+			candidateTemplate.merge(context, writer);
+			
+			BodyPart messageBody = new MimeBodyPart();
+			message.setSubject(subject);
+			messageBody.setContent(writer.toString(), TEXT_HTML);
+			multipart.addBodyPart(messageBody);
+			message.setContent(multipart);
+			Transport.send(message);
+		
+		}catch(Exception ex){
+			throw new ServiceException(ex);
+		}
+	}
+    
+    public boolean sendNotificationMail(NotificationMailDTO notificationMailDTO) {
+    	
+    	Message message = null;
+		boolean isMailSent = false;
+		try {
+			message = new MimeMessage(getSession());
+
+			Multipart mp = new MimeMultipart();
+			mp.addBodyPart(buildCalendarPart(notificationMailDTO));
+			mp.addBodyPart(buildHtmlTextPart(notificationMailDTO.getCalendarDTO()));
+			
+			message.setContent(mp);
+			message.setSubject(notificationMailDTO.getSubject());
+			
+//			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("dprasad@nisum.com"));
+			
+			InternetAddress[] address = new InternetAddress[notificationMailDTO.getAttendees().size()];
+			for (int i = 0; i < notificationMailDTO.getAttendees().size(); i++) {
+				address[i] = new InternetAddress(notificationMailDTO.getAttendees().get(i));
+			}
+
+			message.setRecipients(Message.RecipientType.TO, address);
+			
+			Transport.send(message);
+			isMailSent = true;
+		} catch (Exception e) {
+			log.error(e.getMessage(),e);
+		}
+		
+		return isMailSent;
+    }
+
+	private BodyPart buildCalendarPart(NotificationMailDTO notificationMailDTO) throws MessagingException {
+		BodyPart calendarPart = new MimeBodyPart();
+		
+		CalendarDTO calendarDTO = notificationMailDTO.getCalendarDTO();
+		
+		dateFormatter(calendarDTO.getStartDateTime());
+
+		String calendarContent = "BEGIN:VCALENDAR\n" + "METHOD:REQUEST\n"
+				+ "PRODID: BCP - Meeting\n" + "VERSION:2.0\n"
+				+ "BEGIN:VEVENT\n" + "DTSTAMP:"
+				+ dateFormatter(calendarDTO.getStartDateTime())
+				+ "\n"
+				+ "DTSTART:"
+				+ dateFormatter(calendarDTO.getStartDateTime())
+				+ "\n"
+				+ "DTEND:"
+				+ dateFormatter(calendarDTO.getEndDateTime())
+				+ "\n"
+				+ "SUMMARY:"
+				+ notificationMailDTO.getSubject()
+				+"\n"
+				+ "UID:324\n"
+				+ prepareAttendees(notificationMailDTO.getAttendees())
+				+ "ORGANIZER:MAILTO:"
+				+ notificationMailDTO.getOrganizer()
+				+"\n"
+				+ "LOCATION:"
+				+ calendarDTO.getLocation()
+				+"\n"
+				+ "SEQUENCE:0\n"
+				+ "PRIORITY:5\n"
+				+ "CLASS:PUBLIC\n"
+				+ "STATUS:CONFIRMED\n"
+				+ "TRANSP:OPAQUE\n"
+				+ "BEGIN:VALARM\n"
+				+ "ACTION:DISPLAY\n"
+				+ "DESCRIPTION:REMINDER\n"
+				+ "TRIGGER;RELATED=START:-PT00H15M00S\n"
+				+ "END:VALARM\n"
+				+ "END:VEVENT\n" + "END:VCALENDAR";
+
+		calendarPart.addHeader("Content-Class", "urn:content-classes:calendarmessage");
+		calendarPart.setContent(calendarContent, "text/calendar;method=CANCEL");
+		System.out.println(calendarContent);
+		return calendarPart;
+	}
+	
+	private String dateFormatter(LocalDateTime localDateTime) {
+		return localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm'00'"));
+	}
+	
+	public String prepareAttendees(List<String> attendees) {
+		StringBuilder attendeeBuilder = new StringBuilder();
+		for(String x : attendees) {
+			attendeeBuilder.append("ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE:MAILTO:"+x+"\n");
+		}
+		return attendeeBuilder.toString();
+	}
+	
+	private BodyPart buildHtmlTextPart(CalendarDTO calendarDTO) throws MessagingException {
+		MimeBodyPart messageBody = new MimeBodyPart();
+		
+		if(calendarDTO != null) {
+			VelocityContext context = new VelocityContext();
+			context.put(DESCRIPTION, calendarDTO.getDescription());
+			
+			Template notificationTemplate = null;
+			notificationTemplate = getVelocityTemplate(NOTIFICATION_MAIL_TEMPLATE);
+			StringWriter writer = new StringWriter();
+			notificationTemplate.merge(context, writer);
+			messageBody.setContent(writer.toString(), TEXT_HTML);
+		}
+		
+		return messageBody;
 	}
 }

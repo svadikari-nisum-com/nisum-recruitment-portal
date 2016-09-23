@@ -1,7 +1,6 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
-
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -38,7 +37,7 @@ public class DesignationServiceTest {
 	private Designation designation;
 	
 	@Spy
-	private DesignationConverter designationConverter;
+	private DesignationConverter designationConverter = new DesignationConverter();
 
 	@Before
 	public void setUp() throws Exception {

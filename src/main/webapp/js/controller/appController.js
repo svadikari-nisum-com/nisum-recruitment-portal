@@ -14,7 +14,7 @@ angular.module('erApp')
 	
 	userService.getUserById(sessionStorage.userId).then(setUser).catch(errorMsg);
 	infoService.getInfo();
-	
+	$scope.profile_picture = sessionStorage.profile_picture;
 	function setUser(data){
 		$scope.user = data[0];
 		$rootScope.user = data[0];

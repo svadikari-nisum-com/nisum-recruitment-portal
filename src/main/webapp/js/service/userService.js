@@ -10,7 +10,8 @@ function userService($http,$rootScope,appConstants,$q) {
 		updateUser : updateUserDetails,
 		getUserDetailsByClientName : getUserDetailsByClientName,
 		getUserByRole : getUserByRole,
-		deleteUser:deleteUser
+		deleteUser:deleteUser,
+		getInterviewers : getInterviewers
 		
 	};
 	
@@ -65,6 +66,15 @@ function userService($http,$rootScope,appConstants,$q) {
 	         .catch(sendGetUserError);
 		}
 		
+	}
+	
+    function getInterviewers(interviewRound,functionalGroup,role){
+		
+		return $http.get('resources/user/getInterviewers?role='+role+'&functionalGroup='+functionalGroup+'&interviewRound='+interviewRound)
+        .then(function(response){
+        	return data = response.data;
+        })
+         .catch(sendGetUserError);
 	}
 	
 	function addUserDetails(user){

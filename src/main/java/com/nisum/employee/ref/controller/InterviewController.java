@@ -32,7 +32,6 @@ public class InterviewController {
 	@RequestMapping(value="/schedule", method = RequestMethod.POST)
 	@ResponseStatus( value = HttpStatus.OK )
 	public void createInterviewSchedule(@RequestBody InterviewSchedule interviewSchedule) throws Exception {
-		
 		interviewDetailsService.scheduleInterview(interviewSchedule);
 	}
 	
@@ -47,23 +46,15 @@ public class InterviewController {
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(value = "/feedback", method = RequestMethod.POST)
 	@ResponseStatus( value = HttpStatus.OK )
-	public void saveFeedback(@RequestBody InterviewFeedback interviewFeedback) {
-		try {
-			interviewDetailsService.saveFeedback(interviewFeedback);
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
+	public void saveFeedback(@RequestBody InterviewFeedback interviewFeedback) throws MessagingException{
+		interviewDetailsService.saveFeedback(interviewFeedback);
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus( value = HttpStatus.OK )
-	public void createInterviewDetails(@RequestBody InterviewDetails interviewDetails) {
-		try {
+	public void createInterviewDetails(@RequestBody InterviewDetails interviewDetails) throws Exception{
 			interviewDetailsService.createInterview(interviewDetails);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_HR","ROLE_RECRUITER","ROLE_MANAGER","ROLE_INTERVIEWER"})
@@ -129,9 +120,7 @@ public class InterviewController {
 	@RequestMapping(method = RequestMethod.PUT)
 	@ResponseStatus( value = HttpStatus.OK )
 	public void updateIntewrviewDetails(@RequestBody InterviewDetails interviewDetails) {
-		
 		interviewDetailsService.updateInterviewDetails(interviewDetails);
-		
 	}
 
 }

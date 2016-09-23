@@ -16,6 +16,7 @@
 	$scope.numRows = 10;
 	$scope.functionalGroups = ["DEV","QA","NOC","SUPPORT"];
 	$scope.positionStatus=["Draft","Approved","Open","Closed"];
+	$scope.disableRecruiter=true;
 	$scope.itemsPerPage = appConstants.ITEMS_PER_PAGE;
 	$scope.currentPage = 0;
 	$scope.changePage = function(){
@@ -88,7 +89,7 @@
 				
 			}
 			else if(user.roles[i]=="ROLE_RECRUITER"){
-				$scope.recruiters.push(user.name);
+				$scope.recruiters.push({"emailId":user.emailId,"name":user.name});	
 			}
 		}
 			})
@@ -98,21 +99,29 @@
 	}
 	$scope.init=function(){
 		
-		$scope.getUsers();
-//		$scope.repManagers = $scope.getUsers("ROLE_MANAGER");
-//	
-//		$scope.hr = $scope.getUsers("ROLE_HR");
-//		$scope.recruiters = $scope.getUsers("ROLE_RECRUITER");
-		
-		
+		$scope.getUsers();		
+	}
+	$scope.loadReportingManagers=function(){
+		if($scope.report.repManager!==undefined&&$scope.report.repManager!==''){
+			$scope.disableRecruiter=false;
+		}else{
+		$scope.disableRecruiter=true;
+		}
 	}
 	$scope.searchReport=function(){
+		var reportsURL='resources/reports';
+		if($scope.report.repManager!==''&&$scope.report.repManager!==undefined&&$scope.report.recruiter!=undefined&&$scope.report.recruiter!==''){
+			var reportsURL='resources/reports?hiringManager='+$scope.report.repManager+'&recruiter='+$scope.report.recruiter;
+		}else if($scope.report.repManager!==''&&$scope.report.repManager!==undefined){
+			 reportsURL='resources/reports?hiringManager='+$scope.report.repManager;
+		}else if($scope.report.recruiter!=undefined&&$scope.report.recruiter!==''){
+			var reportsURL='resources/reports?recruiter='+$scope.report.recruiter;
+		}
 	
-//			var reportsURL = 'resources/reports/hiringManager?hiringManager=hhh';
-		var reportsURL='resources/reports?hiringManager='+$scope.report.repManager;
 			$http.get(reportsURL).success(function(data, status, headers, config) {
 		
 				$scope.gridOptions.data = data;
+				$scope.avgDataGrid.data = data;
 			
 			}).error(function(data, status, headers, config) {
 				
@@ -129,16 +138,33 @@
 	        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
 			paginationCurrentPage: 1,
 		    columnDefs: [
-		      { field: 'functionalGrp', displayName:"Functional Group", cellClass: 'ui-grid-align'},
+		      { field: 'positionId', displayName:"Position Id", cellClass: 'ui-grid-align',cellTemplate: '<div class="text-wrap"><span style="padding-left: 5px;" >{{row.entity.positionId}}<md-tooltip>  {{row.entity.positionId}} </md-tooltip> </span></div>'},	  
 		      { field: 'profilesInTechnicalRound1', displayName:"# Positions in Technical Round1", cellClass: 'ui-grid-align'},	
 		      { field: 'profilesInTechnicalRound2', displayName:"# Positions in Technical Round2", cellClass: 'ui-grid-align'},
 		      { field: 'profilesInManagerRound', displayName:"# Positions in Manager Round", cellClass: 'ui-grid-align'},
 		      { field: 'profilesInHRRound', displayName:"# Positions in HR Round", cellClass: 'ui-grid-align'},
 		      { field: 'offered', displayName:"Offered",  cellClass: 'ui-grid-align'},
 		      { field: 'closed', displayName:"Closed",  cellClass: 'ui-grid-align'},
-		      { field: 'noOfOpenPositions', displayName:"No of Positions", cellClass: 'ui-grid-align'},
-		   
+		      { field: 'noOfOpenPositions', displayName:"No of Positions", cellClass: 'ui-grid-align'},	     
 		     
+		    ],
+
+		  };
+	$scope.avgDataGrid = {
+		    enableSorting: true,
+		    enableColumnMenus: false,
+			enablePaginationControls: false,
+			enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
+	        enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
+			paginationCurrentPage: 1,
+		    columnDefs: [
+		      { field: 'positionId', displayName:"Position Id", cellClass: 'ui-grid-align'},
+		      { field: 'avgProfileTime', displayName:"Avg Time for Profile Creation", cellClass: 'ui-grid-align'},
+		      { field: 'avgRound1Time', displayName:"Avg Time for  Round1", cellClass: 'ui-grid-align'},	
+		      { field: 'avgRound2Time', displayName:"Avg Time for Round2", cellClass: 'ui-grid-align'},
+		      { field: 'avgHRRoundTime', displayName:"Avg Time for HR Round", cellClass: 'ui-grid-align'},
+		      { field: 'avgTimeOffered', displayName:"Avg Time for Offered", cellClass: 'ui-grid-align'},
+		      { field: 'avgTimeClosed', displayName:"Avg Time for Closed", cellClass: 'ui-grid-align'},
 		     
 		    ],
 

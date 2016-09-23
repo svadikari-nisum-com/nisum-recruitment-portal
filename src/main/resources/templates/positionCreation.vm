@@ -1,0 +1,33 @@
+<html>
+<body style="font-family:Calibri;">
+<div style="border-style:solid;border-width:1px;background-color:#F9FCF7;">
+
+<div style="padding-left:20px;padding-right:20px;">
+<p style="font-size:18px;">Hi $locationHead,<br><br>This mail is to inform that New Position  <b>$positionCode</b> is Created.
+</p>
+
+
+<br>
+<p style="font-size:18px;">
+No of Positions:<br> 
+<b>$noOfPositions</b>
+<br><br>
+Client:<br>
+<b>$client</b>
+<br><br>
+Functionl Group:<br>
+<b>$functionalGroup</b>
+<br><br>
+Job Header:<br>
+<b>$jobHeader</b>
+</p>
+<p style="font-size:18px;">Regards,<br>
+$iname</p>
+</div>
+</div>
+<div style="background-color:#D0D0D0;border-color:#004C7F;height:30px;">
+<a href="http://nisum.com" target="_blank"><img src="http://www.nisum.com/images/logo.png"></a>
+</div>
+</body>
+</html>
+

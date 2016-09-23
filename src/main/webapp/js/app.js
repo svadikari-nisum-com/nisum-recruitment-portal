@@ -15,7 +15,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     .state('viewUser', {url:'/viewUser', views: {'': {templateUrl: 'views/viewUser.html', controller: 'editUserCtrl'}},
     	resolve : {
     		permission: function(authorizationService,$route) {
-    			return authorizationService.permissionCheck(["ROLE_HR","ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN", "ROLE_USER"]);
+    			return authorizationService.permissionCheck(["ROLE_HR","ROLE_RECRUITER","ROLE_INTERVIEWER","ROLE_MANAGER","ROLE_ADMIN", "ROLE_USER","ROLE_LOCATIONHEAD"]);
             }
     	}})
     .state('routeForUnauthorizedAccess', {url:'/routeForUnauthorizedAccess', views: {'': {templateUrl: 'views/index.html'}}})

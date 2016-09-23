@@ -1,8 +1,6 @@
 package com.nisum.employee.ref.service;
 
 import static org.junit.Assert.assertEquals;
-
-
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -72,6 +70,7 @@ public class InterviewDetailsServiceTest {
 		interviewFeedback.setDuration("30");
 		interviewFeedback.setInterviewerName("interview_name");
 		interviewFeedback.setInterviewerEmail("inter@nisum.com");
+		interviewFeedback.setStatus("no");
 
 		interviewSchedule = new InterviewSchedule();
 		interviewSchedule.setCandidateId("can001");

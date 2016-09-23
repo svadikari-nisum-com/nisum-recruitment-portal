@@ -77,7 +77,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 	
 	$http.get(GET_POSTION_DETAILS).success(function(data2, status, headers, config) {
 		$scope.candidate.client = data2.client;
-		$scope.candidate.hrManager = data2.hiringManager;
+		$scope.candidate.reportingManager = data2.hiringManager;
 		// console.log(angular.toJson(data2));
 	}).error(function(data, status, headers, config) {
 		$log.error(data);
@@ -111,7 +111,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 	  
 	$scope.validateOffer = function() {
 		if (!angular.isUndefined($scope.candidate)
-				&& $scope.validateField($scope.candidate.project) && $scope.validateField($scope.candidate.hrManager) 
+				&& $scope.validateField($scope.candidate.project) && $scope.validateField($scope.candidate.reportingManager) 
 				&& $scope.validateField($scope.candidate.imigrationStatus) && $scope.validateField($scope.candidate.joiningDate)
 				&& $scope.validateField($scope.candidate.designation) && $scope.validateField($scope.candidate.ctc)
 				&& $scope.validateField($scope.candidate.relocationAllowance) && $scope.validateField($scope.candidate.singInBonus)
@@ -121,6 +121,29 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 		} else
 			$scope.isDisableOfferSave = true;
 	};
+	
+	$scope.validateReportingManager = function(){
+		var managersArray = $scope.managers;
+		var value = false;
+		for (index = 0; index < managersArray.length; ++index) {
+			if(managersArray[index].name == $scope.candidate.reportingManager){
+				value = true;
+				$scope.saveOffer();
+			}
+		}
+		
+		if(!value){
+			 $scope.message=$scope.candidate.reportingManager + "is not a valid manager.";
+			 $scope.candidate.reportingManager = undefined;
+			 $scope.cls=appConstants.ERROR_CLASS;
+			 $timeout( function(){ $scope.alHide(); }, 4000);
+		}
+	}
+	
+	$scope.alHide =  function(){
+	    $scope.message = "";
+	    $scope.cls = '';
+	}
 	
 	$scope.validateField = function(data) {
 		if (angular.isUndefined(data) || data === null || data.length == 0  ) {

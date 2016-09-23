@@ -9,7 +9,8 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		getPositionByDesignation : getPositionByDesignation,
 		getPositionByJobcode : getPositionByJobcode,
 		getPositionBylocation : getPositionBylocation,
-		getClients : getClients
+		getClients : getClients,
+		updatePositionStatus:updatePositionStatus
 	};
 	
 	function addPosition(positionObj){
@@ -28,6 +29,11 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 	
 	function updatePosition(positionObj){
 		return $http.put('resources/positions', positionObj)
+		.then(updatePositionSuccess)
+		.catch(updatePositionError);
+	}
+	function updatePositionStatus(positionObj){
+		return $http.put('resources/positions/updatePositionStatus?jobCode='+positionObj.jobcode+'&status='+positionObj.status)
 		.then(updatePositionSuccess)
 		.catch(updatePositionError);
 	}
