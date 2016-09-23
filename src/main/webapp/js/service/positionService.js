@@ -57,10 +57,19 @@ function positionService($http,$filter,$rootScope,$timeout,$log,appConstants) {
 		.then(getPositionSuccess)
 		.catch(getPositionError);
 	}
-	function getPositionByDesignation(designation){
-		return $http.get('resources/positions?searchKey=designation&searchValue='+designation)
-		.then(getPositionSuccess)
-		.catch(getPositionError);
+	function getPositionByDesignation(designation,status){
+		
+		if(status!==null&&status!==''&&status!==undefined){			
+			return $http.get('resources/positions?searchKey=designation&searchValue='+designation+'&status='+status)
+			.then(getPositionSuccess)
+			.catch(getPositionError);
+		}else{
+			
+			return $http.get('resources/positions?searchKey=designation&searchValue='+designation)
+			.then(getPositionSuccess)
+			.catch(getPositionError);
+		}
+		
 	}
 	
 	function getPositionByJobcode(jobcode){

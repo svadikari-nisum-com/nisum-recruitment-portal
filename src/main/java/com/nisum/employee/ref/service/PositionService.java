@@ -39,6 +39,10 @@ public class PositionService implements IPositionService{
 	public List<PositionDTO> retrieveAllPositions(String searchKey, String searchValue) {
 		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositions(searchKey, searchValue)));
 	}
+	@Override
+	public List<PositionDTO> retrieveAllPositionsByStatus(String searchKey, String searchValue,String status) {
+		return positionConverter.convertToDTOs((positionRepository.retrieveAllPositionsByStatus(searchKey, searchValue,status)));
+	}
 	
 	@Override
 	public List<PositionDTO> retrieveAllPositions() {

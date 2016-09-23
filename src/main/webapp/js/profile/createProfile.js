@@ -62,7 +62,7 @@ app.controller("createProfileCtrl", ['$scope', '$http','$upload', 'blockUI', '$t
      });
 	
 	$scope.jobCodeSl = function(){
-		positionService.getPositionByDesignation($scope.candidate.designation).then(function(data){
+		positionService.getPositionByDesignation($scope.candidate.designation,"APPROVED").then(function(data){
 			$scope.positionData = data;
 		}).catch(function(msg){
 			$log.error(msg);

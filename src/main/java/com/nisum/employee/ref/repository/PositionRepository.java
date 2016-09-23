@@ -76,7 +76,13 @@ public class PositionRepository {
 						| Pattern.UNICODE_CASE)));
 		return mongoOperations.find(query,Position.class);
 	}
-
+	public List<Position> retrieveAllPositionsByStatus(String searchKey, String searchValue,String status) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where(searchKey).regex(Pattern.compile(searchValue, Pattern.CASE_INSENSITIVE
+						| Pattern.UNICODE_CASE)).and("status").regex(Pattern.compile(status, Pattern.CASE_INSENSITIVE
+						| Pattern.UNICODE_CASE)));
+		return mongoOperations.find(query,Position.class);
+	}
 	public List<Position> retrieveAllPositions() {
 		return mongoOperations.findAll(Position.class);
 	}

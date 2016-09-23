@@ -47,9 +47,13 @@ public class PositionController {
 	@Secured({"ROLE_HR","ROLE_RECRUITER","ROLE_ADMIN","ROLE_MANAGER","ROLE_INTERVIEWER","ROLE_LOCATIONHEAD"})
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<PositionDTO>> retrievePositions(@RequestParam(value = "searchKey", required = false) String searchKey,
-			@RequestParam(value = "searchValue", required = false) String searchValue) {
-	 	    List<PositionDTO> positionsDetails;
-	    	if (StringUtils.isNotBlank(searchKey) && StringUtils.isNotBlank(searchValue)){
+			@RequestParam(value = "searchValue", required = false) String searchValue,@RequestParam(value = "status", required = false) String status) {
+	 	    List<PositionDTO> positionsDetails;	 
+	 	    if(StringUtils.isNotBlank(searchKey) && StringUtils.isNotBlank(searchValue)&&StringUtils.isNotBlank(status) && StringUtils.isNotBlank(status)){
+	 	    	 positionsDetails = positionService.retrieveAllPositionsByStatus(searchKey,searchValue,status);
+	 	    }
+	 	    
+	 	    else if (StringUtils.isNotBlank(searchKey) && StringUtils.isNotBlank(searchValue)){
 		    	 positionsDetails = positionService.retrieveAllPositions(searchKey,searchValue);
 		    } else {
 		    	 positionsDetails = positionService.retrieveAllPositions();

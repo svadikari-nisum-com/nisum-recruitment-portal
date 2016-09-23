@@ -135,7 +135,7 @@ public class ReportsService {
 						Date interviewDt_hr = null;
 						for (Round round : rounds) {
 
-							if (round.getRoundName()
+							if (round.getRoundName()!=null&&round.getRoundName()
 									.equals("Technical Round 1")) {
 								if (candidateProfile.getCreateDtm() != null
 										&& round.getInterviewSchedule()
@@ -154,7 +154,7 @@ public class ReportsService {
 
 							}
 
-							if (round.getRoundName()
+							if (round.getRoundName()!=null&&round.getRoundName()
 									.equals("Technical Round 2")) {
 
 								if (round.getInterviewSchedule()
@@ -172,7 +172,7 @@ public class ReportsService {
 								}
 
 							}
-							if (round.getRoundName().equals("Hr Round")) {
+							if (round.getRoundName()!=null&&round.getRoundName().equals("Hr Round")) {
 
 								if (round.getInterviewSchedule()
 										.getInterviewDateTime() != null) {

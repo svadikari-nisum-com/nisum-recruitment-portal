@@ -17,6 +17,7 @@ public interface IPositionService {
 	public List<PositionAggregate> retrieveAllPositionsAggregate();
 	
 	List<PositionDTO> retrieveAllPositions(String searchKey, String searchValue);
+	List<PositionDTO> retrieveAllPositionsByStatus(String searchKey, String searchValue,String status);
 	
 	List<PositionDTO> retrieveAllPositions();
 	
