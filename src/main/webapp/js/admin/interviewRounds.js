@@ -129,7 +129,6 @@ $scope.deleteInterviewRound = function(index,interviewRound){
         enableHorizontalScrollbar : uiGridConstants.scrollbars.NEVER,
         enableVerticalScrollbar   : uiGridConstants.scrollbars.NEVER,
         columnDefs: [
-            { field: 'index', cellTemplate: '<span>{{row.entity.index + 1}}</span>', enableSorting: false},
             { field: 'rounds', cellClass: 'ui-grid-align'},
             { field: 'delete', enableSorting: false, cellTemplate: '<a class="glyphicon glyphicon-remove" ng-click="grid.appScope.deleteInterviewRound(row.entity.index,skill)"></a>' }
         ],

@@ -95,9 +95,9 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 	$scope.validateSave = function(userToEdit){
 		if(userToEdit.name!=null && userToEdit.name!="Click Here To Edit"){
 			if(userToEdit.mobileNumber!=null && userToEdit.mobileNumber!="Click Here To Edit"){
-				if(userToEdit.skypeId!=null && userToEdit.skypeId!="Click Here To Edit"){
+				/*if(userToEdit.skypeId!=null && userToEdit.skypeId!="Click Here To Edit"){*/
 					return true;
-				}	
+				/*}*/	
 			}	
 		}
 		return false;
@@ -107,7 +107,7 @@ app.controller("editUserInfoCtrl",['$scope','$http', '$filter', '$timeout','$q',
 $scope.validateUserInfo = function() {
 
 	if (!angular.isUndefined($scope.userToEdit) && $scope.validateField($scope.userToEdit.name) 
-			&& $scope.validateField($scope.userToEdit.mobileNumber) && $scope.validateField($scope.userToEdit.skypeId)&& $scope.validateField($scope.userToEdit.roles)) {
+			&& $scope.validateField($scope.userToEdit.mobileNumber) && $scope.validateField($scope.userToEdit.dob)&& $scope.validateField($scope.userToEdit.roles)) {
 		
 		$scope.isUserFormValid = false;
 	} else
