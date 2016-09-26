@@ -114,7 +114,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 				&& $scope.validateField($scope.candidate.project) && $scope.validateField($scope.candidate.reportingManager) 
 				&& $scope.validateField($scope.candidate.imigrationStatus) && $scope.validateField($scope.candidate.joiningDate)
 				&& $scope.validateField($scope.candidate.designation) && $scope.validateField($scope.candidate.ctc)				
-				&& $scope.validateField($scope.candidate.status)) {
+				&& $scope.validateField($scope.candidate.status)){
 			
 			$scope.isDisableOfferSave = false;
 		} else
