@@ -113,8 +113,7 @@ app.controller('createOfferCtrl',['$scope','$state','$http','$upload','$q','$tim
 		if (!angular.isUndefined($scope.candidate)
 				&& $scope.validateField($scope.candidate.project) && $scope.validateField($scope.candidate.reportingManager) 
 				&& $scope.validateField($scope.candidate.imigrationStatus) && $scope.validateField($scope.candidate.joiningDate)
-				&& $scope.validateField($scope.candidate.designation) && $scope.validateField($scope.candidate.ctc)
-				&& $scope.validateField($scope.candidate.relocationAllowance) && $scope.validateField($scope.candidate.singInBonus)
+				&& $scope.validateField($scope.candidate.designation) && $scope.validateField($scope.candidate.ctc)				
 				&& $scope.validateField($scope.candidate.status)) {
 			
 			$scope.isDisableOfferSave = false;
