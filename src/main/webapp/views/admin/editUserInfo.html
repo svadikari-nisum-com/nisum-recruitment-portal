@@ -65,13 +65,13 @@
                            <div class="control-group">
                                   <div class="col-md-2">
                                          <label class="lbl" for="date"><i
-                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Skype ID<b
-                                         style="color: red;">*</b> : </label>
+                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Skype ID :
+                                         <!-- <b style="color: red;">*</b> :  --></label>
                                   </div>
                                   <div class="col-md-3">
- 
+
                                         <a href="#" maxlength="15" editable-text="userToEdit.skypeId"
-							onbeforesave="validateSkypeId($data)" onaftersave="validateUserInfo()" e-required>{{
+							onbeforesave="validateSkypeId($data)" onaftersave="validateUserInfo()">{{
 							userToEdit.skypeId || "Click Here To Edit" }}</a>
  
                                   </div>
@@ -88,14 +88,14 @@
                                   </div>
                                   <div class="col-md-3" style="display: inline;">
  
-                                       <a href="" ng-click="openCal()" ng-hide="calendar">{{
+                                       <a href="" ng-click="openCal()" ng-hide="calendar" e-required>{{
 							userToEdit.dob || "click here to edit..." | date:'dd/MM/yyyy'}}</a><input
 							ng-hide="hideCal" type="text" datepicker-popup="dd-MMMM-yyyy"
 							ng-model="userToEdit.dob" is-open="isOpen" min-date="minDate"
 							ng-click="isOpen = true" max-date="maxDate" readonly="true"
 							datepicker-options="dateOptions"
 							placeholder="Select Date of Birth" ng-required="true"
-							close-text="Close" class="input-md" /><span
+							close-text="Close" class="input-md"/><span
 							class="input-group-btn" style="width: 75%"> </span>
 						<div>
 							<button class="glyphicon glyphicon-ok btn btn-primary"
@@ -109,8 +109,8 @@
                            <div class="control-group">
                                   <div class="col-md-2">
                                          <label class="lbl" for="date"><i
-                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Location: <b
-                                         style="color: red;">*</b> : </label>
+                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Location : 
+                                         <!-- <b style="color: red;">*</b> :  --></label>
                                   </div>
                                   <div class="col-md-3">
  
@@ -155,8 +155,8 @@
                            <div class="control-group">
                                   <div class="col-md-2">
                                          <label class="lbl" for="date"><i
-                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Client :<b
-                                         style="color: red;">*</b> : </label>
+                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Client :
+                                         <!-- <b style="color: red;">*</b> :  --></label>
                                   </div>
                                   <div class="col-md-3">
  

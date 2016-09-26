@@ -77,9 +77,11 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 						$scope.showRounds = true;
 					}	
 						if(round.interviewFeedback != null ) {
-								$scope.interviewDateTime = round.interviewSchedule.interviewDateTime;
-								$scope.typeOfInterview = round.interviewSchedule.typeOfInterview;
+								/*$scope.interviewDateTime = round.interviewSchedule.interviewDateTime;
+								$scope.typeOfInterview = round.interviewSchedule.typeOfInterview;*/
 								$scope.interviewRoundName = round.interviewFeedback.roundName;
+								$scope.interviewSchedule.interviewerName = round.interviewSchedule.interviewerName;
+								$scope.interviewSchedule.emailIdInterviewer = round.interviewSchedule.emailIdInterviewer;
 								$scope.interviewSchedule = round.interviewSchedule;
 								$scope.interviewFeedback = round.interviewFeedback;
 								if( $scope.interviewFeedback.rateSkills[0].skill  == "" && $scope.interviewFeedback.rateSkills[0].rating == "") {
@@ -91,10 +93,13 @@ app.controller('interviewFeedbackCtrl',['$scope', '$http','$q', '$window','jobCo
 							$scope.interviewDateTime = round.interviewSchedule.interviewDateTime;
 							$scope.typeOfInterview = round.interviewSchedule.typeOfInterview;
 							$scope.interviewRoundName = round.interviewSchedule.roundName;
+							$scope.interviewSchedule.interviewerName = round.interviewSchedule.interviewerName;
+							$scope.interviewSchedule.emailIdInterviewer = round.interviewSchedule.emailIdInterviewer;
 							$scope.interviewFeedback.rateSkills =[];
 							$scope.addSkills();
 							$scope.interviewFeedback.duration = "";
 							$scope.interviewFeedback.additionalSkills = "";
+							$scope.interviewFeedback.nextStatus = "";
 							$scope.submitShow = true;
 							}
 						}
