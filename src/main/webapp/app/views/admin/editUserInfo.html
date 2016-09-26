@@ -1,0 +1,380 @@
+<!-- ----------------------------------alert Message--------------------------------------------------------- -->
+<div ng-class="adminCls" ng-show="message" align="center"
+	style="width: 650px; position: relative; left: -60; height: 50">
+	<h5 style="margin-top: 2px;">{{message}}</h5>
+</div>
+<!-- ----------------------------------alert Message--------------------------------------------------------- -->
+<div ng-show="validateUserInfo()">
+	<div class="panel panel-default" style="width: 90%">
+		<div class="panel-heading" style="height: 36px;">
+			<div align="center">
+				<span style="color: white;">Edit User</span>
+			</div>
+		</div>
+		<div class="panel-body">
+
+			<div class="row" align="left">
+                           <div>
+                                  <div class="col-md-1"></div>
+                                  <div class="col-md-2">
+                                         <label class="lbl" for="uname"><i
+                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Full Name<b
+                                         style="color: red;">*</b> : </label>
+                                  </div>
+                                  <div class="col-md-3" style="display: inline;">
+ 
+                                        <a href="#" editable-text="userToEdit.name"
+							onbeforesave="validateChar($data)"  onaftersave="validateUserInfo()" e-required>{{
+							userToEdit.name || "Click Here To Edit" }}</a>
+ 
+                                  </div>
+                           </div>
+ 
+                           <div class="control-group">
+                                  <div class="col-md-2">
+                                         <label class="lbl" for="date"><i
+                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Email<b
+                                         style="color: red;">*</b> : </label>
+                                  </div>
+                                  <div class="col-md-3">
+ 
+                                         <b>{{userToEdit.emailId || "Enter Email-Id"}}</b>
+ 
+                                  </div>
+                           </div>
+                  </div>
+                  
+                  
+                  <div class="row" align="left">
+                           <div>
+                                  <div class="col-md-1"></div>
+                                  <div class="col-md-2">
+                                         <label class="lbl" for="uname"><i
+                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Mobile<b
+                                         style="color: red;">*</b> : </label>
+                                  </div>
+                                  <div class="col-md-3" style="display: inline;">
+ 
+                                        <a href="#"   maxlength="15" editable-text="userToEdit.mobileNumber"    e-maxlength="10" 
+							onbeforesave="validatePhNo($data)"  onaftersave="validateUserInfo()"    e-required>{{
+							userToEdit.mobileNumber || "Click Here To Edit" }}</a>
+ 
+                                  </div>
+                           </div>
+ 
+                           <div class="control-group">
+                                  <div class="col-md-2">
+                                         <label class="lbl" for="date"><i
+                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Skype ID<b
+                                         style="color: red;">*</b> : </label>
+                                  </div>
+                                  <div class="col-md-3">
+ 
+                                        <a href="#" maxlength="15" editable-text="userToEdit.skypeId"
+							onbeforesave="validateSkypeId($data)" onaftersave="validateUserInfo()" e-required>{{
+							userToEdit.skypeId || "Click Here To Edit" }}</a>
+ 
+                                  </div>
+                           </div>
+                  </div>
+                  
+                  <div class="row" align="left">
+                           <div>
+                                  <div class="col-md-1"></div>
+                                  <div class="col-md-2">
+                                         <label class="lbl" for="uname"><i
+                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;DOB<b
+                                         style="color: red;">*</b> : </label>
+                                  </div>
+                                  <div class="col-md-3" style="display: inline;">
+ 
+                                       <a href="" ng-click="openCal()" ng-hide="calendar">{{
+							userToEdit.dob || "click here to edit..." | date:'dd/MM/yyyy'}}</a><input
+							ng-hide="hideCal" type="text" datepicker-popup="dd-MMMM-yyyy"
+							ng-model="userToEdit.dob" is-open="isOpen" min-date="minDate"
+							ng-click="isOpen = true" max-date="maxDate" readonly="true"
+							datepicker-options="dateOptions"
+							placeholder="Select Date of Birth" ng-required="true"
+							close-text="Close" class="input-md" /><span
+							class="input-group-btn" style="width: 75%"> </span>
+						<div>
+							<button class="glyphicon glyphicon-ok btn btn-primary"
+								ng-hide="hideCal" ng-click="closeCal();validateDate()"
+								style="width: 40px; height: 28px;"></button>
+						</div>
+ 
+                                  </div>
+                           </div>
+ 
+                           <div class="control-group">
+                                  <div class="col-md-2">
+                                         <label class="lbl" for="date"><i
+                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Location: <b
+                                         style="color: red;">*</b> : </label>
+                                  </div>
+                                  <div class="col-md-3">
+ 
+                                        <a href="#" editable-text="userToEdit.location" onbeforesave="validateLocation($data)">{{
+							userToEdit.location || "Enter Location" }}</a>
+ 
+                                  </div>
+                           </div>
+                  </div>
+
+
+
+				<div class="row" align="left">
+                           <div>
+                                  <div class="col-md-1"></div>
+                                  <div class="col-md-2">
+                                         <label class="lbl" for="uname"><i
+                                         class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Roles<b
+                                         style="color: red;">*</b> : </label>
+                                  </div>
+                                  <div class="col-md-3" style="display: inline;">
+ 
+                                        <a href="" ng-hide="hideView" ng-click="editRoles()" e-required><div
+								ng-repeat="role in userToEdit.roles" onaftersave="validateUserInfo()">{{role}}{{$last ? ''
+								: ', '}}</div></a>
+
+						<ui-select ng-hide="hideRoles" multiple ui-select-required
+							style="width:180px;" ng-model="userToEdit.roles" theme="select2">
+						<ui-select-match placeholder="Select roles..">{{$item}}</ui-select-match>
+						<ui-select-choices
+							repeat="allRoles in info.userRoles | orderBy:'toString()' | filter:$select.search">
+						{{allRoles}} </ui-select-choices> </ui-select>
+						<div>
+							<button class="glyphicon glyphicon-ok btn btn-primary"
+								ng-hide="hideRoles" ng-click="hideEdit()"
+								style="width: 40px; height: 28px;"></button>
+						</div>
+ 
+                                  </div>
+                           </div>
+ 
+                           <div class="control-group">
+                                  <div class="col-md-2">
+                                         <label class="lbl" for="date"><i
+                                         class="glyphicon glyphicon-plane"></i>&nbsp;&nbsp;Client :<b
+                                         style="color: red;">*</b> : </label>
+                                  </div>
+                                  <div class="col-md-3">
+ 
+                                        <a href="#" editable-select="userToEdit.clientName"
+							e-ng-options="o as o for o in clientList"> {{
+							userToEdit.clientName || "Select Client" }} </a>
+ 
+                                  </div>
+                           </div>
+                  </div>
+
+
+
+			<div class="row">
+			<div class="panel panel-default" ng-hide="hideCreate" style="width: 90%;">
+				<div class="panel-heading" style="height: 36px;">
+					<span style="color: white;">Assign Interview Rounds </span>
+				</div>
+				<div class="panel-body">
+					<div class="row" ng-repeat="divisionRounds in userToEdit.interviewRoundsAllocation">
+					 <div class="control-group">
+						<div class="col-md-1"></div>
+						<div class="col-md-2">
+							<label class="lbl"> <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Division
+								:
+							</label>
+						</div>
+						<div class="col-md-3">
+							{{userToEdit.interviewRoundsAllocation[$index].department}}</div>
+					 </div>
+
+					 <div class="control-group">
+						<div class="col-md-2">
+							<label class="lbl"> <i
+								class="glyphicon glyphicon-envelope"></i>&nbsp;&nbsp;Levels :
+							</label>
+						</div>
+						<div class="col-md-3">
+							{{userToEdit.interviewRoundsAllocation[$index].interviewRounds.toString()}}</div>
+						<div class="col-md-1">
+							<span class="glyphicon glyphicon-remove" style="cursor: pointer;"
+								ng-click="deleteInterviewRound($index)"></span>
+						</div>
+					  </div>
+					</div> 
+					
+					<div class="row" ng-hide="hideDevisionAllocation">
+					  <div class="control-group">
+						<div class="col-md-1"></div>
+						<div class="col-md-2">
+							<label class="lbl"> <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Division:</label>
+						</div>
+						<div class="col-md-3">
+							<select ng-model="divisionIdx"
+									ng-change="disableAdd()" 
+									ng-options="functionalGroups.indexOf(o) as o for o in functionalGroups ">
+								<option value="" disabled="disabled">Select Department</option>
+							</select>
+						</div>
+						
+					  </div>
+
+					  <div class="control-group" >
+						<div class="col-md-2">
+							<label class="lbl"> <i class="glyphicon glyphicon-home"></i>&nbsp;&nbsp;Levels:	</label>
+						</div>
+						
+						<div class="col-md-3">
+							<ui-select multiple ng-model="interviewRoundsAllocation.selectedRounds" on-remove= "disableAdd()" on-select="disableAdd()" style="width:180px;" ui-select-required theme="select2">
+								<ui-select-match placeholder="Select Rounds...">{{$item}}</ui-select-match>
+								<ui-select-choices repeat="rounds in interviewFunctionalRounds | orderBy:'toString()' | filter:$select.search"> {{rounds}} </ui-select-choices> 
+							</ui-select>
+						</div>
+						
+						<div class="col-md-1" >
+							<span class="glyphicon glyphicon-ok" ng-hide="disableOk" style="cursor: pointer;"
+								ng-click="addFunctionalRounds();"></span>
+						</div>
+					  </div>
+				  </div>
+					
+					
+					
+				</div>
+				
+				
+		</div>
+				
+				
+				<div ng-class="adminCls1" ng-show="message1" align="center"
+						style="width: 650px; position: relative; left: -60; height: 50">
+					<h5 style="margin-top: 2px;">{{message1}}</h5>
+				</div>
+			</div>
+			<div class="row">
+				<div class="panel panel-default"
+					ng-init="isCollapsed = !isCollapsed" style="width: 90%">
+					<div class="panel-heading" style="height: 36px; color: white;"
+						ng-click="isCollapsed = !isCollapsed">
+						<font>Time Slots</font> <i class="pull-right glyphicon"
+							ng-class="isCollapsed ? 'glyphicon-plus' : 'glyphicon-minus'"></i>
+					</div>
+					<div class="panel-body" collapse="isCollapsed"
+						style="background-color: #F8F8F8">
+
+						<div class="row" align="left" style="padding-bottom: 1%;">
+							<div align="center" class="control-group"">
+								<!-- <label class="lbl" ng-hide="{{!hideTimeSlot}}" >Not Available : <input
+									type="checkbox" ng-model="userToEdit.isNotAvailable">
+								</label><br /> -->
+								<fieldset ng-disabled="hideTimeSlot">
+									<table class="edit-timeslot" ng-disabled="hideTimeSlot">
+										<tr>
+											<th>Day</th>
+											<th>Time</th>
+											<th>Hour</th>
+											<th>Not Available</th>
+											<th>From Date <b class="mandatory-field">*</b></th>
+											<th>To Date <b class="mandatory-field">*</b></th>
+											<th>
+												<button class="btn btn-primary" ng-click="addSlot()">
+													<span class="glyphicon glyphicon-plus"></span>
+												</button>
+											</th>
+										</tr>
+										<tr ng-repeat="slot in userToEdit.timeSlots">
+											<td>
+												<div>
+													<select ng-model='slot.day'
+														ng-options='day for day in days' >
+													</select>
+												</div>
+											</td>
+											<td>
+												<div>
+													<timepicker ng-model="slot.time" ng-change="changed()"
+														hour-step="1" minute-step="10" show-meridian="true"
+														arrowkeys="false" readonly-input="true" ></timepicker> 
+												</div>
+											</td>
+											<td>
+												<div>
+													<select ng-model='slot.hour'
+														ng-options='hour for hour in hours'>
+													</select>
+												</div>
+											</td>
+											<td>
+												<div  ng-hide="{{!hideTimeSlot}}">
+													<input type="checkbox" ng-model="slot.isNotAvailable" ng-change="resetNotAvailble(slot)">
+												</div>
+											</td>
+											<td>
+												<div ng-show="slot.isNotAvailable" class="tsTable" ng-hide="{{!hideTimeSlot}}">
+													<a href="" ng-click="openFromToCal('from', slot)" ng-hide="slot.fromCalendar">
+														{{slot.fromDate || "click here to edit..." | date:'dd/MM/yyyy'}}</a>
+														<input ng-show="slot.hideFromCal" type="text" datepicker-popup="dd-MMMM-yyyy"
+														ng-model="slot.fromDate" is-open="slot.isFromOpen" min-date="timeSlotMinDate"
+														ng-click="slot.isFromOpen = true" readonly="true" datepicker-options="dateOptions"
+														placeholder="Select From Date" ng-required="slot.isNotAvailable" close-text="Close" class="input-md" />
+														<span class="input-group-btn" style="width: 60%"> </span>
+														
+														<div>
+															<button class="glyphicon glyphicon-ok btn btn-primary"
+																ng-show="slot.hideFromCal" ng-click="closeFromToCal('from', slot);validateDate()"
+																style="width: 40px; height: 28px;"></button>
+														</div>
+												</div>
+											</td>
+											<td>
+												<div ng-show="slot.isNotAvailable"  class="tsTable" ng-hide="{{!hideTimeSlot}}">
+													<a href="" ng-click="openFromToCal('to', slot)" ng-hide="slot.toCalendar">
+														{{slot.toDate || "click here to edit..." | date:'dd/MM/yyyy'}}</a>
+														<input ng-show="slot.hideToCal" type="text" datepicker-popup="dd-MMMM-yyyy"
+														ng-model="slot.toDate" is-open="slot.isToOpen" min-date="slot.fromDate == null ? timeSlotMinDate : slot.fromDate | date"
+														ng-click="slot.isToOpen = true" readonly="true" datepicker-options="dateOptions"
+														placeholder="Select To Date" close-text="Close" class="input-md" />
+														<span class="input-group-btn" style="width: 60%"> </span>
+														
+														<div>
+															<button class="glyphicon glyphicon-ok btn btn-primary"
+																ng-show="slot.hideToCal" ng-click="closeFromToCal('to', slot);validateDate()"
+																style="width: 40px; height: 28px;"></button>
+														</div>
+												</div>
+											</td>
+											<td>
+												<button class="btn btn-primary"
+													ng-click="removeSlot($index)">
+													<span class="glyphicon glyphicon-remove"></span>
+												</button>
+											</td>
+										</tr>
+									</table>
+								</fieldset>
+							</div>
+						</div>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div align="center">
+		<button class="btn btn-info active" ng-disabled="isUserFormValid" ng-click="update()" type="submit">
+			<span class="glyphicon glyphicon-ok-circle"></span> Save
+		</button>
+		&nbsp;
+		<button class="btn btn-info active" ui-sref="admin.users.list">
+			<span class="glyphicon glyphicon-remove"></span> Cancel
+		</button>
+	</div>
+	<br> <br>
+</div>
+<style>
+.form-group {
+	text-align: left;
+	padding-bottom: 2%;
+}
+</style>

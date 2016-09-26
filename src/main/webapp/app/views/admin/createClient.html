@@ -1,0 +1,71 @@
+<div style="width: 90%">
+	<div ng-class="cls" ng-show="message" align="center"
+		style="width: 650px; position: relative; left: -60; height: 50">
+		<h5 style="margin-top: 2px;">{{message}}</h5>
+	</div>
+	<form name="clientForm" onvalidate>
+		<div align="center">
+			<div class="panel panel-default" style="width: 90%">
+				<div class="panel-heading" style="text-align: center; height: 36px;">
+					<span>Client Info</span>
+				</div>
+				<div class="panel-body" style="background-color: #F8F8F8">
+					<div class="row" style="padding-bottom: 10px;">
+						<div align="left" class="control-group">
+							<div class="col-md-1"></div>
+							<div class="col-md-2">
+								<label class="lbl"> <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;Client
+									Name:<b style="color: red;">*</b>
+								</label>
+							</div>
+							<div class="col-md-3">
+								<input type="text" name="clientName" id="clientName"
+									class="form-control" placeholder="Enter Client Name"
+									ng-model="client.clientName" ng-minlength="3" ng-maxlength="40"
+									maxlength="40" required /> <span class="validation-error"
+									ng-show="submitted && clientForm.clientName.$invalid">Please
+									provide Client Name</span>
+								<div class="validation-error"
+									ng-show="(clientForm.clientName.$dirty || invalidSubmitAttempt) && clientForm.clientName.$error.required">
+									Client Name is required.</div>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="col-md-2" align="left">
+								<label class="lbl" for="location"> <i
+									class="glyphicon glyphicon-map-marker"></i>&nbsp;&nbsp;Location:<b
+									style="color: red;">*</b>
+								</label>
+							</div>
+							<div class="col-md-3">
+								<input type="text" name="location" id="location"
+									class="form-control" placeholder="Enter Location"
+									ng-model="client.locations" ng-minlength="2" ng-maxlength="40"
+									maxlength="40" required /> <span class="validation-error"
+									ng-show="submitted && clientForm.location.$invalid">Please
+									provide Location</span>
+								<div class="validation-error"
+									ng-show="(clientForm.location.$dirty || invalidSubmitAttempt) && clientForm.location.$error.required">
+									Location is required.</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div align="center">
+				<button class="btn btn-info active"
+					ng-disabled="clientForm.$invalid" type="submit" ng-click="submit()">
+					<span class="glyphicon glyphicon-ok-circle"></span> Save
+				</button>
+				<button class="btn btn-info active" ui-sref="admin.client.list">
+					<span class="glyphicon glyphicon-remove"></span> Cancel
+				</button>
+			</div>
+
+		</div>
+
+	</form>
+</div>
+<br>
+.

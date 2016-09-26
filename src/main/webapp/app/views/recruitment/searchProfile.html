@@ -1,0 +1,49 @@
+<h2 class="heading-name">Profile Management - Search</h2>
+<br>
+<div ng-class="cls" ng-show="message" align="center"
+	style="width: 850px; position: relative; top: -35px; height: 50">
+	<h5 style="margin-top: 2px;">{{message}}</h5>
+</div>
+
+<div class="searchposition-container" style="border: none;">
+	<br>
+	<form action="#" name="searchProfile" onvalidate id="integerForm" role="form" class="form-horizontal">
+		<div>
+			<!-- <datagrid column-header='col' attributes='att' obj='myData'
+				editfun='editProfile(val)' addlink='recruitment/createProfile'
+				search-enable='true' array-attributes='att1'></datagrid> -->
+			<div class="animated fadeIn ng-scope">	
+				<div class="row">
+					<div class="col-md-1"></div>
+				    <div class="col-md-4">
+				        <div class="input-group">
+				            <input class="form-control" ng-model="filterValue" ng-change="searchFilter()" placeholder="Enter Search String" type="search" style="width: 80%;border: 1px solid rgb(194, 191, 191);" />
+				            <span class="input-group-addon" style="position: relative;left: -19%;"><span class="glyphicon glyphicon-search"></span>
+				            </span>
+				        </div>
+				    </div>
+				    <div class="col-md-1">
+    					<a id="rsBtn1" href="#recruitment/createProfile" class="btn btn-info active"> <span class="glyphicon glyphicon-plus"></span></a>
+    				</div>
+				</div>
+			</div>
+			<br>
+			
+			<div id="serachProf_grid" ui-grid="gridOptions" class="ui-grid-conf searchprof-grid" ui-grid-pagination>
+				<div class="no-rows" ng-if="!gridOptions.data.length">
+					<div class="msg">
+						<span>No Profiles Exists</span>
+					</div>
+				</div>
+				
+				<div>
+					<span class="grid-tot-rec">Total Records : {{gridOptions.totalItems}}</span>
+					<div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
+						<pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
+				        	ng-model="gridOptions.paginationCurrentPage"></pagination>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

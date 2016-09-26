@@ -1,0 +1,44 @@
+<div ng-class="cls" ng-show="message" align="center"
+	style="width: 650px; height: 50px; margin-top: 10px; margin-left: -10%">
+	<h5 style="margin-top: 2px;">{{message}}</h5>
+</div>
+<form name="" onvalidate>
+	<!-- <datagrid column-header='col' attributes='att' obj='designation1'
+		editfun='editDesign(val)' addlink='admin/designation/create'
+		search-enable='true' array-attributes='att1'></datagrid> -->
+
+	<div class="row">
+		<div class="col-md-4"></div>
+		<div class="col-md-3">
+			<div class="input-group">
+				<input class="form-control" ng-model="filterValue" ng-change="searchFilter()" placeholder="Enter Search String"
+					type="search" style="width: 80%; left: 10%; top: -1px; border: 1px solid rgb(194, 191, 191);" />
+				<span class="input-group-addon"
+					style="position: relative; left: -10%; top: -1px;"> <span
+					class="glyphicon glyphicon-search"></span>
+				</span>
+			</div>
+			<br>
+		</div>
+		<div class="col-md-1" style="margin-left: 4%">
+			<a id="rsBtn1"  href="#admin/designation/create" class="btn btn-info active"> 
+				<span class="glyphicon glyphicon-plus"></span>
+			</a>
+		</div>
+	</div>
+			
+	<div id="designation_grid" ui-grid="gridOptions" class="ui-grid-conf des-width" ui-grid-pagination>
+		<div class="no-rows" ng-if="!gridOptions.totalItems">
+			<div class="msg">
+				<span>No Designations Exists</span>
+			</div>
+		</div>
+		
+		 <div class="text-center pull-right ui-gri-pager" ng-show="gridOptions.totalItems > numRows">
+	        <pagination class="pagination-sm" total-items="gridOptions.totalItems" items-per-page="gridOptions.paginationPageSize" 
+	        	ng-model="gridOptions.paginationCurrentPage"></pagination>
+	      </div>
+	</div>
+</form>
+
+

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" ng-app="erApp" ng-controller="appCtrl">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/x-icon" href="static/images/nisum_favicon.ico" />
+    <title ng-bind="title">Nisum Technologies - Recruitment Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <link href="lib/css/angular-material.min.css" rel="stylesheet">
+    <link href="lib/css/select2.css" rel="stylesheet">
+    <link href="lib/css/selectize.default.css" rel="stylesheet">
+    <link href="lib/css/bootstrap.min.css" rel="stylesheet">
+    <link href="lib/css/datetimepicker.css" rel="stylesheet">
+    <link href="lib/css/ng-grid.css" rel="stylesheet">
+    <link href="lib/css/select.css" rel="stylesheet">
+    <link href="lib/css/xeditable.css" rel="stylesheet">
+    <link href="lib/css/ng-notify.min.css" rel="stylesheet">
+    <link href="lib/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="lib/css/ng-tags-input.min.css" rel="stylesheet">
+    <link href="lib/css/font-awesome.min.css" rel="stylesheet">
+    <link href="lib/css/google_font.css" rel="stylesheet">
+    <link href="lib/css/animation.css" rel="stylesheet">
+    <link href="lib/css/ui-grid.min.css" rel="stylesheet">
+
+    <link href="static/css/home.css" rel="stylesheet">
+    <link href="static/css/simple-sidebar.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+    <link href="static/css/dashboard.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <!------------------------------------------------------ keep header here ---------------------------------------------->
+        <div ng-include="'header.html'"></div>
+        <!------------------------------------------------------ --------------------------------------------------------------->
+        <center style="padding-top: 10%">
+            <div ui-view></div>
+        </center>
+        <!------------------------------------------------------ keep footer here ---------------------------------------------->
+        <div id="footer" ng-include="'footer.html'">footer</div>
+        <!----------------------------------------------------------------------- ---------------------------------------------->
+
+
+    </div>
+
+    <!-- Bower Dependecies -->
+    <script src="lib/js/angular.min.js"></script>
+    <script src="lib/js/angular-animate.min.js"></script>
+    <script src="lib/js/jquery.min.js"></script>
+    <script src="lib/js/angular-file-upload-shim.min.js"></script>
+    <script src="lib/js/angular-file-upload.min.js"></script>
+    <script src="lib/js/angular-ui-router.min.js"></script>
+    <script src="lib/js/angular-strap.min.js"></script>
+    <script src="lib/js/angular-strap.tpl.min.js"></script>
+    <script src="lib/js/angular-block-ui.min.js"></script>
+    <script src="lib/js/select.min.js"></script>
+    <script src="lib/js/ng-grid-1.3.2.js"></script>
+    <script src="lib/js/underscore-min.js"></script>
+    <script src="lib/js/masks.min.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="lib/js/moment.js"></script>
+    <script src="lib/js/datetimepicker.js"></script>
+    <script src="lib/js/xeditable.min.js"></script>
+    <script src="lib/js/angular-route.min.js"></script>
+    <script src="lib/js/angular-aria.min.js"></script>
+    <script src="lib/js/angular-material.min.js"></script>
+    <script src="lib/js/angular-messages.min.js"></script>
+    <script src="lib/js/highcharts.js"></script>
+    <script src="lib/js//highcharts-ng.min.js"></script>
+    <script src="lib/js/ng-notify.min.js"></script>
+    <script src="lib/js/ui-grid.min.js"></script>
+    <!-- Bower Dependecies -->
+
+    <script src="js/app.js"></script>
+    <script src="js/customeDirctives/dataGrid.js"></script>
+    <script src="js/profile/searchProfile.js"></script>
+    <script src="js/profile/editProfile.js"></script>
+    <script src="js/profile/createProfile.js"></script>
+    <script src="js/position/searchPosition.js"></script>
+    <script src="js/position/editPosition.js"></script>
+    <script src="js/position/createPosition.js"></script>
+    <script src="js/interview/interviewManagement.js"></script>
+    <script src="js/interview/interviewFeedback.js"></script>
+    <script src="js/interview/scheduleInterview.js"></script>
+    <script src="js/user/editUser.js"></script>
+    <script src="js/report/viewReport.js"></script>
+    <script src="js/report/searchReport.js"></script>
+    <script src="js/admin/client.js"></script>
+    <script src="js/report/viewReport.js"></script>
+    <script src="js/report/highChat.js"></script>
+    
+    <script src="lib/js/ng-tags-input.min.js"></script>
+    <script src="lib/js/angular-sanitize.js"></script>
+    <script src="lib/js/ui-bootstrap-tpls-0.13.0.js"></script>
+    <script src="lib/js/angular-fcsa-number.js"></script>
+    
+    <script src="js/admin/editClient.js"></script>
+
+    
+    <script src="js/admin/admin.js"></script>
+    <script src="js/admin/editUserInfo.js"></script>
+    <script src="js/admin/adminRouter.js"></script>
+    <script src="js/admin/skillSet.js"></script>
+    <script src="js/admin/DesignationList.js"></script>
+    <script src="js/admin/interviewRounds.js"></script>
+    <script src="js/admin/editDesignation.js"></script>
+
+    <script src="js/controller/appController.js"></script>
+    <script src="js/controller/userController.js"></script>
+    <script src="js/notification.js"></script>
+    <script src="js/dashboard.js"></script>
+
+    <script src="js/service/appConstantInfoService.js"></script>
+    <script src="js/service/InfoService.js"></script>
+    <script src="js/service/userService.js"></script>
+    <script src="js/service/jobcodeService.js"></script>
+    <script src="js/service/authorizationService.js"></script>
+    <script src="js/service/clientInfoService.js"></script>
+    <script src="js/service/positionService.js"></script>
+    <script src="js/service/profileService.js"></script>
+    <script src="js/service/interviewServices.js"></script>
+    <script src="js/service/designationService.js"></script>
+    <script src="js/interview/showInterview.js"></script>
+    <script src="js/interview/showFeedBack.js"></script>
+    <script src="js/offer/offer.js"></script>
+    <script src="js/offer/createOffer.js"></script>
+    <script src="js/offer/offerService.js"></script>
+
+    <script src="js/recruitment/recruitment.js"></script>
+    <script src="js/recruitment/recruitmentRouter.js"></script>
+    <script src="js/service/dashboardService.js"></script>
+    <script src="js/service/reportService.js"></script>
+
+    
+   <!--  <script src="http://platform.linkedin.com/in.js">
+		api_key: 75bm8w66omcy7b
+		//onLoad: onLinkedInLoad
+		authorize: true
+		lang: en_US
+	</script>
+    <script type="IN/Share" data-counter="top"></script> -->
+</body>
+
+</html>
