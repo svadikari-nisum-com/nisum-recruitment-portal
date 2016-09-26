@@ -28,5 +28,6 @@ public class InterviewFeedback implements Serializable{
 	private String candidateId;
 	private String candidateName;
 	private String status;
+	private String nextStatus;
 
 }
